@@ -814,11 +814,9 @@ export class AppDialogsManager {
     */
     const firstChats = document.createElement('ul');
 
-    // for (const dialog of appMessagesManager.dialogsStorage.getFolderDialogs(this.filterId)) {
     setTimeout(() => {
-      appMessagesManager.getConversations(undefined, undefined, 3, this.filterId, undefined).promise.then((conversations) => {
-        for (const dialog of conversations.dialogs) {
-          if (firstChats.children.length >= 2) {
+      for (const dialog of appMessagesManager.dialogsStorage.getFolderDialogs(filter.id)) {
+        if (firstChats.children.length >= 2) {
             const showMore = document.createElement('li');
             showMore.innerText = '...';
             firstChats.append(showMore);
@@ -827,9 +825,8 @@ export class AppDialogsManager {
           const dialogWidget = document.createElement('li');
           dialogWidget.append('' + dialog.peerId);
           firstChats.append(dialogWidget);
-        }
-      });
-    }, 15);
+      }
+    }, 30); // to let dialogsStorage be initialized
     
     const unreadSpan = document.createElement('div');
     unreadSpan.classList.add('badge', 'badge-20', 'badge-primary');

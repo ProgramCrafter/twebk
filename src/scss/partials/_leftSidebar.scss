@@ -958,17 +958,35 @@
   height: calc(var(--size) * 3) !important;
 }
 
+.chats-group {
+  width: calc(50% - 8px);
+  margin: 0 4px;
+  vertical-align: top;
+}
+
 .chats-group>span {
   height: calc(100% / 3);
   display: block;
 }
 
+.chats-group avatar-element {
+  --size: 32px;
+  --multiplier: calc(54 / 32);
+}
+
 .chats-group>span span.i18n {
+  margin: 0 auto;
+}
+.chats-group>span .text-super {
   margin: 0 auto;
 }
 
 .chats-group>ul {
   margin: 0 5px;
+}
+
+.chats-group.active .text-super {
+  color: var(--primary-color);
 }
 
 #chats-archived-container,
