@@ -9,7 +9,7 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 18rem;
-  max-width: calc(#{$large-screen} / 4);
+  max-width: calc(#{$large-screen} * 2 / 7);
 
   @include respond-to(handhelds) {
     width: 100%;
@@ -948,6 +948,27 @@
   .sidebar-left-section:last-child {
     padding-bottom: .5rem;
   }
+}
+
+.folders-tabs-scrollable.menu-horizontal-scrollable {
+  height: calc(var(--scrollable-size) * 3) !important;
+}
+
+.menu-horizontal-div#folders-tabs {
+  height: calc(var(--size) * 3) !important;
+}
+
+.chats-group>span {
+  height: calc(100% / 3);
+  display: block;
+}
+
+.chats-group>span span.i18n {
+  margin: 0 auto;
+}
+
+.chats-group>ul {
+  margin: 0 5px;
 }
 
 #chats-archived-container,

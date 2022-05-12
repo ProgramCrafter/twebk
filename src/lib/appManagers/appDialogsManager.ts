@@ -770,26 +770,78 @@ export class AppDialogsManager {
 
     return scrollable;
   }
-
+  
+  /* TODO: rename this function so it could be found faster
+   * this function adds FOLDER, not FILTER
+  */
   private addFilter(filter: Pick<DialogFilter, 'title' | 'id' | 'orderIndex'> & Partial<{titleEl: HTMLElement}>) {
     if(this.filtersRendered[filter.id]) return;
 
-    const menuTab = document.createElement('div');
-    menuTab.classList.add('menu-horizontal-div-item');
-    const span = document.createElement('span');
+    /* old version:
+      <div class="menu-horizontal-div-item rp">
+        <div class="c-ripple"></div>
+        <span>
+          <span class="text-super" dir="auto">{filter.title}</span>
+          <div class="badge badge-20 badge-primary badge-gray"></div>
+          <i style="transform: none;" class=""></i>
+        </span>
+      </div>
+    */
+
+    const folderButton = document.createElement('div');
+    folderButton.classList.add('chats-group');
+
+    const titleAndUnreadSpan = document.createElement('span');
     const titleSpan = document.createElement('span');
-    titleSpan.classList.add('text-super');
-    if(filter.titleEl) titleSpan.append(filter.titleEl);
-    else setInnerHTML(titleSpan, RichTextProcessor.wrapEmojiText(filter.title));
+    titleSpan.classList.add('text-super', 'menu-horizontal-div-item', 'menu-horizontal-div');
+    if (filter.titleEl)
+        titleSpan.append(filter.titleEl);
+    else
+        setInnerHTML(titleSpan, RichTextProcessor.wrapEmojiText(filter.title));
+
+    /*
+    <ul>
+      <li class="chatlist-chat rp [active]" data-peer-id="...">
+        <div class="c-ripple"></div>
+        <avatar-element class="dialog-avatar avatar-54" data-peer-id="..." dir="auto" data-color="blue">В</avatar-element>
+        <div class="user-caption">
+          <p class="dialog-title">
+            <span class="user-title tgico"><span class="peer-title" dir="auto" data-peer-id="..." data-from-name="0" data-dialog="1" data-only-first-name="0" data-plain-text="0">...</span></span><span class="dialog-title-details"><span class="message-status sending-status"></span><span class="message-time"><span class="i18n">00:09</span></span></span>
+          </p>
+          <p class="dialog-subtitle"><span class="user-last-message" dir="auto">...</span></p>
+        </div>
+      </li>
+    */
+    const firstChats = document.createElement('ul');
+
+    // for (const dialog of appMessagesManager.dialogsStorage.getFolderDialogs(this.filterId)) {
+    setTimeout(() => {
+      appMessagesManager.getConversations(undefined, undefined, 3, this.filterId, undefined).promise.then((conversations) => {
+        for (const dialog of conversations.dialogs) {
+          if (firstChats.children.length >= 2) {
+            const showMore = document.createElement('li');
+            showMore.innerText = '...';
+            firstChats.append(showMore);
+            break;
+          }
+          const dialogWidget = document.createElement('li');
+          dialogWidget.append('' + dialog.peerId);
+          firstChats.append(dialogWidget);
+        }
+      });
+    }, 15);
+    
     const unreadSpan = document.createElement('div');
     unreadSpan.classList.add('badge', 'badge-20', 'badge-primary');
+
     const i = document.createElement('i');
-    span.append(titleSpan, unreadSpan, i);
-    ripple(menuTab);
-    menuTab.append(span);
+
+    titleAndUnreadSpan.append(titleSpan, unreadSpan, i);
+    ripple(folderButton);
+    folderButton.append(titleAndUnreadSpan, firstChats);
 
     const containerToAppend = this.folders.menu as HTMLElement;
-    positionElementByIndex(menuTab, containerToAppend, filter.orderIndex);
+    positionElementByIndex(folderButton, containerToAppend, filter.orderIndex);
     //containerToAppend.append(li);
 
     const ul = this.createChatList();
@@ -818,7 +870,7 @@ export class AppDialogsManager {
     this.setListClickListener(ul, null, true);
 
     this.filtersRendered[filter.id] = {
-      menu: menuTab,
+      menu: folderButton,
       container: div,
       unread: unreadSpan,
       title: titleSpan
