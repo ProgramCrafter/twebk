@@ -962,16 +962,12 @@
   width: calc(50% - 8px);
   margin: 0 4px;
   vertical-align: top;
+  flex: none;
 }
 
 .chats-group>span {
   height: calc(100% / 3);
   display: block;
-}
-
-.chats-group avatar-element {
-  --size: 32px;
-  --multiplier: calc(54 / 32);
 }
 
 .chats-group>span span.i18n {
