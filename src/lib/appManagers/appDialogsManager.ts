@@ -791,7 +791,9 @@ export class AppDialogsManager {
     const firstChats = document.createElement('ul');
 
     setTimeout(() => {
-      for (const dialog of appMessagesManager.dialogsStorage.getFolderDialogs(filter.id)) {
+      let dialogs = appMessagesManager.dialogsStorage.getFolderDialogs(filter.id);
+      dialogs.sort((dialog_a, dialog_b) => dialog_b[this.indexKey] - dialog_a[this.indexKey]);
+      for (const dialog of dialogs) {
         if (firstChats.children.length >= 2) {
             const showMore = document.createElement('li');
             showMore.innerText = '...';
@@ -799,8 +801,13 @@ export class AppDialogsManager {
             break;
           }
 
-          this.addDialog(dialog, firstChats, false, null, true, null,
-                         null, 32);
+          const dialogDom = this.addDialog(dialog, firstChats, false, null, true, null,
+                                           true, 32);
+          
+          this.setLastMessage(dialog, null, dialogDom.dom);
+          setInterval(() => {
+            this.setLastMessage(dialog, null, dialogDom.dom);
+          }, 3000);
       }
     }, 30); // to let dialogsStorage be initialized
     
