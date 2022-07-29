@@ -48,11 +48,7 @@ export default class ChromeP2PSdpBuilder {
       'a=extmap-allow-mixed', 
       'a=msid-semantic: WMS *'
     );
-<<<<<<< HEAD
-    const streamName = 'stream' + media.map(x => x.ssrc).join('_');
-=======
     const streamName = 'stream' + media.map((x) => x.ssrc).join('_');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     for(let i = 0; i < media.length; i++) {
       const m = media[i];
       const {type, ssrc, ssrcGroups, payloadTypes, rtpExtensions} = m;
@@ -141,11 +137,7 @@ export default class ChromeP2PSdpBuilder {
       'a=extmap-allow-mixed',
       'a=msid-semantic: WMS *'
     );
-<<<<<<< HEAD
-    const streamName = 'stream' + media.map(x => x.ssrc).join('_');
-=======
     const streamName = 'stream' + media.map((x) => x.ssrc).join('_');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     for(let i = 0; i < media.length; i++) {
       const m = media[i];
       const {type, ssrc, ssrcGroups, payloadTypes, rtpExtensions} = m;

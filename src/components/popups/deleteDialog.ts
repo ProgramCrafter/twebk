@@ -4,29 +4,14 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import appChatsManager from "../../lib/appManagers/appChatsManager";
-import appMessagesManager from "../../lib/appManagers/appMessagesManager";
-import appPeersManager, { PeerType } from "../../lib/appManagers/appPeersManager";
-=======
 import PopupElement from ".";
 import type { PeerType } from "../../lib/appManagers/appPeersManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { LangPackKey } from "../../lib/langPack";
 import PeerTitle from "../peerTitle";
 import PopupPeer, { PopupPeerButtonCallbackCheckboxes, PopupPeerOptions } from "./peer";
 
 export default class PopupDeleteDialog {
   constructor(
-<<<<<<< HEAD
-    peerId: PeerId, 
-    // actionType: 'leave' | 'delete', 
-    peerType: PeerType = appPeersManager.getDialogType(peerId), 
-    onSelect?: (promise: Promise<any>) => void
-  ) {
-    const peerTitleElement = new PeerTitle({peerId}).element;
-
-=======
     private peerId: PeerId, 
     // actionType: 'leave' | 'delete', 
     private peerType?: PeerType, 
@@ -44,26 +29,17 @@ export default class PopupDeleteDialog {
       peerType = await managers.appPeersManager.getDialogType(peerId);
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /* const callbackFlush = (checked: PopupPeerButtonCallbackCheckboxes) => {
       const promise = appMessagesManager.flushHistory(peerId, checkboxes ? !checked[checkboxes[0].text] : undefined);
       onSelect && onSelect(promise);
     }; */
 
     const callbackLeave = (checked: PopupPeerButtonCallbackCheckboxes, flush = checkboxes && !!checked.size) => {
-<<<<<<< HEAD
-      let promise = appChatsManager.leave(peerId.toChatId());
-      
-      if(flush) {
-        promise = promise.finally(() => {
-          return appMessagesManager.flushHistory(peerId);
-=======
       let promise = managers.appChatsManager.leave(peerId.toChatId());
       
       if(flush) {
         promise = promise.finally(() => {
           return managers.appMessagesManager.flushHistory(peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }) as any;
       }
       
@@ -74,17 +50,10 @@ export default class PopupDeleteDialog {
       let promise: Promise<any>;
 
       if(peerId.isUser()) {
-<<<<<<< HEAD
-        promise = appMessagesManager.flushHistory(peerId, false, checkboxes ? !!checked.size : undefined);
-      } else {
-        if(checked.size) {
-          promise = appChatsManager.delete(peerId.toChatId());
-=======
         promise = managers.appMessagesManager.flushHistory(peerId, false, checkboxes ? !!checked.size : undefined);
       } else {
         if(checked.size) {
           promise = managers.appChatsManager.delete(peerId.toChatId());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } else {
           return callbackLeave(checked);
         }
@@ -96,12 +65,7 @@ export default class PopupDeleteDialog {
     let title: LangPackKey, description: LangPackKey, descriptionArgs: any[], buttons: PopupPeerOptions['buttons'], checkboxes: PopupPeerOptions['checkboxes'];
     switch(peerType) {
       case 'channel': {
-<<<<<<< HEAD
-        if(/* actionType === 'delete' &&  */appChatsManager.hasRights(peerId.toChatId(), 'delete_chat')) {
-          appChatsManager.deleteChannel
-=======
         if(/* actionType === 'delete' &&  */await managers.appChatsManager.hasRights(peerId.toChatId(), 'delete_chat')) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           title = 'ChannelDeleteMenu';
           description = 'AreYouSureDeleteAndExitChannel';
           buttons = [{
@@ -174,11 +138,7 @@ export default class PopupDeleteDialog {
 
       case 'megagroup':
       case 'group': {
-<<<<<<< HEAD
-        if(/* actionType === 'delete' &&  */appChatsManager.hasRights(peerId.toChatId(), 'delete_chat')) {
-=======
         if(/* actionType === 'delete' &&  */await managers.appChatsManager.hasRights(peerId.toChatId(), 'delete_chat')) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           title = 'DeleteMegaMenu';
           description = 'AreYouSureDeleteAndExit';
           buttons = [{

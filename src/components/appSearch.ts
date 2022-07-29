@@ -6,26 +6,16 @@
 
 import appDialogsManager from "../lib/appManagers/appDialogsManager";
 import Scrollable from "./scrollable";
-<<<<<<< HEAD
-import appMessagesManager from "../lib/appManagers/appMessagesManager";
-import InputSearch from "./inputSearch";
-import replaceContent from "../helpers/dom/replaceContent";
-import { i18n, LangPackKey } from "../lib/langPack";
-=======
 import InputSearch from "./inputSearch";
 import replaceContent from "../helpers/dom/replaceContent";
 import { i18n, LangPackKey } from "../lib/langPack";
 import rootScope from "../lib/rootScope";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export class SearchGroup {
   container: HTMLDivElement;
   nameEl: HTMLDivElement;
   list: HTMLUListElement;
 
-<<<<<<< HEAD
-  constructor(public name: LangPackKey | boolean, public type: string, private clearable = true, className?: string, clickable = true, public autonomous = true, public onFound?: () => void) {
-=======
   constructor(
     public name: LangPackKey | boolean, 
     public type: string, 
@@ -35,7 +25,6 @@ export class SearchGroup {
     public autonomous = true, 
     public onFound?: () => void
   ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.list = appDialogsManager.createChatList();
     this.container = document.createElement('div');
     if(className) this.container.className = className;
@@ -178,22 +167,14 @@ export default class AppSearch {
     
     const maxId = this.minMsgId || 0;
 
-<<<<<<< HEAD
-    return this.searchPromise = appMessagesManager.getSearch({
-=======
     return this.searchPromise = rootScope.managers.appMessagesManager.getSearch({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       peerId: this.peerId, 
       query, 
       inputFilter: {_: 'inputMessagesFilterEmpty'}, 
       maxId, 
       limit: 20,
       threadId: this.threadId
-<<<<<<< HEAD
-    }).then(res => {
-=======
     }).then((res) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.searchPromise = null;
       
       if(this.searchInput.value !== query) {
@@ -216,10 +197,6 @@ export default class AppSearch {
           appDialogsManager.addDialogAndSetLastMessage({
             peerId, 
             container: this.scrollable/* searchGroup.list */, 
-<<<<<<< HEAD
-            drawStatus: false,
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             avatarSize: 54,
             meAsSaved: false,
             message,
@@ -248,11 +225,7 @@ export default class AppSearch {
         
         this.onSearch && this.onSearch(this.foundCount);
       }
-<<<<<<< HEAD
-    }).catch(err => {
-=======
     }).catch((err) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       console.error('search error', err);
       this.searchPromise = null;
     });

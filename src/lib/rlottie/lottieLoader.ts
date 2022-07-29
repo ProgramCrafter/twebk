@@ -4,26 +4,15 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import RLottieWorker from 'worker-loader!./rlottie.worker';
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import animationIntersector from "../../components/animationIntersector";
 import { MOUNT_CLASS_TO } from '../../config/debug';
 import pause from '../../helpers/schedulers/pause';
 import { logger, LogTypes } from "../logger";
-<<<<<<< HEAD
-import apiManager from "../mtproto/mtprotoworker";
-import RLottiePlayer, { RLottieOptions } from './rlottiePlayer';
-import QueryableWorker from './queryableWorker';
-import blobConstruct from '../../helpers/blob/blobConstruct';
-=======
 import RLottiePlayer, { RLottieOptions } from './rlottiePlayer';
 import QueryableWorker from './queryableWorker';
 import blobConstruct from '../../helpers/blob/blobConstruct';
 import rootScope from '../rootScope';
 import apiManagerProxy from "../mtproto/mtprotoworker";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type LottieAssetName = 'EmptyFolder' | 'Folders_1' | 'Folders_2' | 
   'TwoFactorSetupMonkeyClose' | 'TwoFactorSetupMonkeyCloseAndPeek' | 
@@ -70,16 +59,6 @@ export class LottieLoader {
     return this.loadPromise = new Promise((resolve, reject) => {
       let remain = this.workersLimit;
       for(let i = 0; i < this.workersLimit; ++i) {
-<<<<<<< HEAD
-        const worker = this.workers[i] = new QueryableWorker(new RLottieWorker());
-
-        worker.addEventListener('ready', () => {
-          this.log('worker #' + i + ' ready');
-
-          worker.addEventListener('frame', this.onFrame);
-          worker.addEventListener('loaded', this.onPlayerLoaded);
-          worker.addEventListener('error', this.onPlayerError);
-=======
         const worker = new Worker(new URL('./rlottie.worker.ts', import.meta.url));
         const queryableWorker = this.workers[i] = new QueryableWorker(worker);
 
@@ -89,7 +68,6 @@ export class LottieLoader {
           queryableWorker.addEventListener('frame', this.onFrame);
           queryableWorker.addEventListener('loaded', this.onPlayerLoaded);
           queryableWorker.addEventListener('error', this.onPlayerError);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
           --remain;
           if(!remain) {
@@ -99,11 +77,7 @@ export class LottieLoader {
           }
         }, {once: true});
 
-<<<<<<< HEAD
-        worker.addEventListener('workerError', (error) => {
-=======
         queryableWorker.addEventListener('workerError', (error) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           reject('rlottie load error: ' + error.message);
           this.loaded = false;
         }, {once: true});
@@ -126,30 +100,17 @@ export class LottieLoader {
     }
 
     return fetch(url)
-<<<<<<< HEAD
-    .then(res => {
-      if(!res.headers || res.headers.get('content-type') === 'application/octet-stream') {
-        return res.arrayBuffer().then(data => apiManager.invokeCrypto('gzipUncompress', data)).then(arr => blobConstruct(arr as Uint8Array, ''))
-=======
     .then((res) => {
       if(!res.headers || res.headers.get('content-type') === 'application/octet-stream') {
         return res.arrayBuffer().then((data) => apiManagerProxy.invokeCrypto('gzipUncompress', data)).then((arr) => blobConstruct(arr as Uint8Array, ''))
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       } else {
         return res.blob();
       }
     })
-<<<<<<< HEAD
-    /* .then(str => {
-      return new Promise<string>((resolve) => setTimeout(() => resolve(str), 2e3));
-    }) */
-    .then(blob => {
-=======
     /* .then((str) => {
       return new Promise<string>((resolve) => setTimeout(() => resolve(str), 2e3));
     }) */
     .then((blob) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const newParams = Object.assign(params, {animationData: blob, needUpscale: true});
       if(!newParams.name) newParams.name = url;
       return this.loadAnimationWorker(newParams);
@@ -237,11 +198,7 @@ export class LottieLoader {
     if(rlPlayer) {
       // ! will need refactoring later, this is not the best way to remove the animation
       const animations = animationIntersector.getAnimations(rlPlayer.el);
-<<<<<<< HEAD
-      animations.forEach(animation => {
-=======
       animations.forEach((animation) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         animationIntersector.checkAnimation(animation, true, true);
       });
     }

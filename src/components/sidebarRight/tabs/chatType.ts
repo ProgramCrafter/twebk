@@ -7,15 +7,8 @@
 import { copyTextToClipboard } from "../../../helpers/clipboard";
 import { randomLong } from "../../../helpers/random";
 import { Chat, ChatFull, ExportedChatInvite } from "../../../layer";
-<<<<<<< HEAD
-import appChatsManager from "../../../lib/appManagers/appChatsManager";
-import appProfileManager from "../../../lib/appManagers/appProfileManager";
-import Button from "../../button";
-import { setButtonLoader } from "../../misc";
-=======
 import Button from "../../button";
 import { setButtonLoader } from "../../putPreloader";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import RadioField from "../../radioField";
 import Row, { RadioFormFromRows } from "../../row";
 import { SettingSection } from "../../sidebarLeft";
@@ -34,17 +27,10 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
   public chatId: ChatId;
   public chatFull: ChatFull;
 
-<<<<<<< HEAD
-  protected init() {
-    this.container.classList.add('edit-peer-container', 'group-type-container');
-
-    const isBroadcast = appChatsManager.isBroadcast(this.chatId);
-=======
   protected async init() {
     this.container.classList.add('edit-peer-container', 'group-type-container');
 
     const isBroadcast = await this.managers.appChatsManager.isBroadcast(this.chatId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.setTitle(isBroadcast ? 'ChannelType' : 'GroupType');
 
@@ -79,11 +65,7 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
       onChange();
     });
 
-<<<<<<< HEAD
-    const chat: Chat = appChatsManager.getChat(this.chatId);
-=======
     const chat: Chat = await this.managers.appChatsManager.getChat(this.chatId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     section.content.append(form);
 
@@ -96,12 +78,8 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
       clickable: () => {
         copyTextToClipboard((this.chatFull.exported_invite as ExportedChatInvite.chatInviteExported).link);
         toast(I18n.format('LinkCopied', true));
-<<<<<<< HEAD
-      }
-=======
       },
       listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     const btnRevoke = Button('btn-primary btn-transparent danger', {icon: 'delete', text: 'RevokeLink'});
@@ -113,11 +91,7 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
           callback: () => {
             const toggle = toggleDisability([btnRevoke], true);
             
-<<<<<<< HEAD
-            appProfileManager.getChatInviteLink(this.chatId, true).then(link => {
-=======
             this.managers.appProfileManager.getChatInviteLink(this.chatId, true).then((link) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               toggle();
               linkRow.title.innerHTML = link;
               //revoked = true;
@@ -159,11 +133,7 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
       onChange: onChange,
       peerId: this.chatId.toPeerId(true),
       head: placeholder
-<<<<<<< HEAD
-    });
-=======
     }, this.managers);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const originalValue = placeholder + ((chat as Chat.channel).username || '');
 
@@ -176,13 +146,8 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
     attachClickEvent(applyBtn, () => {
       /* const unsetLoader =  */setButtonLoader(applyBtn);
       const username = publicRow.radioField.checked ? linkInputField.getValue() : '';
-<<<<<<< HEAD
-      appChatsManager.migrateChat(this.chatId).then(channelId => {
-        return appChatsManager.updateUsername(channelId, username);
-=======
       this.managers.appChatsManager.migrateChat(this.chatId).then((channelId) => {
         return this.managers.appChatsManager.updateUsername(channelId, username);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }).then(() => {
         //unsetLoader();
         this.close();
@@ -207,11 +172,7 @@ export default class AppChatTypeTab extends SliderSuperTabEventable {
 
       this.listenerSetter.add(checkboxField.input)('change', () => {
         const toggle = checkboxField.toggleDisability(true);
-<<<<<<< HEAD
-        appChatsManager.toggleNoForwards(this.chatId, checkboxField.checked).then(() => {
-=======
         this.managers.appChatsManager.toggleNoForwards(this.chatId, checkboxField.checked).then(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           toggle();
         });
       });

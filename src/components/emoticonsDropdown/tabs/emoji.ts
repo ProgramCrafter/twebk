@@ -9,35 +9,22 @@ import cancelEvent from "../../../helpers/dom/cancelEvent";
 import findUpClassName from "../../../helpers/dom/findUpClassName";
 import { fastRaf } from "../../../helpers/schedulers";
 import pause from "../../../helpers/schedulers/pause";
-<<<<<<< HEAD
-import appEmojiManager from "../../../lib/appManagers/appEmojiManager";
-import appImManager from "../../../lib/appManagers/appImManager";
-import { i18n, LangPackKey } from "../../../lib/langPack";
-import { RichTextProcessor } from "../../../lib/richtextprocessor";
-import rootScope from "../../../lib/rootScope";
-import { emojiFromCodePoints } from "../../../vendor/emoji";
-import { putPreloader } from "../../misc";
-=======
 import appImManager from "../../../lib/appManagers/appImManager";
 import { i18n, LangPackKey } from "../../../lib/langPack";
 import rootScope from "../../../lib/rootScope";
 import { emojiFromCodePoints } from "../../../vendor/emoji";
 import { putPreloader } from "../../putPreloader";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Scrollable from "../../scrollable";
 import StickyIntersector from "../../stickyIntersector";
 import IS_EMOJI_SUPPORTED from "../../../environment/emojiSupport";
 import IS_TOUCH_SUPPORTED from "../../../environment/touchSupport";
 import blurActiveElement from "../../../helpers/dom/blurActiveElement";
 import Emoji from "../../../config/emoji";
-<<<<<<< HEAD
-=======
 import { AppManagers } from "../../../lib/appManagers/managers";
 import fixEmoji from "../../../lib/richTextProcessor/fixEmoji";
 import wrapEmojiText from "../../../lib/richTextProcessor/wrapEmojiText";
 import wrapSingleEmoji from "../../../lib/richTextProcessor/wrapSingleEmoji";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const loadedURLs: Set<string> = new Set();
 export function appendEmoji(emoji: string, container: HTMLElement, prepend = false, unify = false) {
@@ -50,17 +37,10 @@ export function appendEmoji(emoji: string, container: HTMLElement, prepend = fal
 
   let kek: DocumentFragment;
   if(unify && !IS_EMOJI_SUPPORTED) {
-<<<<<<< HEAD
-    kek = RichTextProcessor.wrapSingleEmoji(emoji);
-  } else {
-    emoji = RichTextProcessor.fixEmoji(emoji);
-    kek = RichTextProcessor.wrapEmojiText(emoji);
-=======
     kek = wrapSingleEmoji(emoji);
   } else {
     emoji = fixEmoji(emoji);
     kek = wrapEmojiText(emoji);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* if(!kek.includes('emoji')) {
@@ -137,13 +117,10 @@ export default class EmojiTab implements EmoticonsTab {
 
   private closeScrollTop = 0;
   private setMenuActive: (id: number) => boolean;
-<<<<<<< HEAD
-=======
 
   constructor(private managers: AppManagers) {
 
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   init() {
     this.content = document.getElementById('content-emoji') as HTMLDivElement;
@@ -205,11 +182,7 @@ export default class EmojiTab implements EmoticonsTab {
 
       div.append(titleDiv, itemsDiv);
 
-<<<<<<< HEAD
-      emojis.forEach(unified => {
-=======
       emojis.forEach((unified) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         /* if(emojiUnicode(emoji) === '1f481-200d-2642') {
           console.log('append emoji', emoji, emojiUnicode(emoji));
         } */
@@ -252,11 +225,7 @@ export default class EmojiTab implements EmoticonsTab {
 
     Promise.all([
       pause(200),
-<<<<<<< HEAD
-      appEmojiManager.getRecentEmojis().then(recent => {
-=======
       this.managers.appEmojiManager.getRecentEmojis().then((recent) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const hasRecent = !!recent.length;
         const activeId = hasRecent ? 0 : 1;
         this.menu.children[0].classList.toggle('hide', !hasRecent);
@@ -277,11 +246,7 @@ export default class EmojiTab implements EmoticonsTab {
       this.recentItemsDiv.parentElement.classList.toggle('hide', !this.recentItemsDiv.childElementCount);
 
       categories.unshift('Emoji.Recent');
-<<<<<<< HEAD
-      categories.map(category => {
-=======
       categories.map((category) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const div = divs[category];
   
         if(!div) {
@@ -294,22 +259,14 @@ export default class EmojiTab implements EmoticonsTab {
       });
     });
 
-<<<<<<< HEAD
-    this.content.addEventListener('click', this.onContentClick);
-=======
     attachClickEvent(this.content, this.onContentClick);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.init = null;
 
     rootScope.addEventListener('emoji_recent', (emoji) => {
       const children = Array.from(this.recentItemsDiv.children) as HTMLElement[];
       for(let i = 0, length = children.length; i < length; ++i) {
         const el = children[i];
-<<<<<<< HEAD
-        const _emoji = RichTextProcessor.fixEmoji(getEmojiFromElement(el));
-=======
         const _emoji = fixEmoji(getEmojiFromElement(el));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(emoji === _emoji) {
           if(i === 0) {
             return;

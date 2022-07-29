@@ -4,11 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../../environment/touchSupport";
-=======
 import IS_TOUCH_SUPPORTED from "../../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { IS_MOBILE, IS_SAFARI } from "../../environment/userAgent";
 import assumeType from "../../helpers/assumeType";
 import callbackify from "../../helpers/callbackify";
@@ -19,11 +15,7 @@ import { getMiddleware } from "../../helpers/middleware";
 import noop from "../../helpers/noop";
 import { fastRaf } from "../../helpers/schedulers";
 import { Message, AvailableReaction } from "../../layer";
-<<<<<<< HEAD
-import type { AppReactionsManager } from "../../lib/appManagers/appReactionsManager";
-=======
 import { AppManagers } from "../../lib/appManagers/managers";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import lottieLoader from "../../lib/rlottie/lottieLoader";
 import RLottiePlayer from "../../lib/rlottie/rlottiePlayer";
 import rootScope from "../../lib/rootScope";
@@ -34,15 +26,9 @@ import { wrapSticker } from "../wrappers";
 const REACTIONS_CLASS_NAME = 'btn-menu-reactions';
 const REACTION_CLASS_NAME = REACTIONS_CLASS_NAME + '-reaction';
 
-<<<<<<< HEAD
-const REACTION_SIZE = 28;
-const PADDING = 4;
-const REACTION_CONTAINER_SIZE = REACTION_SIZE + PADDING * 2;
-=======
 const REACTION_SIZE = 26;
 const PADDING = 4;
 export const REACTION_CONTAINER_SIZE = REACTION_SIZE + PADDING * 2;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const CAN_USE_TRANSFORM = !IS_SAFARI;
 
@@ -55,25 +41,15 @@ type ChatReactionsMenuPlayers = {
 };
 export class ChatReactionsMenu {
   public widthContainer: HTMLElement;
-<<<<<<< HEAD
-  private container: HTMLElement;
-  private reactionsMap: Map<HTMLElement, ChatReactionsMenuPlayers>;
-  private scrollable: ScrollableBase;
-=======
   public container: HTMLElement;
   private reactionsMap: Map<HTMLElement, ChatReactionsMenuPlayers>;
   public scrollable: ScrollableBase;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private animationGroup: string;
   private middleware: ReturnType<typeof getMiddleware>;
   private message: Message.message;
 
   constructor(
-<<<<<<< HEAD
-    private appReactionsManager: AppReactionsManager,
-=======
     private managers: AppManagers,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     private type: 'horizontal' | 'vertical',
     middleware: ChatReactionsMenu['middleware']
   ) {
@@ -91,19 +67,11 @@ export class ChatReactionsMenu {
 
     reactionsScrollable.container.classList.add('no-scrollbar');
 
-<<<<<<< HEAD
-    ['big'].forEach(type => {
-      const bubble = document.createElement('div');
-      bubble.classList.add(REACTIONS_CLASS_NAME + '-bubble', REACTIONS_CLASS_NAME + '-bubble-' + type);
-      reactionsContainer.append(bubble);
-    });
-=======
     // ['big'].forEach((type) => {
     //   const bubble = document.createElement('div');
     //   bubble.classList.add(REACTIONS_CLASS_NAME + '-bubble', REACTIONS_CLASS_NAME + '-bubble-' + type);
     //   reactionsContainer.append(bubble);
     // });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.reactionsMap = new Map();
     this.animationGroup = 'CHAT-MENU-REACTIONS-' + Date.now();
@@ -120,11 +88,7 @@ export class ChatReactionsMenu {
       const players = this.reactionsMap.get(reactionDiv);
       if(!players) return;
 
-<<<<<<< HEAD
-      this.appReactionsManager.sendReaction(this.message, players.reaction);
-=======
       this.managers.appReactionsManager.sendReaction(this.message, players.reaction);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     widthContainer.append(reactionsContainer);
@@ -137,17 +101,10 @@ export class ChatReactionsMenu {
 
     const middleware = this.middleware.get();
     // const result = Promise.resolve(this.appReactionsManager.getAvailableReactionsForPeer(message.peerId)).then((res) => pause(1000).then(() => res));
-<<<<<<< HEAD
-    const result = this.appReactionsManager.getAvailableReactionsByMessage(message);
-    callbackify(result, (reactions) => {
-      if(!middleware() || !reactions.length) return;
-      reactions.forEach(reaction => {
-=======
     const result = this.managers.appReactionsManager.getAvailableReactionsByMessage(message);
     callbackify(result, (reactions) => {
       if(!middleware() || !reactions.length) return;
       reactions.forEach((reaction) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.renderReaction(reaction);
       });
 
@@ -235,11 +192,7 @@ export class ChatReactionsMenu {
         div: appearWrapper,
         play: true,
         ...options
-<<<<<<< HEAD
-      }).then(player => {
-=======
       }).then(({render}) => render).then((player) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         assumeType<RLottiePlayer>(player);
   
         players.appear = player;
@@ -264,11 +217,7 @@ export class ChatReactionsMenu {
         doc: reaction.select_animation,
         div: selectWrapper,
         ...options
-<<<<<<< HEAD
-      }).then(player => {
-=======
       }).then(({render}) => render).then((player) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         assumeType<RLottiePlayer>(player);
 
         return lottieLoader.waitForFirstFrame(player);

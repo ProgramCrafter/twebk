@@ -6,24 +6,15 @@
 
 import appSidebarLeft, { SettingSection } from "..";
 import { InputFile } from "../../../layer";
-<<<<<<< HEAD
-import appChatsManager from "../../../lib/appManagers/appChatsManager";
 import appDialogsManager from "../../../lib/appManagers/appDialogsManager";
-import appUsersManager from "../../../lib/appManagers/appUsersManager";
-=======
-import appDialogsManager from "../../../lib/appManagers/appDialogsManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import InputField from "../../inputField";
 import { SliderSuperTab } from "../../slider";
 import AvatarEdit from "../../avatarEdit";
 import I18n from "../../../lib/langPack";
 import ButtonCorner from "../../buttonCorner";
-<<<<<<< HEAD
-=======
 import getUserStatusString from "../../wrappers/getUserStatusString";
 import appImManager from "../../../lib/appManagers/appImManager";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 interface OpenStreetMapInterface {
   place_id?: number;
@@ -78,11 +69,7 @@ export default class AppNewGroupTab extends SliderSuperTab {
       this.groupLocationInputField.container
     );
 
-<<<<<<< HEAD
-    this.groupNameInputField.input.addEventListener('input', () => {
-=======
     this.listenerSetter.add(this.groupNameInputField.input)('input', () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const value = this.groupNameInputField.value;
       let valueCheck = !!value.length && !this.groupNameInputField.input.classList.contains('error');
       if(this.isGeoChat) valueCheck = valueCheck && !!this.userLocationCoords && !!this.userLocationAddress;
@@ -91,14 +78,6 @@ export default class AppNewGroupTab extends SliderSuperTab {
 
     this.nextBtn = ButtonCorner({icon: 'arrow_next'});
 
-<<<<<<< HEAD
-    this.nextBtn.addEventListener('click', () => {
-      const title = this.groupNameInputField.value;
-
-      if(this.isGeoChat){
-        if(!this.userLocationAddress || !this.userLocationCoords) return;
-        appChatsManager.createChannel({
-=======
     attachClickEvent(this.nextBtn, () => {
       const title = this.groupNameInputField.value;
 
@@ -106,7 +85,6 @@ export default class AppNewGroupTab extends SliderSuperTab {
       if(this.isGeoChat) {
         if(!this.userLocationAddress || !this.userLocationCoords) return;
         promise = this.managers.appChatsManager.createChannel({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           title, 
           about: '', 
           geo_point: {
@@ -118,33 +96,6 @@ export default class AppNewGroupTab extends SliderSuperTab {
         }).then((chatId) => {
           if(this.uploadAvatar) {
             this.uploadAvatar().then((inputFile) => {
-<<<<<<< HEAD
-              appChatsManager.editPhoto(chatId, inputFile);
-            });
-          }
-
-          if(this.peerIds.length){
-            appChatsManager.inviteToChannel(chatId, this.peerIds);
-          }
-          
-          appSidebarLeft.removeTabFromHistory(this);
-          appSidebarLeft.selectTab(0);
-        });
-      } else {
-        this.nextBtn.disabled = true;
-        appChatsManager.createChat(title, this.peerIds.map(peerId => peerId.toUserId())).then((chatId) => {
-          if(this.uploadAvatar) {
-            this.uploadAvatar().then((inputFile) => {
-              appChatsManager.editPhoto(chatId, inputFile);
-            });
-          }
-          
-          appSidebarLeft.removeTabFromHistory(this);
-          appSidebarLeft.selectTab(0);
-        });
-      }
-    });
-=======
               this.managers.appChatsManager.editPhoto(chatId, inputFile);
             });
           }
@@ -179,7 +130,6 @@ export default class AppNewGroupTab extends SliderSuperTab {
         appImManager.setInnerPeer({peerId: chatId.toPeerId(true)});
       });
     }, {listenerSetter: this.listenerSetter});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const chatsSection = new SettingSection({
       name: 'Members',
@@ -220,39 +170,22 @@ export default class AppNewGroupTab extends SliderSuperTab {
         this.groupLocationInputField.container.classList.add('hide');
       }
 
-<<<<<<< HEAD
-      this.peerIds.forEach(userId => {
-        const {dom} = appDialogsManager.addDialogNew({
-          dialog: userId,
-          container: this.list,
-          drawStatus: false,
-=======
       return Promise.all(this.peerIds.map(async(userId) => {
         const {dom} = appDialogsManager.addDialogNew({
           peerId: userId,
           container: this.list,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           rippleEnabled: false,
           avatarSize: 48
         });
 
-<<<<<<< HEAD
-        dom.lastMessageSpan.append(appUsersManager.getUserStatusString(userId));
-      });
-=======
         dom.lastMessageSpan.append(getUserStatusString(await this.managers.appUsersManager.getUser(userId)));
       }));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
     
     return result;
   }
 
-<<<<<<< HEAD
-  private startLocating(){
-=======
   private startLocating() {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     navigator.geolocation.getCurrentPosition((location) => {
       this.userLocationCoords = {
         lat: location.coords.latitude,

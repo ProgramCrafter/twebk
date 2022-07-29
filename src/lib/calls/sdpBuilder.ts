@@ -144,11 +144,7 @@ export class SDPBuilder extends StringFromLineBuilder {
 
     addMsid();
     if(sourceGroups?.length) {
-<<<<<<< HEAD
-      sourceGroups.forEach(ssrcGroup => {
-=======
       sourceGroups.forEach((ssrcGroup) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(ssrcGroup.sources.length) {
           const sources = ssrcGroup.sources.map(fromTelegramSource);
           this.add(`a=ssrc-group:${ssrcGroup.semantics} ${sources.join(' ')}`);
@@ -186,11 +182,7 @@ export class SDPBuilder extends StringFromLineBuilder {
     }
     
     const payloadTypes = !isApplication ? codec['payload-types'] : [{id: 5000} as PayloadType];
-<<<<<<< HEAD
-    const ids = payloadTypes.map(type => type.id);
-=======
     const ids = payloadTypes.map((type) => type.id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     add(
       generateMediaFirstLine(type, port, ids),
       'c=IN IP4 0.0.0.0',
@@ -220,20 +212,12 @@ export class SDPBuilder extends StringFromLineBuilder {
     if(!isApplication) {
       const hdrexts = codec['rtp-hdrexts'];
       if(hdrexts?.length) {
-<<<<<<< HEAD
-        hdrexts.forEach(hdrext => {
-=======
         hdrexts.forEach((hdrext) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           add(`a=extmap:${hdrext.id} ${hdrext.uri}`);
         });
       }
   
-<<<<<<< HEAD
-      payloadTypes.forEach(type => {
-=======
       payloadTypes.forEach((type) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         add(`a=rtpmap:${type.id} ${type.name}/${type.clockrate}${type.channels && type.channels > 1 ? `/${type.channels}` : ''}`);
   
         const parameters = type.parameters;
@@ -251,11 +235,7 @@ export class SDPBuilder extends StringFromLineBuilder {
   
         const fbs = type['rtcp-fbs'];
         if(fbs?.length) {
-<<<<<<< HEAD
-          fbs.forEach(fb => {
-=======
           fbs.forEach((fb) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             add(`a=rtcp-fb:${type.id} ${fb.type}${fb.subtype ? ' ' + fb.subtype : ''}`);
           });
         }

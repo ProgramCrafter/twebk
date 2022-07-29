@@ -6,32 +6,20 @@
 
 import appMediaPlaybackController from "../components/appMediaPlaybackController";
 import { IS_APPLE_MOBILE, IS_MOBILE } from "../environment/userAgent";
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
-import { onMediaLoad } from "../helpers/files";
-=======
 import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import cancelEvent from "../helpers/dom/cancelEvent";
 import ListenerSetter, { Listener } from "../helpers/listenerSetter";
 import ButtonMenu from "../components/buttonMenu";
 import { ButtonMenuToggleHandler } from "../components/buttonMenuToggle";
-<<<<<<< HEAD
-import rootScope from "./rootScope";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import ControlsHover from "../helpers/dom/controlsHover";
 import { addFullScreenListener, cancelFullScreen, isFullScreen, requestFullScreen } from "../helpers/dom/fullScreen";
 import toHHMMSS from "../helpers/string/toHHMMSS";
 import MediaProgressLine from "../components/mediaProgressLine";
 import VolumeSelector from "../components/volumeSelector";
 import debounce from "../helpers/schedulers/debounce";
-<<<<<<< HEAD
-=======
 import overlayCounter from "../helpers/overlayCounter";
 import onMediaLoad from "../helpers/onMediaLoad";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class VideoPlayer extends ControlsHover {
   private static PLAYBACK_RATES = [0.5, 1, 1.5, 2];
@@ -138,25 +126,15 @@ export default class VideoPlayer extends ControlsHover {
       leftControls.insertBefore(volumeSelector.btn, timeElapsed.parentElement);
 
       Array.from(toggle).forEach((button) => {
-<<<<<<< HEAD
-        listenerSetter.add(button)('click', () => {
-=======
         attachClickEvent(button, () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.togglePlay();
         }, {listenerSetter: this.listenerSetter});
       });
 
       if(this.pipButton) {
-<<<<<<< HEAD
-        listenerSetter.add(this.pipButton)('click', () => {
-          this.video.requestPictureInPicture();
-        });
-=======
         attachClickEvent(this.pipButton, () => {
           this.video.requestPictureInPicture();
         }, {listenerSetter: this.listenerSetter});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         const onPip = (pip: boolean) => {
           this.wrapper.style.visibility = pip ? 'hidden': '';
@@ -191,21 +169,12 @@ export default class VideoPlayer extends ControlsHover {
       }
 
       if(!IS_TOUCH_SUPPORTED) {
-<<<<<<< HEAD
-        listenerSetter.add(video)('click', () => {
-          this.togglePlay();
-        });
-
-        listenerSetter.add(document)('keydown', (e: KeyboardEvent) => {
-          if(rootScope.overlaysActive > 1 || document.pictureInPictureElement === video) { // forward popup is active, etc
-=======
         attachClickEvent(video, () => {
           this.togglePlay();
         }, {listenerSetter: this.listenerSetter});
 
         listenerSetter.add(document)('keydown', (e: KeyboardEvent) => {
           if(overlayCounter.overlaysActive > 1 || document.pictureInPictureElement === video) { // forward popup is active, etc
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             return;
           }
 
@@ -246,15 +215,9 @@ export default class VideoPlayer extends ControlsHover {
         }
       });
 
-<<<<<<< HEAD
-      listenerSetter.add(fullScreenButton)('click', () => {
-        this.toggleFullScreen();
-      });
-=======
       attachClickEvent(fullScreenButton, () => {
         this.toggleFullScreen();
       }, {listenerSetter: this.listenerSetter});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       addFullScreenListener(wrapper, this.onFullScreen.bind(this, fullScreenButton), listenerSetter);
 
@@ -276,11 +239,7 @@ export default class VideoPlayer extends ControlsHover {
         this.showControls(false);
       });
 
-<<<<<<< HEAD
-      listenerSetter.add(rootScope)('media_playback_params', () => {
-=======
       listenerSetter.add(appMediaPlaybackController)('playbackParams', () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.setPlaybackRateIcon();
       });
     }

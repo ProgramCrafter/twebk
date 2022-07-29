@@ -4,34 +4,10 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import type { AppNotificationsManager } from "../../lib/appManagers/appNotificationsManager";
-import type { AppChatsManager, ChatRights } from "../../lib/appManagers/appChatsManager";
-import type { AppDocsManager } from "../../lib/appManagers/appDocsManager";
-import type { AppImManager } from "../../lib/appManagers/appImManager";
-import type { AppInlineBotsManager } from "../../lib/appManagers/appInlineBotsManager";
-import type { AppMessagesManager } from "../../lib/appManagers/appMessagesManager";
-import type { AppPeersManager } from "../../lib/appManagers/appPeersManager";
-import type { AppPhotosManager } from "../../lib/appManagers/appPhotosManager";
-import type { AppPollsManager } from "../../lib/appManagers/appPollsManager";
-import type { AppProfileManager } from "../../lib/appManagers/appProfileManager";
-import type { AppStickersManager } from "../../lib/appManagers/appStickersManager";
-import type { AppUsersManager } from "../../lib/appManagers/appUsersManager";
-import type { AppWebPagesManager } from "../../lib/appManagers/appWebPagesManager";
-import type { ApiManagerProxy } from "../../lib/mtproto/mtprotoworker";
-import type { AppDraftsManager } from "../../lib/appManagers/appDraftsManager";
-import type { AppEmojiManager } from "../../lib/appManagers/appEmojiManager";
-import type { ServerTimeManager } from "../../lib/mtproto/serverTimeManager";
-import type { AppMessagesIdsManager } from "../../lib/appManagers/appMessagesIdsManager";
-import type { AppGroupCallsManager } from "../../lib/appManagers/appGroupCallsManager";
-import type { AppReactionsManager } from "../../lib/appManagers/appReactionsManager";
-import type stateStorage from '../../lib/stateStorage';
-=======
 import type { ChatRights } from "../../lib/appManagers/appChatsManager";
 import type { AppImManager } from "../../lib/appManagers/appImManager";
 import type { MessagesStorageKey } from "../../lib/appManagers/appMessagesManager";
 // import type AppMediaViewerBase from "../appMediaViewerBase";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import EventListenerBase from "../../helpers/eventListenerBase";
 import { logger, LogTypes } from "../../lib/logger";
 import rootScope from "../../lib/rootScope";
@@ -41,15 +17,6 @@ import ChatContextMenu from "./contextMenu";
 import ChatInput from "./input";
 import ChatSelection from "./selection";
 import ChatTopbar from "./topbar";
-<<<<<<< HEAD
-import { BOT_START_PARAM, NULL_PEER_ID, REPLIES_PEER_ID } from "../../lib/mtproto/mtproto_config";
-import SetTransition from "../singleTransition";
-import AppPrivateSearchTab from "../sidebarRight/tabs/search";
-import renderImageFromUrl, { renderImageFromUrlPromise } from "../../helpers/dom/renderImageFromUrl";
-import mediaSizes from "../../helpers/mediaSizes";
-import ChatSearch from "./search";
-import { IS_TOUCH_SUPPORTED } from "../../environment/touchSupport";
-=======
 import { NULL_PEER_ID, REPLIES_PEER_ID } from "../../lib/mtproto/mtproto_config";
 import SetTransition from "../singleTransition";
 import AppPrivateSearchTab from "../sidebarRight/tabs/search";
@@ -57,13 +24,10 @@ import renderImageFromUrl from "../../helpers/dom/renderImageFromUrl";
 import mediaSizes from "../../helpers/mediaSizes";
 import ChatSearch from "./search";
 import IS_TOUCH_SUPPORTED from "../../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import getAutoDownloadSettingsByPeerId, { ChatAutoDownloadSettings } from "../../helpers/autoDownload";
 import ChatBackgroundGradientRenderer from "./gradientRenderer";
 import ChatBackgroundPatternRenderer from "./patternRenderer";
 import pause from "../../helpers/schedulers/pause";
-<<<<<<< HEAD
-=======
 import { AppManagers } from "../../lib/appManagers/managers";
 import SlicedArray from "../../helpers/slicedArray";
 import themeController from "../../helpers/themeController";
@@ -72,7 +36,6 @@ import noop from "../../helpers/noop";
 import middlewarePromise from "../../helpers/middlewarePromise";
 import indexOfAndSplice from "../../helpers/array/indexOfAndSplice";
 import { Message } from "../../layer";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type ChatType = 'chat' | 'pinned' | 'replies' | 'discussion' | 'scheduled';
 
@@ -99,10 +62,7 @@ export default class Chat extends EventListenerBase<{
   public log: ReturnType<typeof logger>;
 
   public type: ChatType;
-<<<<<<< HEAD
-=======
   public messagesStorageKey: MessagesStorageKey;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   public noForwards: boolean;
 
@@ -117,32 +77,6 @@ export default class Chat extends EventListenerBase<{
   public patternCanvas: HTMLCanvasElement;
   public backgroundTempId: number;
   public setBackgroundPromise: Promise<void>;
-<<<<<<< HEAD
-  // public renderDarkPattern: () => Promise<void>;
-  
-  constructor(
-    public appImManager: AppImManager, 
-    public appChatsManager: AppChatsManager, 
-    public appDocsManager: AppDocsManager, 
-    public appInlineBotsManager: AppInlineBotsManager, 
-    public appMessagesManager: AppMessagesManager, 
-    public appPeersManager: AppPeersManager, 
-    public appPhotosManager: AppPhotosManager, 
-    public appProfileManager: AppProfileManager, 
-    public appStickersManager: AppStickersManager, 
-    public appUsersManager: AppUsersManager, 
-    public appWebPagesManager: AppWebPagesManager, 
-    public appPollsManager: AppPollsManager, 
-    public apiManager: ApiManagerProxy, 
-    public appDraftsManager: AppDraftsManager, 
-    public serverTimeManager: ServerTimeManager, 
-    public storage: typeof stateStorage, 
-    public appNotificationsManager: AppNotificationsManager,
-    public appEmojiManager: AppEmojiManager,
-    public appMessagesIdsManager: AppMessagesIdsManager,
-    public appGroupCallsManager: AppGroupCallsManager,
-    public appReactionsManager: AppReactionsManager
-=======
   public sharedMediaTab: AppSharedMediaTab;
   public sharedMediaTabs: AppSharedMediaTab[];
   // public renderDarkPattern: () => Promise<void>;
@@ -153,7 +87,6 @@ export default class Chat extends EventListenerBase<{
   constructor(
     public appImManager: AppImManager,
     public managers: AppManagers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   ) {
     super();
 
@@ -176,18 +109,11 @@ export default class Chat extends EventListenerBase<{
     this.appImManager.chatsContainer.append(this.container);
 
     this.backgroundTempId = 0;
-<<<<<<< HEAD
-  }
-
-  public setBackground(url: string, skipAnimation?: boolean): Promise<void> {
-    const theme = rootScope.getTheme();
-=======
     this.sharedMediaTabs = [];
   }
 
   public setBackground(url: string, skipAnimation?: boolean): Promise<void> {
     const theme = themeController.getTheme();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     let item: HTMLElement;
     const isColorBackground = !!theme.background.color && !theme.background.slug && !theme.background.intensity;
@@ -247,11 +173,7 @@ export default class Chat extends EventListenerBase<{
 
           // if(isDarkPattern) {
           //   this.renderDarkPattern = () => {
-<<<<<<< HEAD
-          //     return patternRenderer.exportCanvasPatternToImage(patternCanvas).then(url => {
-=======
           //     return patternRenderer.exportCanvasPatternToImage(patternCanvas).then((url) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           //       if(this.backgroundTempId !== tempId) {
           //         return;
           //       }
@@ -374,19 +296,11 @@ export default class Chat extends EventListenerBase<{
   public init(/* peerId: PeerId */) {
     // this.initPeerId = peerId;
 
-<<<<<<< HEAD
-    this.topbar = new ChatTopbar(this, appSidebarRight, this.appMessagesManager, this.appPeersManager, this.appChatsManager, this.appNotificationsManager, this.appProfileManager, this.appUsersManager, this.appGroupCallsManager);
-    this.bubbles = new ChatBubbles(this, this.appMessagesManager, this.appStickersManager, this.appUsersManager, this.appInlineBotsManager, this.appPhotosManager, this.appPeersManager, this.appProfileManager, this.appDraftsManager, this.appMessagesIdsManager, this.appChatsManager, this.appReactionsManager, this.appWebPagesManager);
-    this.input = new ChatInput(this, this.appMessagesManager, this.appMessagesIdsManager, this.appDocsManager, this.appChatsManager, this.appPeersManager, this.appWebPagesManager, this.appImManager, this.appDraftsManager, this.serverTimeManager, this.appNotificationsManager, this.appEmojiManager, this.appUsersManager, this.appInlineBotsManager, this.appProfileManager);
-    this.selection = new ChatSelection(this, this.bubbles, this.input, this.appMessagesManager);
-    this.contextMenu = new ChatContextMenu(this.bubbles.bubblesContainer, this, this.appMessagesManager, this.appPeersManager, this.appPollsManager, this.appDocsManager, this.appMessagesIdsManager, this.appReactionsManager);
-=======
     this.topbar = new ChatTopbar(this, appSidebarRight, this.managers);
     this.bubbles = new ChatBubbles(this, this.managers);
     this.input = new ChatInput(this, this.appImManager, this.managers);
     this.contextMenu = new ChatContextMenu(this, this.managers);
     this.selection = new ChatSelection(this, this.bubbles, this.input, this.managers);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(this.type === 'chat') {
       this.topbar.constructUtils();
@@ -419,15 +333,10 @@ export default class Chat extends EventListenerBase<{
       this.bubbles.setReactionsHoverListeners();
     }
 
-<<<<<<< HEAD
-    this.container.classList.add('type-' + this.type);
-    this.container.append(this.topbar.container, this.bubbles.bubblesContainer, this.input.chatInput);
-=======
     this.bubbles.attachContainerListeners();
 
     this.container.classList.add('type-' + this.type);
     this.container.append(this.topbar.container, this.bubbles.container, this.input.chatInput);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.bubbles.listenerSetter.add(rootScope)('dialog_migrate', ({migrateFrom, migrateTo}) => {
       if(this.peerId === migrateFrom) {
@@ -466,10 +375,7 @@ export default class Chat extends EventListenerBase<{
     this.bubbles.destroy();
     this.input.destroy();
     this.contextMenu && this.contextMenu.destroy();
-<<<<<<< HEAD
-=======
     this.selection && this.selection.attachListeners(undefined, undefined);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.cleanupBackground();
 
@@ -486,9 +392,6 @@ export default class Chat extends EventListenerBase<{
 
   public cleanup(helperToo = true) {
     this.input.cleanup(helperToo);
-<<<<<<< HEAD
-    this.selection.cleanup();
-=======
     this.topbar.cleanup();
     this.selection.cleanup();
   }
@@ -522,7 +425,6 @@ export default class Chat extends EventListenerBase<{
     this.sharedMediaTab.setPeer(peerId, this.threadId);
     this.input.clearHelper(); // костыль
     this.selection.cleanup(); // TODO: REFACTOR !!!!!!
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setPeer(peerId: PeerId, lastMsgId?: number, startParam?: string) {
@@ -532,59 +434,6 @@ export default class Chat extends EventListenerBase<{
       if(this.init) {
         this.init(/* peerId */);
         this.init = null;
-<<<<<<< HEAD
-      }
-
-      this.inited = true;
-    }
-
-    const samePeer = this.peerId === peerId;
-    if(!samePeer) {
-      rootScope.dispatchEvent('peer_changing', this);
-      this.peerId = peerId || NULL_PEER_ID;
-    } else if(this.setPeerPromise) {
-      return;
-    }
-
-    //console.time('appImManager setPeer');
-    //console.time('appImManager setPeer pre promise');
-    ////console.time('appImManager: pre render start');
-    if(!peerId) {
-      appSidebarRight.toggleSidebar(false);
-      this.cleanup(true);
-      this.topbar.setPeer(peerId);
-      this.bubbles.setPeer(peerId);
-      rootScope.dispatchEvent('peer_changed', peerId);
-
-      return;
-    }
-
-    // set new
-    if(!samePeer) {
-      const searchTab = appSidebarRight.getTab(AppPrivateSearchTab);
-      if(searchTab) {
-        searchTab.close();
-      }
-
-      this.noForwards = this.appPeersManager.noForwards(peerId);
-      this.isRestricted = this.appPeersManager.isRestricted(peerId);
-      this.container.classList.toggle('no-forwards', this.noForwards);
-
-      appSidebarRight.sharedMediaTab.setPeer(peerId, this.threadId);
-      this.input.clearHelper(); // костыль
-      this.selection.cleanup(); // TODO: REFACTOR !!!!!!
-      this.setAutoDownloadMedia();
-    }
-
-    this.peerChanged = samePeer;
-
-    if(startParam === undefined && this.isStartButtonNeeded()) {
-      startParam = BOT_START_PARAM;
-    }
-
-    const result = this.bubbles.setPeer(peerId, lastMsgId, startParam);
-    if(!result) {
-=======
       }
 
       this.inited = true;
@@ -601,7 +450,6 @@ export default class Chat extends EventListenerBase<{
       this.peerId = peerId || NULL_PEER_ID;
       this.messagesStorageKey = `${this.peerId}_${this.type === 'scheduled' ? 'scheduled' : 'history'}`;
     } else if(this.setPeerPromise) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
@@ -611,11 +459,6 @@ export default class Chat extends EventListenerBase<{
       this.bubbles.setPeer(false, peerId);
       this.appImManager.dispatchEvent('peer_changed', peerId);
 
-<<<<<<< HEAD
-    //console.timeEnd('appImManager setPeer pre promise');
-    
-    const setPeerPromise = this.setPeerPromise = promise.finally(() => {
-=======
       appSidebarRight.replaceSharedMediaTab();
       this.destroySharedMediaTab();
       this.sharedMediaTab = undefined;
@@ -629,27 +472,11 @@ export default class Chat extends EventListenerBase<{
     const setPeerPromise = this.setPeerPromise = bubblesSetPeerPromise.then((result) => {
       return result.promise;
     }).catch(noop).finally(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.setPeerPromise === setPeerPromise) {
         this.setPeerPromise = null;
       }
     });
 
-<<<<<<< HEAD
-    if(!samePeer) {
-      appSidebarRight.sharedMediaTab.setLoadMutex(this.setPeerPromise);
-      appSidebarRight.sharedMediaTab.loadSidebarMedia(true);
-    }
-    /* this.setPeerPromise.then(() => {
-      appSidebarRight.sharedMediaTab.loadSidebarMedia(false);
-    }); */
-
-    return result;
-  }
-
-  public setAutoDownloadMedia() {
-    this.autoDownload = getAutoDownloadSettingsByPeerId(this.peerId);
-=======
     return bubblesSetPeerPromise;
   }
 
@@ -660,34 +487,20 @@ export default class Chat extends EventListenerBase<{
 
   public async setAutoDownloadMedia() {
     this.autoDownload = await getAutoDownloadSettingsByPeerId(this.peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setMessageId(messageId?: number) {
     return this.setPeer(this.peerId, messageId);
   }
 
-<<<<<<< HEAD
-  public finishPeerChange(isTarget: boolean, isJump: boolean, lastMsgId: number, startParam?: string) {
-=======
   public async finishPeerChange(isTarget: boolean, isJump: boolean, lastMsgId: number, startParam?: string) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(this.peerChanged) return;
 
     const peerId = this.peerId;
     this.peerChanged = true;
     this.wasAlreadyUsed = true;
 
-<<<<<<< HEAD
-    this.cleanup(false);
-
-    this.topbar.setPeer(peerId);
-    this.topbar.finishPeerChange(isTarget, isJump, lastMsgId);
-    this.bubbles.finishPeerChange();
-    this.input.finishPeerChange(startParam);
-=======
     const middleware = this.bubbles.getMiddleware();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.cleanup(false);
 
@@ -719,16 +532,7 @@ export default class Chat extends EventListenerBase<{
 
     this.log.setPrefix('CHAT-' + peerId + '-' + this.type);
 
-<<<<<<< HEAD
-    rootScope.dispatchEvent('peer_changed', peerId);
-    this.wasAlreadyUsed = true;
-  }
-
-  public getMessagesStorage() {
-    return this.appMessagesManager.getMessagesStorage(this.peerId);
-=======
     this.appImManager.dispatchEvent('peer_changed', peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getMessage(mid: number) {
@@ -749,8 +553,6 @@ export default class Chat extends EventListenerBase<{
     });
   }
 
-<<<<<<< HEAD
-=======
   public getHistoryMaxId() {
     return this.getHistoryStorage().then((historyStorage) => historyStorage.maxId);
   }
@@ -759,7 +561,6 @@ export default class Chat extends EventListenerBase<{
     return peerId === rootScope.myId || peerId === REPLIES_PEER_ID || (await this.managers.appPeersManager.isAnyGroup(peerId));
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public initSearch(query?: string) {
     if(!this.peerId) return;
 
@@ -772,11 +573,7 @@ export default class Chat extends EventListenerBase<{
     } else {
       let tab = appSidebarRight.getTab(AppPrivateSearchTab);
       if(!tab) {
-<<<<<<< HEAD
-        tab = new AppPrivateSearchTab(appSidebarRight);
-=======
         tab = appSidebarRight.createTab(AppPrivateSearchTab);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       tab.open(this.peerId, this.threadId, this.bubbles.onDatePick, query);
@@ -784,15 +581,6 @@ export default class Chat extends EventListenerBase<{
   }
 
   public canSend(action?: ChatRights) {
-<<<<<<< HEAD
-    return this.appMessagesManager.canSendToPeer(this.peerId, this.threadId, action);
-  }
-
-  public isStartButtonNeeded() {
-    return this.appPeersManager.isBot(this.peerId) && 
-      !this.appMessagesManager.getDialogOnly(this.peerId) && 
-      !this.appMessagesManager.getHistoryStorage(this.peerId).history.length;
-=======
     return this.managers.appMessagesManager.canSendToPeer(this.peerId, this.threadId, action);
   }
 
@@ -804,7 +592,6 @@ export default class Chat extends EventListenerBase<{
     ]).then(([isBot, dialog, historyStorage]) => {
       return isBot && !dialog && !historyStorage.history.length;
     });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getMessageSendingParams() {
@@ -816,8 +603,6 @@ export default class Chat extends EventListenerBase<{
       sendAsPeerId: this.input.sendAsPeerId
     };
   }
-<<<<<<< HEAD
-=======
 
   public isOurMessage(message: Message.message | Message.messageService) {
     return message.fromId === rootScope.myId || (message.pFlags.out && this.isMegagroup);
@@ -832,5 +617,4 @@ export default class Chat extends EventListenerBase<{
   public isAvatarNeeded(message: Message.message | Message.messageService) {
     return this.isAnyGroup && !this.isOutMessage(message);
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

@@ -192,10 +192,7 @@ ul.chatlist {
     padding-left: 8.5px; */
     overflow: hidden;
     background: var(--background);
-<<<<<<< HEAD
-=======
     -webkit-user-drag: none;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     @include respond-to(handhelds) {
       border-radius: 0;
@@ -315,11 +312,7 @@ ul.chatlist {
 
   /* .user-title,
   .dialog-title-details,
-<<<<<<< HEAD
-  .user-last-message */li span {
-=======
   .user-last-message */&-chat span {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //display: inline-block;
     white-space: nowrap;
     overflow: hidden;

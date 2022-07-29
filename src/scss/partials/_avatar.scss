@@ -66,11 +66,7 @@ avatar-element {
   }
 
   &.tgico-saved:before {
-<<<<<<< HEAD
-    font-size: calc(21px / var(--multiplier)) !important; // ! IMPORTANT IS TEMPORARY
-=======
     font-size: calc(25px / var(--multiplier)) !important; // ! IMPORTANT IS TEMPORARY
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   &.tgico-reply_filled:before {
@@ -213,27 +209,21 @@ avatar-element {
     --multiplier: 1.6875;
   }
 
-<<<<<<< HEAD
-=======
   &.avatar-26 {
     --size: 26px;
     --multiplier: 2.076923;
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   &.avatar-24 {
     --size: 24px;
     --multiplier: 2.25;
   }
 
-<<<<<<< HEAD
-=======
   &.avatar-22 {
     --size: 22px;
     --multiplier: 2.454545;
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   &.avatar-18 {
     --size: 18px;
     --multiplier: 3;

@@ -5,35 +5,8 @@
  */
 
 import { MOUNT_CLASS_TO } from "../config/debug";
-<<<<<<< HEAD
-import calcImageInBox from "./calcImageInBox";
-import EventListenerBase from "./eventListenerBase";
-
-export class MediaSize {
-  constructor(public width = 0, public height = width) {
-
-  }
-
-  public aspect(boxSize: MediaSize, fitted: boolean) {
-    return calcImageInBox(this.width, this.height, boxSize.width, boxSize.height, fitted);
-  }
-
-  public aspectFitted(boxSize: MediaSize) {
-    return this.aspect(boxSize, true);
-  }
-
-  public aspectCovered(boxSize: MediaSize) {
-    return this.aspect(boxSize, false);
-  }
-}
-
-export function makeMediaSize(width?: number, height?: number): MediaSize {
-  return new MediaSize(width, height);
-}
-=======
 import EventListenerBase from "./eventListenerBase";
 import { makeMediaSize, MediaSize } from "./mediaSize";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 type MediaTypeSizes = {
   regular: MediaSize,
@@ -45,12 +18,8 @@ type MediaTypeSizes = {
   emojiSticker: MediaSize,
   poll: MediaSize,
   round: MediaSize,
-<<<<<<< HEAD
-  documentName: MediaSize
-=======
   documentName: MediaSize,
   invoice: MediaSize
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 export type MediaSizeType = keyof MediaTypeSizes;
@@ -86,12 +55,8 @@ class MediaSizes extends EventListenerBase<{
       emojiSticker: makeMediaSize(112, 112),
       poll: makeMediaSize(240, 0),
       round: makeMediaSize(200, 200),
-<<<<<<< HEAD
-      documentName: makeMediaSize(200, 0)
-=======
       documentName: makeMediaSize(200, 0),
       invoice: makeMediaSize(240, 240)
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     },
     desktop: {
       regular: makeMediaSize(420, 340),
@@ -103,12 +68,8 @@ class MediaSizes extends EventListenerBase<{
       emojiSticker: makeMediaSize(112, 112),
       poll: makeMediaSize(330, 0),
       round: makeMediaSize(280, 280),
-<<<<<<< HEAD
-      documentName: makeMediaSize(240, 0)
-=======
       documentName: makeMediaSize(240, 0),
       invoice: makeMediaSize(320, 260)
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   };
 

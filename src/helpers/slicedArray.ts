@@ -5,10 +5,7 @@
  */
 
 import { MOUNT_CLASS_TO } from "../config/debug";
-<<<<<<< HEAD
-=======
 import indexOfAndSplice from "./array/indexOfAndSplice";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import compareValue from "./compareValue";
 
 /**
@@ -31,10 +28,7 @@ export interface Slice<T extends ItemType> extends Array<T> {
   isEnd: (side: SliceEnd) => boolean;
   setEnd: (side: SliceEnd) => void;
   unsetEnd: (side: SliceEnd) => void;
-<<<<<<< HEAD
-=======
   getEnds: () => {top: boolean, bottom: boolean, both: boolean};
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   slice: (from?: number, to?: number) => Slice<T>;
   splice: (start: number, deleteCount: number, ...items: ItemType[]) => Slice<T>;
@@ -45,8 +39,6 @@ export interface SliceConstructor<T extends ItemType> {
   new(length: number): Slice<T>;
 }
 
-<<<<<<< HEAD
-=======
 export type SliceSerialized<T extends ItemType> = {
   values: Slice<T>,
   isEnd: {
@@ -60,7 +52,6 @@ export type SlicedArraySerialized<T extends ItemType> = {
   slices: SliceSerialized<T>[]
 };
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 export default class SlicedArray<T extends ItemType> {
   private slices: Slice<T>[]/*  = [[7,6,5],[4,3,2],[1,0,-1]] */;
   private sliceConstructor: SliceConstructor<T>;
@@ -108,8 +99,6 @@ export default class SlicedArray<T extends ItemType> {
   
         return isEnd;
       }
-<<<<<<< HEAD
-=======
 
       getEnds() {
         return {
@@ -118,7 +107,6 @@ export default class SlicedArray<T extends ItemType> {
           both: this.isEnd(SliceEnd.Both)
         };
       }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
       setEnd(side: SliceEnd) {
         this.end |= side;
@@ -384,12 +372,8 @@ export default class SlicedArray<T extends ItemType> {
     const topFulfilled = (slice.length - sliceOffset) >= topWasMeantToLoad || (slice.isEnd(SliceEnd.Top) ? (sliced.setEnd(SliceEnd.Top), true) : false);
     const bottomFulfilled = (sliceOffset - bottomWasMeantToLoad) >= 0 || (slice.isEnd(SliceEnd.Bottom) ? (sliced.setEnd(SliceEnd.Bottom), true) : false);
 
-<<<<<<< HEAD
-    //console.log('sliceMe', topFulfilled, bottomFulfilled);
-=======
     // if(topFulfilled) sliced.isEnd(SliceEnd.Top);
     // if(bottomFulfilled) sliced.isEnd(SliceEnd.Bottom);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     return {
       slice: sliced, 
@@ -433,8 +417,6 @@ export default class SlicedArray<T extends ItemType> {
 
     return false;
   }
-<<<<<<< HEAD
-=======
 
   public deleteSlice(slice: Slice<T>) {
     indexOfAndSplice(this.slices, slice);
@@ -466,7 +448,6 @@ export default class SlicedArray<T extends ItemType> {
 
     return sliced;
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.SlicedArray = SlicedArray);

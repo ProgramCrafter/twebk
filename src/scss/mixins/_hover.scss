@@ -45,13 +45,9 @@
 @mixin btn-hoverable {
   @include hover-background-effect();
   
-<<<<<<< HEAD
-  &.primary, &.blue, &.active {
-=======
   &.primary, 
   &.blue, 
   &.active {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     @include hover-background-effect(primary);
   }
   

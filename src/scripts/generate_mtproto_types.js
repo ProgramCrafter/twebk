@@ -139,11 +139,7 @@ const processParams = (params, object = {}, parseBooleanFlags = true, overrideTy
   for(const param of params) {
     let {name, type} = param;
 
-<<<<<<< HEAD
-    if(type.includes('?') || name == 'flags') {
-=======
     if((type.includes('?') || name == 'flags') && !name.includes('`')) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       name += '?';
     }
 

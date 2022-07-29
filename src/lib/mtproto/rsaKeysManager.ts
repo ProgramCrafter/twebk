@@ -10,11 +10,7 @@
  */
 
 import { TLSerialization } from "./tl_utils";
-<<<<<<< HEAD
-import CryptoWorker from '../crypto/cryptoworker';
-=======
 import cryptoWorker from '../crypto/cryptoMessagePort';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Modes from "../../config/modes";
 import bytesFromHex from "../../helpers/bytes/bytesFromHex";
 import bytesToHex from "../../helpers/bytes/bytesToHex";
@@ -100,22 +96,14 @@ export class RSAKeysManager {
       return Promise.resolve();
     }
 
-<<<<<<< HEAD
-    return this.preparePromise = Promise.all(this.publisKeysHex.map(keyParsed => {
-=======
     return this.preparePromise = Promise.all(this.publisKeysHex.map((keyParsed) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const RSAPublicKey = new TLSerialization();
       RSAPublicKey.storeBytes(bytesFromHex(keyParsed.modulus), 'n');
       RSAPublicKey.storeBytes(bytesFromHex(keyParsed.exponent), 'e');
 
       const buffer = RSAPublicKey.getBuffer();
 
-<<<<<<< HEAD
-      return CryptoWorker.invokeCrypto('sha1', buffer).then(bytes => {
-=======
       return cryptoWorker.invokeCrypto('sha1', buffer).then((bytes) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const fingerprintBytes = bytes.slice(-8);
         fingerprintBytes.reverse();
   

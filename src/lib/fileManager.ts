@@ -34,8 +34,6 @@ export class FileManager {
           throw false;
         }
         
-<<<<<<< HEAD
-=======
         // sometimes file size can be bigger than the prov
         const endOffset = offset + part.byteLength;
         if(endOffset > bytes.byteLength) {
@@ -44,7 +42,6 @@ export class FileManager {
           bytes = newBytes;
         }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         bytes.set(part, offset);
       },
       truncate: () => {

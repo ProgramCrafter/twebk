@@ -23,9 +23,5 @@ export default function getSelectedNodes() {
   }
 
   // * filter null's due to <br>
-<<<<<<< HEAD
-  return nodes.filter(node => !!node);
-=======
   return nodes.filter((node) => !!node);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

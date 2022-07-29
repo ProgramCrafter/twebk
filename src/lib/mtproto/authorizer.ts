@@ -14,18 +14,10 @@ import transportController from "./transports/controller";
 /// #endif
 
 import { TLSerialization, TLDeserialization } from "./tl_utils";
-<<<<<<< HEAD
-import dcConfigurator, { TransportType } from "./dcConfigurator";
-=======
 import { TransportType } from "./dcConfigurator";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rsaKeysManager from "./rsaKeysManager";
 
-<<<<<<< HEAD
-import CryptoWorker from "../crypto/cryptoworker";
-=======
 import CryptoWorker from "../crypto/cryptoMessagePort";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 import { logger, LogTypes } from "../logger";
 import DEBUG from "../../config/debug";
@@ -39,10 +31,7 @@ import bytesXor from "../../helpers/bytes/bytesXor";
 import { bigIntFromBytes } from "../../helpers/bigInt/bigIntConversion";
 import bigInt from "big-integer";
 import randomize from "../../helpers/array/randomize";
-<<<<<<< HEAD
-=======
 import { AppManager } from "../appManagers/manager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 /* let fNewNonce: any = bytesFromHex('8761970c24cb2329b5b2459752c502f3057cb7e8dbab200e526e8767fdc73b3c').reverse();
 let fNonce: any = bytesFromHex('b597720d11faa5914ef485c529cde414').reverse();
@@ -87,37 +76,6 @@ type AuthOptions = {
 
   localTime?: number,
   serverTime?: any,
-<<<<<<< HEAD
-};
-
-type ResPQ = {
-  _: 'resPQ';
-  nonce: Uint8Array;
-  pq: Uint8Array;
-  server_nonce: Uint8Array;
-  server_public_key_fingerprints: string[];
-};
-
-type P_Q_inner_data = {
-  _: 'p_q_inner_data_dc';
-  pq: Uint8Array;
-  p: Uint8Array;
-  q: Uint8Array;
-  nonce: Uint8Array;
-  server_nonce: Uint8Array;
-  new_nonce: Uint8Array;
-  dc: number;
-};
-
-type req_DH_params = {
-  nonce: Uint8Array;
-  server_nonce: Uint8Array;
-  p: Uint8Array;
-  q: Uint8Array;
-  public_key_fingerprint: string;
-  encrypted_data: Uint8Array;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 type ResPQ = {
@@ -161,11 +119,7 @@ export class Authorizer extends AppManager {
   private getTransportTypePromise: Promise<void>;
   /// #endif
   
-<<<<<<< HEAD
-  constructor() {
-=======
   protected after() {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.cached = {};
     this.log = logger(`AUTHORIZER`, LogTypes.Error | LogTypes.Log);
   }
@@ -175,11 +129,7 @@ export class Authorizer extends AppManager {
     
     const header = new TLSerialization();
     header.storeLongP(0, 0, 'auth_key_id');
-<<<<<<< HEAD
-    header.storeLong(timeManager.generateId(), 'msg_id');
-=======
     header.storeLong(this.timeManager.generateId(), 'msg_id');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     header.storeInt(requestLength, 'request_length');
     
     const headerArray = header.getBytes(true) as Uint8Array;
@@ -187,11 +137,7 @@ export class Authorizer extends AppManager {
     resultArray.set(headerArray);
     resultArray.set(requestArray, headerArray.length);
 
-<<<<<<< HEAD
-    const transport = dcConfigurator.chooseServer(dcId, 'client', this.transportType);
-=======
     const transport = this.dcConfigurator.chooseServer(dcId, 'client', this.transportType);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const baseError = {
       code: 406,
       type: 'NETWORK_BAD_RESPONSE'
@@ -202,11 +148,7 @@ export class Authorizer extends AppManager {
     }
     
     const promise = transport.send(resultArray) as any as Promise<Uint8Array>;
-<<<<<<< HEAD
-    return promise.then(result => {
-=======
     return promise.then((result) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(DEBUG) {
         this.log('mtpSendPlainRequest: in good sector', result);
       }

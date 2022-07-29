@@ -8,11 +8,7 @@ import App from "../../../config/app";
 import deferredPromise from "../../../helpers/cancellablePromise";
 import EventListenerBase from "../../../helpers/eventListenerBase";
 import pause from "../../../helpers/schedulers/pause";
-<<<<<<< HEAD
-import dcConfigurator, { TransportType } from "../dcConfigurator";
-=======
 import { TransportType, DcConfigurator } from "../dcConfigurator";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import type HTTP from "./http";
 import type TcpObfuscated from "./tcpObfuscated";
 import MTTransport from "./transport";
@@ -24,10 +20,7 @@ export class MTTransportController extends EventListenerBase<{
   private opened: Map<TransportType, number>;
   private transports: {[k in TransportType]?: MTTransport};
   private pinging: boolean;
-<<<<<<< HEAD
-=======
   private dcConfigurator: DcConfigurator;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   constructor() {
     super(true);
@@ -43,14 +36,6 @@ export class MTTransportController extends EventListenerBase<{
       }
     });
 
-<<<<<<< HEAD
-    setTimeout(() => {
-      this.waitForWebSocket();
-    }, 200); // wait for first transport so won't have delay for first WS
-  }
-
-  public async pingTransports() {
-=======
     // setTimeout(() => {
       // this.waitForWebSocket();
     // }, 200); // wait for first transport so won't have delay for first WS
@@ -58,7 +43,6 @@ export class MTTransportController extends EventListenerBase<{
 
   public async pingTransports() {
     const dcConfigurator = this.dcConfigurator ??= new DcConfigurator();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const timeout = 2000;
     const transports: {[k in TransportType]?: MTTransport} = this.transports = {
       https: dcConfigurator.chooseServer(App.baseDcId, 'client', 'https', false),

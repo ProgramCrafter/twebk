@@ -10,11 +10,7 @@ export default function splitStringByLength(str: string, maxLength: number) {
     if(part.length > maxLength) {
       let overflowPart = part.slice(maxLength);
       const splitted = splitStringByLength(overflowPart, maxLength);
-<<<<<<< HEAD
-      splitted.forEach(part => {
-=======
       splitted.forEach((part) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         out[arrayIndex++] = part;
       });
 

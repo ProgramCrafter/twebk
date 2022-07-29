@@ -21,21 +21,12 @@ export default function filterServerCodecs(mainChannels: SDPMediaSection[], data
     return out;
   };
 
-<<<<<<< HEAD
-  const codecsToPerform: [Codec, 'audio' | 'video'][] = /* flatten([data, dataPresentation].filter(Boolean).map(data => {
-    return  */['audio' as const, 'video' as const].filter(type => data[type]).map(type => ([data[type], type]));
-  // }));
-
-  codecsToPerform.forEach(([codec, type]) => {
-    const channel = mainChannels.find(line => line.mediaType === type);
-=======
   const codecsToPerform: [Codec, 'audio' | 'video'][] = /* flatten([data, dataPresentation].filter(Boolean).map((data) => {
     return  */['audio' as const, 'video' as const].filter((type) => data[type]).map((type) => ([data[type], type]));
   // }));
 
   codecsToPerform.forEach(([codec, type]) => {
     const channel = mainChannels.find((line) => line.mediaType === type);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!channel) {
       return;
     }

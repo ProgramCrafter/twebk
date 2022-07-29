@@ -9,10 +9,7 @@
  * https://github.com/evgeny-nadymov/telegram-react/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-=======
 import EventListenerBase from '../../helpers/eventListenerBase';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { logger } from '../logger';
 import rootScope from '../rootScope';
 import { GROUP_CALL_AMPLITUDE_ANALYSE_COUNT_MAX } from './constants';
@@ -64,10 +61,7 @@ class AudioStreamAnalyser {
 }
 
 export default class StreamManager {
-<<<<<<< HEAD
-=======
   public static ANALYSER_LISTENER = new EventListenerBase<{amplitude: (details: {amplitudes: StreamAmplitude[], type: 'all' | 'input'}) => void}>();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private context: AudioContext;
   public outputStream: MediaStream;
   public inputStream: MediaStream;
@@ -98,11 +92,7 @@ export default class StreamManager {
   }
 
   public addStream(stream: MediaStream, type: StreamItem['type']) {
-<<<<<<< HEAD
-    stream.getTracks().forEach(track => {
-=======
     stream.getTracks().forEach((track) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.addTrack(stream, track, type);
     });
   }
@@ -168,11 +158,7 @@ export default class StreamManager {
   }
 
   public hasInputTrackKind(kind: StreamItem['kind']) {
-<<<<<<< HEAD
-    return this.items.find(item => item.type === 'input' && item.kind === kind);
-=======
     return this.items.find((item) => item.type === 'input' && item.kind === kind);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public static getSource(stream: MediaStream, type: StreamItem['type']) {
@@ -250,23 +236,14 @@ export default class StreamManager {
   
   public analyse = () => {
     const all = this.counter % 3 === 0;
-<<<<<<< HEAD
-    const filteredItems = all ? this.items : this.items.filter(x => x.type === 'input');
-    const audioItems = filteredItems.filter(x => x.kind === 'audio') as StreamAudioItem[];
-=======
     const filteredItems = all ? this.items : this.items.filter((x) => x.type === 'input');
     const audioItems = filteredItems.filter((x) => x.kind === 'audio') as StreamAudioItem[];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const amplitudes = audioItems.slice(0, GROUP_CALL_AMPLITUDE_ANALYSE_COUNT_MAX).map(this.getAmplitude);
     if(++this.counter >= 1000) {
       this.counter = 0;
     }
     
-<<<<<<< HEAD
-    rootScope.dispatchEvent('group_call_amplitude', {
-=======
     StreamManager.ANALYSER_LISTENER.dispatchEvent('amplitude', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       amplitudes,
       type: all ? 'all' : 'input'
     });
@@ -274,11 +251,7 @@ export default class StreamManager {
 
   /* public appendToConnection(connection: RTCPeerConnection) {
     if(this.inputStream) {
-<<<<<<< HEAD
-      this.inputStream.getTracks().forEach(track => {
-=======
       this.inputStream.getTracks().forEach((track) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         connection.log('addTrack', track);
         connection.addTrack(track, this.inputStream);
 
@@ -296,11 +269,7 @@ export default class StreamManager {
     
     const {inputStream, direction, canCreateConferenceEntry} = this;
     const transceiverInit: RTCRtpTransceiverInit = {direction, streams: [inputStream]};
-<<<<<<< HEAD
-    const types = this.types.map(type => {
-=======
     const types = this.types.map((type) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return [
         type, 
         /* type === 'video' || type === 'screencast' ? 
@@ -312,11 +281,7 @@ export default class StreamManager {
     const tracks = inputStream.getTracks();
     // const transceivers = conference.connection.getTransceivers();
     for(const [type, transceiverInit] of types) {
-<<<<<<< HEAD
-      let entry = conference.findEntry(entry => entry.direction === direction && entry.type === type);
-=======
       let entry = conference.findEntry((entry) => entry.direction === direction && entry.type === type);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!entry) {
         if(!canCreateConferenceEntry) {
           continue;
@@ -326,11 +291,7 @@ export default class StreamManager {
       }
       /* const entry = conference.findFreeSendRecvEntry(type, true);
       if(!entry.transceiver) {
-<<<<<<< HEAD
-        entry.transceiver = transceivers.find(transceiver => transceiver.mid === entry.mid);
-=======
         entry.transceiver = transceivers.find((transceiver) => transceiver.mid === entry.mid);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       } */
 
       let {transceiver} = entry;
@@ -350,11 +311,7 @@ export default class StreamManager {
       }
 
       const mediaTrackType = fixMediaLineType(type);
-<<<<<<< HEAD
-      const trackIdx = tracks.findIndex(track => track.kind === mediaTrackType);
-=======
       const trackIdx = tracks.findIndex((track) => track.kind === mediaTrackType);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const track = trackIdx !== -1 ? tracks.splice(trackIdx, 1)[0] : undefined;
       const sender = transceiver.sender;
       if(sender.track === track) {
@@ -362,11 +319,7 @@ export default class StreamManager {
       }
 
       // try { // ! don't use await here. it will wait for adding track and fake one won't be visible in startNegotiation.
-<<<<<<< HEAD
-        /* await  */sender.replaceTrack(track).catch(err => {
-=======
         /* await  */sender.replaceTrack(track).catch((err) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.log.error(err);
         });
       // } catch(err) {
@@ -378,11 +331,7 @@ export default class StreamManager {
   public stop() {
     try {
       const tracks = this.inputStream.getTracks().concat(this.outputStream.getTracks());
-<<<<<<< HEAD
-      tracks.forEach(track => {
-=======
       tracks.forEach((track) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         stopTrack(track);
       });
     } catch(e) {

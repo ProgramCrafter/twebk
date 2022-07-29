@@ -4,10 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-=======
 import cancelEvent from "../helpers/dom/cancelEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import simulateEvent from "../helpers/dom/dispatchEvent";
 import documentFragmentToHTML from "../helpers/dom/documentFragmentToHTML";
 import findUpAttribute from "../helpers/dom/findUpAttribute";
@@ -17,17 +14,6 @@ import selectElementContents from "../helpers/dom/selectElementContents";
 import setInnerHTML from "../helpers/dom/setInnerHTML";
 import { MessageEntity } from "../layer";
 import { i18n, LangPackKey, _i18n } from "../lib/langPack";
-<<<<<<< HEAD
-import RichTextProcessor from "../lib/richtextprocessor";
-import SetTransition from "./singleTransition";
-
-let init = () => {
-  document.addEventListener('paste', (e) => {
-    if(!findUpAttribute(e.target, 'contenteditable="true"')) {
-      return;
-    }
-
-=======
 import mergeEntities from "../lib/richTextProcessor/mergeEntities";
 import parseEntities from "../lib/richTextProcessor/parseEntities";
 import wrapDraftText from "../lib/richTextProcessor/wrapDraftText";
@@ -40,7 +26,6 @@ let init = () => {
     }
 
     const noLinebreaks = !!input.dataset.noLinebreaks;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     e.preventDefault();
     let text: string, entities: MessageEntity[];
 
@@ -50,8 +35,6 @@ let init = () => {
 
     // @ts-ignore
     let html: string = (e.originalEvent || e).clipboardData.getData('text/html');
-<<<<<<< HEAD
-=======
 
     const filterEntity = (e: MessageEntity) => e._ === 'messageEntityEmoji' || (e._ === 'messageEntityLinebreak' && !noLinebreaks);
     if(noLinebreaks) {
@@ -60,7 +43,6 @@ let init = () => {
       html = html.replace(regExp, '');
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(html.trim()) {
       html = html.replace(/<style([\s\S]*)<\/style>/, '');
       html = html.replace(/<!--([\s\S]*)-->/, '');
@@ -91,33 +73,19 @@ let init = () => {
         entities = richValue.entities;
         usePlainText = false;
   
-<<<<<<< HEAD
-        let entities2 = RichTextProcessor.parseEntities(text);
-        entities2 = entities2.filter(e => e._ === 'messageEntityEmoji' || e._ === 'messageEntityLinebreak');
-        RichTextProcessor.mergeEntities(entities, entities2);
-=======
         let entities2 = parseEntities(text);
         entities2 = entities2.filter(filterEntity);
         mergeEntities(entities, entities2);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
     
     if(usePlainText) {
       text = plainText;
-<<<<<<< HEAD
-      entities = RichTextProcessor.parseEntities(text);
-      entities = entities.filter(e => e._ === 'messageEntityEmoji' || e._ === 'messageEntityLinebreak');
-    }
-
-    const fragment = RichTextProcessor.wrapDraftText(text, {entities});
-=======
       entities = parseEntities(text);
       entities = entities.filter(filterEntity);
     }
 
     const fragment = wrapDraftText(text, {entities});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     text = documentFragmentToHTML(fragment);
     
     window.document.execCommand('insertHTML', false, text);
@@ -158,18 +126,6 @@ export type InputFieldOptions = {
   maxLength?: number, 
   showLengthOn?: number,
   plainText?: true,
-<<<<<<< HEAD
-  animate?: boolean,
-  required?: boolean,
-  canBeEdited?: boolean,
-  validate?: () => boolean
-};
-
-class InputField {
-  public container: HTMLElement;
-  public input: HTMLElement;
-  public inputFake: HTMLElement;
-=======
   required?: boolean,
   canBeEdited?: boolean,
   validate?: () => boolean,
@@ -181,7 +137,6 @@ class InputField {
 export default class InputField {
   public container: HTMLElement;
   public input: HTMLElement;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public label: HTMLLabelElement;
 
   public originalValue: string;
@@ -189,13 +144,6 @@ export default class InputField {
   public required: boolean;
   public validate: () => boolean;
 
-<<<<<<< HEAD
-  //public onLengthChange: (length: number, isOverflow: boolean) => void;
-  // protected wasInputFakeClientHeight: number;
-  // protected showScrollDebounced: () => void;
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   constructor(public options: InputFieldOptions = {}) {
     this.container = document.createElement('div');
     this.container.classList.add('input-field');
@@ -207,17 +155,10 @@ export default class InputField {
       options.showLengthOn = Math.min(40, Math.round(options.maxLength / 3));
     }
 
-<<<<<<< HEAD
-    const {placeholder, maxLength, showLengthOn, name, plainText, canBeEdited = true} = options;
-
-    let label = options.label || options.labelText;
-
-=======
     const {placeholder, maxLength, showLengthOn, name, plainText, canBeEdited = true, autocomplete} = options;
     const label = options.label || options.labelText;
 
     const onInputCallbacks: Array<() => void> = [];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let input: HTMLElement;
     if(!plainText) {
       if(init) {
@@ -229,42 +170,6 @@ export default class InputField {
       `;
 
       input = this.container.firstElementChild as HTMLElement;
-<<<<<<< HEAD
-      const observer = new MutationObserver(() => {
-        //checkAndSetRTL(input);
-
-        if(processInput) {
-          processInput();
-        }
-      });
-
-      // * because if delete all characters there will br left
-      input.addEventListener('input', () => {
-        if(isInputEmpty(input)) {
-          input.innerHTML = '';
-        }
-
-        if(this.inputFake) {
-          this.inputFake.innerHTML = input.innerHTML;
-          this.onFakeInput();
-        }
-      });
-      
-      // ! childList for paste first symbol
-      observer.observe(input, {characterData: true, childList: true, subtree: true});
-
-      if(options.animate) {
-        input.classList.add('scrollable', 'scrollable-y');
-        // this.wasInputFakeClientHeight = 0;
-        // this.showScrollDebounced = debounce(() => this.input.classList.remove('no-scrollbar'), 150, false, true);
-        this.inputFake = document.createElement('div');
-        this.inputFake.setAttribute('contenteditable', 'true');
-        this.inputFake.className = input.className + ' input-field-input-fake';
-      }
-    } else {
-      this.container.innerHTML = `
-      <input type="text" ${name ? `name="${name}"` : ''} autocomplete="off" ${label ? 'required=""' : ''} class="input-field-input">
-=======
       // const observer = new MutationObserver(() => {
       //   //checkAndSetRTL(input);
 
@@ -285,7 +190,6 @@ export default class InputField {
     } else {
       this.container.innerHTML = `
       <input type="text" ${name ? `name="${name}"` : ''} autocomplete="${autocomplete ?? 'off'}" ${label ? 'required=""' : ''} class="input-field-input">
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       `;
 
       input = this.container.firstElementChild as HTMLElement;
@@ -293,15 +197,6 @@ export default class InputField {
     }
 
     input.setAttribute('dir', 'auto');
-<<<<<<< HEAD
-
-    if(placeholder) {
-      _i18n(input, placeholder, undefined, 'placeholder');
-
-      if(this.inputFake) {
-        _i18n(this.inputFake, placeholder, undefined, 'placeholder');
-      }
-=======
     
     if(options.inputMode) {
       input.inputMode = options.inputMode;
@@ -309,7 +204,6 @@ export default class InputField {
 
     if(placeholder) {
       _i18n(input, placeholder, undefined, 'placeholder');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     if(label || placeholder) {
@@ -324,19 +218,11 @@ export default class InputField {
       this.container.append(this.label);
     }
 
-<<<<<<< HEAD
-    let processInput: () => void;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(maxLength) {
       const labelEl = this.container.lastElementChild as HTMLLabelElement;
       let showingLength = false;
 
-<<<<<<< HEAD
-      processInput = () => {
-=======
       const onInput = () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const wasError = input.classList.contains('error');
         // * https://stackoverflow.com/a/54369605 #2 to count emoji as 1 symbol
         const inputLength = plainText ? (input as HTMLInputElement).value.length : [...getRichValue(input, false).value].length;
@@ -356,9 +242,6 @@ export default class InputField {
         }
       };
 
-<<<<<<< HEAD
-      input.addEventListener('input', processInput);
-=======
       onInputCallbacks.push(onInput);
     }
 
@@ -377,7 +260,6 @@ export default class InputField {
       input.addEventListener('input', () => {
         onInputCallbacks.forEach((callback) => callback());
       });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.input = input;
@@ -404,74 +286,22 @@ export default class InputField {
     }
   }
 
-<<<<<<< HEAD
-  public onFakeInput(setHeight = true) {
-    const {scrollHeight: newHeight/* , clientHeight */} = this.inputFake;
-    /* if(this.wasInputFakeClientHeight && this.wasInputFakeClientHeight !== clientHeight) {
-      this.input.classList.add('no-scrollbar'); // ! в сафари может вообще не появиться скролл после анимации, так как ему нужен полный reflow блока с overflow.
-      this.showScrollDebounced();
-    } */
-
-    const currentHeight = +this.input.style.height.replace('px', '');
-    if(currentHeight === newHeight) {
-      return;
-    }
-
-    const TRANSITION_DURATION_FACTOR = 50;
-    const transitionDuration = Math.round(
-      TRANSITION_DURATION_FACTOR * Math.log(Math.abs(newHeight - currentHeight)),
-    );
-
-    // this.wasInputFakeClientHeight = clientHeight;
-    this.input.style.transitionDuration = `${transitionDuration}ms`;
-
-    if(setHeight) {
-      this.input.style.height = newHeight ? newHeight + 'px' : '';
-    }
-
-    const className = 'is-changing-height';
-    SetTransition(this.input, className, true, transitionDuration, () => {
-      this.input.classList.remove(className);
-    });
-  }
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   get value() {
     return this.options.plainText ? (this.input as HTMLInputElement).value : getRichValue(this.input, false).value;
     //return getRichValue(this.input);
   }
 
   set value(value: string) {
-<<<<<<< HEAD
-    this.setValueSilently(value, false);
-=======
     this.setValueSilently(value, true);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     simulateEvent(this.input, 'input');
   }
 
-<<<<<<< HEAD
-  public setValueSilently(value: string, fireFakeInput = true) {
-=======
   public setValueSilently(value: string, fromSet?: boolean) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(this.options.plainText) {
       (this.input as HTMLInputElement).value = value;
     } else {
       this.input.innerHTML = value;
-<<<<<<< HEAD
-      
-      if(this.inputFake) {
-        this.inputFake.innerHTML = value;
-
-        if(fireFakeInput) {
-          this.onFakeInput();
-        }
-      }
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
@@ -489,15 +319,9 @@ export default class InputField {
     return this.isValid() && this.isChanged();
   }
 
-<<<<<<< HEAD
-  public setDraftValue(value = '', silent = false) {
-    if(!this.options.plainText) {
-      value = documentFragmentToHTML(RichTextProcessor.wrapDraftText(value));
-=======
   public setDraftValue(value = '', silent?: boolean) {
     if(!this.options.plainText) {
       value = documentFragmentToHTML(wrapDraftText(value));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     if(silent) {
@@ -507,11 +331,7 @@ export default class InputField {
     }
   }
 
-<<<<<<< HEAD
-  public setOriginalValue(value: InputField['originalValue'] = '', silent = false) {
-=======
   public setOriginalValue(value: InputField['originalValue'] = '', silent?: boolean) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.originalValue = value;
     this.setDraftValue(value, silent);
   }
@@ -520,11 +340,8 @@ export default class InputField {
     if(label) {
       this.label.textContent = '';
       this.label.append(i18n(label, this.options.labelOptions));
-<<<<<<< HEAD
-=======
     } else {
       this.setLabel();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.input.classList.toggle('error', !!(state & InputState.Error));
@@ -535,8 +352,3 @@ export default class InputField {
     this.setState(InputState.Error, label);
   }
 }
-<<<<<<< HEAD
-
-export default InputField;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

@@ -4,50 +4,6 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { Document, InputFileLocation, InputStickerSet, MessagesAllStickers, MessagesFeaturedStickers, MessagesFoundStickerSets, MessagesRecentStickers, MessagesStickers, MessagesStickerSet, PhotoSize, StickerPack, StickerSet, StickerSetCovered } from '../../layer';
-import { Modify } from '../../types';
-import apiManager from '../mtproto/mtprotoworker';
-import rootScope from '../rootScope';
-import appDocsManager, { MyDocument } from './appDocsManager';
-import AppStorage from '../storage';
-import { MOUNT_CLASS_TO } from '../../config/debug';
-import DATABASE_STATE from '../../config/databases/state';
-import lottieLoader from '../rlottie/lottieLoader';
-import mediaSizes from '../../helpers/mediaSizes';
-import { getEmojiToneIndex } from '../../vendor/emoji';
-import RichTextProcessor from '../richtextprocessor';
-import assumeType from '../../helpers/assumeType';
-import fixBase64String from '../../helpers/fixBase64String';
-import IS_WEBM_SUPPORTED from '../../environment/webmSupport';
-import forEachReverse from '../../helpers/array/forEachReverse';
-import findAndSplice from '../../helpers/array/findAndSplice';
-
-const CACHE_TIME = 3600e3;
-
-const EMOJI_SET_LOCAL_ID = 'emoji';
-const EMOJI_ANIMATIONS_SET_LOCAL_ID = 'emojiAnimations';
-const LOCAL_IDS_SET = new Set([
-  EMOJI_SET_LOCAL_ID,
-  EMOJI_ANIMATIONS_SET_LOCAL_ID
-]);
-
-// let TEST_FILE_REFERENCE_REFRESH = true;
-
-export type MyStickerSetInput = {
-  id: StickerSet.stickerSet['id'],
-  access_hash?: StickerSet.stickerSet['access_hash']
-};
-
-export type MyMessagesStickerSet = MessagesStickerSet.messagesStickerSet;
-
-export class AppStickersManager {
-  private storage = new AppStorage<Record<Long, MyMessagesStickerSet>, typeof DATABASE_STATE>(DATABASE_STATE, 'stickerSets');
-
-  private getStickerSetPromises: {[setId: Long]: Promise<MyMessagesStickerSet>};
-  private getStickersByEmoticonsPromises: {[emoticon: string]: Promise<Document[]>};
-
-=======
 import type { MyDocument } from './appDocsManager';
 import { Document, InputFileLocation, InputStickerSet, MessagesAllStickers, MessagesFeaturedStickers, MessagesFoundStickerSets, MessagesRecentStickers, MessagesStickers, MessagesStickerSet, PhotoSize, StickerPack, StickerSet, StickerSetCovered } from '../../layer';
 import { Modify } from '../../types';
@@ -86,7 +42,6 @@ export class AppStickersManager extends AppManager {
   private getStickerSetPromises: {[setId: Long]: Promise<MyMessagesStickerSet>};
   private getStickersByEmoticonsPromises: {[emoticon: string]: Promise<Document[]>};
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private greetingStickers: Document.document[];
   private getGreetingStickersTimeout: number;
   private getGreetingStickersPromise: Promise<void>;
@@ -94,48 +49,6 @@ export class AppStickersManager extends AppManager {
   private sounds: Record<string, MyDocument>;
   private getAnimatedEmojiSoundsPromise: Promise<void>;
   
-<<<<<<< HEAD
-  constructor() {
-    this.getStickerSetPromises = {};
-    this.getStickersByEmoticonsPromises = {};    
-    this.sounds = {};
-
-    this.getAnimatedEmojiStickerSet();
-
-    rootScope.addMultipleEventsListeners({
-      updateNewStickerSet: (update) => {
-        const stickerSet = update.stickerset as MyMessagesStickerSet;
-        this.saveStickerSet(stickerSet, stickerSet.set.id);
-        rootScope.dispatchEvent('stickers_installed', stickerSet.set);
-      }
-    });
-
-    this.getGreetingStickersTimeout = window.setTimeout(() => {
-      this.getGreetingStickersTimeout = undefined;
-      this.getGreetingSticker(true);
-    }, 5000);
-  }
-
-  public getGreetingSticker(justPreload = false) {
-    if(this.getGreetingStickersTimeout) {
-      clearTimeout(this.getGreetingStickersTimeout);
-      this.getGreetingStickersTimeout = undefined;
-    }
-
-    if(!this.getGreetingStickersPromise) {
-      this.getGreetingStickersPromise = this.getStickersByEmoticon('👋⭐️', false).then(docs => {
-        if(!docs.length) throw 'NO_STICKERS';
-        this.greetingStickers = docs.slice() as Document.document[];
-        this.greetingStickers.sort((a, b) => Math.random() - Math.random());
-      });
-    }
-    
-    return this.getGreetingStickersPromise.then(() => {
-      let doc: Document.document;
-      if(!justPreload) {
-        doc = this.greetingStickers.shift();
-        this.greetingStickers.push(doc);
-=======
   protected after() {
     this.getStickerSetPromises = {};
     this.getStickersByEmoticonsPromises = {};
@@ -165,20 +78,10 @@ export class AppStickersManager extends AppManager {
         this.getRecentStickers().then(({stickers}) => {
           this.rootScope.dispatchEvent('stickers_recent', stickers as MyDocument[]);
         });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
-
-      appDocsManager.downloadDoc(this.greetingStickers[0]); // preload next sticker
-
-      return doc;
     });
   }
 
-<<<<<<< HEAD
-  public saveStickers(docs: Document[]) {
-    forEachReverse(docs, (doc, idx) => {
-      doc = appDocsManager.saveDoc(doc);
-=======
   public getGreetingSticker(justPreload = false) {
     if(this.getGreetingStickersTimeout) {
       clearTimeout(this.getGreetingStickersTimeout);
@@ -209,7 +112,6 @@ export class AppStickersManager extends AppManager {
   private saveStickers(docs: Document[]) {
     forEachReverse(docs, (doc, idx) => {
       doc = this.appDocsManager.saveDoc(doc);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       if(!doc) docs.splice(idx, 1);
       else docs[idx] = doc;
@@ -240,11 +142,7 @@ export class AppStickersManager extends AppManager {
       }
 
       try {
-<<<<<<< HEAD
-        const stickerSet = await apiManager.invokeApi('messages.getStickerSet', {
-=======
         const stickerSet = await this.apiManager.invokeApi('messages.getStickerSet', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           stickerset: this.getStickerSetInput(set),
           hash: 0
         }) as MyMessagesStickerSet;
@@ -273,14 +171,10 @@ export class AppStickersManager extends AppManager {
 
   public getAnimatedEmojiSounds(overwrite?: boolean) {
     if(this.getAnimatedEmojiSoundsPromise && !overwrite) return this.getAnimatedEmojiSoundsPromise;
-<<<<<<< HEAD
-    const promise = this.getAnimatedEmojiSoundsPromise = Promise.resolve(apiManager.getAppConfig(overwrite)).then(appConfig => {
-=======
     const promise = this.getAnimatedEmojiSoundsPromise = Promise.all([
       this.apiManager.getAppConfig(overwrite),
       this.apiManager.getConfig()
     ]).then(([appConfig, config]) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.getAnimatedEmojiSoundsPromise !== promise) {
         return;
       }
@@ -298,11 +192,7 @@ export class AppStickersManager extends AppManager {
         //   sound.access_hash += '999';
         // }
         
-<<<<<<< HEAD
-        const doc = appDocsManager.saveDoc({
-=======
         const doc = this.appDocsManager.saveDoc({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           _: 'document',
           pFlags: {},
           flags: 0,
@@ -316,16 +206,9 @@ export class AppStickersManager extends AppManager {
             }
           }],
           date: 0,
-<<<<<<< HEAD
-          dc_id: rootScope.config.this_dc,
-          file_reference: bytes,
-          mime_type: 'audio/ogg',
-          size: 1
-=======
           dc_id: config.this_dc,
           file_reference: bytes,
           mime_type: 'audio/ogg',
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           // size: 101010 // test loading everytime
         }, {
           type: 'emojiesSounds'
@@ -345,11 +228,7 @@ export class AppStickersManager extends AppManager {
   public async getRecentStickers(): Promise<Modify<MessagesRecentStickers.messagesRecentStickers, {
     stickers: Document[]
   }>> {
-<<<<<<< HEAD
-    const res = await apiManager.invokeApiHashable({
-=======
     const res = await this.apiManager.invokeApiHashable({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       method: 'messages.getRecentStickers',
       processResult: (res) => {
         assumeType<MessagesRecentStickers.messagesRecentStickers>(res);
@@ -365,13 +244,6 @@ export class AppStickersManager extends AppManager {
   private cleanEmoji(emoji: string) {
     return emoji.replace(/\ufe0f/g, '').replace(/🏻|🏼|🏽|🏾|🏿/g, '');
   }
-<<<<<<< HEAD
-
-  public getAnimatedEmojiSticker(emoji: string, isAnimation?: boolean) {
-    const stickerSet = this.storage.getFromCache(isAnimation ? EMOJI_ANIMATIONS_SET_LOCAL_ID : EMOJI_SET_LOCAL_ID);
-    if(!stickerSet || !stickerSet.documents) return undefined;
-
-=======
 
   public getAnimatedEmojiSticker(emoji: string, isAnimation?: boolean) {
     const id = isAnimation ? EMOJI_ANIMATIONS_SET_LOCAL_ID : EMOJI_SET_LOCAL_ID;
@@ -379,7 +251,6 @@ export class AppStickersManager extends AppManager {
     // const stickerSet = await this.getStickerSet({id});
     if(!stickerSet || !stickerSet.documents) return;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(isAnimation) {
       if(['🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎'].includes(emoji)) {
         emoji = '❤️';
@@ -387,10 +258,6 @@ export class AppStickersManager extends AppManager {
     }
 
     emoji = this.cleanEmoji(emoji);
-<<<<<<< HEAD
-    const pack = stickerSet.packs.find(p => p.emoticon === emoji);
-    return pack ? appDocsManager.getDoc(pack.documents[0]) : undefined;
-=======
     const pack = stickerSet.packs.find((p) => p.emoticon === emoji);
     return pack ? this.appDocsManager.getDoc(pack.documents[0]) : undefined;
   }
@@ -432,64 +299,9 @@ export class AppStickersManager extends AppManager {
         return {doc, sound};
       });
     });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
-  }
-
-  public getAnimatedEmojiSoundDocument(emoji: string) {
-    return this.sounds[this.cleanEmoji(emoji)];
-  }
-
-  public preloadAnimatedEmojiSticker(emoji: string, width?: number, height?: number) {
-    const preloadEmojiPromise = this.getAnimatedEmojiStickerSet().then(() => {
-      const doc = this.getAnimatedEmojiSticker(emoji);
-      if(doc) {
-        return appDocsManager.downloadDoc(doc)
-        .then(async(blob) => {
-          const mediaSize = mediaSizes.active.emojiSticker;
-          const toneIndex = getEmojiToneIndex(emoji);
-          const animation = await lottieLoader.loadAnimationWorker({
-            container: undefined,
-            animationData: blob,
-            width: width ?? mediaSize.width,
-            height: height ?? mediaSize.height,
-            name: 'doc' + doc.id,
-            autoplay: false,
-            loop: false,
-            toneIndex
-          }, 'none');
-
-          animation.addEventListener('firstFrame', () => {
-            appDocsManager.saveLottiePreview(doc, animation.canvas, toneIndex);
-            animation.remove();
-          }, {once: true});
-        });
-      }
-    });
-    
-    return Promise.all([
-      preloadEmojiPromise,
-      this.preloadAnimatedEmojiStickerAnimation(emoji)
-    ]);
-  }
-
-  public preloadAnimatedEmojiStickerAnimation(emoji: string) {
-    return this.getAnimatedEmojiStickerSet().then(() => {
-      const doc = this.getAnimatedEmojiSticker(emoji, true);
-      if(doc) {
-        const soundDoc = this.getAnimatedEmojiSoundDocument(emoji);
-        return Promise.all([
-          appDocsManager.downloadDoc(doc),
-          soundDoc ? appDocsManager.downloadDoc(soundDoc) : undefined
-        ]);
-      }
-    });
   }
   
-<<<<<<< HEAD
-  public saveStickerSet(res: Omit<MessagesStickerSet.messagesStickerSet, '_'>, id: DocId) {
-=======
   private saveStickerSet(res: Omit<MessagesStickerSet.messagesStickerSet, '_'>, id: DocId) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //console.log('stickers save set', res);w
 
     const newSet: MessagesStickerSet = {
@@ -515,11 +327,7 @@ export class AppStickersManager extends AppManager {
   }
 
   public getStickerSetThumbDownloadOptions(stickerSet: StickerSet.stickerSet) {
-<<<<<<< HEAD
-    const thumb = stickerSet.thumbs.find(thumb => thumb._ === 'photoSize') as PhotoSize.photoSize;
-=======
     const thumb = stickerSet.thumbs.find((thumb) => thumb._ === 'photoSize') as PhotoSize.photoSize;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const dcId = stickerSet.thumb_dc_id;
 
     const isAnimated = stickerSet.pFlags?.animated;
@@ -576,30 +384,18 @@ export class AppStickersManager extends AppManager {
   }
 
   public async getFeaturedStickers() {
-<<<<<<< HEAD
-    const res = await apiManager.invokeApiHashable({
-=======
     const res = await this.apiManager.invokeApiHashable({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       method: 'messages.getFeaturedStickers',
       processResult: (res) => {
         assumeType<MessagesFeaturedStickers.messagesFeaturedStickers>(res);
 
         forEachReverse(res.sets, (covered, idx, arr) => {
-<<<<<<< HEAD
-          if(covered.set.pFlags.videos && !IS_WEBM_SUPPORTED) {
-=======
           if(covered.set.pFlags.videos && !getEnvironment().IS_WEBM_SUPPORTED) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             arr.splice(idx, 1);
           }
         });
 
-<<<<<<< HEAD
-        res.sets.forEach(covered => {
-=======
         res.sets.forEach((covered) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.saveStickerSet({set: covered.set, documents: [], packs: []}, covered.set.id);
         });
 
@@ -620,11 +416,7 @@ export class AppStickersManager extends AppManager {
 
       if(res) {
         delete set.installed_date;
-<<<<<<< HEAD
-        rootScope.dispatchEvent('stickers_deleted', set);
-=======
         this.rootScope.dispatchEvent('stickers_deleted', set);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.storage.delete(set.id, true);
         return true;
       }
@@ -636,11 +428,7 @@ export class AppStickersManager extends AppManager {
 
       if(res) {
         set.installed_date = Date.now() / 1000 | 0;
-<<<<<<< HEAD
-        rootScope.dispatchEvent('stickers_installed', set);
-=======
         this.rootScope.dispatchEvent('stickers_installed', set);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return true;
       }
     }
@@ -650,11 +438,7 @@ export class AppStickersManager extends AppManager {
 
   public async searchStickerSets(query: string, excludeFeatured = true) {
     const flags = excludeFeatured ? 1 : 0;
-<<<<<<< HEAD
-    const res = await apiManager.invokeApiHashable({
-=======
     const res = await this.apiManager.invokeApiHashable({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       method: 'messages.searchStickerSets', 
       params: {
         flags,
@@ -665,20 +449,12 @@ export class AppStickersManager extends AppManager {
         assumeType<MessagesFoundStickerSets.messagesFoundStickerSets>(res);
 
         forEachReverse(res.sets, (covered, idx, arr) => {
-<<<<<<< HEAD
-          if(covered.set.pFlags.videos && !IS_WEBM_SUPPORTED) {
-=======
           if(covered.set.pFlags.videos && !getEnvironment().IS_WEBM_SUPPORTED) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             arr.splice(idx, 1);
           }
         });
 
-<<<<<<< HEAD
-        res.sets.forEach(covered => {
-=======
         res.sets.forEach((covered) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.saveStickerSet({set: covered.set, documents: [], packs: []}, covered.set.id);
         });
 
@@ -691,11 +467,7 @@ export class AppStickersManager extends AppManager {
     for(let id in cache) {
       const {set} = cache[id];
 
-<<<<<<< HEAD
-      if(set.title.toLowerCase().includes(query.toLowerCase()) && !res.sets.find(c => c.set.id === set.id)) {
-=======
       if(set.title.toLowerCase().includes(query.toLowerCase()) && !res.sets.find((c) => c.set.id === set.id)) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         foundSaved.push({_: 'stickerSetCovered', set, cover: null});
       }
     }
@@ -704,37 +476,6 @@ export class AppStickersManager extends AppManager {
   }
 
   public getAllStickers() {
-<<<<<<< HEAD
-    return apiManager.invokeApiHashable({
-      method: 'messages.getAllStickers', 
-      processResult: (allStickers) => {
-        assumeType<MessagesAllStickers.messagesAllStickers>(allStickers);
-
-        forEachReverse(allStickers.sets, (stickerSet, idx, arr) => {
-          if(stickerSet.pFlags.videos && !IS_WEBM_SUPPORTED) {
-            arr.splice(idx, 1);
-          }
-        });
-
-        return allStickers;
-      }
-    });
-  }
-
-  public preloadStickerSets() {
-    return this.getAllStickers().then(allStickers => {
-      return Promise.all((allStickers as MessagesAllStickers.messagesAllStickers).sets.map(set => this.getStickerSet(set, {useCache: true})));
-    });
-  }
-
-  // TODO: detect "🤷" by "🤷‍♂️"
-  public getStickersByEmoticon(emoticon: string, includeOurStickers = true) {
-    emoticon = RichTextProcessor.fixEmoji(emoticon);
-    if(this.getStickersByEmoticonsPromises[emoticon]) return this.getStickersByEmoticonsPromises[emoticon];
-
-    return this.getStickersByEmoticonsPromises[emoticon] = Promise.all([
-      apiManager.invokeApiHashable({
-=======
     return this.apiManager.invokeApiHashable({
       method: 'messages.getAllStickers', 
       processResult: (allStickers) => {
@@ -764,7 +505,6 @@ export class AppStickersManager extends AppManager {
 
     return this.getStickersByEmoticonsPromises[emoticon] = Promise.all([
       this.apiManager.invokeApiHashable({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         method: 'messages.getStickers', 
         params: {
           emoticon
@@ -781,11 +521,7 @@ export class AppStickersManager extends AppManager {
 
       const iteratePacks = (packs: StickerPack.stickerPack[]) => {
         for(const pack of packs) {
-<<<<<<< HEAD
-          const packEmoticon = RichTextProcessor.fixEmoji(pack.emoticon);
-=======
           const packEmoticon = fixEmoji(pack.emoticon);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(packEmoticon.includes(emoticon)) {
             for(const docId of pack.documents) {
               const doc = this.appDocsManager.getDoc(docId);
@@ -798,11 +534,7 @@ export class AppStickersManager extends AppManager {
       if(recentStickers) {
         iteratePacks(recentStickers.packs);
         const stickers = recentStickers.stickers;
-<<<<<<< HEAD
-        [cachedStickersAnimated, cachedStickersStatic].forEach(s => {
-=======
         [cachedStickersAnimated, cachedStickersStatic].forEach((s) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           s.sort((a, b) => stickers.indexOf(a) - stickers.indexOf(b));
         });
       }
@@ -811,19 +543,11 @@ export class AppStickersManager extends AppManager {
         iteratePacks(set.packs);
       }
 
-<<<<<<< HEAD
-      /* const entities = RichTextProcessor.parseEntities(emoticon);
-      if(entities.length === 1) {
-        [cachedStickersAnimated, cachedStickersStatic].forEach(s => {
-          forEachReverse(s, (doc, idx) => {
-            const docEmoticon = RichTextProcessor.fixEmoji(doc.stickerEmojiRaw);
-=======
       /* const entities = parseEntities(emoticon);
       if(entities.length === 1) {
         [cachedStickersAnimated, cachedStickersStatic].forEach((s) => {
           forEachReverse(s, (doc, idx) => {
             const docEmoticon = fixEmoji(doc.stickerEmojiRaw);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(docEmoticon !== emoticon) {
               s.splice(idx, 1);
             }
@@ -831,17 +555,10 @@ export class AppStickersManager extends AppManager {
         });
       } */
 
-<<<<<<< HEAD
-      const stickers = [...new Set(cachedStickersAnimated.concat(cachedStickersStatic, foundStickers))]/* .filter(doc => !doc.animated) */;
-
-      forEachReverse(stickers, (sticker, idx, arr) => {
-        if(sticker.sticker === 3 && !IS_WEBM_SUPPORTED) {
-=======
       const stickers = [...new Set(cachedStickersAnimated.concat(cachedStickersStatic, foundStickers))]/* .filter((doc) => !doc.animated) */;
 
       forEachReverse(stickers, (sticker, idx, arr) => {
         if(sticker.sticker === 3 && !getEnvironment().IS_WEBM_SUPPORTED) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           arr.splice(idx, 1);
         }
       });
@@ -849,28 +566,6 @@ export class AppStickersManager extends AppManager {
       return stickers;
     });
   }
-<<<<<<< HEAD
-
-  public pushRecentSticker(doc: MyDocument) {
-    const docEmoticon = RichTextProcessor.fixEmoji(doc.stickerEmojiRaw);
-    for(const emoticon in this.getStickersByEmoticonsPromises) {
-      const promise = this.getStickersByEmoticonsPromises[emoticon];
-      promise.then(stickers => {
-        const _doc = findAndSplice(stickers, _doc => _doc.id === doc.id);
-        if(_doc) {
-          stickers.unshift(_doc);
-        } else if(emoticon.includes(docEmoticon)) {
-          stickers.unshift(doc);
-        }
-      });
-    }
-  }
-}
-
-const appStickersManager = new AppStickersManager();
-MOUNT_CLASS_TO.appStickersManager = appStickersManager;
-export default appStickersManager;
-=======
 
   public pushRecentSticker(docId: DocId) {
     const doc = this.appDocsManager.getDoc(docId);
@@ -893,4 +588,3 @@ export default appStickersManager;
     return this.apiManager.invokeApi('messages.clearRecentStickers');
   }
 }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

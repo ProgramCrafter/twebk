@@ -67,13 +67,10 @@
   &:not(.is-spoiler-visible) {
     .spoiler {
       cursor: pointer;
-<<<<<<< HEAD
-=======
 
       &-text {
         pointer-events: none;
       }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 }

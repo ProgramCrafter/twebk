@@ -7,10 +7,6 @@
 import { SettingSection } from "..";
 import { randomLong } from "../../../helpers/random";
 import I18n from "../../../lib/langPack";
-<<<<<<< HEAD
-import apiManager from "../../../lib/mtproto/mtprotoworker";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import RadioField from "../../radioField";
 import Row, { RadioFormFromRows } from "../../row";
 import { SliderSuperTab } from "../../slider"
@@ -25,13 +21,6 @@ export default class AppLanguageTab extends SliderSuperTab {
 
     const radioRows: Map<string, Row> = new Map();
 
-<<<<<<< HEAD
-    const promise = apiManager.invokeApiCacheable('langpack.getLanguages', {
-      lang_pack: 'macos'
-    }).then((languages) => {
-      const random = randomLong();
-      languages.forEach((language) => {
-=======
     const promise = Promise.all([
       this.managers.apiManager.invokeApiCacheable('langpack.getLanguages', {
         lang_pack: 'web'
@@ -48,7 +37,6 @@ export default class AppLanguageTab extends SliderSuperTab {
         if(rendered.has(language.lang_code)) return;
         rendered.add(language.lang_code);
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const row = new Row({
           radioField: new RadioField({
             text: language.name, 
@@ -62,17 +50,10 @@ export default class AppLanguageTab extends SliderSuperTab {
       });
 
       const form = RadioFormFromRows([...radioRows.values()], (value) => {
-<<<<<<< HEAD
-        I18n.getLangPack(value);
-      });
-  
-      I18n.getCacheLangPack().then(langPack => {
-=======
         I18n.getLangPack(value, webLangCodes.includes(value));
       });
   
       I18n.getCacheLangPack().then((langPack) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const row = radioRows.get(langPack.lang_code);
         if(!row) {
           console.error('no row', row, langPack);

@@ -12,11 +12,8 @@ import RadioForm from "./radioForm";
 import { i18n, LangPackKey } from "../lib/langPack";
 import replaceContent from "../helpers/dom/replaceContent";
 import setInnerHTML from "../helpers/dom/setInnerHTML";
-<<<<<<< HEAD
-=======
 import ListenerSetter from "../helpers/listenerSetter";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class Row {
   public container: HTMLElement;
@@ -45,13 +42,9 @@ export default class Row {
     clickable: boolean | ((e: Event) => void),
     navigationTab: SliderSuperTab,
     havePadding: boolean,
-<<<<<<< HEAD
-    noRipple: boolean
-=======
     noRipple: boolean,
     noWrap: boolean,
     listenerSetter: ListenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }> = {}) {
     this.container = document.createElement(options.radioField || options.checkboxField ? 'label' : 'div');
     this.container.classList.add('row');
@@ -91,18 +84,12 @@ export default class Row {
         }
 
         if(!options.noCheckboxSubtitle && !isToggle) {
-<<<<<<< HEAD
-          this.checkboxField.input.addEventListener('change', () => {
-            replaceContent(this.subtitle, i18n(this.checkboxField.input.checked ? 'Checkbox.Enabled' : 'Checkbox.Disabled'));
-          });
-=======
           const onChange = () => {
             replaceContent(this.subtitle, i18n(this.checkboxField.input.checked ? 'Checkbox.Enabled' : 'Checkbox.Disabled'));
           };
 
           if(options.listenerSetter) options.listenerSetter.add(this.checkboxField.input)('change', onChange);
           else this.checkboxField.input.addEventListener('change', onChange);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }
 
@@ -124,10 +111,7 @@ export default class Row {
       this.title = document.createElement('div');
       this.title.classList.add('row-title');
       this.title.setAttribute('dir', 'auto');
-<<<<<<< HEAD
-=======
       if(options.noWrap) this.title.classList.add('no-wrap');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(options.title) {
         if(typeof(options.title) === 'string') {
           this.title.innerHTML = options.title;
@@ -173,17 +157,10 @@ export default class Row {
 
     if(options.clickable || options.radioField || options.checkboxField) {
       if(typeof(options.clickable) === 'function') {
-<<<<<<< HEAD
-        this.container.addEventListener('click', (e) => {
-          if(this.freezed) return;
-          (options.clickable as any)(e);
-        });
-=======
         attachClickEvent(this.container, (e) => {
           if(this.freezed) return;
           (options.clickable as any)(e);
         }, {listenerSetter: options.listenerSetter});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       this.container.classList.add('row-clickable', 'hover-effect');
@@ -215,9 +192,5 @@ export default class Row {
 }
 
 export const RadioFormFromRows = (rows: Row[], onChange: (value: string) => void) => {
-<<<<<<< HEAD
-  return RadioForm(rows.map(r => ({container: r.container, input: r.radioField.input})), onChange);
-=======
   return RadioForm(rows.map((r) => ({container: r.container, input: r.radioField.input})), onChange);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };

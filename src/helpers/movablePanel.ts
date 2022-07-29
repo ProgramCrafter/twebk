@@ -5,11 +5,7 @@
  */
 
 import MovableElement, { MovableElementOptions, MovableState } from "../components/movableElement";
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
-=======
 import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import ListenerSetter from "./listenerSetter";
 import mediaSizes, { ScreenSize } from "./mediaSizes";
 import safeAssign from "./object/safeAssign";

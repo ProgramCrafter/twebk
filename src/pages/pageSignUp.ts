@@ -9,29 +9,13 @@ import type { InputFile } from '../layer';
 import type { AuthState } from '../types';
 import Button from '../components/button';
 import InputField from '../components/inputField';
-<<<<<<< HEAD
-import { putPreloader } from '../components/misc';
-import PopupAvatar from '../components/popups/avatar';
-import appStateManager from '../lib/appManagers/appStateManager';
-import I18n, { i18n } from '../lib/langPack';
-//import apiManager from '../lib/mtproto/apiManager';
-import apiManager from '../lib/mtproto/mtprotoworker';
-import RichTextProcessor from '../lib/richtextprocessor';
-=======
 import { putPreloader } from '../components/putPreloader';
 import PopupAvatar from '../components/popups/avatar';
 import I18n, { i18n } from '../lib/langPack';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import LoginPage from './loginPage';
 import Page from './page';
 import blurActiveElement from '../helpers/dom/blurActiveElement';
 import replaceContent from '../helpers/dom/replaceContent';
-<<<<<<< HEAD
-
-let authCode: AuthState.signUp['authCode'] = null;
-
-const onFirstMount = () => import('../lib/appManagers/appProfileManager').then(imported => {
-=======
 import PopupElement from '../components/popups';
 import wrapEmojiText from '../lib/richTextProcessor/wrapEmojiText';
 import rootScope from '../lib/rootScope';
@@ -39,7 +23,6 @@ import rootScope from '../lib/rootScope';
 let authCode: AuthState.signUp['authCode'] = null;
 
 const onFirstMount = () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   const page = new LoginPage({
     className: 'page-signUp',
     withInputWrapper: true,
@@ -60,17 +43,9 @@ const onFirstMount = () => {
 
   page.imageDiv.append(avatarPreview, addIco);
   
-<<<<<<< HEAD
-  const appProfileManager = imported.default;
-
-  let uploadAvatar: () => CancellablePromise<InputFile>;
-  page.imageDiv.addEventListener('click', () => {
-    new PopupAvatar().open(avatarPreview, (_uploadAvatar) => {
-=======
   let uploadAvatar: () => CancellablePromise<InputFile>;
   page.imageDiv.addEventListener('click', () => {
     PopupElement.createPopup(PopupAvatar).open(avatarPreview, (_uploadAvatar) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       uploadAvatar = _uploadAvatar;
     });
   });
@@ -83,11 +58,7 @@ const onFirstMount = () => {
       ? (name + ' ' + lastName).trim() 
       : '';
     
-<<<<<<< HEAD
-    if(fullName) replaceContent(page.title, RichTextProcessor.wrapEmojiText(fullName));
-=======
     if(fullName) replaceContent(page.title, wrapEmojiText(fullName));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     else replaceContent(page.title, i18n('YourName'));
   };
 
@@ -101,11 +72,7 @@ const onFirstMount = () => {
     uploadAvatar().then((inputFile) => {
       //console.log('uploaded smthn', inputFile);
   
-<<<<<<< HEAD
-      appProfileManager.uploadProfilePhoto(inputFile).then(resolve, reject);
-=======
       rootScope.managers.appProfileManager.uploadProfilePhoto(inputFile).then(resolve, reject);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, reject);
   });
 
@@ -155,27 +122,16 @@ const onFirstMount = () => {
     btnI18n.update({key: 'PleaseWait'});
     const preloader = putPreloader(this);
 
-<<<<<<< HEAD
-    apiManager.invokeApi('auth.signUp', params)
-=======
     rootScope.managers.apiManager.invokeApi('auth.signUp', params)
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .then((response) => {
       //console.log('auth.signUp response:', response);
       
       switch(response._) {
         case 'auth.authorization': // success
-<<<<<<< HEAD
-          apiManager.setUser(response.user);
-
-          sendAvatar().finally(() => {
-            import('./pageIm').then(m => {
-=======
           rootScope.managers.apiManager.setUser(response.user);
 
           sendAvatar().finally(() => {
             import('./pageIm').then((m) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               m.default.mount();
             });
           });
@@ -190,11 +146,7 @@ const onFirstMount = () => {
 
       /* (document.body.getElementsByClassName('page-sign')[0] as HTMLDivElement).style.display = 'none';
       pageAuthCode(Object.assign(code, {phoneNumber})); */
-<<<<<<< HEAD
-    }).catch(err => {
-=======
     }).catch((err) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.removeAttribute('disabled');
       preloader.remove();
 
@@ -210,20 +162,12 @@ const onFirstMount = () => {
   return new Promise((resolve) => {
     window.requestAnimationFrame(resolve);
   });
-<<<<<<< HEAD
-});
-=======
 };
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const page = new Page('page-signUp', true, onFirstMount, (_authCode: typeof authCode) => {
   authCode = _authCode;
 
-<<<<<<< HEAD
-  appStateManager.pushToState('authState', {_: 'authStateSignUp', authCode: _authCode});
-=======
   rootScope.managers.appStateManager.pushToState('authState', {_: 'authStateSignUp', authCode: _authCode});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 });
 
 export default page;

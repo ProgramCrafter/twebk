@@ -9,25 +9,6 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { FileURLType, getFileNameByLocation, getFileURL } from '../../helpers/fileName';
-import { Document, InputFileLocation, InputMedia, PhotoSize } from '../../layer';
-import referenceDatabase, { ReferenceContext } from '../mtproto/referenceDatabase';
-import opusDecodeController from '../opusDecodeController';
-import { RichTextProcessor } from '../richtextprocessor';
-import appDownloadManager, { DownloadBlob } from './appDownloadManager';
-import appPhotosManager from './appPhotosManager';
-import blur from '../../helpers/blur';
-import apiManager from '../mtproto/mtprotoworker';
-import { MOUNT_CLASS_TO } from '../../config/debug';
-import { getFullDate } from '../../helpers/date';
-import rootScope from '../rootScope';
-import IS_WEBP_SUPPORTED from '../../environment/webpSupport';
-import IS_WEBM_SUPPORTED from '../../environment/webmSupport';
-import defineNotNumerableProperties from '../../helpers/object/defineNotNumerableProperties';
-import isObject from '../../helpers/object/isObject';
-import safeReplaceArrayInObject from '../../helpers/object/safeReplaceArrayInObject';
-=======
 import { AccountWallPapers, Document, MessagesSavedGifs, PhotoSize, WallPaper } from '../../layer';
 import { ReferenceContext } from '../mtproto/referenceDatabase';
 import { getFullDate } from '../../helpers/date';
@@ -42,7 +23,6 @@ import MTProtoMessagePort from '../mtproto/mtprotoMessagePort';
 import getDocumentInput from './utils/docs/getDocumentInput';
 import getDocumentURL from './utils/docs/getDocumentURL';
 import type { ThumbCache } from '../storages/thumbs';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type MyDocument = Document.document;
 
@@ -54,18 +34,6 @@ const EXTENSION_MIME_TYPE_MAP = {
   pdf: 'application/pdf',
 };
 
-<<<<<<< HEAD
-export class AppDocsManager {
-  private docs: {[docId: DocId]: MyDocument} = {};
-  private savingLottiePreview: {[docId: DocId]: true} = {};
-  public downloading: Map<DocId, DownloadBlob> = new Map();
-
-  constructor() {
-    apiManager.onServiceWorkerFail = this.onServiceWorkerFail;
-  }
-
-  public onServiceWorkerFail = () => {
-=======
 type WallPaperId = WallPaper.wallPaper['id'];
 
 let uploadWallPaperTempId = 0;
@@ -90,30 +58,19 @@ export class AppDocsManager extends AppManager {
   }
 
   private onServiceWorkerFail = () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     for(const id in this.docs) {
       const doc = this.docs[id];
 
       if(doc.supportsStreaming) {
         delete doc.supportsStreaming;
-<<<<<<< HEAD
-        const cacheContext = appDownloadManager.getCacheContext(doc);
-        delete cacheContext.url;
-=======
         this.thumbsStorage.deleteCacheContext(doc);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   };
 
   public saveDoc(doc: Document, context?: ReferenceContext): MyDocument {
-<<<<<<< HEAD
-    if(doc._ === 'documentEmpty') {
-      return undefined;
-=======
     if(!doc || doc._ === 'documentEmpty') {
       return;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     const oldDoc = this.docs[doc.id];
@@ -194,19 +151,11 @@ export class AppDocsManager extends AppManager {
           }
 
           // * there can be no thumbs, then it is a document
-<<<<<<< HEAD
-          if(/* apiDoc.thumbs &&  */doc.mime_type === 'image/webp' && (doc.thumbs || IS_WEBP_SUPPORTED)) {
-            doc.type = 'sticker';
-            doc.sticker = 1;
-          } else if(doc.mime_type === 'video/webm') {
-            if(!IS_WEBM_SUPPORTED) {
-=======
           if(/* apiDoc.thumbs &&  */doc.mime_type === 'image/webp' && (doc.thumbs || getEnvironment().IS_WEBP_SUPPORTED)) {
             doc.type = 'sticker';
             doc.sticker = 1;
           } else if(doc.mime_type === 'video/webm') {
             if(!getEnvironment().IS_WEBM_SUPPORTED) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               return;
             }
 
@@ -270,15 +219,6 @@ export class AppDocsManager extends AppManager {
       doc.file_name = doc.type + '_' + getFullDate(new Date(doc.date * 1000), {monthAsNumber: true, leadingZero: true}).replace(/[:\.]/g, '-').replace(', ', '_');
     }
 
-<<<<<<< HEAD
-    if(apiManager.isServiceWorkerOnline()) {
-      if((doc.type === 'gif' && doc.size > 8e6) || doc.type === 'audio' || doc.type === 'video'/*  || doc.mime_type.indexOf('video/') === 0 */) {
-        doc.supportsStreaming = true;
-        
-        const cacheContext = appDownloadManager.getCacheContext(doc);
-        if(!cacheContext.url) {
-          cacheContext.url = this.getFileURL(doc);
-=======
     if(isServiceWorkerOnline()) {
       if((doc.type === 'gif' && doc.size > 8e6) || doc.type === 'audio' || doc.type === 'video'/*  || doc.mime_type.indexOf('video/') === 0 */) {
         doc.supportsStreaming = true;
@@ -286,7 +226,6 @@ export class AppDocsManager extends AppManager {
         const cacheContext = this.thumbsStorage.getCacheContext(doc);
         if(!cacheContext.url) {
           this.thumbsStorage.setCacheContextURL(doc, undefined, getDocumentURL(doc), 0);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }
     }
@@ -320,139 +259,6 @@ export class AppDocsManager extends AppManager {
     return isObject<MyDocument>(docId) ? docId : this.docs[docId];
   }
 
-<<<<<<< HEAD
-  public getMediaInput(doc: MyDocument): InputMedia.inputMediaDocument {
-    return {
-      _: 'inputMediaDocument',
-      id: {
-        _: 'inputDocument',
-        id: doc.id,
-        access_hash: doc.access_hash,
-        file_reference: doc.file_reference
-      },
-      ttl_seconds: 0
-    };
-  }
-
-  public getInput(doc: MyDocument, thumbSize?: string): InputFileLocation.inputDocumentFileLocation {
-    return {
-      _: 'inputDocumentFileLocation',
-      id: doc.id,
-      access_hash: doc.access_hash,
-      file_reference: doc.file_reference,
-      thumb_size: thumbSize
-    };
-  }
-
-  public getFileDownloadOptions(doc: MyDocument, thumb?: PhotoSize.photoSize, queueId?: number, onlyCache?: boolean) {
-    const inputFileLocation = this.getInput(doc, thumb?.type);
-
-    let mimeType: string;
-    if(thumb) {
-      mimeType = doc.sticker ? 'image/webp' : 'image/jpeg'/* doc.mime_type */;
-    } else {
-      mimeType = doc.mime_type || 'application/octet-stream';
-    }
-
-    return {
-      dcId: doc.dc_id, 
-      location: inputFileLocation, 
-      size: thumb ? thumb.size : doc.size, 
-      mimeType,
-      fileName: doc.file_name,
-      queueId,
-      onlyCache
-    };
-  }
-
-  public getFileURL(doc: MyDocument, download = false, thumb?: PhotoSize.photoSize) {
-    let type: FileURLType;
-    if(download) {
-      type = 'download';
-    } else if(thumb) {
-      type = 'thumb';
-    } else if(doc.supportsStreaming) {
-      type = 'stream';
-    } else {
-      type = 'document';
-    }
-
-    return getFileURL(type, this.getFileDownloadOptions(doc, thumb));
-  }
-
-  public getThumbURL(doc: MyDocument, thumb: PhotoSize.photoSize | PhotoSize.photoCachedSize | PhotoSize.photoStrippedSize) {
-    let promise: Promise<any> = Promise.resolve();
-
-    const cacheContext = appDownloadManager.getCacheContext(doc, thumb.type);
-    if(!cacheContext.url) {
-      if('bytes' in thumb) {
-        const result = blur(appPhotosManager.getPreviewURLFromBytes(thumb.bytes, !!doc.sticker));
-        promise = result.promise.then(() => {
-          cacheContext.url = result.canvas.toDataURL();
-        }) as any;
-      } else {
-        //return this.getFileURL(doc, false, thumb);
-        promise = appPhotosManager.preloadPhoto(doc, thumb) as any;
-      }
-    }
-
-    return {thumb, cacheContext, promise};
-  }
-
-  public getThumb(doc: MyDocument, tryNotToUseBytes = true) {
-    const thumb = appPhotosManager.choosePhotoSize(doc, 0, 0, !tryNotToUseBytes);
-    if(thumb._ === 'photoSizeEmpty') return null;
-    return this.getThumbURL(doc, thumb as any);
-  }
-
-  public getInputFileName(doc: MyDocument, thumbSize?: string) {
-    return getFileNameByLocation(this.getInput(doc, thumbSize), {fileName: doc.file_name});
-  }
-
-  public downloadDoc(doc: MyDocument, queueId?: number, onlyCache?: boolean): DownloadBlob {
-    const fileName = this.getInputFileName(doc);
-
-    let download: DownloadBlob = appDownloadManager.getDownload(fileName);
-    if(download) {
-      return download;
-    }
-
-    const downloadOptions = this.getFileDownloadOptions(doc, undefined, queueId, onlyCache);
-    download = appDownloadManager.download(downloadOptions);
-    this.downloading.set(doc.id, download);
-    rootScope.dispatchEvent('download_start', doc.id);
-
-    const cacheContext = appDownloadManager.getCacheContext(doc);
-    const originalPromise = download;
-    originalPromise.then((blob) => {
-      cacheContext.url = URL.createObjectURL(blob);
-      cacheContext.downloaded = blob.size;
-    }, () => {}).finally(() => {
-      this.downloading.delete(doc.id);
-    });
-    
-    if(doc.type === 'voice' && !opusDecodeController.isPlaySupported()) {
-      download = originalPromise.then(async(blob) => {
-        const reader = new FileReader();
-  
-        await new Promise<void>((resolve, reject) => {
-          reader.onloadend = (e) => {
-            const uint8 = new Uint8Array(e.target.result as ArrayBuffer);
-            //console.log('sending uint8 to decoder:', uint8);
-            opusDecodeController.decode(uint8).then(result => {
-              cacheContext.url = result.url;
-              resolve();
-            }, (err) => {
-              delete cacheContext.downloaded;
-              reject(err);
-            });
-          };
-    
-          reader.readAsArrayBuffer(blob);
-        });
-  
-        return blob;
-=======
   public downloadDoc(doc: MyDocument, queueId?: number, onlyCache?: boolean) {
     return this.apiFileManager.downloadMedia({
       media: doc,
@@ -506,98 +312,8 @@ export class AppDocsManager extends AppManager {
       const wallPapers = (accountWallpapers as AccountWallPapers.accountWallPapers).wallpapers as WallPaper.wallPaper[];
       wallPapers.forEach((wallPaper) => {
         wallPaper.document = this.saveDoc(wallPaper.document);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
-<<<<<<< HEAD
-    download.then(() => {
-      rootScope.dispatchEvent('document_downloaded', doc);
-    });
-
-    return download;
-  }
-
-  public isSavingLottiePreview(doc: MyDocument, toneIndex: number) {
-    const key = doc.id + '-' + toneIndex;
-    return !!this.savingLottiePreview[key];
-  }
-
-  public saveLottiePreview(doc: MyDocument, canvas: HTMLCanvasElement, toneIndex: number) {
-    const key = doc.id + '-' + toneIndex;
-    if(this.savingLottiePreview[key]/*  || true */) return;
-
-    if(!doc.stickerCachedThumbs) {
-      defineNotNumerableProperties(doc, ['stickerCachedThumbs']);
-      doc.stickerCachedThumbs = {};
-    }
-
-    const thumb = doc.stickerCachedThumbs[toneIndex];
-    if(thumb && thumb.w >= canvas.width && thumb.h >= canvas.height) {
-      return;
-    }
-
-    /* if(doc.thumbs.find(t => t._ === 'photoStrippedSize') 
-      || (doc.stickerCachedThumb || (doc.stickerSavedThumbWidth >= canvas.width && doc.stickerSavedThumbHeight >= canvas.height))) {
-      return;
-    } */
-
-    this.savingLottiePreview[key] = true;
-    canvas.toBlob((blob) => {
-      //console.log('got lottie preview', doc, blob, URL.createObjectURL(blob));
-
-      const thumb = {
-        url: URL.createObjectURL(blob),
-        w: canvas.width,
-        h: canvas.height
-      };
-
-      doc.stickerCachedThumbs[toneIndex] = thumb;
-
-      delete this.savingLottiePreview[key];
-      
-      /* const reader = new FileReader();
-      reader.onloadend = (e) => {
-        const uint8 = new Uint8Array(e.target.result as ArrayBuffer);
-        const thumb: PhotoSize.photoStrippedSize = {
-          _: 'photoStrippedSize',
-          bytes: uint8,
-          type: 'i'
-        };
-
-        doc.stickerSavedThumbWidth = canvas.width;
-        doc.stickerSavedThumbHeight = canvas.width;
-
-        defineNotNumerableProperties(thumb, ['url']);
-        thumb.url = URL.createObjectURL(blob);
-        doc.thumbs.findAndSplice(t => t._ === thumb._);
-        doc.thumbs.unshift(thumb);
-
-        if(!webpWorkerController.isWebpSupported()) {
-          doc.pFlags.stickerThumbConverted = true;
-        }
-
-        delete this.savingLottiePreview[doc.id];
-      };
-      reader.readAsArrayBuffer(blob); */
-    });
-  }
-
-  public saveDocFile(doc: MyDocument, queueId?: number) {
-    /* const options = this.getFileDownloadOptions(doc, undefined, queueId);
-    return appDownloadManager.downloadToDisc(options, doc.file_name); */
-    const promise = this.downloadDoc(doc, queueId);
-    promise.then(() => {
-      const cacheContext = appDownloadManager.getCacheContext(doc);
-      appDownloadManager.createDownloadAnchor(cacheContext.url, doc.file_name);
-    });
-    return promise;
-  }
-}
-
-const appDocsManager = new AppDocsManager();
-MOUNT_CLASS_TO.appDocsManager = appDocsManager;
-export default appDocsManager;
-=======
       return wallPapers;
     });
   }
@@ -687,4 +403,3 @@ export default appDocsManager;
     return this.apiFileManager.requestFilePart(dcId, getDocumentInput(doc), offset, limit);
   }
 }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

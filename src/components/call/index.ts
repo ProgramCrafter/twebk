@@ -10,20 +10,6 @@ import { attachClickEvent } from "../../helpers/dom/clickEvent";
 import ControlsHover from "../../helpers/dom/controlsHover";
 import findUpClassName from "../../helpers/dom/findUpClassName";
 import { addFullScreenListener, cancelFullScreen, isFullScreen, requestFullScreen } from "../../helpers/dom/fullScreen";
-<<<<<<< HEAD
-import { onMediaLoad } from "../../helpers/files";
-import MovablePanel from "../../helpers/movablePanel";
-import safeAssign from "../../helpers/object/safeAssign";
-import toggleClassName from "../../helpers/toggleClassName";
-import type { AppAvatarsManager } from "../../lib/appManagers/appAvatarsManager";
-import type { AppCallsManager } from "../../lib/appManagers/appCallsManager";
-import type { AppPeersManager } from "../../lib/appManagers/appPeersManager";
-import CallInstance from "../../lib/calls/callInstance";
-import CALL_STATE from "../../lib/calls/callState";
-import I18n, { i18n } from "../../lib/langPack";
-import RichTextProcessor from "../../lib/richtextprocessor";
-import rootScope from "../../lib/rootScope";
-=======
 import replaceContent from "../../helpers/dom/replaceContent";
 import MovablePanel from "../../helpers/movablePanel";
 import onMediaLoad from "../../helpers/onMediaLoad";
@@ -33,7 +19,6 @@ import CallInstance from "../../lib/calls/callInstance";
 import CALL_STATE from "../../lib/calls/callState";
 import I18n, { i18n } from "../../lib/langPack";
 import wrapEmojiText from "../../lib/richTextProcessor/wrapEmojiText";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import animationIntersector from "../animationIntersector";
 import AvatarElement from "../avatar";
 import ButtonIcon from "../buttonIcon";
@@ -59,13 +44,6 @@ const INIT_STATE: MovableState = {
 let previousState: MovableState = {...INIT_STATE};
 
 export default class PopupCall extends PopupElement {
-<<<<<<< HEAD
-  private instance: CallInstance;
-  private appCallsManager: AppCallsManager;
-  private appAvatarsManager: AppAvatarsManager;
-  private appPeersManager: AppPeersManager;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private peerId: PeerId;
 
   private description: CallDescriptionElement;
@@ -99,33 +77,15 @@ export default class PopupCall extends PopupElement {
 
   private controlsHover: ControlsHover;
 
-<<<<<<< HEAD
-  constructor(options: {
-    appCallsManager: AppCallsManager,
-    appAvatarsManager: AppAvatarsManager,
-    appPeersManager: AppPeersManager,
-    instance: CallInstance
-  }) {
-    super('popup-call', undefined, {
-=======
   constructor(private instance: CallInstance) {
     super('popup-call', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       withoutOverlay: true,
       closable: true
     });
 
-<<<<<<< HEAD
-    safeAssign(this, options);
-
-    this.videoContainers = {};
-
-    const {container, listenerSetter, instance} = this;
-=======
     this.videoContainers = {};
 
     const {container, listenerSetter} = this;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     container.classList.add(className, 'night');
 
     const avatarContainer = document.createElement('div');
@@ -347,11 +307,7 @@ export default class PopupCall extends PopupElement {
     if(isFull !== wasFullScreen) {
       animationIntersector.checkAnimations(isFull);
 
-<<<<<<< HEAD
-      rootScope.setThemeColor(isFull ? '#000000' : undefined);
-=======
       themeController.setThemeColor(isFull ? '#000000' : undefined);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       this.resizeVideoContainers();
     }
@@ -372,11 +328,7 @@ export default class PopupCall extends PopupElement {
         return;
       }
 
-<<<<<<< HEAD
-      const big = Object.values(this.videoContainers).find(container => !container.classList.contains('small'));
-=======
       const big = Object.values(this.videoContainers).find((container) => !container.classList.contains('small'));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       big.classList.add('small');
       big.style.cssText = container.style.cssText;
       container.classList.remove('small');
@@ -442,11 +394,7 @@ export default class PopupCall extends PopupElement {
 
     const containers = this.videoContainers;
     const oldContainers = {...containers};
-<<<<<<< HEAD
-    ['input' as const, 'output' as const].forEach(type => {
-=======
     ['input' as const, 'output' as const].forEach((type) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const mediaState = instance.getMediaState(type);
       const video = instance.getVideoElement(type) as HTMLVideoElement;
 
@@ -493,13 +441,8 @@ export default class PopupCall extends PopupElement {
     this.container.classList.toggle('no-video', !Object.keys(containers).length);
 
     if(!this.emojisSubtitle.textContent && connectionState < CALL_STATE.EXCHANGING_KEYS) {
-<<<<<<< HEAD
-      Promise.resolve(instance.getEmojisFingerprint()).then(emojis => {
-        this.emojisSubtitle.append(RichTextProcessor.wrapEmojiText(emojis.join('')));
-=======
       Promise.resolve(instance.getEmojisFingerprint()).then((emojis) => {
         replaceContent(this.emojisSubtitle, wrapEmojiText(emojis.join('')));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
     }
 
@@ -507,11 +450,7 @@ export default class PopupCall extends PopupElement {
   }
 
   private resizeVideoContainers() {
-<<<<<<< HEAD
-    Object.values(this.videoContainers).forEach(container => {
-=======
     Object.values(this.videoContainers).forEach((container) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const isSmall = container.classList.contains('small');
       if(isSmall) {
         const video = container.querySelector('video');

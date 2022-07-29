@@ -5,10 +5,6 @@
  */
 
 import { SliderSuperTab } from "../../slider";
-<<<<<<< HEAD
-import apiManager from "../../../lib/mtproto/mtprotoworker";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import ButtonMenuToggle from "../../buttonMenuToggle";
 import Button from "../../button";
 import AppPrivacyAndSecurityTab from "./privacyAndSecurity";
@@ -29,15 +25,9 @@ import AppActiveSessionsTab from "./activeSessions";
 import { i18n, LangPackKey } from "../../../lib/langPack";
 import { SliderSuperTabConstructable } from "../../sliderTab";
 import PopupAvatar from "../../popups/avatar";
-<<<<<<< HEAD
-import appProfileManager from "../../../lib/appManagers/appProfileManager";
-import appUsersManager from "../../../lib/appManagers/appUsersManager";
-import { AccountAuthorizations, Authorization } from "../../../layer";
-=======
 import { AccountAuthorizations, Authorization } from "../../../layer";
 import PopupElement from "../../popups";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //import AppMediaViewer from "../../appMediaViewerNew";
 
 export default class AppSettingsTab extends SliderSuperTab {
@@ -57,19 +47,11 @@ export default class AppSettingsTab extends SliderSuperTab {
   private authorizations: Authorization.authorization[];
   private getAuthorizationsPromise: Promise<AccountAuthorizations.accountAuthorizations>;
 
-<<<<<<< HEAD
-  protected init() {
-    this.container.classList.add('settings-container');
-    this.setTitle('Settings');
-    
-    const btnMenu = ButtonMenuToggle({}, 'bottom-left', [{
-=======
   protected async init() {
     this.container.classList.add('settings-container');
     this.setTitle('Settings');
     
     const btnMenu = ButtonMenuToggle({listenerSetter: this.listenerSetter}, 'bottom-left', [{
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       icon: 'logout',
       text: 'EditAccount.Logout',
       onClick: () => {
@@ -79,11 +61,7 @@ export default class AppSettingsTab extends SliderSuperTab {
           buttons: [{
             langKey: 'LogOut',
             callback: () => {
-<<<<<<< HEAD
-              apiManager.logOut();
-=======
               this.managers.apiManager.logOut();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             },
             isDanger: true
           }]
@@ -95,26 +73,6 @@ export default class AppSettingsTab extends SliderSuperTab {
 
     this.header.append(this.buttons.edit, btnMenu);
 
-<<<<<<< HEAD
-    this.profile = new PeerProfile(this.scrollable, this.listenerSetter, false);
-    this.profile.init();
-    this.profile.setPeer(rootScope.myId);
-    this.profile.fillProfileElements();
-
-    const changeAvatarBtn = Button('btn-circle btn-corner z-depth-1 profile-change-avatar', {icon: 'cameraadd'});
-    changeAvatarBtn.addEventListener('click', () => {
-      const canvas = document.createElement('canvas');
-      new PopupAvatar().open(canvas, (upload) => {
-        upload().then(inputFile => {
-          return appProfileManager.uploadProfilePhoto(inputFile);
-        });
-      });
-    });
-    this.profile.element.lastElementChild.firstElementChild.append(changeAvatarBtn);
-    
-    const updateChangeAvatarBtn = () => {
-      const user = appUsersManager.getSelf();
-=======
     this.profile = new PeerProfile(this.managers, this.scrollable, this.listenerSetter, false);
     this.profile.init();
     this.profile.setPeer(rootScope.myId);
@@ -133,7 +91,6 @@ export default class AppSettingsTab extends SliderSuperTab {
     
     const updateChangeAvatarBtn = async() => {
       const user = await this.managers.appUsersManager.getSelf();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       changeAvatarBtn.classList.toggle('hide', user.photo?._ !== 'userProfilePhoto');
     };
     
@@ -202,15 +159,10 @@ export default class AppSettingsTab extends SliderSuperTab {
         titleLangKey: langPackKey,
         icon,
         clickable: () => {
-<<<<<<< HEAD
-          new tabConstructor(this.slider, true).open();
-        }
-=======
           this.slider.createTab(tabConstructor).open();
           // new tabConstructor(this.slider, true).open();
         },
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
     });
 
@@ -224,23 +176,15 @@ export default class AppSettingsTab extends SliderSuperTab {
             await this.updateActiveSessions();
           }
 
-<<<<<<< HEAD
-          const tab = new AppActiveSessionsTab(this.slider);
-=======
           const tab = this.slider.createTab(AppActiveSessionsTab);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           tab.authorizations = this.authorizations;
           tab.eventListener.addEventListener('destroy', () => {
             this.authorizations = undefined;
             this.updateActiveSessions(true);
           }, {once: true});
           tab.open();
-<<<<<<< HEAD
-        }
-=======
         },
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }),
 
       this.languageRow = new Row({
@@ -248,14 +192,6 @@ export default class AppSettingsTab extends SliderSuperTab {
         titleRightSecondary: i18n('LanguageName'),
         icon: 'language',
         clickable: () => {
-<<<<<<< HEAD
-          new AppLanguageTab(this.slider).open();
-        }
-      })
-    );
-
-    buttonsDiv.append(...rows.map(row => row.container));
-=======
           this.slider.createTab(AppLanguageTab).open();
         },
         listenerSetter: this.listenerSetter
@@ -263,7 +199,6 @@ export default class AppSettingsTab extends SliderSuperTab {
     );
 
     buttonsDiv.append(...rows.map((row) => row.container));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     // const profileSection = new SettingSection({fullWidth: true, noPaddingTop: true});
     // profileSection.content.append(this.profile.element);
@@ -273,40 +208,22 @@ export default class AppSettingsTab extends SliderSuperTab {
 
     this.scrollable.append(this.profile.element/* profileSection.container */, buttonsSection.container);
 
-<<<<<<< HEAD
-    /* rootScope.$on('user_auth', (e) => {
-      this.fillElements();
-    }); */
-
-    this.buttons.edit.addEventListener('click', () => {
-      const tab = new AppEditProfileTab(this.slider);
-      tab.open();
-    });
-=======
     attachClickEvent(this.buttons.edit, () => {
       const tab = this.slider.createTab(AppEditProfileTab);
       tab.open();
     }, {listenerSetter: this.listenerSetter});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     lottieLoader.loadLottieWorkers();
 
     this.updateActiveSessions();
-<<<<<<< HEAD
-=======
 
     await fillPromise;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private getAuthorizations(overwrite?: boolean) {
     if(this.getAuthorizationsPromise && !overwrite) return this.getAuthorizationsPromise;
 
-<<<<<<< HEAD
-    const promise = this.getAuthorizationsPromise = apiManager.invokeApi('account.getAuthorizations')
-=======
     const promise = this.getAuthorizationsPromise = this.managers.apiManager.invokeApi('account.getAuthorizations')
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .finally(() => {
       if(this.getAuthorizationsPromise === promise) {
         this.getAuthorizationsPromise = undefined;
@@ -317,21 +234,14 @@ export default class AppSettingsTab extends SliderSuperTab {
   }
 
   public updateActiveSessions(overwrite?: boolean) {
-<<<<<<< HEAD
-    return this.getAuthorizations(overwrite).then(auths => {
-=======
     return this.getAuthorizations(overwrite).then((auths) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.authorizations = auths.authorizations;
       this.devicesRow.titleRight.textContent = '' + this.authorizations.length;
     });
   }
-<<<<<<< HEAD
-=======
 
   public onCloseAfterTimeout() {
     this.profile.destroy();
     return super.onCloseAfterTimeout();
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

@@ -4,19 +4,12 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import appStateManager from "../lib/appManagers/appStateManager";
-import ripple from "./ripple";
-import { LangPackKey, _i18n } from "../lib/langPack";
-import getDeepProperty from "../helpers/object/getDeepProperty";
-=======
 import ripple from "./ripple";
 import { LangPackKey, _i18n } from "../lib/langPack";
 import getDeepProperty from "../helpers/object/getDeepProperty";
 import rootScope from "../lib/rootScope";
 import apiManagerProxy from "../lib/mtproto/mtprotoworker";
 import ListenerSetter from "../helpers/listenerSetter";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type CheckboxFieldOptions = {
   text?: LangPackKey,
@@ -31,10 +24,7 @@ export type CheckboxFieldOptions = {
   restriction?: boolean,
   withRipple?: boolean,
   withHover?: boolean,
-<<<<<<< HEAD
-=======
   listenerSetter?: ListenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 export default class CheckboxField {
   public input: HTMLInputElement;
@@ -69,9 +59,6 @@ export default class CheckboxField {
     }
 
     if(options.stateKey) {
-<<<<<<< HEAD
-      appStateManager.getState().then(state => {
-=======
       let loaded = false;
       const onChange = () => {
         if(!loaded) {
@@ -90,7 +77,6 @@ export default class CheckboxField {
 
       apiManagerProxy.getState().then((state) => {
         loaded = true;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const stateValue = getDeepProperty(state, options.stateKey);
         let checked: boolean;
         if(options.stateValues) {
@@ -100,25 +86,10 @@ export default class CheckboxField {
         }
 
         this.setValueSilently(checked);
-<<<<<<< HEAD
-
-        input.addEventListener('change', () => {
-          let value: any;
-          if(options.stateValues) {
-            value = options.stateValues[input.checked ? 1 : 0];
-          } else {
-            value = input.checked;
-          }
-
-          appStateManager.setByKey(options.stateKey, value);
-        });
-      });
-=======
       });
 
       if(options.listenerSetter) options.listenerSetter.add(input)('change', onChange);
       else input.addEventListener('change', onChange);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     let span: HTMLSpanElement;

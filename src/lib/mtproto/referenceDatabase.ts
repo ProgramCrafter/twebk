@@ -4,24 +4,11 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { RefreshReferenceTask, RefreshReferenceTaskResponse } from "./apiFileManager";
-import appMessagesManager from "../appManagers/appMessagesManager";
-import appStickersManager from "../appManagers/appStickersManager";
-import { Photo } from "../../layer";
-import { MOUNT_CLASS_TO } from "../../config/debug";
-import apiManager from "./mtprotoworker";
-import assumeType from "../../helpers/assumeType";
-import { logger } from "../logger";
-import bytesToHex from "../../helpers/bytes/bytesToHex";
-import deepEqual from "../../helpers/object/deepEqual";
-=======
 import { Photo } from "../../layer";
 import { logger } from "../logger";
 import bytesToHex from "../../helpers/bytes/bytesToHex";
 import deepEqual from "../../helpers/object/deepEqual";
 import { AppManager } from "../appManagers/manager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type ReferenceContext = ReferenceContext.referenceContextProfilePhoto | ReferenceContext.referenceContextMessage | ReferenceContext.referenceContextEmojiesSounds | ReferenceContext.referenceContextReactions;
 export namespace ReferenceContext {
@@ -57,22 +44,6 @@ export class ReferenceDatabase extends AppManager {
   private log = logger('RD', undefined, true);
   private refreshEmojiesSoundsPromise: Promise<any>;
 
-<<<<<<< HEAD
-  constructor() {
-    apiManager.addTaskListener('refreshReference', (task: RefreshReferenceTask) => {
-      const originalPayload = task.payload;
-
-      assumeType<RefreshReferenceTaskResponse>(task);
-      task.originalPayload = originalPayload;
-
-      this.refreshReference(originalPayload).then((bytes) => {
-        task.payload = bytes;
-      }, (err) => {
-        task.error = err;
-      }).then(() => apiManager.postMessage(task));
-    });
-  }
-=======
   // constructor() {
   //   super();
 
@@ -89,7 +60,6 @@ export class ReferenceDatabase extends AppManager {
     //   }).then(() => apiManager.postMessage(task));
     // });
   // }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   public saveContext(reference: ReferenceBytes, context: ReferenceContext, contexts?: ReferenceContexts) {
     [contexts, reference] = this.getContexts(reference);
@@ -155,11 +125,7 @@ export class ReferenceDatabase extends AppManager {
     let promise: Promise<any>;
     switch(context?.type) {
       case 'message': {
-<<<<<<< HEAD
-        promise = appMessagesManager.wrapSingleMessage(context.peerId, context.messageId, true);
-=======
         promise = this.appMessagesManager.wrapSingleMessage(context.peerId, context.messageId, true);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         break; 
         // .then(() => {
         //   console.log('FILE_REFERENCE_EXPIRED: got message', context, appMessagesManager.getMessage((context as ReferenceContext.referenceContextMessage).messageId).media, reference);
@@ -167,11 +133,7 @@ export class ReferenceDatabase extends AppManager {
       }
 
       case 'emojiesSounds': {
-<<<<<<< HEAD
-        promise = this.refreshEmojiesSoundsPromise || appStickersManager.getAnimatedEmojiSounds(true).then(() => {
-=======
         promise = this.refreshEmojiesSoundsPromise || this.appStickersManager.getAnimatedEmojiSounds(true).then(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.refreshEmojiesSoundsPromise = undefined;
         });
         break;
@@ -213,10 +175,3 @@ export class ReferenceDatabase extends AppManager {
     }
   } */
 }
-<<<<<<< HEAD
-
-const referenceDatabase = new ReferenceDatabase();
-MOUNT_CLASS_TO.referenceDatabase = referenceDatabase;
-export default referenceDatabase;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

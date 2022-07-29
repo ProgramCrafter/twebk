@@ -29,12 +29,8 @@
     }
   }
 
-<<<<<<< HEAD
-  .hidden-widget, .radio-field:first-child:last-child {
-=======
   .hidden-widget, 
   .radio-field:first-child:last-child {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .btn-icon {
       pointer-events: none;
       opacity: 0 !important;
@@ -102,11 +98,8 @@
     top: 54px;
     right: 20px;
   }
-<<<<<<< HEAD
-=======
 
   hr:not(.hide) {
     display: block !important;
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

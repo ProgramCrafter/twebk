@@ -13,10 +13,7 @@ import Modes from '../../../config/modes';
 
 /// #if MTPROTO_AUTO
 import transportController from './controller';
-<<<<<<< HEAD
-=======
 import networkStats from '../networkStats';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 /// #endif
 
 export default class HTTP implements MTTransport {
@@ -47,13 +44,6 @@ export default class HTTP implements MTTransport {
   }
 
   public _send(body: Uint8Array, mode?: RequestMode) {
-<<<<<<< HEAD
-    this.debug && this.log.debug('-> body length to send:', body.length);
-
-    return fetch(this.url, {method: 'POST', body, mode}).then(response => {
-      if(response.status !== 200 && !mode) {
-        response.arrayBuffer().then(buffer => {
-=======
     const length = body.length;
     this.debug && this.log.debug('-> body length to send:', length);
 
@@ -61,7 +51,6 @@ export default class HTTP implements MTTransport {
     return fetch(this.url, {method: 'POST', body, mode}).then((response) => {
       if(response.status !== 200 && !mode) {
         response.arrayBuffer().then((buffer) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.log.error('not 200', 
             new TextDecoder("utf-8").decode(new Uint8Array(buffer)));
         });
@@ -76,12 +65,8 @@ export default class HTTP implements MTTransport {
       //   throw 'asd';
       // }
 
-<<<<<<< HEAD
-      return response.arrayBuffer().then(buffer => {
-=======
       return response.arrayBuffer().then((buffer) => {
         networkStats.addReceived(this.dcId, buffer.byteLength);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return new Uint8Array(buffer);
       }); 
     }, (err) => {
@@ -105,11 +90,7 @@ export default class HTTP implements MTTransport {
   public destroy() {
     this.setConnected(false);
     this.destroyed = true;
-<<<<<<< HEAD
-    this.pending.forEach(pending => pending.reject());
-=======
     this.pending.forEach((pending) => pending.reject());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.pending.length = 0;
   }
 

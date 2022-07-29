@@ -7,13 +7,8 @@
 import { attachClickEvent } from "../../helpers/dom/clickEvent";
 import findUpClassName from "../../helpers/dom/findUpClassName";
 import whichChild from "../../helpers/dom/whichChild";
-<<<<<<< HEAD
-import { ReportReason } from "../../layer";
-import appStickersManager from "../../lib/appManagers/appStickersManager";
-=======
 import preloadAnimatedEmojiSticker from "../../helpers/preloadAnimatedEmojiSticker";
 import { ReportReason } from "../../layer";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { LangPackKey } from "../../lib/langPack";
 import Button from "../button";
 import PopupPeer from "./peer";
@@ -36,20 +31,12 @@ export default class PopupReportMessages extends PopupPeer {
     ];
 
     const className = 'btn-primary btn-transparent';
-<<<<<<< HEAD
-    buttons.forEach(b => {
-=======
     buttons.forEach((b) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const button = Button(className, {/* icon: 'edit',  */text: b[0]});
       this.body.append(button);
     });
 
-<<<<<<< HEAD
-    const preloadStickerPromise = appStickersManager.preloadAnimatedEmojiSticker(PopupReportMessagesConfirm.STICKER_EMOJI);
-=======
     const preloadStickerPromise = preloadAnimatedEmojiSticker(PopupReportMessagesConfirm.STICKER_EMOJI);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     attachClickEvent(this.body, (e) => {
       const target = findUpClassName(e.target, 'btn-primary');

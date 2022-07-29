@@ -9,39 +9,23 @@ import RangeSelector from "../../rangeSelector";
 import Button from "../../button";
 import CheckboxField from "../../checkboxField";
 import RadioField from "../../radioField";
-<<<<<<< HEAD
-import appStateManager, { State } from "../../../lib/appManagers/appStateManager";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rootScope from "../../../lib/rootScope";
 import { IS_APPLE } from "../../../environment/userAgent";
 import Row from "../../row";
 import AppBackgroundTab from "./background";
 import { LangPackKey, _i18n } from "../../../lib/langPack";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
-<<<<<<< HEAD
-import appStickersManager from "../../../lib/appManagers/appStickersManager";
 import assumeType from "../../../helpers/assumeType";
 import { MessagesAllStickers, StickerSet } from "../../../layer";
-import RichTextProcessor from "../../../lib/richtextprocessor";
-=======
-import assumeType from "../../../helpers/assumeType";
-import { MessagesAllStickers, StickerSet } from "../../../layer";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { wrapStickerSetThumb, wrapStickerToRow } from "../../wrappers";
 import LazyLoadQueue from "../../lazyLoadQueue";
 import PopupStickers from "../../popups/stickers";
 import eachMinute from "../../../helpers/eachMinute";
 import { SliderSuperTabEventable } from "../../sliderTab";
 import IS_GEOLOCATION_SUPPORTED from "../../../environment/geolocationSupport";
-<<<<<<< HEAD
-import appReactionsManager from "../../../lib/appManagers/appReactionsManager";
-import AppQuickReactionTab from "./quickReaction";
-=======
 import AppQuickReactionTab from "./quickReaction";
 import wrapEmojiText from "../../../lib/richTextProcessor/wrapEmojiText";
 import { State } from "../../../config/state";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export class RangeSettingSelector {
   public container: HTMLDivElement;
@@ -114,33 +98,21 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
       
       const range = new RangeSettingSelector('TextSize', 1, rootScope.settings.messagesTextSize, 12, 20);
       range.onChange = (value) => {
-<<<<<<< HEAD
-        appStateManager.setByKey('settings.messagesTextSize', value);
-=======
         rootScope.managers.appStateManager.setByKey('settings.messagesTextSize', value);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       };
 
       const chatBackgroundButton = Button('btn-primary btn-transparent', {icon: 'image', text: 'ChatBackground'});
 
       attachClickEvent(chatBackgroundButton, () => {
-<<<<<<< HEAD
-        new AppBackgroundTab(this.slider).open();
-=======
         this.slider.createTab(AppBackgroundTab).open();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       const animationsCheckboxField = new CheckboxField({
         text: 'EnableAnimations', 
         name: 'animations', 
         stateKey: 'settings.animationsEnabled',
-<<<<<<< HEAD
-        withRipple: true
-=======
         withRipple: true,
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
       
       container.append(range.container, chatBackgroundButton, animationsCheckboxField.label);
@@ -249,11 +221,7 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
 
       this.eventListener.addEventListener('destroy', cancel);
 
-<<<<<<< HEAD
-      form.append(...rows.map(row => row.container));
-=======
       form.append(...rows.map((row) => row.container));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       container.append(form);
     }
 
@@ -264,23 +232,15 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
         text: 'GeneralSettings.EmojiPrediction', 
         name: 'suggest-emoji', 
         stateKey: 'settings.emoji.suggest',
-<<<<<<< HEAD
-        withRipple: true
-=======
         withRipple: true,
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
       const bigCheckboxField = new CheckboxField({
         text: 'GeneralSettings.BigEmoji', 
         name: 'emoji-big', 
         stateKey: 'settings.emoji.big',
-<<<<<<< HEAD
-        withRipple: true
-=======
         withRipple: true,
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       container.append(suggestCheckboxField.label, bigCheckboxField.label);
@@ -293,14 +253,6 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
         titleLangKey: 'DoubleTapSetting',
         havePadding: true,
         clickable: () => {
-<<<<<<< HEAD
-          new AppQuickReactionTab(this.slider).open();
-        }
-      });
-
-      const renderQuickReaction = () => {
-        Promise.resolve(appReactionsManager.getQuickReaction()).then(reaction => {
-=======
           this.slider.createTab(AppQuickReactionTab).open();
         },
         listenerSetter: this.listenerSetter
@@ -308,7 +260,6 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
 
       const renderQuickReaction = () => {
         Promise.resolve(this.managers.appReactionsManager.getQuickReaction()).then((reaction) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           wrapStickerToRow({
             row: reactionsRow,
             doc: reaction.static_icon,
@@ -325,23 +276,15 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
         text: 'Stickers.SuggestStickers', 
         name: 'suggest', 
         stateKey: 'settings.stickers.suggest',
-<<<<<<< HEAD
-        withRipple: true
-=======
         withRipple: true,
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
       const loopCheckboxField = new CheckboxField({
         text: 'InstalledStickers.LoopAnimated', 
         name: 'loop', 
         stateKey: 'settings.stickers.loop',
-<<<<<<< HEAD
-        withRipple: true
-=======
         withRipple: true,
         listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       const stickerSets: {[id: string]: Row} = {};
@@ -351,22 +294,14 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
       const lazyLoadQueue = new LazyLoadQueue();
       const renderStickerSet = (stickerSet: StickerSet.stickerSet, method: 'append' | 'prepend' = 'append') => {
         const row = new Row({
-<<<<<<< HEAD
-          title: RichTextProcessor.wrapEmojiText(stickerSet.title),
-=======
           title: wrapEmojiText(stickerSet.title),
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           subtitleLangKey: 'Stickers',
           subtitleLangArgs: [stickerSet.count],
           havePadding: true,
           clickable: () => {
             new PopupStickers({id: stickerSet.id, access_hash: stickerSet.access_hash}).show();
-<<<<<<< HEAD
-          }
-=======
           },
           listenerSetter: this.listenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         });
 
         stickerSets[stickerSet.id] = row;
@@ -389,11 +324,7 @@ export default class AppGeneralSettingsTab extends SliderSuperTabEventable {
         stickersContent[method](row.container);
       };
 
-<<<<<<< HEAD
-      appStickersManager.getAllStickers().then(allStickers => {
-=======
       this.managers.appStickersManager.getAllStickers().then((allStickers) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         assumeType<MessagesAllStickers.messagesAllStickers>(allStickers);
         for(const stickerSet of allStickers.sets) {
           renderStickerSet(stickerSet);

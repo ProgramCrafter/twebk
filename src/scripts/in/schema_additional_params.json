@@ -13,12 +13,8 @@
     {"name": "stickerSetInput", "type": "InputStickerSet.inputStickerSetID"},
     {"name": "stickerThumbConverted", "type": "true"},
     {"name": "animated", "type": "boolean"},
-<<<<<<< HEAD
-    {"name": "supportsStreaming", "type": "boolean"}
-=======
     {"name": "supportsStreaming", "type": "boolean"},
     {"name": "size", "type": "number"}
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   ]
 }, {
   "predicate": "photoSizeProgressive",
@@ -28,11 +24,7 @@
 }, {
   "predicate": "dialog",
   "params": [
-<<<<<<< HEAD
-    {"name": "index", "type": "number"},
-=======
     {"name": "folder_id", "type": "0 | 1"},
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     {"name": "index_0", "type": "number"},
     {"name": "index_1", "type": "number"},
     {"name": "index_2", "type": "number"},
@@ -44,8 +36,6 @@
     {"name": "index_8", "type": "number"},
     {"name": "index_9", "type": "number"},
     {"name": "index_10", "type": "number"},
-<<<<<<< HEAD
-=======
     {"name": "index_11", "type": "number"},
     {"name": "index_12", "type": "number"},
     {"name": "index_13", "type": "number"},
@@ -57,7 +47,6 @@
     {"name": "index_19", "type": "number"},
     {"name": "index_20", "type": "number"},
     {"name": "index_21", "type": "number"},
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     {"name": "peerId", "type": "PeerId"},
     {"name": "topMessage", "type": "any"},
     {"name": "migratedTo", "type": "PeerId"}
@@ -72,11 +61,7 @@
 }, {
   "predicate": "dialogFilter",
   "params": [
-<<<<<<< HEAD
-    {"name": "orderIndex", "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10"},
-=======
     {"name": "orderIndex", "type": "0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21"},
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     {"name": "peerId", "type": "PeerId"},
     {"name": "folder_id", "type": "number"}
   ]
@@ -105,12 +90,8 @@
     {"name": "sponsored", "type": "true"},
     {"name": "local", "type": "true"},
     {"name": "sponsoredMessage", "type": "SponsoredMessage.sponsoredMessage"},
-<<<<<<< HEAD
-    {"name": "promise", "type": "CancellablePromise<void>"}
-=======
     {"name": "promise", "type": "CancellablePromise<void>"},
     {"name": "uploadingFileName", "type": "string"}
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   ]
 }, {
   "predicate": "messageService",
@@ -184,15 +165,6 @@
     {"name": "phone_number", "type": "string"}
   ]
 }, {
-<<<<<<< HEAD
-  "predicate": "draftMessage",
-  "params": [
-    {"name": "rReply", "type": "string"},
-    {"name": "rMessage", "type": "string"}
-  ]
-}, {
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "predicate": "messageActionDiscussionStarted",
   "params": [],
   "type": "MessageAction"
@@ -360,8 +332,6 @@
     {"name": "pts_count", "type": "number"},
     {"name": "local", "type": "boolean"}
   ]
-<<<<<<< HEAD
-=======
 }, {
   "predicate": "autoDownloadSettings",
   "params": [
@@ -380,5 +350,4 @@
     {"name": "h", "type": "number"},
     {"name": "w", "type": "number"}
   ]
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }]

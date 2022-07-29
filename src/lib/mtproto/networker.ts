@@ -8,25 +8,6 @@
  * Copyright (C) 2014 Igor Zhukov <igor.beatle@gmail.com>
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
-<<<<<<< HEAD
-
-import {TLDeserialization, TLSerialization} from './tl_utils';
-import CryptoWorker from '../crypto/cryptoworker';
-import sessionStorage from '../sessionStorage';
-import Schema from './schema';
-import timeManager from './timeManager';
-import networkerFactory from './networkerFactory';
-import { logger, LogTypes } from '../logger';
-import { InvokeApiOptions } from '../../types';
-import longToBytes from '../../helpers/long/longToBytes';
-import MTTransport from './transports/transport';
-import { nextRandomUint, randomLong } from '../../helpers/random';
-import App from '../../config/app';
-import DEBUG from '../../config/debug';
-import Modes from '../../config/modes';
-import noop from '../../helpers/noop';
-
-=======
 
 import { TLDeserialization, TLSerialization } from './tl_utils';
 import CryptoWorker from '../crypto/cryptoMessagePort';
@@ -43,7 +24,6 @@ import DEBUG from '../../config/debug';
 import Modes from '../../config/modes';
 import noop from '../../helpers/noop';
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 /// #if MTPROTO_HAS_HTTP
 import HTTP from './transports/http';
 /// #endif
@@ -62,11 +42,8 @@ import sortLongsArray from '../../helpers/long/sortLongsArray';
 import randomize from '../../helpers/array/randomize';
 import deferredPromise, { CancellablePromise } from '../../helpers/cancellablePromise';
 import pause from '../../helpers/schedulers/pause';
-<<<<<<< HEAD
-=======
 import { getEnvironment } from '../../environment/utils';
 import { TimeManager } from './timeManager';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //console.error('networker included!', new Error().stack);
 
@@ -211,11 +188,8 @@ export default class MTPNetworker {
   // private getNewTimeOffset: boolean;
 
   constructor(
-<<<<<<< HEAD
-=======
     private networkerFactory: NetworkerFactory,
     private timeManager: TimeManager,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     public dcId: number, 
     private authKey: Uint8Array, 
     private authKeyId: Uint8Array,
@@ -352,41 +326,25 @@ export default class MTPNetworker {
     if(!this.connectionInited) { // this will call once for each new session
       ///////this.log('Wrap api call !this.connectionInited');
 
-<<<<<<< HEAD
-      const invokeWithLayer = Schema.API.methods.find(m => m.method === 'invokeWithLayer');
-=======
       const invokeWithLayer = Schema.API.methods.find((m) => m.method === 'invokeWithLayer');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!invokeWithLayer) throw new Error('no invokeWithLayer!');
       serializer.storeInt(+invokeWithLayer.id, 'invokeWithLayer');
 
       // @ts-ignore
       serializer.storeInt(Schema.layer, 'layer');
   
-<<<<<<< HEAD
-      const initConnection = Schema.API.methods.find(m => m.method === 'initConnection');
-=======
       const initConnection = Schema.API.methods.find((m) => m.method === 'initConnection');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!initConnection) throw new Error('no initConnection!');
   
       serializer.storeInt(+initConnection.id, 'initConnection');
       serializer.storeInt(0x0, 'flags');
       serializer.storeInt(App.id, 'api_id');
-<<<<<<< HEAD
-      serializer.storeString(networkerFactory.userAgent || 'Unknown UserAgent', 'device_model');
-=======
       serializer.storeString(getEnvironment().USER_AGENT || 'Unknown UserAgent', 'device_model');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       serializer.storeString(navigator.platform || 'Unknown Platform', 'system_version');
       serializer.storeString(App.version + (App.isMainDomain ? ' ' + App.suffix : ''), 'app_version');
       serializer.storeString(navigator.language || 'en', 'system_lang_code');
       serializer.storeString(App.langPack, 'lang_pack');
-<<<<<<< HEAD
-      serializer.storeString(networkerFactory.language, 'lang_code');
-=======
       serializer.storeString(this.networkerFactory.language, 'lang_code');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       //serializer.storeInt(0x0, 'proxy');
       /* serializer.storeMethod('initConnection', {
         'flags': 0,
@@ -402,11 +360,7 @@ export default class MTPNetworker {
   
     if(options.afterMessageId) {
       if(invokeAfterMsgConstructor === undefined) {
-<<<<<<< HEAD
-        const m = Schema.API.methods.find(m => m.method === 'invokeAfterMsg');
-=======
         const m = Schema.API.methods.find((m) => m.method === 'invokeAfterMsg');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         invokeAfterMsgConstructor = m ? +m.id : 0;
       }
       
@@ -617,23 +571,14 @@ export default class MTPNetworker {
       disconnect_delay: disconnectDelay
     }, options);
     
-<<<<<<< HEAD
-    this.log(`sendPingDelayDisconnect: ping, timeout=${timeoutTime}, lastPingTime=${this.lastPingTime}, msgId=${options.messageId}`);
-    const rejectTimeout = self.setTimeout(deferred.reject, timeoutTime);
-=======
     this.debug && this.log.debug(`sendPingDelayDisconnect: ping, timeout=${timeoutTime}, lastPingTime=${this.lastPingTime}, msgId=${options.messageId}`);
     const rejectTimeout = ctx.setTimeout(deferred.reject, timeoutTime);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const onResolved = (reason: string) => {
       clearTimeout(rejectTimeout);
       const elapsedTime = Date.now() - startTime;
       this.lastPingTime = elapsedTime / 1000;
-<<<<<<< HEAD
-      this.log(`sendPingDelayDisconnect: pong, reason='${reason}', time=${lastPingTime}, msgId=${options.messageId}`);
-=======
       this.debug && this.log.debug(`sendPingDelayDisconnect: pong, reason='${reason}', time=${lastPingTime}, msgId=${options.messageId}`);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(elapsedTime > timeoutTime) {
         throw undefined;
       } else {
@@ -886,11 +831,7 @@ export default class MTPNetworker {
         this.setConnectionStatus(ConnectionStatus.TimedOut);
       }
 
-<<<<<<< HEAD
-      /* this.getEncryptedOutput(message).then(bytes => {
-=======
       /* this.getEncryptedOutput(message).then((bytes) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.log.error('timeout encrypted', bytes);
       }); */
     }, this.delays.connectionTimeout);
@@ -931,13 +872,8 @@ export default class MTPNetworker {
     this.status = status;
 
     if(willChange) {
-<<<<<<< HEAD
-      if(networkerFactory.onConnectionStatusChange) {
-        networkerFactory.onConnectionStatusChange({
-=======
       if(this.networkerFactory.onConnectionStatusChange) {
         this.networkerFactory.onConnectionStatusChange({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           _: 'networkerStatus',
           status,
           dcId: this.dcId,
@@ -1031,11 +967,7 @@ export default class MTPNetworker {
   }
 
   public isStopped() {
-<<<<<<< HEAD
-    return networkerFactory.akStopped && !this.isFileNetworker;
-=======
     return this.networkerFactory.akStopped && !this.isFileNetworker;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private performScheduledRequest() {
@@ -1173,11 +1105,7 @@ export default class MTPNetworker {
     }
   
     /// #if MTPROTO_HAS_HTTP
-<<<<<<< HEAD
-    const noResponseMsgs: Array<string> = messages.filter(message => message.noResponse).map(message => message.msg_id);
-=======
     const noResponseMsgs: Array<string> = messages.filter((message) => message.noResponse).map((message) => message.msg_id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /// #endif
   
     if(messages.length > 1) {
@@ -1232,11 +1160,7 @@ export default class MTPNetworker {
     });
 
     const message: MTMessage = {
-<<<<<<< HEAD
-      msg_id: timeManager.generateId(),
-=======
       msg_id: this.timeManager.generateId(),
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       seq_no: this.generateSeqNo(true),
       container: true,
       inner: innerMessages
@@ -1603,11 +1527,7 @@ export default class MTPNetworker {
     this.nextReq = nextReq;
 
     if(delay !== undefined) {
-<<<<<<< HEAD
-      this.nextReqTimeout = self.setTimeout(cb, delay);
-=======
       this.nextReqTimeout = ctx.setTimeout(cb, delay);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } else {
       cb();
     }
@@ -1729,11 +1649,7 @@ export default class MTPNetworker {
   private applyServerTime(messageId: string) {
     const serverTime = bigInt(messageId).shiftRight(32).toJSNumber();
     this.log('applying server time', serverTime);
-<<<<<<< HEAD
-    return timeManager.applyServerTime(serverTime);
-=======
     return this.timeManager.applyServerTime(serverTime);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   // * https://core.telegram.org/mtproto/service_messages_about_messages#notice-of-ignored-error-message
@@ -1866,13 +1782,8 @@ export default class MTPNetworker {
         this.applyServerSalt(message.server_salt);
   
         sessionStorage.get('dc').then((baseDcId) => {
-<<<<<<< HEAD
-          if(baseDcId === this.dcId && !this.isFileNetworker && networkerFactory.updatesProcessor) {
-            networkerFactory.updatesProcessor(message);
-=======
           if(baseDcId === this.dcId && !this.isFileNetworker && this.networkerFactory.updatesProcessor) {
             this.networkerFactory.updatesProcessor(message);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           }
         });
         break;
@@ -1990,13 +1901,8 @@ export default class MTPNetworker {
           this.log.debug('Update', message);
         } */
         
-<<<<<<< HEAD
-        if(networkerFactory.updatesProcessor !== null) {
-          networkerFactory.updatesProcessor(message);
-=======
         if(this.networkerFactory.updatesProcessor !== null) {
           this.networkerFactory.updatesProcessor(message);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
         break;
     }

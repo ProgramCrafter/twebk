@@ -4,26 +4,14 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { putPreloader } from "../components/misc";
-import Scrollable from '../components/scrollable';
-import appStateManager from "../lib/appManagers/appStateManager";
-import apiManager from "../lib/mtproto/mtprotoworker";
-import { RichTextProcessor } from '../lib/richtextprocessor';
-=======
 import { putPreloader } from "../components/putPreloader";
 import Scrollable from '../components/scrollable';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Page from "./page";
 import InputField from "../components/inputField";
 import CheckboxField from "../components/checkboxField";
 import Button from "../components/button";
 import fastSmoothScroll from "../helpers/fastSmoothScroll";
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
-=======
 import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import App from "../config/app";
 import I18n, { _i18n, i18n } from "../lib/langPack";
 import lottieLoader from "../lib/rlottie/lottieLoader";
@@ -31,11 +19,6 @@ import ripple from "../components/ripple";
 import findUpTag from "../helpers/dom/findUpTag";
 import findUpClassName from "../helpers/dom/findUpClassName";
 import { randomLong } from "../helpers/random";
-<<<<<<< HEAD
-import AppStorage from "../lib/storage";
-import CacheStorageController from "../lib/cacheStorage";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import pageSignQR from "./pageSignQR";
 import getLanguageChangeButton from "../components/languageChangeButton";
 import cancelEvent from "../helpers/dom/cancelEvent";
@@ -53,12 +36,9 @@ import rootScope from "../lib/rootScope";
 import TelInputField from "../components/telInputField";
 import IS_EMOJI_SUPPORTED from "../environment/emojiSupport";
 import setInnerHTML from "../helpers/dom/setInnerHTML";
-<<<<<<< HEAD
-=======
 import wrapEmojiText from "../lib/richTextProcessor/wrapEmojiText";
 import apiManagerProxy from "../lib/mtproto/mtprotoworker";
 import CountryInputField from "../components/countryInputField";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //import _countries from '../countries_pretty.json';
 let btnNext: HTMLButtonElement = null, btnQr: HTMLButtonElement;
@@ -79,240 +59,13 @@ let onFirstMount = () => {
     console.log('Added test country to list!');
   } */
 
-<<<<<<< HEAD
-  //const countries: Country[] = _countries.default.filter(c => c.emoji);
-  // const countries: Country[] = Countries.filter(c => c.emoji).sort((a, b) => a.name.localeCompare(b.name));
-  // const countries = I18n.countriesList.filter(country => !country.pFlags?.hidden);
-  const setCountries = () => {
-    countries = I18n.countriesList
-    .filter(country => !country.pFlags?.hidden)
-    .sort((a, b) => (a.name || a.default_name).localeCompare(b.name || b.default_name));
-  };
-  let countries: HelpCountry.helpCountry[]; 
-
-  setCountries();
-
-  rootScope.addEventListener('language_change', () => {
-    setCountries();
-  });
-
-  const liMap: Map<string, HTMLLIElement[]> = new Map();
-
-  let lastCountrySelected: HelpCountry, lastCountryCodeSelected: HelpCountryCode;
-=======
   //const countries: Country[] = _countries.default.filter((c) => c.emoji);
   // const countries: Country[] = Countries.filter((c) => c.emoji).sort((a, b) => a.name.localeCompare(b.name));
   // const countries = I18n.countriesList.filter((country) => !country.pFlags?.hidden);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   const inputWrapper = document.createElement('div');
   inputWrapper.classList.add('input-wrapper');
 
-<<<<<<< HEAD
-  const countryInputField = new InputField({
-    label: 'Login.CountrySelectorLabel',
-    name: randomLong()
-  });
-
-  countryInputField.container.classList.add('input-select');
-
-  const countryInput = countryInputField.input;
-  // countryInput.autocomplete = randomLong();
-
-  const selectWrapper = document.createElement('div');
-  selectWrapper.classList.add('select-wrapper', 'z-depth-3', 'hide');
-
-  const arrowDown = document.createElement('span');
-  arrowDown.classList.add('arrow', 'arrow-down');
-  countryInputField.container.append(arrowDown);
-
-  const selectList = document.createElement('ul');
-  selectWrapper.appendChild(selectList);
-
-  const scroll = new Scrollable(selectWrapper);
-
-  let initSelect = () => {
-    initSelect = null;
-
-    countries.forEach((c) => {
-      const emoji = getCountryEmoji(c.iso2);
-
-      const liArr: Array<HTMLLIElement> = [];
-      c.country_codes.forEach((countryCode) => {
-        const li = document.createElement('li');
-
-        let wrapped = RichTextProcessor.wrapEmojiText(emoji);
-        if(IS_EMOJI_SUPPORTED) {
-          const spanEmoji = document.createElement('span');
-          setInnerHTML(spanEmoji, wrapped);
-          li.append(spanEmoji);
-        } else {
-          setInnerHTML(li, wrapped);
-        }
-        
-        const el = i18n(c.default_name as any);
-        el.dataset.defaultName = c.default_name;
-        li.append(el);
-
-        const span = document.createElement('span');
-        span.classList.add('phone-code');
-        span.innerText = '+' + countryCode.country_code;
-        li.appendChild(span);
-
-        liArr.push(li);
-        selectList.append(li);
-      });
-
-      liMap.set(c.iso2, liArr);
-    });
-    
-    selectList.addEventListener('mousedown', (e) => {
-      if(e.button !== 0) { // other buttons but left shall not pass
-        return;
-      }
-      
-      const target = findUpTag(e.target, 'LI')
-      selectCountryByTarget(target);
-      //console.log('clicked', e, countryName, phoneCode);
-    });
-
-    countryInputField.container.appendChild(selectWrapper);
-  };
-
-  const selectCountryByTarget = (target: HTMLElement) => {
-    const defaultName = (target.childNodes[1] as HTMLElement).dataset.defaultName;
-    const phoneCode = target.querySelector<HTMLElement>('.phone-code').innerText;
-    const countryCode = phoneCode.replace(/\D/g, '');
-
-    replaceContent(countryInput, i18n(defaultName as any));
-    simulateEvent(countryInput, 'input');
-    lastCountrySelected = countries.find(c => c.default_name === defaultName);
-    lastCountryCodeSelected = lastCountrySelected.country_codes.find(_countryCode => _countryCode.country_code === countryCode);
-    
-    telInputField.value = telInputField.lastValue = phoneCode;
-    hidePicker();
-    setTimeout(() => {
-      telEl.focus();
-      placeCaretAtEnd(telEl, true);
-    }, 0);
-  };
-  
-  initSelect();
-
-  let hideTimeout: number;
-
-  countryInput.addEventListener('focus', function(this: typeof countryInput, e) {
-    if(initSelect) {
-      initSelect();
-    } else {
-      countries.forEach((c) => {
-        liMap.get(c.iso2).forEach(li => li.style.display = '');
-      });
-    }
-
-    clearTimeout(hideTimeout);
-    hideTimeout = undefined;
-
-    selectWrapper.classList.remove('hide');
-    void selectWrapper.offsetWidth; // reflow
-    selectWrapper.classList.add('active');
-
-    countryInputField.select();
-
-    fastSmoothScroll({
-      container: page.pageEl.parentElement.parentElement, 
-      element: countryInput, 
-      position: 'start', 
-      margin: 4
-    });
-
-    setTimeout(() => {
-      if(!mouseDownHandlerAttached) {
-        document.addEventListener('mousedown', onMouseDown, {capture: true});
-        mouseDownHandlerAttached = true;
-      }
-    }, 0);
-  });
-
-  let mouseDownHandlerAttached = false;
-  const onMouseDown = (e: MouseEvent) => {
-    if(findUpClassName(e.target, 'input-select')) {
-      return;
-    }
-    if(e.target === countryInput) {
-      return;
-    }
-
-    hidePicker();
-    document.removeEventListener('mousedown', onMouseDown, {capture: true});
-    mouseDownHandlerAttached = false;
-  };
-
-  const hidePicker = () => {
-    if(hideTimeout !== undefined) return;
-    selectWrapper.classList.remove('active');
-    hideTimeout = window.setTimeout(() => {
-      selectWrapper.classList.add('hide');
-      hideTimeout = undefined;
-    }, 200);
-  };
-  /* false && countryInput.addEventListener('blur', function(this: typeof countryInput, e) {
-    hidePicker();
-    
-    e.cancelBubble = true;
-  }, {capture: true}); */
-
-  countryInput.addEventListener('keyup', (e) => {
-    const key = e.key;
-    if(e.ctrlKey || key === 'Control') return false;
-
-    //let i = new RegExp('^' + this.value, 'i');
-    let _value = countryInputField.value.toLowerCase();
-    let matches: HelpCountry[] = [];
-    countries.forEach((c) => {
-      const names = [
-        c.name, 
-        c.default_name,
-        c.iso2
-      ];
-
-      names.filter(Boolean).forEach(name => {
-        const abbr = name.split(' ').filter(word => /\w/.test(word)).map(word => word[0]).join('');
-        if(abbr.length > 1) {
-          names.push(abbr);
-        }
-      });
-
-      let good = !!names.filter(Boolean).find(str => str.toLowerCase().indexOf(_value) !== -1)/*  === 0 */;//i.test(c.name);
-
-      liMap.get(c.iso2).forEach(li => li.style.display = good ? '' : 'none');
-      if(good) matches.push(c);
-    });
-
-    // Код ниже автоматически выберет страну если она осталась одна при поиске
-    /* if(matches.length === 1 && matches[0].li.length === 1) {
-      if(matches[0].name === lastCountrySelected) return false;
-      //console.log('clicking', matches[0]);
-
-      var clickEvent = document.createEvent('MouseEvents');
-      clickEvent.initEvent('mousedown', true, true);
-      matches[0].li[0].dispatchEvent(clickEvent);
-      return false;
-    } else  */if(matches.length === 0) {
-      countries.forEach((c) => {
-        liMap.get(c.iso2).forEach(li => li.style.display = '');
-      });
-    } else if(matches.length === 1 && key === 'Enter') {
-      selectCountryByTarget(liMap.get(matches[0].iso2)[0]);
-    }
-  });
-
-  arrowDown.addEventListener('mousedown', function(this: typeof arrowDown, e) {
-    e.cancelBubble = true;
-    e.preventDefault();
-    if(countryInput.matches(':focus')) countryInput.blur();
-    else countryInput.focus();
-=======
   let lastCountrySelected: HelpCountry, lastCountryCodeSelected: HelpCountryCode;
   const countryInputField = new CountryInputField({
     onCountryChange: (country, code) => {
@@ -328,7 +81,6 @@ let onFirstMount = () => {
         placeCaretAtEnd(telEl, true);
       }, 0);
     }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   });
 
   const telInputField = new TelInputField({
@@ -346,13 +98,7 @@ let onFirstMount = () => {
           )
         )
       ) {
-<<<<<<< HEAD
-        replaceContent(countryInput, country ? i18n(country.default_name as any) : countryName);
-        lastCountrySelected = country;
-        lastCountryCodeSelected = code;
-=======
         countryInputField.override(country, code, countryName);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
   
       //if(country && (telInputField.value.length - 1) >= (country.pattern ? country.pattern.length : 9)) {
@@ -386,18 +132,6 @@ let onFirstMount = () => {
 
   signedCheckboxField.input.addEventListener('change', () => {
     const keepSigned = signedCheckboxField.checked;
-<<<<<<< HEAD
-    appStateManager.pushToState('keepSigned', keepSigned);
-    
-    AppStorage.toggleStorage(keepSigned);
-    CacheStorageController.toggleStorage(keepSigned);
-    apiManager.toggleStorage(keepSigned);
-    sessionStorage.toggleStorage(keepSigned);
-  });
-
-  appStateManager.getState().then(state => {
-    if(!appStateManager.storage.isAvailable()) {
-=======
     rootScope.managers.appStateManager.pushToState('keepSigned', keepSigned);
     
     apiManagerProxy.toggleStorages(keepSigned, true);
@@ -405,7 +139,6 @@ let onFirstMount = () => {
 
   apiManagerProxy.getState().then((state) => {
     if(!stateStorage.isAvailable()) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       signedCheckboxField.checked = false;
       signedCheckboxField.label.classList.add('checkbox-disabled');
     } else {
@@ -429,11 +162,7 @@ let onFirstMount = () => {
     //return;
 
     let phone_number = telInputField.value;
-<<<<<<< HEAD
-    apiManager.invokeApi('auth.sendCode', {
-=======
     rootScope.managers.apiManager.invokeApi('auth.sendCode', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       phone_number: phone_number,
       api_id: App.id,
       api_hash: App.hash,
@@ -444,13 +173,8 @@ let onFirstMount = () => {
     }).then((code) => {
       //console.log('got code', code);
 
-<<<<<<< HEAD
-      import('./pageAuthCode').then(m => m.default.mount(Object.assign(code, {phone_number: phone_number})));
-    }).catch(err => {
-=======
       import('./pageAuthCode').then((m) => m.default.mount(Object.assign(code, {phone_number: phone_number})));
     }).catch((err) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       toggle();
 
       switch(err.type) {
@@ -484,11 +208,7 @@ let onFirstMount = () => {
       qrMounted = true;
     }
 
-<<<<<<< HEAD
-    promise.then(module => {
-=======
     promise.then((module) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       module.default.mount();
 
       setTimeout(() => {
@@ -513,11 +233,7 @@ let onFirstMount = () => {
   page.pageEl.querySelector('.container').append(h4, subtitle, inputWrapper);
 
   let tryAgain = () => {
-<<<<<<< HEAD
-    apiManager.invokeApi('help.getNearestDc').then((nearestDcResult) => {
-=======
     rootScope.managers.apiManager.invokeApi('help.getNearestDc').then((nearestDcResult) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const langPack = stateStorage.getFromCache('langPack');
       if(langPack && !langPack.countries?.hash) {
         I18n.getLangPack(langPack.lang_code).then(() => {
@@ -530,21 +246,13 @@ let onFirstMount = () => {
 
       let promise: Promise<any>;
       if(nearestDcResult.nearest_dc !== nearestDcResult.this_dc) {
-<<<<<<< HEAD
-        promise = apiManager.getNetworker(nearestDcResult.nearest_dc).then(() => {
-=======
         promise = rootScope.managers.apiManager.getNetworkerVoid(nearestDcResult.nearest_dc).then(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           done.push(nearestDcResult.nearest_dc);
         });
       }
 
       (promise || Promise.resolve()).then(() => {
-<<<<<<< HEAD
-        done.forEach(dcId => {
-=======
         done.forEach((dcId) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           dcs.delete(dcId);
         });
 
@@ -560,11 +268,7 @@ let onFirstMount = () => {
           }
 
           setTimeout(() => { // * если одновременно запросить все нетворкеры, не будет проходить запрос на код
-<<<<<<< HEAD
-            apiManager.getNetworker(dcId/* , {fileDownload: true} */).finally(g);
-=======
             rootScope.managers.apiManager.getNetworkerVoid(dcId/* , {fileDownload: true} */).finally(g);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           }, /* done.includes(dcId) ? 0 :  */3000);
         };
         
@@ -574,11 +278,7 @@ let onFirstMount = () => {
       return nearestDcResult;
     }).then((nearestDcResult) => {
       if(!countryInputField.value.length && !telInputField.value.length) {
-<<<<<<< HEAD
-        selectCountryByTarget(liMap.get(nearestDcResult.country)[0]);
-=======
         countryInputField.selectCountryByIso2(nearestDcResult.country);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
   
       //console.log('woohoo', nearestDcResult, country);
@@ -607,11 +307,7 @@ const page = new Page('page-sign', true, onFirstMount, () => {
     btnQr.removeAttribute('disabled');
   }
 
-<<<<<<< HEAD
-  appStateManager.pushToState('authState', {_: 'authStateSignIn'});
-=======
   rootScope.managers.appStateManager.pushToState('authState', {_: 'authStateSignIn'});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 });
 
 export default page;

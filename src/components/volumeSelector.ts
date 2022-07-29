@@ -49,11 +49,7 @@ export default class VolumeSelector extends RangeSelector {
     btn.append(icon, this.container);
 
     attachClickEvent(icon, this.onMuteClick, {listenerSetter: this.listenerSetter});
-<<<<<<< HEAD
-    this.listenerSetter.add(rootScope)('media_playback_params', this.setVolume);
-=======
     this.listenerSetter.add(appMediaPlaybackController)('playbackParams', this.setVolume);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.setVolume();
   }
@@ -78,11 +74,7 @@ export default class VolumeSelector extends RangeSelector {
       iconIndex = 2;
     }
 
-<<<<<<< HEAD
-    VolumeSelector.ICONS.forEach(icon => this.icon.classList.remove('tgico-' + icon));
-=======
     VolumeSelector.ICONS.forEach((icon) => this.icon.classList.remove('tgico-' + icon));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.icon.classList.add('tgico-' + VolumeSelector.ICONS[iconIndex]);
 
     if(!this.mousedown) {

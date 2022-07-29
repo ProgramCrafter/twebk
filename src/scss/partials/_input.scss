@@ -81,8 +81,6 @@
       transition: opacity .2s;
     }
   }
-<<<<<<< HEAD
-=======
 
   &-icon {
     position: absolute;
@@ -95,7 +93,6 @@
     border-radius: .375rem;
     pointer-events: none;
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
   &-input {
     --padding: 1rem;
@@ -105,11 +102,7 @@
     border-radius: var(--border-radius);
     background-color: var(--surface-color);
     //padding: 0 1rem;
-<<<<<<< HEAD
-    padding: calc(var(--padding) - var(--border-width));
-=======
     padding: calc(var(--padding) - var(--border-width)) calc(var(--padding-horizontal) - var(--border-width));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     box-sizing: border-box;
     width: 100%;
     min-height: var(--height);
@@ -142,10 +135,7 @@
 
     @include respond-to(handhelds) {
       --padding: .9375rem;
-<<<<<<< HEAD
-=======
       --padding-horizontal: .9375rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     @include animation-level(0) {
@@ -238,13 +228,8 @@
     &:valid ~ label, 
     &:not(:empty) ~ label, 
     &:disabled ~ label {
-<<<<<<< HEAD
-      transform: translate(-.25rem, calc(var(--height) / -2 + .125rem)) scale(.75);
-      padding: 0 6px;
-=======
       transform: translate(-.1875rem, calc(var(--height) / -2 + .0625rem)) scale(.75);
       padding: 0 .3125rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       opacity: 1;
     }
   }
@@ -265,8 +250,6 @@
   }
 }
 
-<<<<<<< HEAD
-=======
 .input-fields-row {
   display: flex;
 
@@ -280,7 +263,6 @@
   }
 }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 .input-wrapper > * + * {
   margin-top: 1.5rem;
 }
@@ -361,11 +343,7 @@ input:focus, button:focus {
     line-height: var(--height);
     
     @include animation-level(2) {
-<<<<<<< HEAD
-      transition: background-color .2s ease-in-out, border-color .2s ease-in-out;
-=======
       transition: /* background-color .2s ease-in-out,  */border-color .2s ease-in-out;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     @include hover() {

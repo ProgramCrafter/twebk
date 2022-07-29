@@ -1,14 +1,8 @@
 import bytesFromHex from '../helpers/bytes/bytesFromHex';
 import bytesToHex from '../helpers/bytes/bytesToHex';
-<<<<<<< HEAD
-import CryptoWorker from '../lib/crypto/cryptoworker';
-import type { RSAPublicKeyHex } from '../lib/mtproto/rsaKeysManager';
-import '../lib/polyfill';
-=======
 import type { RSAPublicKeyHex } from '../lib/mtproto/rsaKeysManager';
 import '../lib/crypto/crypto.worker';
 import cryptoWorker from '../lib/crypto/cryptoMessagePort';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 test('factorize', async() => {
   const data: {good?: [Uint8Array, Uint8Array], pq: Uint8Array}[] = [{
@@ -40,11 +34,7 @@ test('factorize', async() => {
   for(const {good, pq} of data) {
     for(const method of methods) {
       const perf = performance.now();
-<<<<<<< HEAD
-      await CryptoWorker.invokeCrypto(method, pq).then(pAndQ => {
-=======
       await cryptoWorker.invokeCrypto(method, pq).then((pAndQ) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         // console.log(method, performance.now() - perf, pAndQ);
         if(good) {
           expect(pAndQ).toEqual(good);
@@ -58,13 +48,8 @@ test('factorize', async() => {
 
 test('sha1', () => {
   const bytes = new Uint8Array(bytesFromHex('ec5ac983081eeb1da706316227000000044af6cfb1000000046995dd57000000d55105998729349339eb322d86ec13bc0884f6ba0449d8ecbad0ef574837422579a11a88591796cdcc4c05690da0652462489286450179a635924bcc0ab83848'));
-<<<<<<< HEAD
-  CryptoWorker.invokeCrypto('sha1', bytes)
-  .then(bytes => {
-=======
   cryptoWorker.invokeCrypto('sha1', bytes)
   .then((bytes) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //console.log(bytesFromArrayBuffer(buffer));
 
     expect(bytes).toEqual(new Uint8Array([
@@ -77,13 +62,8 @@ test('sha1', () => {
 });
 
 test('sha256', () => {
-<<<<<<< HEAD
-  CryptoWorker.invokeCrypto('sha256', new Uint8Array([112, 20, 211, 20, 106, 249, 203, 252, 39, 107, 106, 194, 63, 60, 13, 130, 51, 78, 107, 6, 110, 156, 214, 65, 205, 10, 30, 150, 79, 10, 145, 194, 232, 240, 127, 55, 146, 103, 248, 227, 160, 172, 30, 153, 122, 189, 110, 162, 33, 86, 174, 117]))
-  .then(bytes => {  
-=======
   cryptoWorker.invokeCrypto('sha256', new Uint8Array([112, 20, 211, 20, 106, 249, 203, 252, 39, 107, 106, 194, 63, 60, 13, 130, 51, 78, 107, 6, 110, 156, 214, 65, 205, 10, 30, 150, 79, 10, 145, 194, 232, 240, 127, 55, 146, 103, 248, 227, 160, 172, 30, 153, 122, 189, 110, 162, 33, 86, 174, 117]))
   .then((bytes) => {  
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     expect(bytes).toEqual(new Uint8Array([158, 59, 39, 247, 130, 244, 235, 160, 16, 249, 34, 114, 67, 171, 203, 208, 187, 72, 217, 106, 253, 62, 195, 242, 52, 118, 99, 72, 221, 29, 203, 95]));
   });
 
@@ -102,17 +82,10 @@ test('sha256', () => {
     [new Uint8Array(Array.from(client_salt).concat(Array.from(new TextEncoder().encode('😂😘❤️😍😊😁👁👍🏿')), Array.from(client_salt))), 'f11950fb40baf391b06a57e7490c8ad4d99ec0c1516c2bc7e529895296616ea7']
   ];
 
-<<<<<<< HEAD
-  payload.forEach(pair => {
-    //const uint8 = new TextEncoder().encode(pair[0]);
-    //CryptoWorker.sha256Hash(new Uint8Array(pair[0].split('').map(c => c.charCodeAt(0)))).then(bytes => {
-    CryptoWorker.invokeCrypto('sha256', pair[0]).then(bytes => {
-=======
   payload.forEach((pair) => {
     //const uint8 = new TextEncoder().encode(pair[0]);
     //CryptoWorker.sha256Hash(new Uint8Array(pair[0].split('').map((c) => c.charCodeAt(0)))).then((bytes) => {
     cryptoWorker.invokeCrypto('sha256', pair[0]).then((bytes) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const hex = bytesToHex(bytes);
       expect(hex).toEqual(pair[1]);
     });
@@ -168,11 +141,7 @@ test('rsa', () => {
     120, 106, 17, 142, 143, 9, 233
   ]);
 
-<<<<<<< HEAD
-  CryptoWorker.invokeCrypto('rsa-encrypt', bytes, publicKey).then(encrypted => {
-=======
   cryptoWorker.invokeCrypto('rsa-encrypt', bytes, publicKey).then((encrypted) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     expect(encrypted).toEqual(good);
   });
 });
@@ -269,11 +238,7 @@ test('mod-pow', () => {
     0xb9, 0x2f, 0xcc, 0x5b
   ]);
 
-<<<<<<< HEAD
-  CryptoWorker.invokeCrypto('mod-pow', g_a, randomPower, p).then(encrypted => {
-=======
   cryptoWorker.invokeCrypto('mod-pow', g_a, randomPower, p).then((encrypted) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const good = new Uint8Array([
       0x2c, 0xb2, 0x4, 0xe7, 0xa8, 0x63, 0x5f, 0x3e, 0xd0, 0x67, 0x5f, 0x76, 0x87, 0x37, 0x56, 0xc2, 
       0x2d, 0xe7, 0xd, 0xe3, 0x9b, 0xbd, 0x9d, 0xf6, 0x3b, 0x1f, 0xc, 0xb4, 0x37, 0xc6, 0xf, 0x75, 
@@ -295,8 +260,6 @@ test('mod-pow', () => {
     expect(encrypted).toEqual(good);
   });
 });
-<<<<<<< HEAD
-=======
 
 describe('AES-CTR', () => {
   let id: number;
@@ -375,4 +338,3 @@ describe('AES-CTR', () => {
     }
   });
 });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

@@ -4,21 +4,14 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import appDownloadManager from "../../lib/appManagers/appDownloadManager";
-=======
 import type { AppDownloadManager } from "../../lib/appManagers/appDownloadManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import resizeableImage from "../../lib/cropper";
 import PopupElement from ".";
 import { _i18n } from "../../lib/langPack";
 import { attachClickEvent } from "../../helpers/dom/clickEvent";
 import readBlobAsDataURL from "../../helpers/blob/readBlobAsDataURL";
-<<<<<<< HEAD
-=======
 import rootScope from "../../lib/rootScope";
 import appDownloadManager from "../../lib/appManagers/appDownloadManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class PopupAvatar extends PopupElement {
   private cropContainer: HTMLElement;
@@ -34,17 +27,10 @@ export default class PopupAvatar extends PopupElement {
     removeHandlers: () => {}
   };
 
-<<<<<<< HEAD
-  private onCrop: (upload: () => ReturnType<typeof appDownloadManager.upload>) => void;
-
-  constructor() {
-    super('popup-avatar', null, {closable: true, withConfirm: true});
-=======
   private onCrop: (upload: () => ReturnType<AppDownloadManager['upload']>) => void;
 
   constructor() {
     super('popup-avatar', {closable: true, withConfirm: true});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.h6 = document.createElement('h6');
     _i18n(this.h6, 'Popup.Avatar.Title');
@@ -66,11 +52,7 @@ export default class PopupAvatar extends PopupElement {
         return;
       }
 
-<<<<<<< HEAD
-      readBlobAsDataURL(file).then(contents => {
-=======
       readBlobAsDataURL(file).then((contents) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.image = new Image();
         this.cropContainer.append(this.image);
         this.image.src = contents;
@@ -92,11 +74,7 @@ export default class PopupAvatar extends PopupElement {
       this.cropper.crop();
       this.hide();
 
-<<<<<<< HEAD
-      this.canvas.toBlob(blob => {
-=======
       this.canvas.toBlob((blob) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.blob = blob; // save blob to send after reg
         this.darkenCanvas();
         this.resolve();

@@ -24,10 +24,7 @@ export default function blobSafeMimeType(mimeType: string) {
     'audio/ogg',
     'audio/mpeg',
     'audio/mp4',
-<<<<<<< HEAD
-=======
     'audio/wav', // though it is not in list
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     'application/json',
     'application/pdf'
   ].indexOf(mimeType) === -1) {

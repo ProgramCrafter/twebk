@@ -131,11 +131,6 @@ export default class CacheStorageController {
     return Promise.resolve(fakeWriter);
   }
 
-<<<<<<< HEAD
-  public static toggleStorage(enabled: boolean) {
-    return Promise.all(this.STORAGES.map(storage => {
-      storage.useStorage = enabled;
-=======
   public static toggleStorage(enabled: boolean, clearWrite: boolean) {
     return Promise.all(this.STORAGES.map((storage) => {
       storage.useStorage = enabled;
@@ -143,7 +138,6 @@ export default class CacheStorageController {
       if(!clearWrite) {
         return;
       }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       
       if(!enabled) {
         return storage.deleteAll();
@@ -151,10 +145,3 @@ export default class CacheStorageController {
     }));
   }
 }
-<<<<<<< HEAD
-
-//const cacheStorage = new CacheStorageController(); 
-//MOUNT_CLASS_TO.cacheStorage = cacheStorage;
-//export default cacheStorage;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

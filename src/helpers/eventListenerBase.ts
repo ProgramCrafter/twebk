@@ -59,20 +59,13 @@ export type EventListenerListeners = Record<string, Function>;
  * Should add listener callback only once
  */
 
-<<<<<<< HEAD
-=======
 type ListenerObject<T> = {callback: T, options: boolean | AddEventListenerOptions};
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 // type EventLitenerCallback<T> = (data: T) => 
 // export default class EventListenerBase<Listeners extends {[name: string]: Function}> {
 export default class EventListenerBase<Listeners extends EventListenerListeners> {
   protected listeners: Partial<{
-<<<<<<< HEAD
-    [k in keyof Listeners]: Array<{callback: Listeners[k], options: boolean | AddEventListenerOptions}>
-=======
     [k in keyof Listeners]: Array<ListenerObject<Listeners[k]>>
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }>;
   protected listenerResults: Partial<{
     [k in keyof Listeners]: ArgumentTypes<Listeners[k]>
@@ -120,9 +113,6 @@ export default class EventListenerBase<Listeners extends EventListenerListeners>
     //e.remove(this, name, callback);
   }
 
-<<<<<<< HEAD
-  // * must be protected, but who cares
-=======
   protected invokeListenerCallback<T extends keyof Listeners, L extends ListenerObject<any>>(name: T, listener: L, ...args: ArgumentTypes<L['callback']>) {
     let result: any;
     try {
@@ -138,7 +128,6 @@ export default class EventListenerBase<Listeners extends EventListenerListeners>
     return result;
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private _dispatchEvent<T extends keyof Listeners>(name: T, collectResults: boolean, ...args: ArgumentTypes<Listeners[T]>) {
     if(this.reuseResults) {
       this.listenerResults[name] = args;
@@ -156,27 +145,10 @@ export default class EventListenerBase<Listeners extends EventListenerListeners>
           return;
         }
 
-<<<<<<< HEAD
-        let result: any;
-        try {
-          result = listener.callback(...args);
-        } catch(err) {
-          console.error(err);
-        }
-
-        if(arr) {
-          arr.push(result);
-        }
-
-        if((listener.options as AddEventListenerOptions)?.once) {
-          this.removeEventListener(name, listener.callback);
-        }
-=======
         const result = this.invokeListenerCallback(name, listener, ...args);
         if(arr) {
           arr.push(result);
         }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
     }
 

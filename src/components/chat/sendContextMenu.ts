@@ -4,19 +4,12 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-=======
 import contextMenuController from "../../helpers/contextMenuController";
 import { attachContextMenuListener } from "../../helpers/dom/attachContextMenuListener";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import cancelEvent from "../../helpers/dom/cancelEvent";
 import ListenerSetter from "../../helpers/listenerSetter";
 import rootScope from "../../lib/rootScope";
 import ButtonMenu, { ButtonMenuItemOptions } from "../buttonMenu";
-<<<<<<< HEAD
-import { attachContextMenuListener, openBtnMenu } from "../misc";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class SendMenu {
   public sendMenu: HTMLDivElement;
@@ -56,20 +49,12 @@ export default class SendMenu {
         return;
       }
 
-<<<<<<< HEAD
-      this.sendMenuButtons.forEach(button => {
-=======
       this.sendMenuButtons.forEach((button) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         button.element.classList.toggle('hide', !button.verify());
       });
       
       cancelEvent(e);
-<<<<<<< HEAD
-      openBtnMenu(this.sendMenu);
-=======
       contextMenuController.openBtnMenu(this.sendMenu);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, options.listenerSetter);
   }
 

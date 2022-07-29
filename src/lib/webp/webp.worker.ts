@@ -5,17 +5,10 @@
  */
 
 import { webp2png } from './webp';
-<<<<<<< HEAD
-import type { WebpConvertTask } from './webpWorkerController';
-
-const ctx = self as any as DedicatedWorkerGlobalScope;
-const tasks: WebpConvertTask[] = [];
-=======
 import type { ConvertWebPTask } from './webpWorkerController';
 
 const ctx = self as any as DedicatedWorkerGlobalScope;
 const tasks: ConvertWebPTask[] = [];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //let isProcessing = false;
 
 function finishTask() {
@@ -60,11 +53,7 @@ function processTasks() {
   }
 }
 
-<<<<<<< HEAD
-function scheduleTask(task: WebpConvertTask) {
-=======
 function scheduleTask(task: ConvertWebPTask) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   tasks.push(task);
   /* if(task.payload.fileName.indexOf('main-') === 0) {
     tasks.push(task);

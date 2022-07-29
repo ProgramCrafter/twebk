@@ -9,11 +9,7 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 18rem;
-<<<<<<< HEAD
   max-width: calc(#{$large-screen} * 2 / 7);
-=======
-  max-width: calc(#{$large-screen} / 4);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   @include respond-to(handhelds) {
     width: 100%;
@@ -109,13 +105,10 @@
         .scrollable {
           padding-top: .5rem;
         }
-<<<<<<< HEAD
-=======
 
         .dialogs-placeholder-canvas {
           top: .5rem;
         }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
         /* .chatlist {
           top: .5rem;
@@ -145,13 +138,10 @@
     }
   }
 
-<<<<<<< HEAD
-=======
   .folders-tabs-scrollable {
     flex: 0 0 auto;
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   /* .folders-tabs-scrollable {
     .menu-horizontal-div-item:first-child {
       margin-left: .6875rem;
@@ -263,11 +253,8 @@
   }
 
   #folders-container {
-<<<<<<< HEAD
-=======
     flex: 1 1 auto;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .scrollable-y {
       background-color: transparent;
       position: absolute;
@@ -276,15 +263,12 @@
         display: block;
       }
     }
-<<<<<<< HEAD
-=======
   }
 
   .dialogs-placeholder-canvas {
     position: absolute;
     top: 0;
     z-index: 2;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   .sidebar-slider {
@@ -347,11 +331,7 @@
       }
   
       .btn-menu-item {
-<<<<<<< HEAD
-        padding-right: 1rem;
-=======
         padding-right: .375rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
   
       .archived-count:empty {
@@ -989,7 +969,6 @@
   }
 }
 
-<<<<<<< HEAD
 .folders-tabs-scrollable.menu-horizontal-scrollable {
   height: 216px;
 }
@@ -1081,8 +1060,6 @@
   color: var(--primary-color);
 }
 
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 #chats-archived-container,
 #contacts-container,
 .add-members-container,

@@ -8,15 +8,9 @@ import replaceContent from "../../helpers/dom/replaceContent";
 import setInnerHTML from "../../helpers/dom/setInnerHTML";
 import { GroupCallParticipant } from "../../layer";
 import { i18n } from "../../lib/langPack";
-<<<<<<< HEAD
-import RichTextProcessor from "../../lib/richtextprocessor";
-import { GROUP_CALL_PARTICIPANT_MUTED_STATE } from ".";
-import { GroupCallParticipantVideoType } from "./participantVideo";
-=======
 import { GROUP_CALL_PARTICIPANT_MUTED_STATE } from ".";
 import { GroupCallParticipantVideoType } from "./participantVideo";
 import wrapEmojiText from "../../lib/richTextProcessor/wrapEmojiText";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const className = 'group-call-participant-status';
 export default class GroupCallParticipantStatusElement {
@@ -29,11 +23,7 @@ export default class GroupCallParticipantStatusElement {
 
   public setState(state: GROUP_CALL_PARTICIPANT_MUTED_STATE, participant: GroupCallParticipant) {
     const states = GROUP_CALL_PARTICIPANT_MUTED_STATE;
-<<<<<<< HEAD
-    const icons = this.withIcons.filter(type => !!participant[type]).map(type => {
-=======
     const icons = this.withIcons.filter((type) => !!participant[type]).map((type) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const iconClassName = `tgico-${type === 'presentation' ? 'listscreenshare' : 'videocamera_filled'}`;
       const i = document.createElement('i');
       i.classList.add(className + '-icon', className + '-icon-' + type, iconClassName);
@@ -51,11 +41,7 @@ export default class GroupCallParticipantStatusElement {
       element2 = i18n('VoiceChat.Status.WantsSpeak');
       actionClassName = 'is-waiting';
     } else if(participant.about && !icons.length) {
-<<<<<<< HEAD
-      setInnerHTML(this.container, RichTextProcessor.wrapEmojiText(participant.about));
-=======
       setInnerHTML(this.container, wrapEmojiText(participant.about));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     } else {
       element2 = i18n('VoiceChat.Status.Listening');

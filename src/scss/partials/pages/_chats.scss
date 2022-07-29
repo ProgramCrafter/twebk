@@ -119,11 +119,7 @@
 
   @include animation-level(2) {
     .main-column {
-<<<<<<< HEAD
-      transition: var(--tabs-transition);
-=======
       transition: transform var(--tabs-transition), filter var(--tabs-transition);;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 }

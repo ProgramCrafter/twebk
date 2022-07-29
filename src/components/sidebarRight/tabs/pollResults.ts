@@ -6,21 +6,12 @@
 
 import { SliderSuperTab } from "../../slider";
 import appSidebarRight from "..";
-<<<<<<< HEAD
-import appPollsManager from "../../../lib/appManagers/appPollsManager";
 import { roundPercents } from "../../poll";
-import { RichTextProcessor } from "../../../lib/richtextprocessor";
-=======
-import { roundPercents } from "../../poll";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import appDialogsManager from "../../../lib/appManagers/appDialogsManager";
 import ripple from "../../ripple";
 import { i18n } from "../../../lib/langPack";
 import setInnerHTML from "../../../helpers/dom/setInnerHTML";
-<<<<<<< HEAD
-=======
 import wrapEmojiText from "../../../lib/richTextProcessor/wrapEmojiText";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppPollResultsTab extends SliderSuperTab {
   private resultsDiv: HTMLElement;
@@ -34,28 +25,16 @@ export default class AppPollResultsTab extends SliderSuperTab {
     this.scrollable.append(this.resultsDiv);
   }
 
-<<<<<<< HEAD
-  public open(message: any) {
-    const ret = super.open();
-    const poll = appPollsManager.getPoll(message.media.poll.id);
-=======
   public async open(message: any) {
     const ret = super.open();
     const poll = await this.managers.appPollsManager.getPoll(message.media.poll.id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.setTitle(poll.poll.pFlags.quiz ? 'PollResults.Title.Quiz' : 'PollResults.Title.Poll');
 
     const title = document.createElement('h3');
-<<<<<<< HEAD
-    setInnerHTML(title, RichTextProcessor.wrapEmojiText(poll.poll.question));
-
-    const percents = poll.results.results.map(v => v.voters / poll.results.total_voters * 100);
-=======
     setInnerHTML(title, wrapEmojiText(poll.poll.question));
 
     const percents = poll.results.results.map((v) => v.voters / poll.results.total_voters * 100);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     roundPercents(percents);
 
     const fragment = document.createDocumentFragment();
@@ -71,11 +50,7 @@ export default class AppPollResultsTab extends SliderSuperTab {
       answerEl.classList.add('poll-results-answer');
 
       const answerTitle = document.createElement('div');
-<<<<<<< HEAD
-      setInnerHTML(answerTitle, RichTextProcessor.wrapEmojiText(answer.text));
-=======
       setInnerHTML(answerTitle, wrapEmojiText(answer.text));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       const answerPercents = document.createElement('div');
       answerPercents.innerText = Math.round(percents[idx]) + '%';
@@ -99,20 +74,11 @@ export default class AppPollResultsTab extends SliderSuperTab {
         if(loading) return;
         loading = true;
 
-<<<<<<< HEAD
-        appPollsManager.getVotes(message, answer.option, offset, limit).then(votesList => {
-          votesList.votes.forEach(vote => {
-            const {dom} = appDialogsManager.addDialogNew({
-              dialog: vote.user_id.toPeerId(false),
-              container: list,
-              drawStatus: false,
-=======
         this.managers.appPollsManager.getVotes(message, answer.option, offset, limit).then((votesList) => {
           votesList.votes.forEach((vote) => {
             const {dom} = appDialogsManager.addDialogNew({
               peerId: vote.user_id.toPeerId(false),
               container: list,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               rippleEnabled: false, 
               meAsSaved: false,
               avatarSize: 32
@@ -154,11 +120,7 @@ export default class AppPollResultsTab extends SliderSuperTab {
     this.resultsDiv.append(title, fragment);
 
     appSidebarRight.toggleSidebar(true).then(() => {
-<<<<<<< HEAD
-      /* appPollsManager.getVotes(mid).then(votes => {
-=======
       /* appPollsManager.getVotes(mid).then((votes) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         console.log('gOt VotEs', votes);
       }); */
     });

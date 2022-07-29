@@ -6,10 +6,7 @@
 
 import EventListenerBase from "../helpers/eventListenerBase";
 import ListenerSetter from "../helpers/listenerSetter";
-<<<<<<< HEAD
-=======
 import { AppManagers } from "../lib/appManagers/managers";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { i18n, LangPackKey } from "../lib/langPack";
 import ButtonIcon from "./buttonIcon";
 import Scrollable from "./scrollable";
@@ -22,13 +19,8 @@ export interface SliderTab {
   onCloseAfterTimeout?: () => void
 }
 
-<<<<<<< HEAD
-export interface SliderSuperTabConstructable {
-  new(slider: SidebarSlider, destroyable: boolean): SliderSuperTab;
-=======
 export interface SliderSuperTabConstructable<T extends SliderSuperTab = any> {
   new(slider: SidebarSlider, destroyable: boolean): T;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 export interface SliderSuperTabEventableConstructable {
@@ -49,11 +41,8 @@ export default class SliderSuperTab implements SliderTab {
   public destroyable: boolean;
   public listenerSetter: ListenerSetter;
 
-<<<<<<< HEAD
-=======
   public managers: AppManagers;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   constructor(slider: SidebarSlider, destroyable?: boolean) {
     this._constructor(slider, destroyable);
   }
@@ -82,13 +71,9 @@ export default class SliderSuperTab implements SliderTab {
 
     this.container.append(this.header, this.content);
 
-<<<<<<< HEAD
-    this.slider.addTab(this);
-=======
     if(this.slider) {
       this.slider.addTab(this);
     }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
     this.listenerSetter = new ListenerSetter();
   }
@@ -122,15 +107,8 @@ export default class SliderSuperTab implements SliderTab {
     if(this.destroyable) { // ! WARNING, пока что это будет работать только с самой последней внутренней вкладкой !
       this.slider.tabs.delete(this);
       this.container.remove();
-<<<<<<< HEAD
-    }
-
-    if(this.listenerSetter) {
-      this.listenerSetter.removeAll();
-=======
       this.scrollable.destroy();
       this.listenerSetter?.removeAll();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 

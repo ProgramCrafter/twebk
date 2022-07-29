@@ -9,14 +9,6 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { MOUNT_CLASS_TO } from "../../config/debug";
-import { nextRandomUint } from "../../helpers/random";
-import { logger } from "../logger";
-import rootScope from "../rootScope";
-import sessionStorage from "../sessionStorage";
-import apiManager from "./mtprotoworker";
-=======
 import App from "../../config/app";
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import tabId from "../../config/tabId";
@@ -27,7 +19,6 @@ import { logger } from "../logger";
 import rootScope from "../rootScope";
 import sessionStorage from "../sessionStorage";
 import apiManagerProxy from "./mtprotoworker";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type AppInstance = {
   id: number,
@@ -35,29 +26,6 @@ export type AppInstance = {
   time: number
 };
 
-<<<<<<< HEAD
-const CHECK_INSTANCE_INTERVAL = 5000; 
-const DEACTIVATE_TIMEOUT = 30000;
-const MULTIPLE_TABS_THRESHOLD = 20000;
-
-export class SingleInstance {
-  private instanceID: number;
-  private started: boolean;
-  private masterInstance: boolean;
-  private deactivateTimeout: number;
-  private deactivated: boolean;
-  private initial: boolean;
-  private log = logger('INSTANCE');
-
-  public start() {
-    if(!this.started/*  && !Config.Navigator.mobile && !Config.Modes.packed */) {
-      this.started = true;
-
-      this.reset();
-      //IdleManager.start();
-
-      rootScope.addEventListener('idle', this.checkInstance);
-=======
 export type InstanceDeactivateReason = 'version' | 'tabs';
 
 const CHECK_INSTANCE_INTERVAL = 5000; 
@@ -94,7 +62,6 @@ export class SingleInstance extends EventListenerBase<{
       this.started = true;
 
       idleController.addEventListener('change', this.checkInstance);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       setInterval(this.checkInstance, CHECK_INSTANCE_INTERVAL);
       this.checkInstance();
 
@@ -104,18 +71,6 @@ export class SingleInstance extends EventListenerBase<{
     }
   }
 
-<<<<<<< HEAD
-  public reset() {
-    this.instanceID = nextRandomUint(32);
-    this.masterInstance = false;
-    if(this.deactivateTimeout) clearTimeout(this.deactivateTimeout);
-    this.deactivateTimeout = 0;
-    this.deactivated = false;
-    this.initial = false;
-  }
-
-  public clearInstance = () => {
-=======
   private reset() {
     this.masterInstance = false;
     this.clearDeactivateTimeout();
@@ -123,7 +78,6 @@ export class SingleInstance extends EventListenerBase<{
   }
 
   private clearInstance = () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(this.masterInstance && !this.deactivated) {
       this.log.warn('clear master instance');
       sessionStorage.delete('xt_instance');
@@ -134,32 +88,6 @@ export class SingleInstance extends EventListenerBase<{
     if(this.deactivated) {
       this.reset();
       this.checkInstance(false);
-<<<<<<< HEAD
-      rootScope.dispatchEvent('instance_activated');
-    }
-  }
-
-  public deactivateInstance = () => {
-    if(this.masterInstance || this.deactivated) {
-      return false;
-    }
-
-    this.log('deactivate');
-    this.deactivateTimeout = 0;
-    this.deactivated = true;
-    this.clearInstance();
-    //$modalStack.dismissAll();
-
-    //document.title = _('inactive_tab_title_raw')
-
-    rootScope.idle.deactivated = true;
-    rootScope.dispatchEvent('instance_deactivated');
-  };
-
-  public checkInstance = (idle = rootScope.idle && rootScope.idle.isIDLE) => {
-    if(this.deactivated) {
-      return false;
-=======
       this.dispatchEvent('activated');
     }
   }
@@ -186,57 +114,15 @@ export class SingleInstance extends EventListenerBase<{
   private checkInstance = async(idle = idleController.isIdle) => {
     if(this.deactivated) {
       return;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     const time = Date.now();
     const newInstance: AppInstance = {
-<<<<<<< HEAD
-      id: this.instanceID, 
-=======
       id: this.instanceId, 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       idle, 
       time
     };
 
-<<<<<<< HEAD
-    sessionStorage.get('xt_instance', false).then((curInstance: AppInstance) => {
-      // this.log('check instance', newInstance, curInstance)
-      if(!idle ||
-          !curInstance ||
-          curInstance.id === this.instanceID ||
-          curInstance.time < (time - MULTIPLE_TABS_THRESHOLD)) {
-        sessionStorage.set({xt_instance: newInstance});
-
-        if(!this.masterInstance) {
-          apiManager.startAll();
-          if(!this.initial) {
-            this.initial = true;
-          } else {
-            this.log.warn('now master instance', newInstance);
-          }
-
-          this.masterInstance = true;
-        }
-
-        if(this.deactivateTimeout) {
-          clearTimeout(this.deactivateTimeout);
-          this.deactivateTimeout = 0;
-        }
-      } else {
-        if(this.masterInstance) {
-          apiManager.stopAll();
-          this.log.warn('now idle instance', newInstance);
-          if(!this.deactivateTimeout) {
-            this.deactivateTimeout = window.setTimeout(this.deactivateInstance, DEACTIVATE_TIMEOUT);
-          }
-
-          this.masterInstance = false;
-        }
-      }
-    });
-=======
     const [curInstance, build = App.build] = await Promise.all([
       sessionStorage.get('xt_instance', false),
       sessionStorage.get('k_build', false)
@@ -273,7 +159,6 @@ export class SingleInstance extends EventListenerBase<{
       this.log.warn('now idle instance', newInstance);
       this.deactivateTimeout ||= window.setTimeout(() => this.deactivateInstance('tabs'), DEACTIVATE_TIMEOUT);
     }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 }
 

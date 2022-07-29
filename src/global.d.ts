@@ -8,13 +8,10 @@ declare global {
     // ls?: ListenerSetter;
   }
 
-<<<<<<< HEAD
-=======
   interface HTMLCanvasElement {
     dpr?: number
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   type UserId = User.user['id'];
   type ChatId = Chat.chat['id'];
   // type PeerId = `u${UserId}` | `c${ChatId}`;
@@ -33,17 +30,6 @@ declare global {
     type?: LocalErrorType | ServerErrorType;
   }
 
-<<<<<<< HEAD
-  declare module 'worker-loader!*' {
-    class WebpackWorker extends Worker {
-      constructor();
-    }
-  
-    export default WebpackWorker;
-  }
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   declare const electronHelpers: {
     openExternal(url): void;
   } | undefined;

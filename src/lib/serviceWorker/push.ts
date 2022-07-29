@@ -12,10 +12,7 @@
 import { Database } from "../../config/databases";
 import DATABASE_STATE from "../../config/databases/state";
 import { IS_FIREFOX } from "../../environment/userAgent";
-<<<<<<< HEAD
-=======
 import deepEqual from "../../helpers/object/deepEqual";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import IDBStorage from "../idb";
 import { log, ServiceWorkerPingTask, ServiceWorkerPushClickTask } from "./index.service";
 
@@ -82,14 +79,11 @@ class SomethingGetter<T extends Database<any>, Storage extends Record<string, an
   }
 
   public async set<T extends keyof Storage>(key: T, value: Storage[T]) {
-<<<<<<< HEAD
-=======
     const cached = this.cache[key] ?? this.defaults[key];
     if(deepEqual(cached, value)) {
       return;
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.cache[key] = value;
 
     try {
@@ -102,26 +96,17 @@ class SomethingGetter<T extends Database<any>, Storage extends Record<string, an
 
 type PushStorage = {
   push_mute_until: number,
-<<<<<<< HEAD
-  push_last_alive: number,
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   push_lang: Partial<ServiceWorkerPingTask['payload']['lang']>
   push_settings: Partial<ServiceWorkerPingTask['payload']['settings']>
 };
 
 const getter = new SomethingGetter<typeof DATABASE_STATE, PushStorage>(DATABASE_STATE, 'session', {
   push_mute_until: 0,
-<<<<<<< HEAD
-  push_last_alive: 0,
-  push_lang: {},
-=======
   push_lang: {
     push_message_nopreview: 'You have a new message',
     push_action_mute1d: 'Mute for 24H',
     push_action_settings: 'Settings'
   },
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   push_settings: {}
 });
 
@@ -132,16 +117,9 @@ ctx.addEventListener('push', (event) => {
   let hasActiveWindows = false;
   const checksPromise = Promise.all([
     getter.get('push_mute_until'), 
-<<<<<<< HEAD
-    getter.get('push_last_alive'), 
-    ctx.clients.matchAll({type: 'window'})
-  ]).then((result) => {
-    const [muteUntil, lastAliveTime, clientList] = result;
-=======
     ctx.clients.matchAll({type: 'window'})
   ]).then((result) => {
     const [muteUntil, clientList] = result;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
     log('matched clients', clientList);
     hasActiveWindows = clientList.length > 0;
@@ -161,11 +139,7 @@ ctx.addEventListener('push', (event) => {
     }
   });
 
-<<<<<<< HEAD
-  checksPromise.catch(reason => {
-=======
   checksPromise.catch((reason) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     log(reason);
   });
 
@@ -313,11 +287,7 @@ function fireNotification(obj: PushNotificationObject, settings: PushStorage['pu
 
   if(settings && settings.nopreview) {
     title = 'Telegram';
-<<<<<<< HEAD
-    body = lang.push_message_nopreview || 'You have a new message';
-=======
     body = lang.push_message_nopreview;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     tag = 'unknown_peer';
   }
 
@@ -325,11 +295,7 @@ function fireNotification(obj: PushNotificationObject, settings: PushStorage['pu
 
   const actions: (Omit<NotificationAction, 'action'> & {action: PushNotificationObject['action']})[] = [{
     action: 'mute1d',
-<<<<<<< HEAD
-    title: lang.push_action_mute1d || 'Mute for 24H'
-=======
     title: lang.push_action_mute1d
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }/* , {
     action: 'push_settings',
     title: lang.push_action_settings || 'Settings'
@@ -358,13 +324,6 @@ export function onPing(task: ServiceWorkerPingTask, event: ExtendableMessageEven
   const client = event.ports && event.ports[0] || event.source;
   const payload = task.payload;
 
-<<<<<<< HEAD
-  if(payload.localNotifications) {
-    getter.set('push_last_alive', Date.now());
-  }
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   if(pendingNotification &&
       client &&
       'postMessage' in client) {

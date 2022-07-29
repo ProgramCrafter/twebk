@@ -6,13 +6,8 @@
 
 import { SliderSuperTabEventable } from "../../../sliderTab";
 import PrivacySection from "../../../privacySection";
-<<<<<<< HEAD
-import { PrivacyType } from "../../../../lib/appManagers/appPrivacyManager";
-import { LangPackKey } from "../../../../lib/langPack";
-=======
 import { LangPackKey } from "../../../../lib/langPack";
 import PrivacyType from "../../../../lib/appManagers/utils/privacy/privacyType";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppPrivacyProfilePhotoTab extends SliderSuperTabEventable {
   protected init() {
@@ -28,12 +23,8 @@ export default class AppPrivacyProfilePhotoTab extends SliderSuperTabEventable {
       captions: [caption, caption, caption],
       exceptionTexts: ['PrivacySettingsController.NeverShare', 'PrivacySettingsController.AlwaysShare'],
       appendTo: this.scrollable,
-<<<<<<< HEAD
-      skipTypes: [PrivacyType.Nobody]
-=======
       skipTypes: [PrivacyType.Nobody],
       managers: this.managers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 }

@@ -21,12 +21,8 @@ export default class AppPrivacyLastSeenTab extends SliderSuperTabEventable {
       inputKey: 'inputPrivacyKeyStatusTimestamp',
       captions: [caption, caption, caption],
       exceptionTexts: ['PrivacySettingsController.NeverShare', 'PrivacySettingsController.AlwaysShare'],
-<<<<<<< HEAD
-      appendTo: this.scrollable
-=======
       appendTo: this.scrollable,
       managers: this.managers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 }

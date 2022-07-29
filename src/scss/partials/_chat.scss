@@ -11,11 +11,7 @@ $chat-helper-size: 45px;
 $chat-input-box-shadow: 0px 1px 8px 1px rgb(0 0 0 / 18%);
 
 $input-transition-time: .2s;
-<<<<<<< HEAD
-$input-half-transition-time: $input-transition-time / 2;
-=======
 $input-half-transition-time: math.div($input-transition-time, 2);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 $background-transition-time: 0.05s;
 $background-transition-total-time: #{$input-transition-time - $background-transition-time};
 
@@ -776,16 +772,6 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
     --wrapper-padding: 15px;
   }
 
-<<<<<<< HEAD
-  &.type-chat .bubbles.is-chat-input-hidden .bubbles-date-group:last-of-type .bubble:last-of-type {
-    margin-bottom: 1.25rem;
-  }
-
-  .contextmenu {
-    box-shadow: none !important;
-    filter: drop-shadow(0 .125rem .5rem var(--menu-box-shadow-color));
-  }
-=======
   &.type-chat .bubbles.is-chat-input-hidden .bubbles-date-group:last-of-type .bubbles-group:last-of-type .bubble:last-of-type {
     margin-bottom: 1.25rem;
   }
@@ -808,7 +794,6 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
     //   border-radius: inherit;
     // }
   // }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 .chat-input-wrapper {
@@ -1198,11 +1183,7 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
 
     .btn-menu {
       top: auto;
-<<<<<<< HEAD
-      bottom: calc(100% + 1.0625rem);
-=======
       bottom: calc(100% + .5rem);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       left: 3.125rem;
       transform: scale(1) !important;
 
@@ -1215,11 +1196,7 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
 
         .checkbox {
           &-field {
-<<<<<<< HEAD
-            --size: 1.5rem;
-=======
             --size: 1.25rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             order: 0;
             margin: 0 var(--icon-margin) 0 0;
           }
@@ -1231,11 +1208,7 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
             }
 
             &-check use {
-<<<<<<< HEAD
-              stroke: var(--primary-color);
-=======
               stroke: var(--primary-text-color);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
           }
         }
@@ -1341,43 +1314,30 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
           transform: scale3d(1, 1, 1);
 
           &-item {
-<<<<<<< HEAD
-=======
             height: 2.25rem;
 
             &-header {
               height: 1.875rem;
             }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             &-icon {
               margin-right: calc(var(--icon-margin) - .5rem);
 
               &.active:before {
-<<<<<<< HEAD
-                --offset: -.25rem;
-=======
                 --offset: -.125rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                 content: " ";
                 position: absolute;
                 top: var(--offset);
                 right: var(--offset);
                 bottom: var(--offset);
                 left: var(--offset);
-<<<<<<< HEAD
-                border: .125rem solid var(--primary-color);
-=======
                 border: .0625rem solid var(--primary-color);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                 border-radius: 50%;
               }
             }
 
             &-text {
               @include text-overflow();
-<<<<<<< HEAD
-=======
               // font-size: .875rem !important;
               line-height: 1 !important;
               display: flex;
@@ -1388,7 +1348,6 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
             &-subtitle {
               font-size: .8125rem;
               font-weight: 400;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
           }
         }
@@ -1592,11 +1551,6 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
 	}
 
 	&.is-selecting {
-<<<<<<< HEAD
-		&:not(.backwards) .is-in .bubble-content-wrapper {
-			transform: scale(1) translateX(2.5rem);
-		}
-=======
     @include animation-level(2) {
       .is-in .bubble-content-wrapper,
       .bubbles-group-avatar {
@@ -1620,7 +1574,6 @@ $background-transition-total-time: #{$input-transition-time - $background-transi
         transform: translate3d(2.5rem, 0, 0) scale3d(.76, .76, 1);
       }
     }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 		// ! this animation will slow down chat input's animation due to count of elements
 		/* &.animating:not(.backwards) {

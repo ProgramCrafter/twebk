@@ -3,26 +3,6 @@
  * Copyright (C) 2019-2021 Eduard Kuzmenko
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
-<<<<<<< HEAD
-
-import type { DialogFilter, Update } from "../../layer";
-import type { ArgumentTypes, Modify } from "../../types";
-import type { AppPeersManager } from "../appManagers/appPeersManager";
-import type { AppUsersManager } from "../appManagers/appUsersManager";
-//import type { ApiManagerProxy } from "../mtproto/mtprotoworker";
-import type _rootScope from "../rootScope";
-import type {AppMessagesManager, Dialog} from '../appManagers/appMessagesManager';
-import type {AppNotificationsManager} from "../appManagers/appNotificationsManager";
-import type { ApiUpdatesManager } from "../appManagers/apiUpdatesManager";
-import type { AppStateManager } from "../appManagers/appStateManager";
-import apiManager from "../mtproto/mtprotoworker";
-import forEachReverse from "../../helpers/array/forEachReverse";
-import copy from "../../helpers/object/copy";
-import safeReplaceObject from "../../helpers/object/safeReplaceObject";
-import findAndSplice from "../../helpers/array/findAndSplice";
-
-export type MyDialogFilter = Modify<DialogFilter, {
-=======
 
 import type { DialogFilter, Update } from "../../layer";
 import { Modify } from "../../types";
@@ -35,7 +15,6 @@ import { AppManager } from "../appManagers/manager";
 import assumeType from "../../helpers/assumeType";
 
 export type MyDialogFilter = Modify<DialogFilter.dialogFilter, {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   /* pinned_peers: PeerId[],
   include_peers: PeerId[],
   exclude_peers: PeerId[], */
@@ -49,46 +28,6 @@ const convertment = [
   ['exclude_peers', 'excludePeerIds'], 
   ['include_peers', 'includePeerIds']
 ] as ['pinned_peers' | 'exclude_peers' | 'include_peers', 'pinnedPeerIds' | 'excludePeerIds' | 'includePeerIds'][];
-<<<<<<< HEAD
-
-// ! because 0 index is 'All Chats'
-const START_ORDER_INDEX = 1;
-
-export default class FiltersStorage {
-  public filters: {[filterId: string]: MyDialogFilter};
-  private orderIndex: number;
-  private reloadedPeerIds: Set<PeerId>;
-
-  constructor(private appMessagesManager: AppMessagesManager,
-    private appPeersManager: AppPeersManager, 
-    private appUsersManager: AppUsersManager, 
-    private appNotificationsManager: AppNotificationsManager, 
-    private appStateManager: AppStateManager,
-    private apiUpdatesManager: ApiUpdatesManager, 
-    /* private apiManager: ApiManagerProxy, */ 
-    private rootScope: typeof _rootScope) {
-    this.clear(true);
-    this.filters = {};
-
-    this.appStateManager.getState().then((state) => {
-      safeReplaceObject(this.filters, state.filters);
-
-      for(const filterId in this.filters) {
-        const filter = this.filters[filterId];
-        if(filter.hasOwnProperty('orderIndex') && filter.orderIndex >= this.orderIndex) {
-          this.orderIndex = filter.orderIndex + 1;
-        }
-
-        /* this.appMessagesManager.dialogsStorage.folders[+filterId] = {
-          dialogs: []
-        }; */
-      }
-    });
-
-    rootScope.addMultipleEventsListeners({
-      updateDialogFilter: this.onUpdateDialogFilter,
-
-=======
 
 const START_ORDER_INDEX = 2;
 
@@ -117,7 +56,6 @@ export default class FiltersStorage extends AppManager {
     this.apiUpdatesManager.addMultipleEventsListeners({
       updateDialogFilter: this.onUpdateDialogFilter,
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       updateDialogFilters: (update) => {
         //console.warn('updateDialogFilters', update);
 
@@ -126,20 +64,12 @@ export default class FiltersStorage extends AppManager {
         this.getDialogFilters(true).then((filters) => {
           for(const _filterId in oldFilters) {
             const filterId = +_filterId;
-<<<<<<< HEAD
-            if(!filters.find(filter => filter.id === filterId)) { // * deleted
-=======
             if(!filters.find((filter) => filter.id === filterId)) { // * deleted
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               this.onUpdateDialogFilter({_: 'updateDialogFilter', id: filterId});
             }
           }
 
-<<<<<<< HEAD
-          this.onUpdateDialogFilterOrder({_: 'updateDialogFilterOrder', order: filters.map(filter => filter.id)});
-=======
           this.onUpdateDialogFilterOrder({_: 'updateDialogFilterOrder', order: filters.map((filter) => filter.id)});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         });
       },
 
@@ -151,15 +81,9 @@ export default class FiltersStorage extends AppManager {
       for(const filterId in this.filters) {
         const filter = this.filters[filterId];
         let modified = false;
-<<<<<<< HEAD
-        [filter.pinned_peers, filter.include_peers, filter.exclude_peers].forEach(arr => {
-          forEachReverse(arr, (inputPeer, idx) => {
-            if(this.appPeersManager.getPeerId(inputPeer) === peerId) {
-=======
         [filter.pinned_peers, filter.include_peers, filter.exclude_peers].forEach((arr) => {
           forEachReverse(arr, (inputPeer, idx) => {
             if(getPeerId(inputPeer) === peerId) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               arr.splice(idx, 1);
               modified = true;
             }
@@ -169,16 +93,6 @@ export default class FiltersStorage extends AppManager {
         if(modified) {
           this.saveDialogFilter(filter, true);
         }
-<<<<<<< HEAD
-      }
-    }); */
-  }
-
-  public clear(init = false) {
-    if(!init) {
-      safeReplaceObject(this.filters, {});
-      this.reloadedPeerIds.clear();
-=======
       }
     }); */
 
@@ -212,18 +126,13 @@ export default class FiltersStorage extends AppManager {
       // safeReplaceObject(this.filters, {});
       this.reloadedPeerIds.clear();
       this.clearFilters();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } else {
       this.filters = {};
       this.reloadedPeerIds = new Set();
     }
 
     this.orderIndex = START_ORDER_INDEX;
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private onUpdateDialogFilter = (update: Update.updateDialogFilter) => {
     if(update.filter) {
@@ -253,13 +162,10 @@ export default class FiltersStorage extends AppManager {
   };
 
   public testDialogForFilter(dialog: Dialog, filter: MyDialogFilter) {
-<<<<<<< HEAD
-=======
     if(filter.id <= 1) {
       return dialog.folder_id === filter.id;
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const peerId = dialog.peerId;
 
     // * check whether dialog exists
@@ -334,9 +240,6 @@ export default class FiltersStorage extends AppManager {
     return this.filters[filterId];
   }
 
-<<<<<<< HEAD
-  public toggleDialogPin(peerId: PeerId, filterId: number) {
-=======
   public getFilters() {
     return this.filters;
   }
@@ -352,7 +255,6 @@ export default class FiltersStorage extends AppManager {
   }
 
   public async toggleDialogPin(peerId: PeerId, filterId: number) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const filter = this.filters[filterId];
 
     const index = filter.pinnedPeerIds.indexOf(peerId);
@@ -364,11 +266,7 @@ export default class FiltersStorage extends AppManager {
     }
     
     if(!wasPinned) {
-<<<<<<< HEAD
-      if(filter.pinned_peers.length >= this.rootScope.config.pinned_infolder_count_max) {
-=======
       if(filter.pinned_peers.length >= (await this.apiManager.getConfig()).pinned_infolder_count_max) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return Promise.reject({type: 'PINNED_DIALOGS_TOO_MUCH'});
       }
       
@@ -380,11 +278,7 @@ export default class FiltersStorage extends AppManager {
   }
 
   public createDialogFilter(filter: MyDialogFilter, prepend?: boolean) {
-<<<<<<< HEAD
-    const maxId = Math.max(1, ...Object.keys(this.filters).map(i => +i));
-=======
     const maxId = Math.max(1, ...Object.keys(this.filters).map((i) => +i));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     filter = copy(filter);
     filter.id = maxId + 1;
     return this.updateDialogFilter(filter, undefined, prepend);
@@ -423,11 +317,7 @@ export default class FiltersStorage extends AppManager {
 
           filter.orderIndex = START_ORDER_INDEX;
 
-<<<<<<< HEAD
-          const order = f.sort((a, b) => a.orderIndex - b.orderIndex).map(filter => filter.id);
-=======
           const order = f.sort((a, b) => a.orderIndex - b.orderIndex).map((filter) => filter.id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.onUpdateDialogFilterOrder({
             _: 'updateDialogFilterOrder',
             order
@@ -468,11 +358,7 @@ export default class FiltersStorage extends AppManager {
 
   //   let spliced = false;
   //   missingPeerIds.forEach((peerId) => {
-<<<<<<< HEAD
-  //     const inputPeer = findAndSplice(peers, (inputPeer) => this.appPeersManager.getPeerId(inputPeer) === peerId);
-=======
   //     const inputPeer = findAndSplice(peers, (inputPeer) => getPeerId(inputPeer) === peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   //     if(inputPeer) {
   //       spliced = true;
   //     }
@@ -496,11 +382,7 @@ export default class FiltersStorage extends AppManager {
 
     // const missingPeerIds: PeerId[] = [];
     const reloadDialogs = peers.filter((inputPeer) => {
-<<<<<<< HEAD
-      const peerId = this.appPeersManager.getPeerId(inputPeer);
-=======
       const peerId = getPeerId(inputPeer);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const isAlreadyReloaded = this.reloadedPeerIds.has(peerId);
       const dialog = this.appMessagesManager.getDialogOnly(peerId);
       // if(isAlreadyReloaded && !dialog) {
@@ -520,11 +402,7 @@ export default class FiltersStorage extends AppManager {
     }
 
     const reloadPromises = reloadDialogs.map((inputPeer) => {
-<<<<<<< HEAD
-      const peerId = this.appPeersManager.getPeerId(inputPeer);
-=======
       const peerId = getPeerId(inputPeer);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const promise = this.appMessagesManager.reloadConversation(inputPeer)
       .then((dialog) => {
         this.reloadedPeerIds.add(peerId);
@@ -553,22 +431,6 @@ export default class FiltersStorage extends AppManager {
       return keys.map((filterId) => this.filters[filterId]).sort((a, b) => a.orderIndex - b.orderIndex);
     }
 
-<<<<<<< HEAD
-    const filters: MyDialogFilter[] = await apiManager.invokeApiSingle('messages.getDialogFilters') as any;
-    for(const filter of filters) {
-      this.saveDialogFilter(filter, overwrite);
-    }
-
-    //console.log(this.filters);
-    return filters;
-  }
-
-  public saveDialogFilter(filter: MyDialogFilter, update = true) {
-    // defineNotNumerableProperties(filter, ['includePeerIds', 'excludePeerIds', 'pinnedPeerIds']);
-
-    convertment.forEach(([from, to]) => {
-      filter[to] = filter[from].map((peer) => this.appPeersManager.getPeerId(peer));
-=======
     const filters = await this.apiManager.invokeApiSingle('messages.getDialogFilters');
     return filters.map((filter) => this.saveDialogFilter(filter, overwrite)).filter(Boolean);
   }
@@ -590,7 +452,6 @@ export default class FiltersStorage extends AppManager {
     convertment.forEach(([from, to]) => {
       assumeType<MyDialogFilter>(filter);
       filter[to] = filter[from].map((peer) => getPeerId(peer));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     this.filterIncludedPinnedPeers(filter);
@@ -622,11 +483,7 @@ export default class FiltersStorage extends AppManager {
         this.orderIndex = filter.orderIndex + 1;
       }
     } else {
-<<<<<<< HEAD
-      filter.orderIndex = this.orderIndex++ as DialogFilter['orderIndex'];
-=======
       filter.orderIndex = this.orderIndex++ as MyDialogFilter['orderIndex'];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.appStateManager.pushToState('filters', this.filters);

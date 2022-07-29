@@ -5,16 +5,8 @@
  */
 
 import mediaSizes from "../helpers/mediaSizes";
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
-import appImManager from "../lib/appManagers/appImManager";
-import appPollsManager from "../lib/appManagers/appPollsManager";
-import serverTimeManager from "../lib/mtproto/serverTimeManager";
-import { RichTextProcessor } from "../lib/richtextprocessor";
-=======
 import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
 import appImManager from "../lib/appManagers/appImManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rootScope from "../lib/rootScope";
 import ripple from "./ripple";
 import appSidebarRight from "./sidebarRight";
@@ -24,15 +16,6 @@ import { fastRaf } from "../helpers/schedulers";
 import SetTransition from "./singleTransition";
 import findUpClassName from "../helpers/dom/findUpClassName";
 import cancelEvent from "../helpers/dom/cancelEvent";
-<<<<<<< HEAD
-import { attachClickEvent, detachClickEvent } from "../helpers/dom/clickEvent";
-import replaceContent from "../helpers/dom/replaceContent";
-import windowSize from "../helpers/windowSize";
-import { Poll, PollResults } from "../layer";
-import toHHMMSS from "../helpers/string/toHHMMSS";
-import StackedAvatars from "./stackedAvatars";
-import setInnerHTML from "../helpers/dom/setInnerHTML";
-=======
 import { attachClickEvent, detachClickEvent, simulateClickEvent } from "../helpers/dom/clickEvent";
 import replaceContent from "../helpers/dom/replaceContent";
 import windowSize from "../helpers/windowSize";
@@ -43,7 +26,6 @@ import setInnerHTML from "../helpers/dom/setInnerHTML";
 import { AppManagers } from "../lib/appManagers/managers";
 import wrapEmojiText from "../lib/richTextProcessor/wrapEmojiText";
 import wrapRichText from "../lib/richTextProcessor/wrapRichText";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 let lineTotalLength = 0;
 const tailLength = 9;
@@ -116,26 +98,13 @@ rootScope.on('poll_update', (e) => {
 
 rootScope.addEventListener('poll_update', ({poll, results}) => {
   const pollElements = Array.from(document.querySelectorAll(`poll-element[poll-id="${poll.id}"]`)) as PollElement[];
-<<<<<<< HEAD
-  pollElements.forEach(pollElement => {
-=======
   pollElements.forEach((pollElement) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //console.log('poll_update', poll, results);
     pollElement.isClosed = !!poll.pFlags.closed;
     pollElement.performResults(results, poll.chosenIndexes);
   });
 });
 
-<<<<<<< HEAD
-rootScope.addEventListener('peer_changed', () => {
-  if(prevQuizHint) {
-    hideQuizHint(prevQuizHint, prevQuizHintOnHide, prevQuizHintTimeout);
-  }
-});
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 mediaSizes.addEventListener('resize', () => {
   PollElement.setMaxLength();
   PollElement.resizePolls();
@@ -161,10 +130,7 @@ const hideQuizHint = (element: HTMLElement, onHide: () => void, timeout: number)
 };
 
 let prevQuizHint: HTMLElement, prevQuizHintOnHide: () => void, prevQuizHintTimeout: number;
-<<<<<<< HEAD
-=======
 let isListenerSet = false;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 const setQuizHint = (solution: string, solution_entities: any[], onHide: () => void) => {
   if(prevQuizHint) {
     hideQuizHint(prevQuizHint, prevQuizHintOnHide, prevQuizHintTimeout);
@@ -182,13 +148,8 @@ const setQuizHint = (solution: string, solution_entities: any[], onHide: () => v
   container.append(textEl);
   element.append(container);
 
-<<<<<<< HEAD
-  setInnerHTML(textEl, RichTextProcessor.wrapRichText(solution, {entities: solution_entities}));
-  appImManager.chat.bubbles.bubblesContainer.append(element);
-=======
   setInnerHTML(textEl, wrapRichText(solution, {entities: solution_entities}));
   appImManager.chat.bubbles.container.append(element);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   void element.offsetLeft; // reflow
   element.classList.add('active');
@@ -198,8 +159,6 @@ const setQuizHint = (solution: string, solution_entities: any[], onHide: () => v
   prevQuizHintTimeout = window.setTimeout(() => {
     hideQuizHint(element, onHide, prevQuizHintTimeout);
   }, IS_TOUCH_SUPPORTED ? 5000 : 7000);
-<<<<<<< HEAD
-=======
 
   if(!isListenerSet) {
     isListenerSet = true;
@@ -209,7 +168,6 @@ const setQuizHint = (solution: string, solution_entities: any[], onHide: () => v
       }
     });
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 export default class PollElement extends HTMLElement {
@@ -236,12 +194,8 @@ export default class PollElement extends HTMLElement {
   private chosenIndexes: number[] = [];
   private percents: number[];
 
-<<<<<<< HEAD
-  public message: any;
-=======
   public message: Message.message;
   public managers: AppManagers;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private quizInterval: number;
   private quizTimer: SVGSVGElement;
@@ -252,14 +206,6 @@ export default class PollElement extends HTMLElement {
   private sendVotePromise: Promise<void>;
   private sentVote = false;
 
-<<<<<<< HEAD
-  constructor() {
-    super();
-    // элемент создан
-  }
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public static setMaxLength() {
     const width = windowSize.width <= 360 ? windowSize.width - 120 : mediaSizes.active.poll.width;
     this.MAX_LENGTH = width + tailLength + this.MAX_OFFSET + -13.7; // 13 - position left
@@ -268,11 +214,7 @@ export default class PollElement extends HTMLElement {
   public static resizePolls() {
     if(!this.MAX_LENGTH) return;
     const pollElements = Array.from(document.querySelectorAll('poll-element.is-voted')) as PollElement[];
-<<<<<<< HEAD
-    pollElements.forEach(pollElement => {
-=======
     pollElements.forEach((pollElement) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       pollElement.svgLines.forEach((svg, idx) => {
         //void svg.getBoundingClientRect(); // reflow
         pollElement.setLineProgress(idx, 1);
@@ -280,11 +222,7 @@ export default class PollElement extends HTMLElement {
     });
   }
 
-<<<<<<< HEAD
-  public render() {
-=======
   public async render() {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     // браузер вызывает этот метод при добавлении элемента в документ
     // (может вызываться много раз, если элемент многократно добавляется/удаляется)
 
@@ -294,13 +232,8 @@ export default class PollElement extends HTMLElement {
       PollElement.setMaxLength();
     }
 
-<<<<<<< HEAD
-    const pollId = this.message.media.poll.id;
-    const {poll, results} = appPollsManager.getPoll(pollId);
-=======
     // const {poll, results} = this.managers.appPollsManager.getPoll(pollId);
     const {poll, results} = this.message.media as MessageMedia.messageMediaPoll;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     /* const timestamp = Date.now() / 1000 | 0;
     if(timestamp < this.message.date) { */
@@ -358,17 +291,10 @@ export default class PollElement extends HTMLElement {
       </div>
       ${votes}`;
     
-<<<<<<< HEAD
-    setInnerHTML(this.firstElementChild, RichTextProcessor.wrapEmojiText(poll.question));
-
-    Array.from(this.querySelectorAll('.poll-answer-text')).forEach((el, idx) => {
-      setInnerHTML(el, RichTextProcessor.wrapEmojiText(poll.answers[idx].text));
-=======
     setInnerHTML(this.firstElementChild, wrapEmojiText(poll.question));
 
     Array.from(this.querySelectorAll('.poll-answer-text')).forEach((el, idx) => {
       setInnerHTML(el, wrapEmojiText(poll.answers[idx].text));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     this.descDiv = this.firstElementChild.nextElementSibling as HTMLElement;
@@ -408,11 +334,7 @@ export default class PollElement extends HTMLElement {
         this.descDiv.append(svg);
         
         const period = poll.close_period * 1000;
-<<<<<<< HEAD
-        const closeTime = (poll.close_date - serverTimeManager.serverTimeOffset) * 1000;
-=======
         const closeTime = (poll.close_date - await rootScope.managers.timeManager.getServerTimeOffset()) * 1000;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         //console.log('closeTime:', poll.close_date, serverTimeManager.serverTimeOffset, Date.now() / 1000 | 0);
 
@@ -450,11 +372,7 @@ export default class PollElement extends HTMLElement {
 
             setTimeout(() => {
               // нужно запросить апдейт чтобы опрос обновился
-<<<<<<< HEAD
-              appPollsManager.getResults(this.message);
-=======
               this.managers.appPollsManager.getResults(this.message);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }, 3e3);
           }
         }, 1e3);
@@ -482,11 +400,7 @@ export default class PollElement extends HTMLElement {
       cancelEvent(e);
 
       if(!appSidebarRight.isTabExists(AppPollResultsTab)) {
-<<<<<<< HEAD
-        new AppPollResultsTab(appSidebarRight).open(this.message);
-=======
         appSidebarRight.createTab(AppPollResultsTab).open(this.message);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     });
     ripple(this.viewResults);
@@ -503,22 +417,14 @@ export default class PollElement extends HTMLElement {
 
       attachClickEvent(this.sendVoteBtn, (e) => {
         cancelEvent(e);
-<<<<<<< HEAD
-        /* const indexes = this.answerDivs.filter(el => el.classList.contains('is-chosing')).map(el => +el.dataset.index);
-=======
         /* const indexes = this.answerDivs.filter((el) => el.classList.contains('is-chosing')).map((el) => +el.dataset.index);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(indexes.length) {
           
         } */
         if(this.chosingIndexes.length) {
           this.sendVotes(this.chosingIndexes).then(() => {
             this.chosingIndexes.length = 0;
-<<<<<<< HEAD
-            this.answerDivs.forEach(el => {
-=======
             this.answerDivs.forEach((el) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               el.classList.remove('is-chosing');
             });
           });
@@ -562,15 +468,9 @@ export default class PollElement extends HTMLElement {
       });
 
       if(this.sentVote) {
-<<<<<<< HEAD
-        const correctResult = results.results.find(r => r.pFlags.correct);
-        if(correctResult && !correctResult.pFlags.chosen) {
-          toggleHint.click();
-=======
         const correctResult = results.results.find((r) => r.pFlags.correct);
         if(correctResult && !correctResult.pFlags.chosen) {
           simulateClickEvent(toggleHint);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }
     }
@@ -608,23 +508,14 @@ export default class PollElement extends HTMLElement {
     if(this.sendVotePromise) return this.sendVotePromise;
 
     const targets = this.answerDivs.filter((_, idx) => indexes.includes(idx));
-<<<<<<< HEAD
-    targets.forEach(target => {
-=======
     targets.forEach((target) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       target.classList.add('is-voting');
     });
     
     this.classList.add('disable-hover');
     this.sentVote = true;
-<<<<<<< HEAD
-    return this.sendVotePromise = appPollsManager.sendVote(this.message, indexes).then(() => {
-      targets.forEach(target => {
-=======
     return this.sendVotePromise = this.managers.appPollsManager.sendVote(this.message, indexes).then(() => {
       targets.forEach((target) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         target.classList.remove('is-voting');
       });
 
@@ -685,11 +576,7 @@ export default class PollElement extends HTMLElement {
     
     // is need update
     if(this.chosenIndexes.length || this.isRetracted || this.isClosed) {
-<<<<<<< HEAD
-      const percents = results.results.map(v => results.total_voters ? v.voters / results.total_voters * 100 : 0);
-=======
       const percents = results.results.map((v) => results.total_voters ? v.voters / results.total_voters * 100 : 0);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       this.classList.toggle('no-transition', !animate);
       if(animate) {
@@ -711,11 +598,7 @@ export default class PollElement extends HTMLElement {
         this.votersCountDiv.classList.toggle('hide', !!this.chosenIndexes.length);
       }
 
-<<<<<<< HEAD
-      const peerIds = (results.recent_voters || []).map(userId => userId.toPeerId());
-=======
       const peerIds = (results.recent_voters || []).map((userId) => userId.toPeerId());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const stackedAvatars = new StackedAvatars({avatarSize: 16});
       stackedAvatars.render(peerIds);
       replaceContent(this.avatarsDiv, stackedAvatars.container);
@@ -733,24 +616,15 @@ export default class PollElement extends HTMLElement {
   }
 
   setResults(percents: number[], chosenIndexes: number[], animate: boolean) {
-<<<<<<< HEAD
-    this.svgLines.forEach(svg => svg.style.display = '');
-=======
     this.svgLines.forEach((svg) => svg.style.display = '');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.answerDivs.forEach((el, idx) => {
       el.classList.toggle('is-chosen', chosenIndexes.includes(idx));
     });
 
     const maxValue = Math.max(...percents);
-<<<<<<< HEAD
-    // this.maxLengths = percents.map(p => p / maxValue * this.maxLength);
-    this.maxPercents = percents.map(p => p / maxValue);
-=======
     // this.maxLengths = percents.map((p) => p / maxValue * this.maxLength);
     this.maxPercents = percents.map((p) => p / maxValue);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     // line
     if(this.isRetracted) {
@@ -811,11 +685,7 @@ export default class PollElement extends HTMLElement {
 
       this.classList.remove('is-voted');
       const cb = () => {
-<<<<<<< HEAD
-        this.svgLines.forEach(svg => svg.style.display = 'none');
-=======
         this.svgLines.forEach((svg) => svg.style.display = 'none');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       };
 
       if(animate) {

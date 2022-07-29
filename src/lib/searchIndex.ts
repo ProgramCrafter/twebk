@@ -87,20 +87,12 @@ export default class SearchIndex<SearchWhat> {
     }
 
     const queries = query.split('\x01');
-<<<<<<< HEAD
-    const newFoundObjs = flatten(queries.map(query => this._search(query)));
-=======
     const newFoundObjs = flatten(queries.map((query) => this._search(query)));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     newFoundObjs.sort((a, b) => a.fullTextLength - b.fullTextLength || b.foundChars - a.foundChars);
 
     //newFoundObjs.sort((a, b) => a.fullText.localeCompare(b.fullText));
-<<<<<<< HEAD
-    const newFoundObjs2: Set<SearchWhat> = new Set(newFoundObjs.map(o => o.what));
-=======
     const newFoundObjs2: Set<SearchWhat> = new Set(newFoundObjs.map((o) => o.what));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     return newFoundObjs2;
   }

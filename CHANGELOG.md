@@ -1,4 +1,3 @@
-=======
 ### 1.5.0 (178)
 1️⃣ Introducing support for **Multiple Tabs** – a first for Telegram Web Apps – customizing how you browse Telegram to increase comfort and productivity.
  

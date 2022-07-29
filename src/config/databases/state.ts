@@ -4,12 +4,8 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { Database } from '.';
-=======
 import type { Database } from '.';
 import type { IDBIndex } from '../../lib/idb';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const DATABASE_STATE: Database<'session' | 'stickerSets' | 'users' | 'chats' | 'messages' | 'dialogs'> = {
   name: 'tweb',
@@ -23,9 +19,6 @@ const DATABASE_STATE: Database<'session' | 'stickerSets' | 'users' | 'chats' | '
   }, {
     name: 'chats'
   }, {
-<<<<<<< HEAD
-    name: 'dialogs'
-=======
     name: 'dialogs',
     // indexes: [
     //   ...(new Array(20 + 2).fill(0)).map((_, idx) => {
@@ -39,7 +32,6 @@ const DATABASE_STATE: Database<'session' | 'stickerSets' | 'users' | 'chats' | '
     //     return index
     //   })
     // ]
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }, {
     name: 'messages'
   }]

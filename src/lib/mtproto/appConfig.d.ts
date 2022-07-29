@@ -1,31 +1,4 @@
 export interface MTAppConfig {
-<<<<<<< HEAD
-  test?:                             number;
-  emojies_animated_zoom?:            number;
-  emojies_send_dice?:                string[];
-  emojies_send_dice_success?:        EmojiesSendDiceSuccess;
-  emojies_sounds?:                   EmojiesSounds;
-  gif_search_branding?:              string;
-  gif_search_emojies?:               string[];
-  stickers_emoji_suggest_only_api?:  boolean;
-  stickers_emoji_cache_time?:        number;
-  groupcall_video_participants_max?: number;
-  youtube_pip?:                      string;
-  qr_login_camera?:                  boolean;
-  qr_login_code?:                    string;
-  dialog_filters_enabled?:           boolean;
-  dialog_filters_tooltip?:           boolean;
-  ignore_restriction_reasons?:       string[];
-  autoarchive_setting_available?:    boolean;
-  pending_suggestions?:              any[];
-  autologin_token?:                  string;
-  autologin_domains?:                string[];
-  round_video_encoding?:             RoundVideoEncoding;
-  chat_read_mark_expire_period?:     number;
-  chat_read_mark_size_threshold?:    number;
-  reactions_default?:                string;
-  reactions_uniq_max?:               number;
-=======
   test?:                                     number;
   emojies_animated_zoom?:                    number;
   emojies_send_dice?:                        string[];
@@ -82,7 +55,6 @@ export interface MTAppConfig {
   message_animated_emoji_max?:               number;
   premium_promo_order?:                      string[];
   premium_bot_username?:                     string;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 export interface EmojiesSendDiceSuccess {

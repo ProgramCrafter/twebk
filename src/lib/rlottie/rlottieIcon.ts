@@ -67,11 +67,7 @@ export class RLottieIconItem implements RLottieIconItemOptions {
 
     safeAssign(this, options);
 
-<<<<<<< HEAD
-    this.parts = this.parts.map(options => this.createPart(options));
-=======
     this.parts = this.parts.map((options) => this.createPart(options));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public load() {
@@ -93,15 +89,9 @@ export class RLottieIconItem implements RLottieIconItemOptions {
       skipFirstFrameRendering: this.initFrame === undefined,
       color: this.color,
       inverseColor: this.inverseColor
-<<<<<<< HEAD
-    }, this.name).then(player => {
-      return lottieLoader.waitForFirstFrame(player);
-    }).then(player => {
-=======
     }, this.name).then((player) => {
       return lottieLoader.waitForFirstFrame(player);
     }).then((player) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.player = player;
 
       if(this.onLoadForColor) {
@@ -126,11 +116,7 @@ export class RLottieIconItem implements RLottieIconItemOptions {
 
   public getPart(index: string | number | RLottieIconItemPart) {
     if(index instanceof RLottieIconItemPart) return index;
-<<<<<<< HEAD
-    else if(typeof(index) === 'string') return this.parts.find(part => part.name === index);
-=======
     else if(typeof(index) === 'string') return this.parts.find((part) => part.name === index);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     else return this.parts[index];
   }
 

@@ -6,25 +6,13 @@
 
 import type { DcId } from '../types';
 import type { ApiError } from '../lib/mtproto/apiManager';
-<<<<<<< HEAD
-import apiManager from '../lib/mtproto/mtprotoworker';
 import Page from './page';
-import serverTimeManager from '../lib/mtproto/serverTimeManager';
-=======
-import Page from './page';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { AuthAuthorization, AuthLoginToken } from '../layer';
 import App from '../config/app';
 import Button from '../components/button';
 import { _i18n, i18n, LangPackKey } from '../lib/langPack';
-<<<<<<< HEAD
-import appStateManager from '../lib/appManagers/appStateManager';
-import rootScope from '../lib/rootScope';
-import { putPreloader } from '../components/misc';
-=======
 import rootScope from '../lib/rootScope';
 import { putPreloader } from '../components/putPreloader';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import getLanguageChangeButton from '../components/languageChangeButton';
 import pause from '../helpers/schedulers/pause';
 import fixBase64String from '../helpers/fixBase64String';
@@ -63,11 +51,7 @@ let onFirstMount = async() => {
   container.append(h4, helpList, inputWrapper);
 
   btnBack.addEventListener('click', () => {
-<<<<<<< HEAD
-    import('./pageSignIn').then(m => m.default.mount());
-=======
     import('./pageSignIn').then((m) => m.default.mount());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     stop = true;
   });
   
@@ -87,11 +71,7 @@ let onFirstMount = async() => {
 
   const iterate = async(isLoop: boolean) => {
     try {
-<<<<<<< HEAD
-      let loginToken = await apiManager.invokeApi('auth.exportLoginToken', {
-=======
       let loginToken = await rootScope.managers.apiManager.invokeApi('auth.exportLoginToken', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         api_id: App.id,
         api_hash: App.hash,
         except_ids: []
@@ -100,32 +80,19 @@ let onFirstMount = async() => {
       if(loginToken._ === 'auth.loginTokenMigrateTo') {
         if(!options.dcId) {
           options.dcId = loginToken.dc_id as DcId;
-<<<<<<< HEAD
-          apiManager.setBaseDcId(loginToken.dc_id);
-          //continue;
-        }
-        
-        loginToken = await apiManager.invokeApi('auth.importLoginToken', {
-=======
           rootScope.managers.apiManager.setBaseDcId(loginToken.dc_id);
           //continue;
         }
         
         loginToken = await rootScope.managers.apiManager.invokeApi('auth.importLoginToken', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           token: loginToken.token
         }, options) as AuthLoginToken.authLoginToken;
       }
 
       if(loginToken._ === 'auth.loginTokenSuccess') {
         const authorization = loginToken.authorization as any as AuthAuthorization.authAuthorization;
-<<<<<<< HEAD
-        apiManager.setUser(authorization.user);
-        import('./pageIm').then(m => m.default.mount());
-=======
         rootScope.managers.apiManager.setUser(authorization.user);
         import('./pageIm').then((m) => m.default.mount());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return true;
       }
 
@@ -145,13 +112,8 @@ let onFirstMount = async() => {
         const primaryColor = style.getPropertyValue('--primary-color').trim();
 
         const logoUrl = await fetch('assets/img/logo_padded.svg')
-<<<<<<< HEAD
-        .then(res => res.text())
-        .then(text => {
-=======
         .then((res) => res.text())
         .then((text) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           text = text.replace(/(fill:).+?(;)/, `$1${primaryColor}$2`);
           const blob = new Blob([text], {type: 'image/svg+xml;charset=utf-8'});
 
@@ -224,11 +186,7 @@ let onFirstMount = async() => {
             }, 500);
             preloader = undefined;
           } else {
-<<<<<<< HEAD
-            Array.from(imageDiv.children).slice(0, -1).forEach(el => {
-=======
             Array.from(imageDiv.children).slice(0, -1).forEach((el) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               el.remove();
             });
           }
@@ -237,11 +195,7 @@ let onFirstMount = async() => {
 
       if(isLoop) {
         let timestamp = Date.now() / 1000;
-<<<<<<< HEAD
-        let diff = loginToken.expires - timestamp - serverTimeManager.serverTimeOffset;
-=======
         let diff = loginToken.expires - timestamp - await rootScope.managers.timeManager.getServerTimeOffset();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
         await pause(diff > FETCH_INTERVAL ? 1e3 * FETCH_INTERVAL : 1e3 * diff | 0);
       }
@@ -250,11 +204,7 @@ let onFirstMount = async() => {
         case 'SESSION_PASSWORD_NEEDED':
           console.warn('pageSignQR: SESSION_PASSWORD_NEEDED');
           (err as ApiError).handled = true;
-<<<<<<< HEAD
-          import('./pagePassword').then(m => m.default.mount());
-=======
           import('./pagePassword').then((m) => m.default.mount());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           stop = true;
           cachedPromise = null;
           break;
@@ -294,19 +244,11 @@ const page = new Page('page-signQR', true, () => {
 }, () => {
   //console.log('onMount');
   if(!cachedPromise) cachedPromise = onFirstMount();
-<<<<<<< HEAD
-  cachedPromise.then(func => {
-    func();
-  });
-
-  appStateManager.pushToState('authState', {_: 'authStateSignQr'});
-=======
   cachedPromise.then((func) => {
     func();
   });
 
   rootScope.managers.appStateManager.pushToState('authState', {_: 'authStateSignQr'});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 });
 
 export default page;

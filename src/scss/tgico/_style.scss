@@ -3,15 +3,9 @@
 @font-face {
   font-family: '#{$tgico-font-family}';
   src:
-<<<<<<< HEAD
-    url('#{$tgico-font-path}/#{$tgico-font-family}.ttf?1mzumm') format('truetype'),
-    url('#{$tgico-font-path}/#{$tgico-font-family}.woff?1mzumm') format('woff'),
-    url('#{$tgico-font-path}/#{$tgico-font-family}.svg?1mzumm##{$tgico-font-family}') format('svg');
-=======
     url('#{$tgico-font-path}/#{$tgico-font-family}.ttf?js2svd') format('truetype'),
     url('#{$tgico-font-path}/#{$tgico-font-family}.woff?js2svd') format('woff'),
     url('#{$tgico-font-path}/#{$tgico-font-family}.svg?js2svd##{$tgico-font-family}') format('svg');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -173,8 +167,6 @@
     content: $tgico-car; 
   }
 }
-<<<<<<< HEAD
-=======
 .tgico-card {
   &:before {
     content: $tgico-card; 
@@ -185,7 +177,6 @@
     content: $tgico-card_outline; 
   }
 }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 .tgico-channel {
   &:before {
     content: $tgico-channel; 
@@ -846,14 +837,11 @@
     content: $tgico-sharescreen_filled; 
   }
 }
-<<<<<<< HEAD
-=======
 .tgico-shipping {
   &:before {
     content: $tgico-shipping; 
   }
 }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 .tgico-shuffle {
   &:before {
     content: $tgico-shuffle; 

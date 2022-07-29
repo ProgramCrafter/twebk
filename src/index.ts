@@ -18,12 +18,6 @@ import setWorkerProxy from './helpers/setWorkerProxy';
 import toggleAttributePolyfill from './helpers/dom/toggleAttributePolyfill';
 import rootScope from './lib/rootScope';
 import IS_TOUCH_SUPPORTED from './environment/touchSupport';
-<<<<<<< HEAD
-import appStateManager from './lib/appManagers/appStateManager';
-import I18n from './lib/langPack';
-import './helpers/peerIdPolyfill';
-import './lib/polyfill';
-=======
 import I18n from './lib/langPack';
 import './helpers/peerIdPolyfill';
 import './lib/polyfill';
@@ -32,13 +26,10 @@ import getProxiedManagers from './lib/appManagers/getProxiedManagers';
 import themeController from './helpers/themeController';
 import overlayCounter from './helpers/overlayCounter';
 import singleInstance from './lib/mtproto/singleInstance';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 document.addEventListener('DOMContentLoaded', async() => {
   toggleAttributePolyfill();
 
-<<<<<<< HEAD
-=======
   rootScope.managers = getProxiedManagers();
 
   const manifest = document.getElementById('manifest') as HTMLLinkElement;
@@ -46,17 +37,12 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   singleInstance.start();
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // We listen to the resize event (https://css-tricks.com/the-trick-to-viewport-units-on-mobile/)
   const w = window.visualViewport || window; // * handle iOS keyboard
   let setViewportVH = false/* , hasFocus = false */;
   let lastVH: number;
   const setVH = () => {
-<<<<<<< HEAD
-    const vh = (setViewportVH && !rootScope.isOverlayActive ? (w as VisualViewport).height || (w as Window).innerHeight : window.innerHeight) * 0.01;
-=======
     const vh = (setViewportVH && !overlayCounter.isOverlayActive ? (w as VisualViewport).height || (w as Window).innerHeight : window.innerHeight) * 0.01;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(lastVH === vh) {
       return;
     } else if(IS_TOUCH_SUPPORTED && lastVH < vh && (vh - lastVH) > 1) {
@@ -102,11 +88,7 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   if(IS_STICKY_INPUT_BUGGED) {
     const toggleResizeMode = () => {
-<<<<<<< HEAD
-      setViewportVH = tabId === 1 && IS_STICKY_INPUT_BUGGED && !rootScope.isOverlayActive;
-=======
       setViewportVH = tabId === 1 && IS_STICKY_INPUT_BUGGED && !overlayCounter.isOverlayActive;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       setVH();
 
       if(w !== window) {
@@ -121,26 +103,16 @@ document.addEventListener('DOMContentLoaded', async() => {
     };
 
     let tabId: number;
-<<<<<<< HEAD
-    rootScope.addEventListener('im_tab_change', (id) => {
-=======
     (window as any).onImTabChange = (id: number) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const wasTabId = tabId !== undefined;
       tabId = id;
 
       if(wasTabId || tabId === 1) {
         toggleResizeMode();
       }
-<<<<<<< HEAD
-    });
-    
-    rootScope.addEventListener('overlay_toggle', () => {
-=======
     };
     
     overlayCounter.addEventListener('change', () => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       toggleResizeMode();
     });
   }
@@ -163,10 +135,6 @@ document.addEventListener('DOMContentLoaded', async() => {
     }
   });
 
-<<<<<<< HEAD
-  if(IS_FIREFOX) {
-    document.documentElement.classList.add('is-firefox');
-=======
   // restrict contextmenu on images (e.g. webp stickers)
   document.addEventListener('contextmenu', (e) => {
     if((e.target as HTMLElement).tagName === 'IMG' && !(window as any).appMediaViewer) {
@@ -176,7 +144,6 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   if(IS_FIREFOX) {
     document.documentElement.classList.add('is-firefox', 'no-backdrop');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   if(IS_MOBILE) {
@@ -222,17 +189,6 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   let perf = performance.now();
 
-<<<<<<< HEAD
-  const langPromise = I18n.getCacheLangPack();
-
-  const [state, langPack] = await Promise.all([
-    appStateManager.getState(), 
-    langPromise
-  ]);
-  I18n.setTimeFormat(state.settings.timeFormat);
-
-  rootScope.setThemeListener();
-=======
   // await pause(1000000);
 
   const langPromise = I18n.getCacheLangPack();
@@ -245,7 +201,6 @@ document.addEventListener('DOMContentLoaded', async() => {
   I18n.setTimeFormat(stateResult.state.settings.timeFormat);
 
   themeController.setThemeListener();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   if(langPack.appVersion !== App.langPackVersion) {
     I18n.getLangPack(langPack.lang_code);
@@ -266,11 +221,7 @@ document.addEventListener('DOMContentLoaded', async() => {
 
   console.log('got state, time:', performance.now() - perf);
 
-<<<<<<< HEAD
-  const authState = state.authState;
-=======
   const authState = stateResult.state.authState;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   if(authState._ !== 'authStateSignedIn'/*  || 1 === 1 */) {
     console.log('Will mount auth page:', authState._, Date.now() / 1000);
 

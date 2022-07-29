@@ -8,33 +8,6 @@
  * Copyright (C) 2014 Igor Zhukov <igor.beatle@gmail.com>
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
-<<<<<<< HEAD
-
-import sessionStorage from '../sessionStorage';
-import { nextRandomUint } from '../../helpers/random';
-import { MOUNT_CLASS_TO } from '../../config/debug';
-import { WorkerTaskVoidTemplate } from '../../types';
-import { notifySomeone } from '../../helpers/context';
-import longFromInts from '../../helpers/long/longFromInts';
-
-/*
-let lol: any = {};
-for(var i = 0; i < 100; i++) {
-    timeManager.generateId();
-}
-*/
-
-export interface ApplyServerTimeOffsetTask extends WorkerTaskVoidTemplate {
-  type: 'applyServerTimeOffset',
-  payload: TimeManager['timeOffset']
-};
-
-export class TimeManager {
-  private lastMessageId: [number, number] = [0, 0];
-  private timeOffset: number = 0;
-
-  constructor() {
-=======
 
 import sessionStorage from '../sessionStorage';
 import { nextRandomUint } from '../../helpers/random';
@@ -72,7 +45,6 @@ export class TimeManager extends AppManager {
     this.lastMessageId = [0, 0];
     this.timeOffset = 0;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     sessionStorage.get('server_time_offset').then((to) => {
       if(to) {
         this.timeOffset = to;
@@ -137,17 +109,6 @@ export class TimeManager extends AppManager {
       });
 
       this.timeOffset = newTimeOffset;
-<<<<<<< HEAD
-
-      /// #if MTPROTO_WORKER
-      const task: ApplyServerTimeOffsetTask = {
-        type: 'applyServerTimeOffset',
-        payload: newTimeOffset
-      };
-      notifySomeone(task);
-      /// #endif
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     //console.log('[TimeManager]: Apply server time', serverTime, localTime, newTimeOffset, changed);
@@ -155,10 +116,3 @@ export class TimeManager extends AppManager {
     return changed;
   }
 }
-<<<<<<< HEAD
-
-const timeManager = new TimeManager();
-MOUNT_CLASS_TO.timeManager = timeManager;
-export default timeManager;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

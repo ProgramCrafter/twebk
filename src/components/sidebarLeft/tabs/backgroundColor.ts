@@ -5,22 +5,14 @@
  */
 
 import { SettingSection } from "..";
-<<<<<<< HEAD
-=======
 import { Theme } from "../../../config/state";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { hexaToRgba } from "../../../helpers/color";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
 import findUpClassName from "../../../helpers/dom/findUpClassName";
 import highlightningColor from "../../../helpers/highlightningColor";
 import throttle from "../../../helpers/schedulers/throttle";
-<<<<<<< HEAD
-import appImManager from "../../../lib/appManagers/appImManager";
-import appStateManager, { Theme } from "../../../lib/appManagers/appStateManager";
-=======
 import themeController from "../../../helpers/themeController";
 import appImManager from "../../../lib/appManagers/appImManager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rootScope from "../../../lib/rootScope";
 import ColorPicker, { ColorPickerColor } from "../../colorPicker";
 import { SliderSuperTab } from "../../slider";
@@ -36,11 +28,7 @@ export default class AppBackgroundColorTab extends SliderSuperTab {
     this.container.classList.add('background-container', 'background-color-container');
     this.setTitle('SetColor');
 
-<<<<<<< HEAD
-    this.theme = rootScope.getTheme();
-=======
     this.theme = themeController.getTheme();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const section = new SettingSection({});
     this.colorPicker = new ColorPicker();
@@ -69,11 +57,7 @@ export default class AppBackgroundColorTab extends SliderSuperTab {
       '#DD8851'
     ];
 
-<<<<<<< HEAD
-    colors.forEach(color => {
-=======
     colors.forEach((color) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const item = document.createElement('div');
       item.classList.add('grid-item');
       item.dataset.color = color.toLowerCase();
@@ -137,11 +121,7 @@ export default class AppBackgroundColorTab extends SliderSuperTab {
       background.slug = '';
       background.color = hex.toLowerCase();
       background.highlightningColor = hsla;
-<<<<<<< HEAD
-      appStateManager.pushToState('settings', rootScope.settings);
-=======
       this.managers.appStateManager.pushToState('settings', rootScope.settings);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
       appImManager.applyCurrentTheme(undefined, undefined, true);
       this.setActive();

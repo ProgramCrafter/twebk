@@ -73,11 +73,7 @@ export default class PinnedContainer {
     attachClickEvent(elem, (e) => {
       cancelEvent(e);
 
-<<<<<<< HEAD
-      ((this.onClose ? this.onClose() : null) || Promise.resolve(true)).then(needClose => {
-=======
       ((this.onClose ? this.onClose() : null) || Promise.resolve(true)).then((needClose) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(needClose) {
           this.toggle(true);
         }
@@ -104,11 +100,7 @@ export default class PinnedContainer {
     this.topbar.container.classList.toggle('is-pinned-floating', isFloating);
     this.topbar.container.classList.toggle(`is-pinned-${this.className}-shown`, !hide);
     
-<<<<<<< HEAD
-    // const active = classNames.filter(className => this.topbar.container.classList.contains(className));
-=======
     // const active = classNames.filter((className) => this.topbar.container.classList.contains(className));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     // const maxActive = hide ? 0 : 1;
     
     // * not sure when it became unneeded

@@ -4,11 +4,6 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import appProfileManager from "../../../lib/appManagers/appProfileManager";
-import appUsersManager from "../../../lib/appManagers/appUsersManager";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import InputField from "../../inputField";
 import { SliderSuperTab } from "../../slider";
 import EditPeer from "../../editPeer";
@@ -42,10 +37,7 @@ export default class AppEditProfileTab extends SliderSuperTab {
       const inputWrapper = document.createElement('div');
       inputWrapper.classList.add('input-wrapper');
   
-<<<<<<< HEAD
-=======
       const appConfig = await this.managers.apiManager.getAppConfig();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.firstNameInputField = new InputField({
         label: 'EditProfile.FirstNameLabel',
         name: 'first-name',
@@ -59,11 +51,7 @@ export default class AppEditProfileTab extends SliderSuperTab {
       this.bioInputField = new InputField({
         label: 'EditProfile.BioLabel',
         name: 'bio',
-<<<<<<< HEAD
-        maxLength: 70
-=======
         maxLength: rootScope.premium ? appConfig.about_length_limit_premium : appConfig.about_length_limit_default
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
   
       inputWrapper.append(this.firstNameInputField.container, this.lastNameInputField.container, this.bioInputField.container);
@@ -106,11 +94,7 @@ export default class AppEditProfileTab extends SliderSuperTab {
         availableText: 'EditProfile.Username.Available',
         takenText: 'EditProfile.Username.Taken',
         invalidText: 'EditProfile.Username.Invalid'
-<<<<<<< HEAD
-      });
-=======
       }, this.managers);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       inputWrapper.append(this.usernameInputField.container);
 
@@ -140,33 +124,20 @@ export default class AppEditProfileTab extends SliderSuperTab {
 
       let promises: Promise<any>[] = [];
       
-<<<<<<< HEAD
-      promises.push(appProfileManager.updateProfile(this.firstNameInputField.value, this.lastNameInputField.value, this.bioInputField.value).then(() => {
-=======
       promises.push(this.managers.appProfileManager.updateProfile(this.firstNameInputField.value, this.lastNameInputField.value, this.bioInputField.value).then(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.close();
       }, (err) => {
         console.error('updateProfile error:', err);
       }));
 
       if(this.editPeer.uploadAvatar) {
-<<<<<<< HEAD
-        promises.push(this.editPeer.uploadAvatar().then(inputFile => {
-          return appProfileManager.uploadProfilePhoto(inputFile);
-=======
         promises.push(this.editPeer.uploadAvatar().then((inputFile) => {
           return this.managers.appProfileManager.uploadProfilePhoto(inputFile);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }));
       }
 
       if(this.usernameInputField.isValidToChange()) {
-<<<<<<< HEAD
-        promises.push(appUsersManager.updateUsername(this.usernameInputField.value));
-=======
         promises.push(this.managers.appUsersManager.updateUsername(this.usernameInputField.value));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       Promise.race(promises).finally(() => {
@@ -174,15 +145,9 @@ export default class AppEditProfileTab extends SliderSuperTab {
       });
     }, {listenerSetter: this.listenerSetter});
 
-<<<<<<< HEAD
-    const user = appUsersManager.getSelf();
-
-    const userFull = await appProfileManager.getProfile(user.id, true);
-=======
     const user = await this.managers.appUsersManager.getSelf();
 
     const userFull = await this.managers.appProfileManager.getProfile(user.id, true);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.firstNameInputField.setOriginalValue(user.first_name, true);
     this.lastNameInputField.setOriginalValue(user.last_name, true);

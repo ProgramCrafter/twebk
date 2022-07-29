@@ -42,11 +42,7 @@ export default class StickyIntersector {
   private observeElements() {
     this.elementsObserver = new IntersectionObserver((entries) => {
       const entry = entries
-<<<<<<< HEAD
-      .filter(entry => entry.boundingClientRect.top < entry.rootBounds.top)
-=======
       .filter((entry) => entry.boundingClientRect.top < entry.rootBounds.top)
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
       if(!entry) return;
 

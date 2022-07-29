@@ -65,11 +65,7 @@ export class SuperRLottieIcon<Options extends {
     item.initFrame = part.endFrame;
     item.color = color;
 
-<<<<<<< HEAD
-    const promises = [...this.items.values()].map(item => item.load());
-=======
     const promises = [...this.items.values()].map((item) => item.load());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return Promise.all(promises).then(noop);
   }
 
@@ -128,11 +124,7 @@ export class SuperRLottieIcon<Options extends {
   }
 
   public destroy() {
-<<<<<<< HEAD
-    this.items.forEach(item => {
-=======
     this.items.forEach((item) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       item.loadPromise.then(() => {
         item.player.remove();
       });

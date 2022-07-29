@@ -9,34 +9,6 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import type { UserAuth } from './mtproto_config';
-import sessionStorage from '../sessionStorage';
-import MTPNetworker, { MTMessage } from './networker';
-import networkerFactory from './networkerFactory';
-//import { telegramMeWebService } from './mtproto';
-import authorizer from './authorizer';
-import dcConfigurator, { ConnectionType, DcConfigurator, TransportType } from './dcConfigurator';
-import { logger } from '../logger';
-import type { DcAuthKey, DcId, DcServerSalt, InvokeApiOptions } from '../../types';
-import type { MethodDeclMap } from '../../layer';
-import deferredPromise, { CancellablePromise } from '../../helpers/cancellablePromise';
-//import { clamp } from '../../helpers/number';
-import { IS_SAFARI } from '../../environment/userAgent';
-import App from '../../config/app';
-import { MOUNT_CLASS_TO } from '../../config/debug';
-import IDBStorage from '../idb';
-import CryptoWorker from "../crypto/cryptoworker";
-import ctx from '../../environment/ctx';
-import noop from '../../helpers/noop';
-import Modes from '../../config/modes';
-import bytesFromHex from '../../helpers/bytes/bytesFromHex';
-import bytesToHex from '../../helpers/bytes/bytesToHex';
-import isObject from '../../helpers/object/isObject';
-import pause from '../../helpers/schedulers/pause';
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 /// #if !MTPROTO_WORKER
 import rootScope from '../rootScope';
 /// #endif
@@ -46,8 +18,6 @@ import transportController from './transports/controller';
 import MTTransport from './transports/transport';
 /// #endif
 
-<<<<<<< HEAD
-=======
 import type { UserAuth } from './mtproto_config';
 import sessionStorage from '../sessionStorage';
 import MTPNetworker, { MTMessage } from './networker';
@@ -74,18 +44,13 @@ import { getEnvironment } from '../../environment/utils';
 import AppStorage from '../storage';
 import toggleStorages from '../../helpers/toggleStorages';
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 /* var networker = apiManager.cachedNetworkers.websocket.upload[2];
 networker.wrapMtpMessage({
   _: 'msgs_state_req',
   msg_ids: ["6888292542796810828"]
 }, {
   notContentRelated: true
-<<<<<<< HEAD
-}).then(res => {
-=======
 }).then((res) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   console.log('status', res);
 }); */
 
@@ -113,16 +78,10 @@ export type ApiError = Partial<{
   }
 } */
 
-<<<<<<< HEAD
-const FILE_NETWORKERS_COUNT = 3;
-
-export class ApiManager {
-=======
 const PREMIUM_FILE_NETWORKERS_COUNT = 6;
 const REGULAR_FILE_NETWORKERS_COUNT = 3;
 
 export class ApiManager extends ApiManagerMethods {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private cachedNetworkers: {
     [transportType in TransportType]: {
       [connectionType in ConnectionType]: {
@@ -147,10 +106,6 @@ export class ApiManager extends ApiManagerMethods {
   };
 
   private transportType: TransportType;
-<<<<<<< HEAD
-  
-  constructor() {
-=======
 
   private updatesProcessor: (obj: any) => void;
 
@@ -158,7 +113,6 @@ export class ApiManager extends ApiManagerMethods {
 
   constructor() {
     super();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.log = logger('API');
 
     this.cachedNetworkers = {} as any;
@@ -198,11 +152,7 @@ export class ApiManager extends ApiManagerMethods {
   private getTransportType(connectionType: ConnectionType) {
     /// #if MTPROTO_HTTP_UPLOAD
     // @ts-ignore
-<<<<<<< HEAD
-    const transportType: TransportType = connectionType === 'upload' && IS_SAFARI ? 'https' : 'websocket';
-=======
     const transportType: TransportType = connectionType === 'upload' && getEnvironment().IS_SAFARI ? 'https' : 'websocket';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //const transportType: TransportType = connectionType !== 'client' ? 'https' : 'websocket';
     /// #else
     // @ts-ignore
@@ -235,11 +185,7 @@ export class ApiManager extends ApiManagerMethods {
   }
 
   private chooseServer(dcId: DcId, connectionType: ConnectionType, transportType: TransportType) {
-<<<<<<< HEAD
-    return dcConfigurator.chooseServer(dcId, connectionType, transportType, connectionType === 'client');
-=======
     return this.dcConfigurator.chooseServer(dcId, connectionType, transportType, connectionType === 'client', this.rootScope.premium);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public changeTransportType(transportType: TransportType) {
@@ -291,9 +237,6 @@ export class ApiManager extends ApiManagerMethods {
     return this.baseDcId;
   }
   
-<<<<<<< HEAD
-  public async setUserAuth(userAuth: UserAuth) {
-=======
   public async setUserAuth(userAuth: UserAuth | UserId) {
     if(typeof(userAuth) === 'string' || typeof(userAuth) === 'number') {
       userAuth = {dcID: 0, date: Date.now() / 1000 | 0, id: userAuth.toPeerId(false)};
@@ -301,7 +244,6 @@ export class ApiManager extends ApiManagerMethods {
 
     this.rootScope.dispatchEvent('user_auth', userAuth);
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!userAuth.dcID) {
       const baseDcId = await this.getBaseDcId();
       userAuth.dcID = baseDcId;
@@ -312,23 +254,12 @@ export class ApiManager extends ApiManagerMethods {
     });
     
     //this.telegramMeNotify(true);
-<<<<<<< HEAD
-
-    /// #if !MTPROTO_WORKER
-    rootScope.dispatchEvent('user_auth', userAuth);
-    /// #endif
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setBaseDcId(dcId: DcId) {
     const wasDcId = this.baseDcId;
     if(wasDcId) { // if migrated set ondrain
-<<<<<<< HEAD
-      this.getNetworker(wasDcId).then(networker => {
-=======
       this.getNetworker(wasDcId).then((networker) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.setOnDrainIfNeeded(networker);
       });
     }
@@ -341,14 +272,11 @@ export class ApiManager extends ApiManagerMethods {
   }
   
   public async logOut() {
-<<<<<<< HEAD
-=======
     if(this.loggingOut) {
       return;
     }
 
     this.loggingOut = true;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const storageKeys: Array<DcAuthKey> = [];
     
     const prefix = 'dc';
@@ -357,11 +285,7 @@ export class ApiManager extends ApiManagerMethods {
     }
     
     // WebPushApiManager.forceUnsubscribe(); // WARNING // moved to worker's master
-<<<<<<< HEAD
-    const storageResult = await Promise.all(storageKeys.map(key => sessionStorage.get(key)));
-=======
     const storageResult = await Promise.all(storageKeys.map((key) => sessionStorage.get(key)));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
     const logoutPromises: Promise<any>[] = [];
     for(let i = 0; i < storageResult.length; i++) {
@@ -370,22 +294,12 @@ export class ApiManager extends ApiManagerMethods {
       }
     }
 
-<<<<<<< HEAD
-    const clear = () => {
-      //console.error('apiManager: logOut clear');
-      
-      this.baseDcId = undefined;
-      //this.telegramMeNotify(false);
-      IDBStorage.closeDatabases();
-      self.postMessage({type: 'clear'});
-=======
     const clear = async() => {
       this.baseDcId = undefined;
       //this.telegramMeNotify(false);
       await toggleStorages(false, true);
       IDB.closeDatabases();
       this.rootScope.dispatchEvent('logging_out');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     };
 
     setTimeout(clear, 1e3);
@@ -423,11 +337,7 @@ export class ApiManager extends ApiManagerMethods {
     
     const networkers = cache[dcId];
     // @ts-ignore
-<<<<<<< HEAD
-    const maxNetworkers = connectionType === 'client' || transportType === 'https' ? 1 : FILE_NETWORKERS_COUNT;
-=======
     const maxNetworkers = connectionType === 'client' || transportType === 'https' ? 1 : (this.rootScope.premium ? PREMIUM_FILE_NETWORKERS_COUNT : REGULAR_FILE_NETWORKERS_COUNT);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(networkers.length >= maxNetworkers) {
       let i = networkers.length - 1, found = false;
       for(; i >= 0; --i) {
@@ -451,11 +361,7 @@ export class ApiManager extends ApiManagerMethods {
     const ss: DcServerSalt = `dc${dcId}_server_salt` as any;
     
     let transport = this.chooseServer(dcId, connectionType, transportType);
-<<<<<<< HEAD
-    return this.gettingNetworkers[getKey] = Promise.all([ak, ss].map(key => sessionStorage.get(key)))
-=======
     return this.gettingNetworkers[getKey] = Promise.all([ak, ss].map((key) => sessionStorage.get(key)))
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .then(async([authKeyHex, serverSaltHex]) => {
       let networker: MTPNetworker, error: any;
       if(authKeyHex && authKeyHex.length === 512) {
@@ -467,28 +373,17 @@ export class ApiManager extends ApiManagerMethods {
         const authKeyId = (await CryptoWorker.invokeCrypto('sha1', authKey)).slice(-8);
         const serverSalt = bytesFromHex(serverSaltHex);
         
-<<<<<<< HEAD
-        networker = networkerFactory.getNetworker(dcId, authKey, authKeyId, serverSalt, options);
-      } else {
-        try { // if no saved state
-          const auth = await authorizer.auth(dcId);
-=======
         networker = this.networkerFactory.getNetworker(dcId, authKey, authKeyId, serverSalt, options);
       } else {
         try { // if no saved state
           const auth = await this.authorizer.auth(dcId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
           sessionStorage.set({
             [ak]: bytesToHex(auth.authKey),
             [ss]: bytesToHex(auth.serverSalt)
           });
           
-<<<<<<< HEAD
-          networker = networkerFactory.getNetworker(dcId, auth.authKey, auth.authKeyId, auth.serverSalt, options);
-=======
           networker = this.networkerFactory.getNetworker(dcId, auth.authKey, auth.authKeyId, auth.serverSalt, options);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } catch(_error) {
           error = _error;
         }
@@ -499,11 +394,7 @@ export class ApiManager extends ApiManagerMethods {
       if(newTransportType !== transportType) {
         getKey = this.generateNetworkerGetKey(dcId, newTransportType, connectionType);
         transport.destroy();
-<<<<<<< HEAD
-        DcConfigurator.removeTransport(dcConfigurator.chosenServers, transport);
-=======
         DcConfigurator.removeTransport(this.dcConfigurator.chosenServers, transport);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         if(networker) {
           transport = this.chooseServer(dcId, connectionType, newTransportType);
@@ -530,12 +421,6 @@ export class ApiManager extends ApiManagerMethods {
     });
   }
 
-<<<<<<< HEAD
-  private changeNetworkerTransport(networker: MTPNetworker, transport?: MTTransport) {
-    const oldTransport = networker.transport;
-    if(oldTransport) {
-      DcConfigurator.removeTransport(dcConfigurator.chosenServers, oldTransport);
-=======
   public getNetworkerVoid(dcId: DcId) {
     return this.getNetworker(dcId).then(noop, noop);
   }
@@ -544,7 +429,6 @@ export class ApiManager extends ApiManagerMethods {
     const oldTransport = networker.transport;
     if(oldTransport) {
       DcConfigurator.removeTransport(this.dcConfigurator.chosenServers, oldTransport);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     networker.changeTransport(transport);
@@ -557,13 +441,8 @@ export class ApiManager extends ApiManagerMethods {
     
     const checkPromise: Promise<boolean> = networker.isFileNetworker ? 
       Promise.resolve(true) : 
-<<<<<<< HEAD
-      this.getBaseDcId().then(baseDcId => networker.dcId !== baseDcId);
-    checkPromise.then(canRelease => {
-=======
       this.getBaseDcId().then((baseDcId) => networker.dcId !== baseDcId);
     checkPromise.then((canRelease) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(networker.onDrain) {
         return;
       }
@@ -575,11 +454,7 @@ export class ApiManager extends ApiManagerMethods {
           networker.onDrain = undefined;
           this.changeNetworkerTransport(networker);
           networker.destroy();
-<<<<<<< HEAD
-          networkerFactory.removeNetworker(networker);
-=======
           this.networkerFactory.removeNetworker(networker);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           DcConfigurator.removeTransport(this.cachedNetworkers, networker);
         };
 
@@ -587,14 +462,11 @@ export class ApiManager extends ApiManagerMethods {
       }
     });
   }
-<<<<<<< HEAD
-=======
 
   public setUpdatesProcessor(callback: (obj: any) => void) {
     this.updatesProcessor = callback;
     this.networkerFactory.setUpdatesProcessor(callback);
   }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
   public invokeApi<T extends keyof MethodDeclMap>(method: T, params: MethodDeclMap[T]['req'] = {}, options: InvokeApiOptions = {}): CancellablePromise<MethodDeclMap[T]["res"]> {
     ///////this.log('Invoke api', method, params, options);
@@ -736,11 +608,7 @@ export class ApiManager extends ApiManagerMethods {
             throw error;
           }
         } else if(error.code === 400 && error.type === 'CONNECTION_NOT_INITED') {
-<<<<<<< HEAD
-          networkerFactory.unsetConnectionInited();
-=======
           this.networkerFactory.unsetConnectionInited();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           return performRequest();
         } else if(!options.rawError && error.code === 420) {
           const waitTime = +error.type.match(/^FLOOD_WAIT_(\d+)/)[1] || 1;
@@ -796,10 +664,3 @@ export class ApiManager extends ApiManagerMethods {
     return deferred;
   }
 }
-<<<<<<< HEAD
-
-const apiManager = new ApiManager();
-MOUNT_CLASS_TO.apiManager = apiManager;
-export default apiManager;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

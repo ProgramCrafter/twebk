@@ -4,11 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../../environment/touchSupport";
-=======
 import IS_TOUCH_SUPPORTED from "../../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import AppSelectPeers from "../appSelectPeers";
 import PopupElement from ".";
 import { LangPackKey, _i18n } from "../../lib/langPack";
@@ -24,11 +20,7 @@ export default class PopupPickUser extends PopupElement {
     peerId?: number,
     selfPresence?: LangPackKey
   }) {
-<<<<<<< HEAD
-    super('popup-forward', null, {closable: true, overlayClosable: true, body: true});
-=======
     super('popup-forward', {closable: true, overlayClosable: true, body: true, title: true});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.selector = new AppSelectPeers({
       appendTo: this.body, 
@@ -65,12 +57,8 @@ export default class PopupPickUser extends PopupElement {
       avatarSize: 46,
       peerId: options.peerId,
       placeholder: options.placeholder,
-<<<<<<< HEAD
-      selfPresence: options.selfPresence
-=======
       selfPresence: options.selfPresence,
       managers: this.managers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     //this.scrollable = new Scrollable(this.body);

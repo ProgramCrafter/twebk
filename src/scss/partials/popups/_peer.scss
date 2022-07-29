@@ -10,21 +10,6 @@
   #{$parent} {
     &-header {
       display: flex;
-<<<<<<< HEAD
-      margin-bottom: .625rem;
-      align-items: center;
-    }
-    
-    &-container {
-      padding: 1rem 1.5rem .8125rem;
-      max-width: unquote('min(400px, 100%)');
-
-      &.have-checkbox {
-        .popup-buttons {
-          margin-top: .5625rem;
-        }
-      }
-=======
       align-items: center;
       padding: 0 1rem;
       height: 2.5rem;
@@ -34,23 +19,15 @@
     &-container {
       padding: .75rem .5rem;
       max-width: unquote('min(400px, 100%)');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     &-title {
       font-size: 1.25rem;
       font-weight: var(--font-weight-bold);
-<<<<<<< HEAD
-      margin-bottom: .125rem;
-
-      &:not(:first-child) {
-        padding-left: .6875rem;
-=======
       // margin-bottom: .125rem;
 
       &:not(:first-child) {
         padding-left: 1rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
 
@@ -63,40 +40,16 @@
       overflow: hidden;
       word-break: break-word;
       line-height: var(--line-height);
-<<<<<<< HEAD
-    }
-
-    &-buttons {
-      margin-top: 1.625rem;
-      margin-right: -.5rem;
-
-      .btn {
-        font-weight: var(--font-weight-bold);
-
-        & + .btn {
-          margin-top: .625rem;
-        }
-      }
-=======
       padding: .625rem 1rem .5rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
   .checkbox-field {
     display: flex;
     align-items: center;
-<<<<<<< HEAD
-    height: 3.5rem;
-    /* padding: 0 .9375rem;
-    margin: 0 -.8125rem; */
-    padding: 0 1.1875rem;
-    margin: 0 -1.0625rem;
-=======
     height: 3rem;
     margin: 0;
     padding: 0 1.125rem;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     .checkbox-box {
       left: auto;

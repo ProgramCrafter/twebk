@@ -5,11 +5,7 @@
  */
 
 import IS_PARALLAX_SUPPORTED from "../environment/parallaxSupport";
-<<<<<<< HEAD
-import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
-=======
 import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import findAndSplice from "../helpers/array/findAndSplice";
 import cancelEvent from "../helpers/dom/cancelEvent";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
@@ -18,21 +14,11 @@ import ListenerSetter from "../helpers/listenerSetter";
 import ListLoader from "../helpers/listLoader";
 import { fastRaf } from "../helpers/schedulers";
 import { Message, ChatFull, MessageAction, Photo } from "../layer";
-<<<<<<< HEAD
-import appAvatarsManager from "../lib/appManagers/appAvatarsManager";
-import appMessagesManager, { AppMessagesManager } from "../lib/appManagers/appMessagesManager";
-import appPeersManager from "../lib/appManagers/appPeersManager";
-import appPhotosManager from "../lib/appManagers/appPhotosManager";
-import appProfileManager from "../lib/appManagers/appProfileManager";
-import rootScope from "../lib/rootScope";
-import { openAvatarViewer } from "./avatar";
-=======
 import type { AppMessagesManager } from "../lib/appManagers/appMessagesManager";
 import { AppManagers } from "../lib/appManagers/managers";
 import choosePhotoSize from "../lib/appManagers/utils/photos/choosePhotoSize";
 import { openAvatarViewer } from "./avatar";
 import { putAvatar } from "./putPhoto";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Scrollable from "./scrollable";
 import SwipeHandler from "./swipeHandler";
 import { wrapPhoto } from "./wrappers";
@@ -57,14 +43,10 @@ export default class PeerProfileAvatars {
   private listenerSetter: ListenerSetter;
   private swipeHandler: SwipeHandler;
 
-<<<<<<< HEAD
-  constructor(public scrollable: Scrollable) {
-=======
   constructor(
     public scrollable: Scrollable,
     private managers: AppManagers
   ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.container = document.createElement('div');
     this.container.classList.add(PeerProfileAvatars.BASE_CLASS + '-container');
 
@@ -237,13 +219,8 @@ export default class PeerProfileAvatars {
       }
     });
 
-<<<<<<< HEAD
-    this.intersectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-=======
     this.intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(!entry.isIntersecting) {
           return;
         }
@@ -267,17 +244,10 @@ export default class PeerProfileAvatars {
     }); */
   }
 
-<<<<<<< HEAD
-  public setPeer(peerId: PeerId) {
-    this.peerId = peerId;
-
-    const photo = appPeersManager.getPeerPhoto(peerId);
-=======
   public async setPeer(peerId: PeerId) {
     this.peerId = peerId;
 
     const photo = await this.managers.appPeersManager.getPeerPhoto(peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!photo) {
       return;
     }
@@ -289,32 +259,19 @@ export default class PeerProfileAvatars {
 
         if(peerId.isUser()) {
           const maxId: Photo.photo['id'] = anchor as any;
-<<<<<<< HEAD
-          return appPhotosManager.getUserPhotos(peerId, maxId, loadCount).then(value => {
-=======
           return this.managers.appPhotosManager.getUserPhotos(peerId, maxId, loadCount).then((value) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             return {
               count: value.count,
               items: value.photos
             };
           });
         } else {
-<<<<<<< HEAD
-          const promises: [Promise<ChatFull>, ReturnType<AppMessagesManager['getSearch']>] = [] as any;
-          if(!listLoader.current) {
-            promises.push(Promise.resolve(appProfileManager.getChatFull(peerId.toChatId())));
-          }
-          
-          promises.push(appMessagesManager.getSearch({
-=======
           const promises: [Promise<ChatFull> | ChatFull, ReturnType<AppMessagesManager['getSearch']>] = [] as any;
           if(!listLoader.current) {
             promises.push(this.managers.appProfileManager.getChatFull(peerId.toChatId()));
           }
           
           promises.push(this.managers.appMessagesManager.getSearch({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             peerId,
             maxId: Number.MAX_SAFE_INTEGER,
             inputFilter: {
@@ -324,30 +281,18 @@ export default class PeerProfileAvatars {
             backLimit: 0
           }));
 
-<<<<<<< HEAD
-          return Promise.all(promises).then((result) => {
-=======
           return Promise.all(promises).then(async(result) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             const value = result.pop() as typeof result[1];
 
             filterChatPhotosMessages(value);
 
             if(!listLoader.current) {
               const chatFull = result[0];
-<<<<<<< HEAD
-              const message = findAndSplice(value.history, m => {
-                return ((m as Message.messageService).action as MessageAction.messageActionChannelEditPhoto).photo.id === chatFull.chat_photo.id;
-              }) as Message.messageService;
-              
-              listLoader.current = message || appMessagesManager.generateFakeAvatarMessage(this.peerId, chatFull.chat_photo);
-=======
               const message = findAndSplice(value.history, (message) => {
                 return ((message as Message.messageService).action as MessageAction.messageActionChannelEditPhoto).photo.id === chatFull.chat_photo.id;
               }) as Message.messageService;
               
               listLoader.current = message || await this.managers.appMessagesManager.generateFakeAvatarMessage(this.peerId, chatFull.chat_photo);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
 
             //console.log('avatars loaded:', value);
@@ -379,11 +324,7 @@ export default class PeerProfileAvatars {
       listLoader.current = photo.photo_id;
     }
 
-<<<<<<< HEAD
-    this.processItem(listLoader.current);
-=======
     await this.processItem(listLoader.current);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     // listLoader.loaded
     listLoader.load(true);
@@ -401,26 +342,16 @@ export default class PeerProfileAvatars {
     this.container.classList.toggle('is-single', this.tabs.childElementCount <= 1);
   }
 
-<<<<<<< HEAD
-  public processItem = (photoId: Photo.photo['id'] | Message.messageService) => {
-    const avatar = document.createElement('div');
-    avatar.classList.add(PeerProfileAvatars.BASE_CLASS + '-avatar', 'media-container');
-=======
   public processItem = async(photoId: Photo.photo['id'] | Message.messageService) => {
     const avatar = document.createElement('div');
     avatar.classList.add(PeerProfileAvatars.BASE_CLASS + '-avatar', 'media-container', 'hide');
 
     this.avatars.append(avatar);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     let photo: Photo.photo;
     if(photoId) {
       photo = typeof(photoId) !== 'object' ? 
-<<<<<<< HEAD
-        appPhotosManager.getPhoto(photoId) : 
-=======
         await this.managers.appPhotosManager.getPhoto(photoId) : 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         (photoId.action as MessageAction.messageActionChannelEditPhoto).photo as Photo.photo;
     }
 
@@ -428,28 +359,6 @@ export default class PeerProfileAvatars {
     img.classList.add('avatar-photo');
     img.draggable = false;
 
-<<<<<<< HEAD
-    const loadCallback = () => {
-      if(photo) {
-        const res = wrapPhoto({
-          container: avatar,
-          photo,
-          size: appPhotosManager.choosePhotoSize(photo, 420, 420, false),
-          withoutPreloader: true
-        });
-  
-        [res.images.thumb, res.images.full].filter(Boolean).forEach(img => {
-          img.classList.add('avatar-photo');
-        });
-      } else {
-        const photo = appPeersManager.getPeerPhoto(this.peerId);
-        appAvatarsManager.putAvatar(avatar, this.peerId, photo, 'photo_big', img);
-      }
-    };
-
-    if(this.avatars.childElementCount <= LOAD_NEAREST) {
-      loadCallback();
-=======
     const loadCallback = async() => {
       if(photo) {
         const res = await wrapPhoto({
@@ -472,17 +381,11 @@ export default class PeerProfileAvatars {
 
     if(this.avatars.childElementCount <= LOAD_NEAREST) {
       await loadCallback();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } else {
       this.intersectionObserver.observe(avatar);
       this.loadCallbacks.set(avatar, loadCallback);
     }
 
-<<<<<<< HEAD
-    this.avatars.append(avatar);
-
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.addTab();
 
     return photoId;
@@ -493,11 +396,7 @@ export default class PeerProfileAvatars {
     const idx = children.indexOf(target);
     const slice = children.slice(Math.max(0, idx - LOAD_NEAREST), Math.min(children.length, idx + LOAD_NEAREST));
 
-<<<<<<< HEAD
-    slice.forEach(target => {
-=======
     slice.forEach((target) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const callback = this.loadCallbacks.get(target);
       if(callback) {
         callback();
@@ -510,9 +409,6 @@ export default class PeerProfileAvatars {
   public cleanup() {
     this.listenerSetter.removeAll();
     this.swipeHandler.removeListeners();
-<<<<<<< HEAD
-=======
     this.intersectionObserver?.disconnect();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }

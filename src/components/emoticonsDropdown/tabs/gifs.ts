@@ -7,25 +7,13 @@
 import emoticonsDropdown, { EmoticonsDropdown, EmoticonsTab, EMOTICONSSTICKERGROUP } from "..";
 import GifsMasonry from "../../gifsMasonry";
 import Scrollable from "../../scrollable";
-<<<<<<< HEAD
-import { putPreloader } from "../../misc";
-import apiManager from "../../../lib/mtproto/mtprotoworker";
-import appDocsManager, {MyDocument} from "../../../lib/appManagers/appDocsManager";
-=======
 import { putPreloader } from "../../putPreloader";
 import { AppManagers } from "../../../lib/appManagers/managers";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class GifsTab implements EmoticonsTab {
   private content: HTMLElement;
 
-<<<<<<< HEAD
-  init() {
-    this.content = document.getElementById('content-gifs');
-    const gifsContainer = this.content.firstElementChild as HTMLDivElement;
-    gifsContainer.addEventListener('click', EmoticonsDropdown.onMediaClick);
-=======
   constructor(private managers: AppManagers) {
 
   }
@@ -34,29 +22,15 @@ export default class GifsTab implements EmoticonsTab {
     this.content = document.getElementById('content-gifs');
     const gifsContainer = this.content.firstElementChild as HTMLDivElement;
     attachClickEvent(gifsContainer, EmoticonsDropdown.onMediaClick);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const scroll = new Scrollable(this.content, 'GIFS');
     const masonry = new GifsMasonry(gifsContainer, EMOTICONSSTICKERGROUP, scroll);
     const preloader = putPreloader(this.content, true);
 
-<<<<<<< HEAD
-    apiManager.invokeApi('messages.getSavedGifs', {hash: '0'}).then((res) => {
-      //console.log('getSavedGifs res:', res);
-
-      if(res._ === 'messages.savedGifs') {
-        res.gifs.forEach((doc, idx) => {
-          res.gifs[idx] = doc = appDocsManager.saveDoc(doc);
-          //if(doc._ === 'documentEmpty') return;
-          masonry.add(doc as MyDocument);
-        });
-      }
-=======
     this.managers.appDocsManager.getGifs().then((docs) => {
       docs.forEach((doc) => {
         masonry.add(doc);
       });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       preloader.remove();
     });

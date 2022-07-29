@@ -3,11 +3,7 @@ import subtle from "../subtle";
 //import sha256 from '@cryptography/sha256';
 
 export default function sha256(bytes: Parameters<typeof convertToUint8Array>[0]) {
-<<<<<<< HEAD
-  return subtle.digest('SHA-256', convertToUint8Array(bytes)).then(b => {
-=======
   return subtle.digest('SHA-256', convertToUint8Array(bytes)).then((b) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //console.log('legacy', performance.now() - perfS);
     return new Uint8Array(b);
   });

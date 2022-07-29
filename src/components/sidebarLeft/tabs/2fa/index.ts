@@ -7,21 +7,11 @@
 import { SettingSection } from "../..";
 import { attachClickEvent } from "../../../../helpers/dom/clickEvent";
 import { AccountPassword } from "../../../../layer";
-<<<<<<< HEAD
-import appStickersManager from "../../../../lib/appManagers/appStickersManager";
-import { _i18n } from "../../../../lib/langPack";
-import passwordManager from "../../../../lib/mtproto/passwordManager";
-import Button from "../../../button";
-import PopupPeer from "../../../popups/peer";
-import { SliderSuperTab } from "../../../slider";
-import { wrapSticker } from "../../../wrappers";
-=======
 import { _i18n } from "../../../../lib/langPack";
 import Button from "../../../button";
 import PopupPeer from "../../../popups/peer";
 import { SliderSuperTab } from "../../../slider";
 import wrapStickerEmoji from "../../../wrappers/stickerEmoji";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import AppSettingsTab from "../settings";
 import AppTwoStepVerificationEmailTab from "./email";
 import AppTwoStepVerificationEnterPasswordTab from "./enterPassword";
@@ -35,35 +25,11 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
     this.setTitle('TwoStepVerificationTitle');
 
     const section = new SettingSection({
-<<<<<<< HEAD
-      caption: true,
-=======
       captionOld: true,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       noDelimiter: true
     });
 
     const emoji = '🔐';
-<<<<<<< HEAD
-    const doc = appStickersManager.getAnimatedEmojiSticker(emoji);
-    const stickerContainer = document.createElement('div');
-
-    if(doc) {
-      wrapSticker({
-        doc,
-        div: stickerContainer,
-        loop: false,
-        play: true,
-        width: 168,
-        height: 168,
-        emoji
-      }).then(() => {
-        // this.animation = player;
-      });
-    } else {
-      stickerContainer.classList.add('media-sticker-wrapper');
-    }
-=======
     const stickerContainer = document.createElement('div');
 
     wrapStickerEmoji({
@@ -72,7 +38,6 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
       height: 168,
       emoji
     });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     section.content.append(stickerContainer);
 
@@ -85,11 +50,7 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
       const btnSetRecoveryEmail = Button('btn-primary btn-transparent', {icon: 'email', text: this.state.pFlags.has_recovery ? 'TwoStepAuth.ChangeEmail' : 'TwoStepAuth.SetupEmail'});
 
       attachClickEvent(btnChangePassword, () => {
-<<<<<<< HEAD
-        const tab = new AppTwoStepVerificationEnterPasswordTab(this.slider);
-=======
         const tab = this.slider.createTab(AppTwoStepVerificationEnterPasswordTab);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         tab.state = this.state;
         tab.plainPassword = this.plainPassword;
         tab.open();
@@ -100,11 +61,7 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
           buttons: [{
             langKey: 'Disable',
             callback: () => {
-<<<<<<< HEAD
-              passwordManager.updateSettings({currentPassword: this.plainPassword}).then(() => {
-=======
               this.managers.passwordManager.updateSettings({currentPassword: this.plainPassword}).then(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                 this.slider.sliceTabsUntilTab(AppSettingsTab, this);
                 this.close();
               });
@@ -119,11 +76,7 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
       });
 
       attachClickEvent(btnSetRecoveryEmail, () => {
-<<<<<<< HEAD
-        const tab = new AppTwoStepVerificationEmailTab(this.slider);
-=======
         const tab = this.slider.createTab(AppTwoStepVerificationEmailTab);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         tab.state = this.state;
         tab.hint = this.state.hint;
         tab.plainPassword = this.plainPassword;
@@ -145,11 +98,7 @@ export default class AppTwoStepVerificationTab extends SliderSuperTab {
       c.append(inputWrapper);
 
       attachClickEvent(btnSetPassword, (e) => {
-<<<<<<< HEAD
-        const tab = new AppTwoStepVerificationEnterPasswordTab(this.slider);
-=======
         const tab = this.slider.createTab(AppTwoStepVerificationEnterPasswordTab);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         tab.state = this.state;
         tab.open();
       });

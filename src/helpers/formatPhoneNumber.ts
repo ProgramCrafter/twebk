@@ -29,17 +29,10 @@ export function formatPhoneNumber(originalStr: string): {
   originalStr = originalStr || '';
   
   if(!prefixes.size) {
-<<<<<<< HEAD
-    I18n.countriesList.forEach(country => {
-      country.country_codes.forEach(code => {
-        if(code.prefixes) {
-          code.prefixes.forEach(prefix => {
-=======
     I18n.countriesList.forEach((country) => {
       country.country_codes.forEach((code) => {
         if(code.prefixes) {
           code.prefixes.forEach((prefix) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             setPrefix(country, code, prefix);
           });
         } else {

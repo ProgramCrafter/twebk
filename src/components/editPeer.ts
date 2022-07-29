@@ -62,11 +62,7 @@ export default class EditPeer {
       }
     }
 
-<<<<<<< HEAD
-    this.inputFields.forEach(inputField => {
-=======
     this.inputFields.forEach((inputField) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.listenerSetter.add(inputField.input)('input', this.handleChange);
     });
 
@@ -79,11 +75,7 @@ export default class EditPeer {
 
   public set disabled(value) {
     this._disabled = value;
-<<<<<<< HEAD
-    this.inputFields.forEach(inputField => inputField.input.toggleAttribute('disabled', value));
-=======
     this.inputFields.forEach((inputField) => inputField.input.toggleAttribute('disabled', value));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.handleChange();
   }
 
@@ -104,11 +96,7 @@ export default class EditPeer {
     }
 
     let changedLength = 0, requiredLength = 0, requiredValidLength = 0;
-<<<<<<< HEAD
-    this.inputFields.forEach(inputField => {
-=======
     this.inputFields.forEach((inputField) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(inputField.isValid()) {
         if(inputField.isChanged()) {
           ++changedLength;

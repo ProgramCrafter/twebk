@@ -5,35 +5,21 @@
  */
 
 import type ChatInput from "./input";
-<<<<<<< HEAD
-import type { AppEmojiManager } from "../../lib/appManagers/appEmojiManager";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { appendEmoji, getEmojiFromElement } from "../emoticonsDropdown/tabs/emoji";
 import { ScrollableX } from "../scrollable";
 import AutocompleteHelper from "./autocompleteHelper";
 import AutocompleteHelperController from "./autocompleteHelperController";
-<<<<<<< HEAD
-=======
 import { AppManagers } from "../../lib/appManagers/managers";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class EmojiHelper extends AutocompleteHelper {
   private scrollable: ScrollableX;
 
-<<<<<<< HEAD
-  constructor(appendTo: HTMLElement, 
-    controller: AutocompleteHelperController, 
-    chatInput: ChatInput, 
-    private appEmojiManager: AppEmojiManager) {
-=======
   constructor(
     appendTo: HTMLElement, 
     controller: AutocompleteHelperController, 
     chatInput: ChatInput, 
     private managers: AppManagers
   ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super({
       appendTo,
       controller, 
@@ -75,11 +61,7 @@ export default class EmojiHelper extends AutocompleteHelper {
 
     if(emojis.length) {
       this.list.innerHTML = '';
-<<<<<<< HEAD
-      emojis.forEach(emoji => {
-=======
       emojis.forEach((emoji) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         appendEmoji(emoji, this.list, false, true);
       });
     }
@@ -94,25 +76,17 @@ export default class EmojiHelper extends AutocompleteHelper {
 
   public checkQuery(query: string, firstChar: string) {
     const middleware = this.controller.getMiddleware();
-<<<<<<< HEAD
-    this.appEmojiManager.getBothEmojiKeywords().then(() => {
-=======
     this.managers.appEmojiManager.getBothEmojiKeywords().then(async() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!middleware()) {
         return;
       }
 
       const q = query.replace(/^:/, '');
-<<<<<<< HEAD
-      const emojis = this.appEmojiManager.searchEmojis(q);
-=======
       const emojis = await this.managers.appEmojiManager.searchEmojis(q);
       if(!middleware()) {
         return;
       }
       
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.render(emojis, firstChar !== ':');
       //console.log(emojis);
     });

@@ -122,20 +122,6 @@ export default class ChatBackgroundPatternRenderer {
 
   public fillCanvas(canvas: HTMLCanvasElement) {
     const context = canvas.getContext('2d');
-<<<<<<< HEAD
-    if(context.fillStyle instanceof CanvasPattern) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    // const perf = performance.now();
-    const img = this.img;
-
-    let imageWidth = img.width, imageHeight = img.height;
-    // if(imageHeight < canvas.height) {
-      const ratio = canvas.height / imageHeight;
-      imageWidth *= ratio;
-      imageHeight = canvas.height;
-=======
     const {width, height} = canvas;
     // const perf = performance.now();
     // if(context.fillStyle instanceof CanvasPattern) {
@@ -154,30 +140,16 @@ export default class ChatBackgroundPatternRenderer {
       const ratio = patternHeight / imageHeight;
       imageWidth *= ratio;
       imageHeight = patternHeight;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     // }
 
     if(this.options.mask) {
       context.fillStyle = '#000';
-<<<<<<< HEAD
-      context.fillRect(0, 0, canvas.width, canvas.height);
-=======
       context.fillRect(0, 0, width, height);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       context.globalCompositeOperation = 'destination-out';
     } else {
       context.globalCompositeOperation = 'source-over';
     }
 
-<<<<<<< HEAD
-    for(let x = 0; x < canvas.width; x += imageWidth) {
-      for(let y = 0; y < canvas.height; y += imageHeight) {
-        context.drawImage(img, x, y, imageWidth, imageHeight);
-      }
-    }
-    // context.fillStyle = this.pattern;
-    // context.fillRect(0, 0, canvas.width, canvas.height);
-=======
     const d = (y: number) => {
       for(let x = 0; x < width; x += imageWidth) {
         context.drawImage(img, x, y, imageWidth, imageHeight);
@@ -206,16 +178,11 @@ export default class ChatBackgroundPatternRenderer {
     // }
     // context.fillStyle = this.pattern;
     // context.fillRect(0, 0, width, height);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     // console.warn('fill canvas time', performance.now() - perf);
   }
 
   public setCanvasDimensions(canvas: HTMLCanvasElement) {
     const devicePixelRatio = Math.min(2, window.devicePixelRatio);
-<<<<<<< HEAD
-    canvas.width = this.options.width * devicePixelRatio;
-    canvas.height = this.options.height * devicePixelRatio * (mediaSizes.activeScreen === ScreenSize.large ? 1.5 : 1);
-=======
     let width = this.options.width * devicePixelRatio, 
       height = this.options.height * devicePixelRatio;
 
@@ -225,7 +192,6 @@ export default class ChatBackgroundPatternRenderer {
     canvas.width = width;
     canvas.height = height;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public createCanvas() {
@@ -252,11 +218,7 @@ export default class ChatBackgroundPatternRenderer {
   }
 
   public static resizeInstances(width: number, height: number) {
-<<<<<<< HEAD
-    return Promise.all(this.INSTANCES.map(instance => instance.resize(width, height)));
-=======
     return Promise.all(this.INSTANCES.map((instance) => instance.resize(width, height)));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* public setResizeMode(resizing: boolean) {

@@ -8,14 +8,6 @@ import callbackify from "../../helpers/callbackify";
 import formatNumber from "../../helpers/number/formatNumber";
 import { fastRaf } from "../../helpers/schedulers";
 import { MessagePeerReaction, ReactionCount } from "../../layer";
-<<<<<<< HEAD
-import appPeersManager from "../../lib/appManagers/appPeersManager";
-import appReactionsManager from "../../lib/appManagers/appReactionsManager";
-import RLottiePlayer from "../../lib/rlottie/rlottiePlayer";
-import SetTransition from "../singleTransition";
-import StackedAvatars from "../stackedAvatars";
-import { wrapSticker, wrapStickerAnimation } from "../wrappers";
-=======
 import { AppManagers } from "../../lib/appManagers/managers";
 import getPeerId from "../../lib/appManagers/utils/peers/getPeerId";
 import RLottiePlayer from "../../lib/rlottie/rlottiePlayer";
@@ -24,7 +16,6 @@ import SetTransition from "../singleTransition";
 import StackedAvatars from "../stackedAvatars";
 import { wrapSticker, wrapStickerAnimation } from "../wrappers";
 import { Awaited } from "../../types";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const CLASS_NAME = 'reaction';
 const TAG_NAME = CLASS_NAME + '-element';
@@ -43,20 +34,13 @@ export default class ReactionElement extends HTMLElement {
   private stackedAvatars: StackedAvatars;
   private canRenderAvatars: boolean;
   private _reactionCount: ReactionCount;
-<<<<<<< HEAD
-  private wrapStickerPromise: ReturnType<typeof wrapSticker>;
-=======
   private wrapStickerPromise: Awaited<ReturnType<typeof wrapSticker>>['render'];
   private managers: AppManagers;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   constructor() {
     super();
     this.classList.add(CLASS_NAME);
-<<<<<<< HEAD
-=======
     this.managers = rootScope.managers;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public get reactionCount() {
@@ -90,11 +74,7 @@ export default class ReactionElement extends HTMLElement {
     
     const reactionCount = this.reactionCount;
     if(!doNotRenderSticker && !hadStickerContainer) {
-<<<<<<< HEAD
-      const availableReaction = appReactionsManager.getReaction(reactionCount.reaction);
-=======
       const availableReaction = this.managers.appReactionsManager.getReaction(reactionCount.reaction);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       callbackify(availableReaction, (availableReaction) => {
         if(!availableReaction.center_icon) {
           this.stickerContainer.classList.add('is-static');
@@ -110,14 +90,9 @@ export default class ReactionElement extends HTMLElement {
           doc: availableReaction.center_icon ?? availableReaction.static_icon,
           width: size,
           height: size,
-<<<<<<< HEAD
-          static: true
-        }).finally(() => {
-=======
           static: true,
           managers: this.managers
         }).then(({render}) => render).finally(() => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(this.wrapStickerPromise === wrapPromise) {
             this.wrapStickerPromise = undefined;
           }
@@ -171,11 +146,7 @@ export default class ReactionElement extends HTMLElement {
       this.append(this.stackedAvatars.container);
     }
 
-<<<<<<< HEAD
-    this.stackedAvatars.render(recentReactions.map(reaction => appPeersManager.getPeerId(reaction.peer_id)));
-=======
     this.stackedAvatars.render(recentReactions.map((reaction) => getPeerId(reaction.peer_id)));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setIsChosen(isChosen = !!this.reactionCount.pFlags.chosen) {
@@ -187,11 +158,7 @@ export default class ReactionElement extends HTMLElement {
   }
 
   public fireAroundAnimation() {
-<<<<<<< HEAD
-    callbackify(appReactionsManager.getReaction(this.reactionCount.reaction), (availableReaction) => {
-=======
     callbackify(this.managers.appReactionsManager.getReaction(this.reactionCount.reaction), (availableReaction) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const size = this.type === 'inline' ? REACTION_INLINE_SIZE + 14 : REACTION_BLOCK_SIZE + 18;
       const div = document.createElement('div');
       div.classList.add(CLASS_NAME + '-sticker-activate');
@@ -207,14 +174,9 @@ export default class ReactionElement extends HTMLElement {
           play: false,
           skipRatio: 1,
           group: 'none',
-<<<<<<< HEAD
-          needFadeIn: false
-        }) as Promise<RLottiePlayer>,
-=======
           needFadeIn: false,
           managers: this.managers
         }).then(({render}) => render as Promise<RLottiePlayer>),
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         wrapStickerAnimation({
           doc: availableReaction.around_animation,
@@ -222,12 +184,8 @@ export default class ReactionElement extends HTMLElement {
           target: this.stickerContainer,
           side: 'center',
           skipRatio: 1,
-<<<<<<< HEAD
-          play: false
-=======
           play: false,
           managers: this.managers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }).stickerPromise
       ]).then(([iconPlayer, aroundPlayer]) => {
         const remove = () => {

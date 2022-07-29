@@ -5,10 +5,6 @@
  */
 
 import { SettingSection } from "..";
-<<<<<<< HEAD
-import appReactionsManager from "../../../lib/appManagers/appReactionsManager";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import RadioField from "../../radioField";
 import Row, { RadioFormFromRows } from "../../row";
 import SliderSuperTab from "../../sliderTab";
@@ -21,17 +17,10 @@ export default class AppQuickReactionTab extends SliderSuperTab {
     this.container.classList.add('quick-reaction-container');
 
     return Promise.all([
-<<<<<<< HEAD
-      appReactionsManager.getQuickReaction(),
-      appReactionsManager.getAvailableReactions()
-    ]).then(([quickReaction, availableReactions]) => {
-      availableReactions = availableReactions.filter(reaction => !reaction.pFlags.inactive);
-=======
       this.managers.appReactionsManager.getQuickReaction(),
       this.managers.appReactionsManager.getAvailableReactions()
     ]).then(([quickReaction, availableReactions]) => {
       availableReactions = availableReactions.filter((reaction) => !reaction.pFlags.inactive);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       const section = new SettingSection();
 
@@ -57,11 +46,7 @@ export default class AppQuickReactionTab extends SliderSuperTab {
           size: 'small'
         });
 
-<<<<<<< HEAD
-        if(availableReaction === quickReaction) {
-=======
         if(availableReaction.reaction === quickReaction.reaction) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           radioField.setValueSilently(true);
         }
 
@@ -69,11 +54,7 @@ export default class AppQuickReactionTab extends SliderSuperTab {
       });
 
       const form = RadioFormFromRows(rows, (value) => {
-<<<<<<< HEAD
-        appReactionsManager.setDefaultReaction(value);
-=======
         this.managers.appReactionsManager.setDefaultReaction(value);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       section.content.append(form);

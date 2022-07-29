@@ -8,15 +8,8 @@ import { SliderSuperTab } from "../../slider";
 import InputSearch from "../../inputSearch";
 import LazyLoadQueue from "../../lazyLoadQueue";
 import appImManager from "../../../lib/appManagers/appImManager";
-<<<<<<< HEAD
-import appStickersManager from "../../../lib/appManagers/appStickersManager";
 import PopupStickers from "../../popups/stickers";
 import animationIntersector from "../../animationIntersector";
-import { RichTextProcessor } from "../../../lib/richtextprocessor";
-=======
-import PopupStickers from "../../popups/stickers";
-import animationIntersector from "../../animationIntersector";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { wrapSticker } from "../../wrappers";
 import appSidebarRight from "..";
 import { StickerSet, StickerSetCovered } from "../../../layer";
@@ -25,10 +18,7 @@ import findUpClassName from "../../../helpers/dom/findUpClassName";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
 import forEachReverse from "../../../helpers/array/forEachReverse";
 import setInnerHTML from "../../../helpers/dom/setInnerHTML";
-<<<<<<< HEAD
-=======
 import wrapEmojiText from "../../../lib/richTextProcessor/wrapEmojiText";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppStickersTab extends SliderSuperTab {
   private inputSearch: InputSearch;
@@ -72,13 +62,8 @@ export default class AppStickersTab extends SliderSuperTab {
 
         button.setAttribute('disabled', 'true');
         
-<<<<<<< HEAD
-        appStickersManager.getStickerSet({id, access_hash}).then(full => {
-          appStickersManager.toggleStickerSet(full.set).then(changed => {
-=======
         this.managers.appStickersManager.getStickerSet({id, access_hash}).then((full) => {
           this.managers.appStickersManager.toggleStickerSet(full.set).then((changed) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(changed) {
               button.textContent = '';
               button.append(i18n(full.set.installed_date ? 'Stickers.SearchAdded' : 'Stickers.SearchAdd'));
@@ -90,11 +75,7 @@ export default class AppStickersTab extends SliderSuperTab {
           });
         });
       } else {
-<<<<<<< HEAD
-        appStickersManager.getStickerSet({id, access_hash}).then(full => {
-=======
         this.managers.appStickersManager.getStickerSet({id, access_hash}).then((full) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           new PopupStickers(full.set).show();
         });
       }
@@ -119,11 +100,7 @@ export default class AppStickersTab extends SliderSuperTab {
     details.classList.add('sticker-set-details');
     details.innerHTML = `<div class="sticker-set-name"></div>`;
 
-<<<<<<< HEAD
-    setInnerHTML(details.firstElementChild, RichTextProcessor.wrapEmojiText(set.title));
-=======
     setInnerHTML(details.firstElementChild, wrapEmojiText(set.title));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const countDiv = document.createElement('div');
     countDiv.classList.add('sticker-set-count');
@@ -154,11 +131,7 @@ export default class AppStickersTab extends SliderSuperTab {
       stickersDiv.append(stickerDiv);
     }
 
-<<<<<<< HEAD
-    appStickersManager.getStickerSet(set).then(set => {
-=======
     this.managers.appStickersManager.getStickerSet(set).then((set) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       //console.log('renderSet got set:', set);
       
       for(let i = 0; i < count; ++i) {
@@ -198,11 +171,7 @@ export default class AppStickersTab extends SliderSuperTab {
       }
 
       div.addEventListener('mouseout', () => {
-<<<<<<< HEAD
-        animations.forEach(animation => {
-=======
         animations.forEach((animation) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           animation.loop = false;
         });
 
@@ -231,21 +200,13 @@ export default class AppStickersTab extends SliderSuperTab {
   }
 
   public renderFeatured() {
-<<<<<<< HEAD
-    return appStickersManager.getFeaturedStickers().then(coveredSets => {
-=======
     return this.managers.appStickersManager.getFeaturedStickers().then((coveredSets) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.inputSearch.value) {
         return;
       }
 
       coveredSets = this.filterRendered('', coveredSets);
-<<<<<<< HEAD
-      coveredSets.forEach(set => {
-=======
       coveredSets.forEach((set) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.renderSet(set.set);
       });
     });
@@ -257,11 +218,7 @@ export default class AppStickersTab extends SliderSuperTab {
     const children = Array.from(this.setsDiv.children) as HTMLElement[];
     forEachReverse(children, el => {
       const id = el.dataset.stickerSet;
-<<<<<<< HEAD
-      const index = coveredSets.findIndex(covered => covered.set.id === id);
-=======
       const index = coveredSets.findIndex((covered) => covered.set.id === id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
       if(index !== -1) {
         coveredSets.splice(index, 1);
@@ -280,11 +237,7 @@ export default class AppStickersTab extends SliderSuperTab {
       return this.renderFeatured();
     }
 
-<<<<<<< HEAD
-    return appStickersManager.searchStickerSets(query, false).then(coveredSets => {
-=======
     return this.managers.appStickersManager.searchStickerSets(query, false).then((coveredSets) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.inputSearch.value !== query) {
         return;
       }
@@ -292,11 +245,7 @@ export default class AppStickersTab extends SliderSuperTab {
       //console.log('search result:', coveredSets);
 
       coveredSets = this.filterRendered(query, coveredSets);
-<<<<<<< HEAD
-      coveredSets.forEach(set => {
-=======
       coveredSets.forEach((set) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.renderSet(set.set);
       });
     });

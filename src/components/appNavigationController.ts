@@ -23,104 +23,6 @@ export type NavigationItem = {
 };
 
 export class AppNavigationController {
-<<<<<<< HEAD
-  private navigations: Array<NavigationItem> = [];
-  private id = Date.now();
-  private manual = false;
-  private log = logger('NC');
-  private debug = true;
-  private currentHash = window.location.hash;
-  public onHashChange: () => void;
-
-  constructor() {
-    let isPossibleSwipe = false;
-    window.addEventListener('popstate', (e) => {
-      this.debug && this.log('popstate', e, isPossibleSwipe);
-
-      if(window.location.hash !== this.currentHash) {
-        this.onHashChange && this.onHashChange();
-        this.replaceState();
-        return;
-      }
-      this.currentHash = window.location.hash;
-
-      const id: number = e.state;
-      if(id !== this.id/*  && !this.navigations.length */) {
-        this.pushState();
-        return;
-      }
-
-      const item = this.navigations.pop();
-      if(!item) {
-        this.pushState();
-        return;
-      }
-
-      this.manual = !isPossibleSwipe;
-      this.handleItem(item);
-      //this.pushState(); // * prevent adding forward arrow
-    });
-
-    window.addEventListener('keydown', (e) => {
-      const item = this.navigations[this.navigations.length - 1];
-      if(!item) return;
-      if(e.key === 'Escape' && (item.onEscape ? item.onEscape() : true)) {
-        cancelEvent(e);
-        this.back(item.type);
-      }
-    }, {capture: true, passive: false});
-
-    if(IS_MOBILE_SAFARI) {
-      const options = {passive: true};
-      window.addEventListener('touchstart', (e) => {
-        if(e.touches.length > 1) return;
-        this.debug && this.log('touchstart');
-
-        if(isSwipingBackSafari(e)) {
-          isPossibleSwipe = true;
-
-          window.addEventListener('touchend', () => {
-            setTimeout(() => {
-              isPossibleSwipe = false;
-            }, 100);
-          }, {passive: true, once: true});
-        }
-
-        /* const detach = () => {
-          window.removeEventListener('touchend', onTouchEnd);
-          window.removeEventListener('touchmove', onTouchMove);
-        };
-
-        let moved = false;
-        const onTouchMove = (e: TouchEvent) => {
-          this.debug && this.log('touchmove');
-          if(e.touches.length > 1) {
-            detach();
-            return;
-          }
-
-          moved = true;
-        };
-
-        const onTouchEnd = (e: TouchEvent) => {
-          this.debug && this.log('touchend');
-          if(e.touches.length > 1 || !moved) {
-            detach();
-            return;
-          }
-
-          isPossibleSwipe = true;
-          doubleRaf().then(() => {
-            isPossibleSwipe = false;
-          });
-
-          detach();
-        };
-
-        window.addEventListener('touchend', onTouchEnd, options);
-        window.addEventListener('touchmove', onTouchMove, options); */
-      }, options);
-=======
   private navigations: Array<NavigationItem>;
   private id: number;
   private manual: boolean;
@@ -147,7 +49,6 @@ export class AppNavigationController {
     if(IS_MOBILE_SAFARI) {
       const options = {passive: true};
       window.addEventListener('touchstart', this.onTouchStart, options);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     history.scrollRestoration = 'manual';
@@ -155,8 +56,6 @@ export class AppNavigationController {
     this.pushState(); // * push init state
   }
 
-<<<<<<< HEAD
-=======
   private onPopState = (e: PopStateEvent) => {
     let hash = window.location.hash;
     const id: number = e.state;
@@ -262,7 +161,6 @@ export class AppNavigationController {
     this.pushState();
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private handleItem(item: NavigationItem) {
     const good = item.onPop(!this.manual ? false : undefined);
     this.debug && this.log('popstate, navigation:', item, this.navigations);
@@ -306,11 +204,7 @@ export class AppNavigationController {
   }
 
   private onItemAdded(item: NavigationItem) {
-<<<<<<< HEAD
-    this.debug && this.log('pushstate', item, this.navigations);
-=======
     this.debug && this.log('onItemAdded', item, this.navigations);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(!item.noHistory) {
       this.pushState();
@@ -335,23 +229,16 @@ export class AppNavigationController {
   }
 
   private pushState() {
-<<<<<<< HEAD
-=======
     this.debug && this.log('push');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.manual = false;
     history.pushState(this.id, '');
   }
 
   public replaceState() {
-<<<<<<< HEAD
-    history.replaceState(this.id, '', location.origin + location.pathname);
-=======
     this.debug && this.log.warn('replace');
 
     const url = location.origin + location.pathname + location.search + this.overriddenHash;
     history.replaceState(this.id, '', url);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public removeItem(item: NavigationItem) {

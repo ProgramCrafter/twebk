@@ -9,10 +9,7 @@ import deferredPromise, { CancellablePromise } from "../helpers/cancellablePromi
 import { dispatchHeavyAnimationEvent } from "../hooks/useHeavyAnimationCheck";
 import whichChild from "../helpers/dom/whichChild";
 import cancelEvent from "../helpers/dom/cancelEvent";
-<<<<<<< HEAD
-=======
 import ListenerSetter from "../helpers/listenerSetter";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 function slideNavigation(tabContent: HTMLElement, prevTabContent: HTMLElement, toRight: boolean) {
   const width = prevTabContent.getBoundingClientRect().width;
@@ -88,12 +85,8 @@ export const TransitionSlider = (
   type: 'tabs' | 'navigation' | 'zoom-fade' | 'slide-fade' | 'none'/*  | 'counter' */, 
   transitionTime: number, 
   onTransitionEnd?: (id: number) => void, 
-<<<<<<< HEAD
-  isHeavy = true
-=======
   isHeavy = true,
   listenerSetter?: ListenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 ) => {
   let animationFunction: TransitionFunction = null;
 
@@ -110,11 +103,7 @@ export const TransitionSlider = (
 
   content.dataset.animation = type;
   
-<<<<<<< HEAD
-  return Transition(content, animationFunction, transitionTime, onTransitionEnd, isHeavy);
-=======
   return Transition(content, animationFunction, transitionTime, onTransitionEnd, isHeavy, undefined, undefined, listenerSetter);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 type TransitionFunction = (tabContent: HTMLElement, prevTabContent: HTMLElement, toRight: boolean) => void | (() => void);
@@ -126,12 +115,8 @@ const Transition = (
   onTransitionEnd?: (id: number) => void, 
   isHeavy = true,
   once = false,
-<<<<<<< HEAD
-  withAnimationListener = true
-=======
   withAnimationListener = true,
   listenerSetter?: ListenerSetter
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 ) => {
   const onTransitionEndCallbacks: Map<HTMLElement, Function> = new Map();
   let animationDeferred: CancellablePromise<void>;
@@ -151,11 +136,7 @@ const Transition = (
       //console.log('Transition: transitionend', /* content, */ e, selectTab.prevId, performance.now() - animationStarted);
   
       const callback = onTransitionEndCallbacks.get(e.target as HTMLElement);
-<<<<<<< HEAD
-      if(callback) callback();
-=======
       callback?.();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
       if(e.target !== from) {
         return;
@@ -175,24 +156,16 @@ const Transition = (
       content.classList.remove('animating', 'backwards', 'disable-hover');
   
       if(once) {
-<<<<<<< HEAD
-        content.removeEventListener(listenerName, onEndEvent/* , {capture: false} */);
-=======
         if(listenerSetter) listenerSetter.removeManual(content, listenerName, onEndEvent);
         else content.removeEventListener(listenerName, onEndEvent/* , {capture: false} */);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         from = animationDeferred = undefined;
         onTransitionEndCallbacks.clear();
       }
     };
   
     // TODO: check for transition type (transform, etc) using by animationFunction
-<<<<<<< HEAD
-    content.addEventListener(listenerName, onEndEvent/* , {passive: true, capture: false} */);
-=======
     if(listenerSetter) listenerSetter.add(content)(listenerName, onEndEvent);
     else content.addEventListener(listenerName, onEndEvent/* , {passive: true, capture: false} */);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   function selectTab(id: number | HTMLElement, animate = true, overrideFrom?: typeof from) {
@@ -228,13 +201,7 @@ const Transition = (
       if(from) from.classList.remove('active', 'to', 'from');
       else if(to) { // fix instant opening back from closed slider (e.g. instant closening and opening right sidebar)
         const callback = onTransitionEndCallbacks.get(to);
-<<<<<<< HEAD
-        if(callback) {
-          callback();
-        }
-=======
         callback?.();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       if(to) {
@@ -290,14 +257,6 @@ const Transition = (
     }
 
     if(from/*  && false */) {
-<<<<<<< HEAD
-      const _from = from;
-      const callback = () => {
-        _from.classList.remove('active', 'from');
-
-        if(onTransitionEndCallback) {
-          onTransitionEndCallback();
-=======
       let timeout: number;
       const _from = from;
       const callback = () => {
@@ -306,23 +265,16 @@ const Transition = (
 
         if(onTransitionEndCallback) {
           onTransitionEndCallback?.();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
 
         onTransitionEndCallbacks.delete(_from);
       };
 
       if(to) {
-<<<<<<< HEAD
-        onTransitionEndCallbacks.set(_from, callback);
-      } else {
-        const timeout = window.setTimeout(callback, transitionTime);
-=======
         timeout = window.setTimeout(callback, transitionTime + 100); // something happened to container
         onTransitionEndCallbacks.set(_from, callback);
       } else {
         timeout = window.setTimeout(callback, transitionTime);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         onTransitionEndCallbacks.set(_from, () => {
           clearTimeout(timeout);
           onTransitionEndCallbacks.delete(_from);
@@ -344,11 +296,7 @@ const Transition = (
 
   //selectTab.prevId = -1;
   selectTab.prevId = () => from ? whichChild(from) : -1;
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   return selectTab;
 };
 

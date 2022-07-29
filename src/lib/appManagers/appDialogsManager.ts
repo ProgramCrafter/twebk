@@ -4,17 +4,6 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import type DialogsStorage from "../storages/dialogs";
-import type {MyDialogFilter as DialogFilter, MyDialogFilter} from "../storages/filters";
-import type { LazyLoadQueueIntersector } from "../../components/lazyLoadQueue";
-import AvatarElement from "../../components/avatar";
-import DialogsContextMenu from "../../components/dialogsContextMenu";
-import { horizontalMenu } from "../../components/horizontalMenu";
-import { attachContextMenuListener, putPreloader } from "../../components/misc";
-import ripple from "../../components/ripple";
-//import Scrollable from "../../components/scrollable";
-=======
 import type { MyDialogFilter as DialogFilter, MyDialogFilter } from "../storages/filters";
 import type LazyLoadQueue from "../../components/lazyLoadQueue";
 import type { Dialog, MyMessage } from "./appMessagesManager";
@@ -25,55 +14,20 @@ import AvatarElement from "../../components/avatar";
 import DialogsContextMenu from "../../components/dialogsContextMenu";
 import { horizontalMenu } from "../../components/horizontalMenu";
 import ripple from "../../components/ripple";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Scrollable, { ScrollableX, SliceSides } from "../../components/scrollable";
 import { formatDateAccordingToTodayNew } from "../../helpers/date";
 import { IS_MOBILE_SAFARI, IS_SAFARI } from "../../environment/userAgent";
 import { logger, LogTypes } from "../logger";
-<<<<<<< HEAD
-import { RichTextProcessor } from "../richtextprocessor";
-import rootScope from "../rootScope";
-import appPeersManager from './appPeersManager';
-import appImManager from "./appImManager";
-import appMessagesManager, { Dialog, MyMessage } from "./appMessagesManager";
-import appStateManager, { State } from "./appStateManager";
-import appUsersManager, { User } from "./appUsersManager";
-import Button from "../../components/button";
-import SetTransition from "../../components/singleTransition";
-import appDraftsManager, { MyDraftMessage } from "./appDraftsManager";
-import DEBUG, { MOUNT_CLASS_TO } from "../../config/debug";
-import appNotificationsManager from "./appNotificationsManager";
-=======
 import rootScope from "../rootScope";
 import appImManager from "./appImManager";
 import Button from "../../components/button";
 import SetTransition from "../../components/singleTransition";
 import { MyDraftMessage } from "./appDraftsManager";
 import DEBUG, { MOUNT_CLASS_TO } from "../../config/debug";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import PeerTitle from "../../components/peerTitle";
 import I18n, { FormatterArguments, i18n, LangPackKey, _i18n } from "../langPack";
 import findUpTag from "../../helpers/dom/findUpTag";
 import lottieLoader from "../rlottie/lottieLoader";
-<<<<<<< HEAD
-import { wrapLocalSticker, wrapPhoto } from "../../components/wrappers";
-import AppEditFolderTab from "../../components/sidebarLeft/tabs/editFolder";
-import appSidebarLeft, { SettingSection } from "../../components/sidebarLeft";
-import { attachClickEvent } from "../../helpers/dom/clickEvent";
-import positionElementByIndex from "../../helpers/dom/positionElementByIndex";
-import replaceContent from "../../helpers/dom/replaceContent";
-import ConnectionStatusComponent from "../../components/connectionStatus";
-import appChatsManager from "./appChatsManager";
-import { renderImageFromUrlPromise } from "../../helpers/dom/renderImageFromUrl";
-import { fastRafConventional, fastRafPromise } from "../../helpers/schedulers";
-import SortedUserList from "../../components/sortedUserList";
-import { IS_TOUCH_SUPPORTED } from "../../environment/touchSupport";
-import handleTabSwipe from "../../helpers/dom/handleTabSwipe";
-import windowSize from "../../helpers/windowSize";
-import isInDOM from "../../helpers/dom/isInDOM";
-import appPhotosManager, { MyPhoto } from "./appPhotosManager";
-import { MyDocument } from "./appDocsManager";
-=======
 import { wrapPhoto } from "../../components/wrappers";
 import AppEditFolderTab from "../../components/sidebarLeft/tabs/editFolder";
 import appSidebarLeft, { SettingSection } from "../../components/sidebarLeft";
@@ -88,17 +42,12 @@ import IS_TOUCH_SUPPORTED from "../../environment/touchSupport";
 import handleTabSwipe from "../../helpers/dom/handleTabSwipe";
 import windowSize from "../../helpers/windowSize";
 import isInDOM from "../../helpers/dom/isInDOM";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { setSendingStatus } from "../../components/sendingStatus";
 import SortedList, { SortedElementBase } from "../../helpers/sortedList";
 import debounce from "../../helpers/schedulers/debounce";
 import { NULL_PEER_ID } from "../mtproto/mtproto_config";
 import groupCallActiveIcon from "../../components/groupCallActiveIcon";
-<<<<<<< HEAD
-import { Chat, NotifyPeer } from "../../layer";
-=======
 import { Chat, Message, NotifyPeer } from "../../layer";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import IS_GROUP_CALL_SUPPORTED from "../../environment/groupCallSupport";
 import mediaSizes from "../../helpers/mediaSizes";
 import appNavigationController, { NavigationItem } from "../../components/appNavigationController";
@@ -106,9 +55,6 @@ import assumeType from "../../helpers/assumeType";
 import generateTitleIcons from "../../components/generateTitleIcons";
 import appMediaPlaybackController from "../../components/appMediaPlaybackController";
 import setInnerHTML from "../../helpers/dom/setInnerHTML";
-<<<<<<< HEAD
-
-=======
 import { AppManagers } from "./managers";
 import appSidebarRight from "../../components/sidebarRight";
 import PopupElement from "../../components/popups";
@@ -134,10 +80,10 @@ import noop from "../../helpers/noop";
 import DialogsPlaceholder from "../../helpers/dialogsPlaceholder";
 import pause from "../../helpers/schedulers/pause";
 import apiManagerProxy from "../mtproto/mtprotoworker";
+import { add } from "../../vendor/leemon";
 
 export const DIALOG_LIST_ELEMENT_TAG = 'A';
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 export type DialogDom = {
   avatarEl: AvatarElement,
   captionDiv: HTMLDivElement,
@@ -150,16 +96,11 @@ export type DialogDom = {
   mentionsBadge?: HTMLElement,
   lastMessageSpan: HTMLSpanElement,
   containerEl: HTMLElement,
-<<<<<<< HEAD
-  listEl: HTMLLIElement,
-  subtitleEl: HTMLElement
-=======
   listEl: HTMLElement,
   subtitleEl: HTMLElement,
 
   setLastMessagePromise?: CancellablePromise<void>,
   setUnreadMessagePromise?: CancellablePromise<void>
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 interface SortedDialog extends SortedElementBase {
@@ -167,16 +108,6 @@ interface SortedDialog extends SortedElementBase {
   loadPromises?: Promise<any>[]
 }
 
-<<<<<<< HEAD
-class SortedDialogList extends SortedList<SortedDialog> {
-  constructor(
-    public list: HTMLUListElement, 
-    public indexKey: ReturnType<DialogsStorage['getDialogIndexKey']>,
-    public onListLengthChange?: () => void
-  ) {
-    super({
-      getIndex: (element) => appMessagesManager.getDialogOnly(element.id)[this.indexKey],
-=======
 function setPromiseMiddleware<T extends {[smth in K as K]?: CancellablePromise<void>}, K extends keyof T>(obj: T, key: K) {
   const oldPromise = obj[key];
   if(oldPromise) {
@@ -204,7 +135,6 @@ class SortedDialogList extends SortedList<SortedDialog> {
   ) {
     super({
       getIndex: (element) => managers.dialogsStorage.getDialogIndex(element.id, this.indexKey),
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       onDelete: (element) => {
         element.dom.listEl.remove();
         this.onListLengthChange && this.onListLengthChange();
@@ -220,11 +150,7 @@ class SortedDialogList extends SortedList<SortedDialog> {
       onElementCreate: (base, batch) => {
         const loadPromises: Promise<any>[] = batch ? [] : undefined;
 
-<<<<<<< HEAD
-        const {dom} = appDialogsManager.addListDialog({dialog: base.id, loadPromises, isBatch: batch});
-=======
         const {dom} = appDialogsManager.addListDialog({peerId: base.id, loadPromises, isBatch: batch});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         (base as SortedDialog).dom = dom;
 
         if(loadPromises?.length) {
@@ -251,30 +177,18 @@ class SortedDialogList extends SortedList<SortedDialog> {
 
 export class AppDialogsManager {
   private chatsContainer = document.getElementById('chatlist-container') as HTMLDivElement;
-<<<<<<< HEAD
-  private chatsPreloader: HTMLElement;
-
-  private loadDialogsPromise: Promise<any>;
-=======
 
   private loadDialogsPromise: Promise<{cached: boolean, renderPromise: AppDialogsManager['loadDialogsRenderPromise']}>;
   private loadDialogsRenderPromise: Promise<void>;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private scroll: Scrollable = null;
   
   private log = logger('DIALOGS', LogTypes.Log | LogTypes.Error | LogTypes.Warn | LogTypes.Debug);
 
-<<<<<<< HEAD
-  private contextMenu = new DialogsContextMenu();
-
-  public sortedList: SortedDialogList;
-=======
   private contextMenu: DialogsContextMenu;
 
   private sortedList: SortedDialogList;
   public placeholders: {[filterId: number]: DialogsPlaceholder} = {};
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public sortedLists: {[filterId: number]: SortedDialogList} = {};
   public scrollables: {[filterId: number]: Scrollable} = {};
   public filterId: number;
@@ -292,10 +206,6 @@ export class AppDialogsManager {
     }
   } = {};
   private showFiltersPromise: Promise<void>;
-<<<<<<< HEAD
-  private allUnreadCount: HTMLElement;
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private sliceTimeout: number;
 
@@ -306,11 +216,7 @@ export class AppDialogsManager {
   private loadContacts: () => void;
   private processContact: (peerId: PeerId) => void;
 
-<<<<<<< HEAD
-  private indexKey: ReturnType<DialogsStorage['getDialogIndexKey']>;
-=======
   private indexKey: ReturnType<typeof getDialogIndexKey>;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private initedListeners = false;
 
@@ -323,17 +229,12 @@ export class AppDialogsManager {
 
   private filtersNavigationItem: NavigationItem;
 
-<<<<<<< HEAD
-  constructor() {
-    this.chatsPreloader = putPreloader(null, true);
-=======
   private managers: AppManagers;
 
   constructor() {
     const managers = this.managers = getProxiedManagers();
 
     this.contextMenu = new DialogsContextMenu(managers);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.folders.menuScrollContainer = this.folders.menu.parentElement;
 
@@ -378,19 +279,6 @@ export class AppDialogsManager {
     this.allChatsIntlElement = new I18n.IntlElement({
       key: 'FilterAllChatsShort'
     });
-<<<<<<< HEAD
-    this.setFilterId(0);
-    this.addFilter({
-      id: this.filterId,
-      title: '',
-      titleEl: this.allChatsIntlElement.element,
-      orderIndex: 0
-    });
-
-    this.sortedList = this.sortedLists[this.filterId];
-    this.scroll = this.scrollables[this.filterId];
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     /* if(testScroll) {
       let i = 0;
@@ -410,29 +298,6 @@ export class AppDialogsManager {
 
     rootScope.addEventListener('state_cleared', () => {
       //setTimeout(() => 
-<<<<<<< HEAD
-      appStateManager.getState().then((state) => {
-        this.loadedDialogsAtLeastOnce = false;
-
-        appUsersManager.clear();
-        appChatsManager.clear();
-        
-        const filtersStorage = appMessagesManager.filtersStorage;
-        const filters = filtersStorage.filters;
-        for(const filterId in filters) { // delete filters
-          rootScope.dispatchEvent('updateDialogFilter', {
-            _: 'updateDialogFilter',
-            id: +filterId,
-          });
-        }
-
-        appMessagesManager.clear();
-
-        /* const clearPromises: Promise<any>[] = [];
-        for(const name in appStateManager.storagesResults) {
-          const results = appStateManager.storagesResults[name as keyof AppStateManager['storages']];
-          const storage = appStateManager.storages[name as keyof AppStateManager['storages']];
-=======
       apiManagerProxy.getState().then(async(state) => {
         this.loadedDialogsAtLeastOnce = false;
 
@@ -440,7 +305,6 @@ export class AppDialogsManager {
         for(const name in this.managers.appStateManager.storagesResults) {
           const results = this.managers.appStateManager.storagesResults[name as keyof AppStateManager['storages']];
           const storage = this.managers.appStateManager.storages[name as keyof AppStateManager['storages']];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           results.length = 0;
           clearPromises.push(storage.clear());
         } */
@@ -449,287 +313,6 @@ export class AppDialogsManager {
         this.onTabChange();
         this.onStateLoaded(state);
       })//, 5000);
-<<<<<<< HEAD
-    });
-
-    const foldersScrollable = new ScrollableX(this.folders.menuScrollContainer);
-    bottomPart.prepend(this.folders.menuScrollContainer);
-    const selectTab = horizontalMenu(this.folders.menu, this.folders.container, (id, tabContent) => {
-      /* if(id !== 0) {
-        id += 1;
-      } */
-
-      id = +tabContent.dataset.filterId || 0;
-
-      if(!IS_MOBILE_SAFARI) {
-        if(id) {
-          if(!this.filtersNavigationItem) {
-            this.filtersNavigationItem = {
-              type: 'filters',
-              onPop: () => {
-                selectTab(0);
-                this.filtersNavigationItem = undefined;
-              }
-            };
-    
-            appNavigationController.spliceItems(1, 0, this.filtersNavigationItem);
-          }
-        } else if(this.filtersNavigationItem) {
-          appNavigationController.removeItem(this.filtersNavigationItem);
-          this.filtersNavigationItem = undefined;
-        }
-      }
-
-      if(this.filterId === id) return;
-
-      this.sortedLists[id].clear();
-      this.setFilterId(id);
-      this.onTabChange();
-    }, () => {
-      for(const folderId in this.sortedLists) {
-        if(+folderId !== this.filterId) {
-          this.sortedLists[folderId].clear();
-        }
-      }
-    }, undefined, foldersScrollable);
-
-    //selectTab(0);
-    (this.folders.menu.firstElementChild as HTMLElement).click();
-    appMessagesManager.construct();
-    appStateManager.getState().then((state) => {
-      // * it should've had a better place :(
-      appMediaPlaybackController.setPlaybackParams(state.playbackParams);
-      rootScope.addEventListener('media_playback_params', (params) => {
-        appStateManager.pushToState('playbackParams', params);
-      });
-      
-      return this.onStateLoaded(state);
-    })/* .then(() => {
-      const isLoadedMain = appMessagesManager.dialogsStorage.isDialogsLoaded(0);
-      const isLoadedArchive = appMessagesManager.dialogsStorage.isDialogsLoaded(1);
-      const wasLoaded = isLoadedMain || isLoadedArchive;
-      const a: Promise<any> = isLoadedMain ? Promise.resolve() : appMessagesManager.getConversationsAll('', 0);
-      const b: Promise<any> = isLoadedArchive ? Promise.resolve() : appMessagesManager.getConversationsAll('', 1);
-      a.finally(() => {
-        b.then(() => {
-          if(wasLoaded) {
-            (apiUpdatesManager.updatesState.syncLoading || Promise.resolve()).then(() => {
-              appMessagesManager.refreshConversations();
-            });
-          }
-        });
-      });
-    }) */;
-
-    mediaSizes.addEventListener('resize', () => {
-      this.changeFiltersAllChatsKey();
-    });
-
-    new ConnectionStatusComponent(this.chatsContainer);
-    this.chatsContainer.append(bottomPart);
-
-    setTimeout(() => {
-      lottieLoader.loadLottieWorkers();
-    }, 200);
-  }
-
-  public get chatList() {
-    return this.sortedList.list;
-  }
-
-  public setFilterId(filterId: number) {
-    this.filterId = filterId;
-    this.indexKey = appMessagesManager.dialogsStorage ? appMessagesManager.dialogsStorage.getDialogIndexKey(this.filterId) : 'index';
-    rootScope.filterId = filterId;
-  }
-
-  private setOnlineStatus(element: HTMLElement, online: boolean) {
-    const className = 'is-online';
-    const hasClassName = element.classList.contains(className);
-    !hasClassName && online && element.classList.add(className);
-    SetTransition(element, 'is-visible', online, 250, online ? undefined : () => {
-      element.classList.remove(className);
-    }, online && !hasClassName ? 2 : 0);
-  }
-
-  private initListeners() {
-    rootScope.addEventListener('user_update', (userId) => {
-      //console.log('updating user:', user, dialog);
-      
-      const peerId = userId.toPeerId();
-      const dom = this.getDialogDom(peerId);
-      if(dom && !appUsersManager.isBot(userId) && peerId !== rootScope.myId) {
-        const user = appUsersManager.getUser(userId);
-        const online = user.status?._ === 'userStatusOnline';
-        this.setOnlineStatus(dom.avatarEl, online);
-      }
-    });
-
-    rootScope.addEventListener('chat_update', (chatId) => {
-      const peerId = chatId.toPeerId(true);
-      const dialog = appMessagesManager.getDialogOnly(peerId);
-      if(dialog) {
-        this.processDialogForCallStatus(dialog);
-      }
-    });
-
-    /* rootScope.$on('dialog_top', (e) => {
-      const dialog = e;
-
-      this.setLastMessage(dialog);
-      this.setDialogPosition(dialog);
-
-      this.setFiltersUnreadCount();
-    }); */
-
-    rootScope.addEventListener('folder_unread', (folder) => {
-      this.setFilterUnreadCount(folder.id);
-    });
-
-    rootScope.addEventListener('contacts_update', (userId) => {
-      this.processContact && this.processContact(userId.toPeerId());
-    });
-
-    rootScope.addEventListener('dialog_flush', ({peerId}) => {
-      const dialog = appMessagesManager.getDialogOnly(peerId);
-      if(dialog) {
-        this.setLastMessage(dialog, undefined, undefined, undefined, undefined, undefined, true);
-        this.validateDialogForFilter(dialog);
-        this.setFiltersUnreadCount();
-      }
-    });
-
-    rootScope.addEventListener('dialogs_multiupdate', (dialogs) => {
-      for(const peerId in dialogs) {
-        const dialog = dialogs[peerId];
-        this.updateDialog(dialog);
-
-        if(this.processContact) {
-          this.processContact(peerId.toPeerId());
-        }
-
-        this.validateDialogForFilter(dialog);
-      }
-    });
-
-    rootScope.addEventListener('dialog_drop', ({peerId}) => {
-      this.deleteDialog(peerId);
-
-      if(this.processContact) {
-        this.processContact(peerId);
-      }
-    });
-
-    rootScope.addEventListener('dialog_unread', ({peerId}) => {
-      const dialog = appMessagesManager.getDialogOnly(peerId);
-      if(dialog) {
-        this.setUnreadMessages(dialog);
-        this.validateDialogForFilter(dialog);
-      }
-    });
-
-    rootScope.addEventListener('dialog_notify_settings', (dialog) => {
-      this.validateDialogForFilter(dialog);
-      this.setUnreadMessages(dialog); // возможно это не нужно, но нужно менять is-muted
-      this.setFiltersUnreadCount();
-    });
-
-    rootScope.addEventListener('dialog_draft', ({dialog, drop, peerId}) => {
-      if(drop) {
-        this.sortedList.delete(peerId);
-      } else {
-        this.updateDialog(dialog);
-      }
-
-      if(this.processContact) {
-        this.processContact(peerId);
-      }
-    });
-
-    rootScope.addEventListener('peer_changed', (peerId) => {
-      //const perf = performance.now();
-      for(const element of this.lastActiveElements) {
-        if(element.dataset.peerId.toPeerId() !== peerId) {
-          this.setDialogActive(element, false);
-        }
-      }
-
-      const elements = Array.from(document.querySelectorAll(`[data-autonomous="0"] li[data-peer-id="${peerId}"]`)) as HTMLElement[];
-      elements.forEach(element => {
-        this.setDialogActive(element, true);
-      });
-      //this.log('peer_changed total time:', performance.now() - perf);
-    });
-
-    rootScope.addEventListener('filter_update', (filter) => {
-      if(!this.filtersRendered[filter.id]) {
-        this.addFilter(filter);
-        return;
-      } else if(filter.id === this.filterId) { // это нет тут смысла вызывать, так как будет dialogs_multiupdate
-        const dialogs = appMessagesManager.dialogsStorage.getCachedDialogs(true);
-        this.validateListForFilter();
-        for(let i = 0, length = dialogs.length; i < length; ++i) {
-          const dialog = dialogs[i];
-          this.updateDialog(dialog);
-        }
-      }
-
-      const elements = this.filtersRendered[filter.id];
-      setInnerHTML(elements.title, RichTextProcessor.wrapEmojiText(filter.title));
-    });
-
-    rootScope.addEventListener('filter_delete', (filter) => {
-      const elements = this.filtersRendered[filter.id];
-      if(!elements) return;
-
-      // set tab
-      //(this.folders.menu.firstElementChild.children[Math.max(0, filter.id - 2)] as HTMLElement).click();
-      (this.folders.menu.firstElementChild as HTMLElement).click();
-
-      elements.container.remove();
-      elements.menu.remove();
-      
-      delete this.sortedLists[filter.id];
-      delete this.scrollables[filter.id];
-      delete this.filtersRendered[filter.id];
-
-      this.onFiltersLengthChange();
-    });
-
-    rootScope.addEventListener('filter_order', (order) => {
-      const containerToAppend = this.folders.menu as HTMLElement;
-      order.forEach((filterId) => {
-        const filter = appMessagesManager.filtersStorage.getFilter(filterId);
-        const renderedFilter = this.filtersRendered[filterId];
-
-        const sortedList = this.sortedLists[filterId];
-        sortedList.indexKey = appMessagesManager.dialogsStorage.getDialogIndexKey(filterId);
-
-        positionElementByIndex(renderedFilter.menu, containerToAppend, filter.orderIndex);
-        positionElementByIndex(renderedFilter.container, this.folders.container, filter.orderIndex);
-      });
-
-      this.indexKey = appMessagesManager.dialogsStorage.getDialogIndexKey(this.filterId);
-
-      /* if(this.filterId) {
-        const tabIndex = order.indexOf(this.filterId) + 1;
-        selectTab.prevId = tabIndex;
-      } */
-    });
-
-    rootScope.addEventListener('peer_typings', ({peerId, typings}) => {
-      const dialog = appMessagesManager.getDialogOnly(peerId);
-      if(!dialog) return;
-
-      if(typings.length) {
-        this.setTyping(dialog);
-      } else {
-        this.unsetTyping(dialog);
-      }
-    });
-  }
-
-=======
     });
 
     this.setFilterId(0, 0);
@@ -1043,7 +626,6 @@ export class AppDialogsManager {
     });
   }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private setDialogActive(listEl: HTMLElement, active: boolean) {
     // @ts-ignore
     const dom = listEl.dialogDom as DialogDom;
@@ -1060,45 +642,6 @@ export class AppDialogsManager {
   }
 
   private async onStateLoaded(state: State) {
-<<<<<<< HEAD
-    if(state.notifySettings) {
-      for(const key in state.notifySettings) {
-        assumeType<Exclude<NotifyPeer['_'], 'notifyPeer'>>(key);
-        appNotificationsManager.savePeerSettings({
-          key,
-          settings: state.notifySettings[key]
-        });
-      }
-    }
-
-    appNotificationsManager.getNotifyPeerTypeSettings();
-
-    if(!this.initedListeners) {
-      this.initListeners();
-      this.initedListeners = true;
-    }
-      
-    const renderFiltersPromise = appMessagesManager.filtersStorage.getDialogFilters().then((filters) => {
-      for(const filter of filters) {
-        this.addFilter(filter);
-      }
-    });
-
-    if(state.filters && Object.keys(state.filters).length) {
-      await renderFiltersPromise;
-      if(this.showFiltersPromise) {
-        await this.showFiltersPromise;
-      }
-    }
-
-    if(appStateManager.storagesResults.dialogs.length) {
-      appDraftsManager.addMissedDialogs();
-    }
-
-    return this.onChatsScroll().then(() => {
-      appMessagesManager.fillConversations();
-    });
-=======
     const loadDialogsPromise = this.onChatsScroll();
 
     if(!this.initedListeners) {
@@ -1125,7 +668,6 @@ export class AppDialogsManager {
 
     await (await loadDialogsPromise).renderPromise;
     this.managers.appMessagesManager.fillConversations();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* private getOffset(side: 'top' | 'bottom'): {index: number, pos: number} {
@@ -1133,11 +675,7 @@ export class AppDialogsManager {
       const element = (side === 'top' ? this.chatList.firstElementChild : this.chatList.lastElementChild) as HTMLElement;
       if(element) {
         const peerId = element.dataset.peerId;
-<<<<<<< HEAD
-        const dialog = appMessagesManager.getDialogByPeerId(peerId);
-=======
         const dialog = this.managers.appMessagesManager.getDialogByPeerId(peerId);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return {index: dialog[0].index, pos: dialog[1]};
       }
     }
@@ -1158,11 +696,7 @@ export class AppDialogsManager {
       return true;
     }
     
-<<<<<<< HEAD
-    const index = dialog[this.indexKey];
-=======
     const index = getDialogIndex(dialog, this.indexKey);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return (!topOffset.index || index <= topOffset.index) && (!bottomOffset.index || index >= bottomOffset.index);
   }
 
@@ -1183,15 +717,11 @@ export class AppDialogsManager {
 
     const dom = this.getDialogDom(dialog.peerId);
     if(dom) {
-<<<<<<< HEAD
-      this.setLastMessage(dialog, undefined, dom, undefined, undefined, undefined, true);
-=======
       this.setLastMessageN({
         dialog,
         dom,
         setUnread: true
       });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.sortedList.update(dialog.peerId);
     }
   }
@@ -1201,15 +731,6 @@ export class AppDialogsManager {
     this.scroll.loadedAll.top = true;
     this.scroll.loadedAll.bottom = false;
     this.offsets.top = this.offsets.bottom = 0;
-<<<<<<< HEAD
-    this.loadDialogsPromise = undefined;
-    this.sortedList = this.sortedLists[this.filterId];
-    this.onChatsScroll();
-  };
-
-  private setFilterUnreadCount(filterId: number) {
-    const unreadSpan = filterId === 0 ? this.allUnreadCount : this.filtersRendered[filterId]?.unread;
-=======
     this.loadDialogsRenderPromise = undefined;
     this.loadDialogsPromise = undefined;
     this.sortedList = this.sortedLists[this.filterId];
@@ -1222,26 +743,13 @@ export class AppDialogsManager {
     }
 
     const unreadSpan = this.filtersRendered[filterId]?.unread;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!unreadSpan) {
       return;
     }
 
-<<<<<<< HEAD
-    const folder = appMessagesManager.dialogsStorage.getFolder(filterId);
-    const foundUnmuted = filterId === 0 || !!folder.dialogs.find(dialog => {
-      return (dialog.unread_count || dialog.pFlags.unread_mark) && !appNotificationsManager.isPeerLocalMuted(dialog.peerId, true);
-    });
-    
-    unreadSpan.classList.toggle('badge-gray', !foundUnmuted);
-    
-    const sum = folder.unreadDialogsCount;
-    unreadSpan.innerText = sum ? '' + sum : '';
-=======
     const {unreadUnmutedCount, unreadCount} = await this.managers.dialogsStorage.getFolderUnreadCount(filterId);
     unreadSpan.classList.toggle('badge-gray', !unreadUnmutedCount);
     unreadSpan.innerText = unreadCount ? '' + unreadCount : '';
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private setFiltersUnreadCount() {
@@ -1253,18 +761,10 @@ export class AppDialogsManager {
   /**
    * Удалит неподходящие чаты из списка, но не добавит их(!)
    */
-<<<<<<< HEAD
-  private validateListForFilter() {
-    const filter = appMessagesManager.filtersStorage.getFilter(this.filterId) || null;
-    this.sortedList.getAll().forEach((element) => {
-      const dialog = appMessagesManager.getDialogOnly(element.id);
-      if(!this.testDialogForFilter(dialog, filter)) {
-=======
   private async validateListForFilter() {
     this.sortedList.getAll().forEach(async(element) => {
       const dialog = await this.managers.appMessagesManager.getDialogOnly(element.id);
       if(!this.testDialogForFilter(dialog)) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.deleteDialog(element.id);
       }
     });
@@ -1273,49 +773,30 @@ export class AppDialogsManager {
   /**
    * Удалит неподходящий чат из списка, но не добавит его(!)
    */
-<<<<<<< HEAD
-  private validateDialogForFilter(dialog: Dialog, filter?: MyDialogFilter) {
-=======
   private validateDialogForFilter(dialog: Dialog) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!this.getDialogDom(dialog.peerId)) {
       return;
     }
 
-<<<<<<< HEAD
-    if(!this.testDialogForFilter(dialog, filter)) {
-=======
     if(!this.testDialogForFilter(dialog)) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.deleteDialog(dialog.peerId);
     }
   }
 
-<<<<<<< HEAD
-  public testDialogForFilter(dialog: Dialog, filter = appMessagesManager.filtersStorage.getFilter(this.filterId)) {
-    if(!dialog || 
-      (filter && !appMessagesManager.filtersStorage.testDialogForFilter(dialog, filter)) || 
-      (!filter && this.filterId !== dialog.folder_id)) {
-=======
   public testDialogForFilter(dialog: Dialog) {
     if(
       !dialog || 
       (this.filterId > 1 ? getDialogIndex(dialog, this.indexKey) === undefined : this.filterId !== dialog.folder_id)
       // (filter && !(await this.managers.filtersStorage.testDialogForFilter(dialog, filter)))
     ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return false;
     }
 
     return true;
   }
 
-<<<<<<< HEAD
-  public generateScrollable(list: HTMLUListElement, filterId: number) {
-=======
   public generateScrollable(list: HTMLUListElement, filter: Parameters<AppDialogsManager['addFilter']>[0]) {
     const filterId = filter.id;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const scrollable = new Scrollable(null, 'CL', 500);
     scrollable.container.addEventListener('scroll', this.onChatsRegularScroll);
     scrollable.container.dataset.filterId = '' + filterId;
@@ -1324,14 +805,9 @@ export class AppDialogsManager {
     scrollable.setVirtualContainer(list);
 
     const sortedDialogList = new SortedDialogList(
-<<<<<<< HEAD
-      list, 
-      appMessagesManager.dialogsStorage ? appMessagesManager.dialogsStorage.getDialogIndexKey(filterId) : 'index',
-=======
       this.managers,
       list, 
       getDialogIndexKey(filter.orderIndex),
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.onListLengthChange
     );
 
@@ -1343,65 +819,10 @@ export class AppDialogsManager {
 
     return scrollable;
   }
-<<<<<<< HEAD
   
   /* TODO: rename this function so it could be found faster
    * this function adds FOLDER, not FILTER
   */
-  private addFilter(filter: Pick<DialogFilter, 'title' | 'id' | 'orderIndex'> & Partial<{titleEl: HTMLElement}>) {
-    if(this.filtersRendered[filter.id]) return;
-
-    const folderButton = document.createElement('div');
-    folderButton.classList.add('chats-group');
-
-    const titleAndUnreadSpan = document.createElement('span');
-    const titleSpan = document.createElement('span');
-    titleSpan.classList.add('text-super', 'menu-horizontal-div-item', 'menu-horizontal-div');
-    if (filter.titleEl)
-        titleSpan.append(filter.titleEl);
-    else
-        setInnerHTML(titleSpan, RichTextProcessor.wrapEmojiText(filter.title));
-
-    const firstChats = document.createElement('ul');
-
-    setTimeout(() => {
-      let dialogs = appMessagesManager.dialogsStorage.getFolderDialogs(filter.id);
-      dialogs.sort((dialog_a, dialog_b) => dialog_b[this.indexKey] - dialog_a[this.indexKey]);
-      for (const dialog of dialogs) {
-        if (firstChats.children.length >= 2) {
-            const showMore = document.createElement('li');
-            showMore.innerText = '...';
-            firstChats.append(showMore);
-            break;
-          }
-
-          const dialogDom = this.addDialog(dialog, firstChats, false, null, true, null,
-                                           true, 32);
-          
-          this.setLastMessage(dialog, null, dialogDom.dom);
-          setInterval(() => {
-            this.setLastMessage(dialog, null, dialogDom.dom);
-          }, 3000);
-      }
-    }, 30); // to let dialogsStorage be initialized
-    
-    const unreadSpan = document.createElement('div');
-    unreadSpan.classList.add('badge', 'badge-20', 'badge-primary');
-
-    const i = document.createElement('i');
-
-    titleAndUnreadSpan.append(titleSpan, unreadSpan, i);
-    ripple(folderButton);
-    folderButton.append(titleAndUnreadSpan, firstChats);
-
-    const containerToAppend = this.folders.menu as HTMLElement;
-    positionElementByIndex(folderButton, containerToAppend, filter.orderIndex);
-    //containerToAppend.append(li);
-
-    const ul = this.createChatList();
-    const scrollable = this.generateScrollable(ul, filter.id);
-=======
-
   private addFilter(filter: Pick<DialogFilter, 'title' | 'id' | 'orderIndex'>) {
     if(filter.id === 1) {
       return;
@@ -1415,26 +836,48 @@ export class AppDialogsManager {
       return;
     }
 
-    const menuTab = document.createElement('div');
-    menuTab.classList.add('menu-horizontal-div-item');
-    const span = document.createElement('span');
+    const folderButton = document.createElement('div');
+    folderButton.classList.add('menu-horizontal-div-item');
+    folderButton.classList.add('chats-group');
+    const titleAndUnreadSpan = document.createElement('span');
     const titleSpan = document.createElement('span');
     titleSpan.classList.add('text-super');
     if(filter.id === 0) titleSpan.append(this.allChatsIntlElement.element);
     else setInnerHTML(titleSpan, wrapEmojiText(filter.title));
+
+    const firstChats = document.createElement('ul');
+
+    this.managers.dialogsStorage.getFolderDialogs(filter.id).then((dialogs) => {
+      dialogs.sort((dialog_a: Dialog, dialog_b: Dialog) => dialog_b[this.indexKey] - dialog_a[this.indexKey]);
+      for (const dialog of dialogs) {
+        if (firstChats.children.length >= 2) {
+            const showMore = document.createElement('li');
+            showMore.innerText = '...';
+            firstChats.append(showMore);
+            break;
+          }
+
+          const dialogDom = this.addDialog(dialog.peerId, firstChats, false, null, true, null, 32);
+          
+          this.setLastMessage(dialog, null, dialogDom.dom);
+          setInterval(() => {
+            this.setLastMessage(dialog, null, dialogDom.dom);
+          }, 3000);
+      }
+    }); // to let dialogsStorage be initialized
+
     const unreadSpan = document.createElement('div');
     unreadSpan.classList.add('badge', 'badge-20', 'badge-primary');
     const i = document.createElement('i');
-    span.append(titleSpan, unreadSpan, i);
-    ripple(menuTab);
-    menuTab.append(span);
+    titleAndUnreadSpan.append(titleSpan, unreadSpan, i);
+    ripple(folderButton);
+    folderButton.append(titleAndUnreadSpan, firstChats);
 
-    positionElementByIndex(menuTab, containerToAppend, filter.orderIndex);
+    positionElementByIndex(folderButton, containerToAppend, filter.orderIndex);
     //containerToAppend.append(li);
 
     const ul = this.createChatList();
     const scrollable = this.generateScrollable(ul, filter);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     scrollable.container.classList.add('tabs-tab', 'chatlist-parts');
 
@@ -1459,11 +902,7 @@ export class AppDialogsManager {
     this.setListClickListener(ul, null, true);
 
     this.filtersRendered[filter.id] = {
-<<<<<<< HEAD
       menu: folderButton,
-=======
-      menu: menuTab,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       container: div,
       unread: unreadSpan,
       title: titleSpan
@@ -1477,49 +916,6 @@ export class AppDialogsManager {
     const key: LangPackKey = scrollable.scrollWidth > scrollable.clientWidth ? 'FilterAllChatsShort' : 'FilterAllChats';
     this.allChatsIntlElement.compareAndUpdate({key});
   }
-<<<<<<< HEAD
-
-  private onFiltersLengthChange() {
-    if(!this.showFiltersPromise) {
-      this.showFiltersPromise = new Promise<void>((resolve) => {
-        window.setTimeout(() => {
-          const length = Object.keys(this.filtersRendered).length;
-          const show = length > 1;
-          const wasShowing = !this.folders.menuScrollContainer.classList.contains('hide');
-
-          if(show !== wasShowing) {
-            this.folders.menuScrollContainer.classList.toggle('hide', !show);
-            if(show && !wasShowing) {
-              this.setFiltersUnreadCount();
-            }
-
-            this.chatsContainer.classList.toggle('has-filters', show);
-          }
-
-          this.changeFiltersAllChatsKey();
-
-          this.showFiltersPromise = undefined;
-          resolve();
-        }, 0);
-      });
-    }
-
-    return this.showFiltersPromise;
-  }
-
-  private loadDialogs(side: SliceSides) {
-    /* if(testScroll) {
-      return;
-    } */
-    
-    if(this.loadDialogsPromise/*  || 1 === 1 */) return this.loadDialogsPromise;
-
-    const promise = new Promise<void>(async(resolve) => {
-      const {chatList, filterId, indexKey} = this;
-
-      //return;
-  
-=======
 
   private onFiltersLengthChange() {
     if(!this.showFiltersPromise) {
@@ -1568,7 +964,6 @@ export class AppDialogsManager {
       
       //return;
       
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       // let loadCount = 30/*this.chatsLoadCount */;
       let loadCount = windowSize.height / 72 * 1.25 | 0;
       let offsetIndex = 0;
@@ -1576,19 +971,11 @@ export class AppDialogsManager {
       const {index: currentOffsetIndex} = this.getOffsetIndex(side);
       if(currentOffsetIndex) {
         if(side === 'top') {
-<<<<<<< HEAD
-          const storage = appMessagesManager.dialogsStorage.getFolderDialogs(filterId, true);
-          const index = storage.findIndex(dialog => dialog[indexKey] <= currentOffsetIndex);
-          const needIndex = Math.max(0, index - loadCount);
-          loadCount = index - needIndex;
-          offsetIndex = storage[needIndex][indexKey] + 1;
-=======
           const storage = await this.managers.dialogsStorage.getFolderDialogs(filterId, true);
           const index = storage.findIndex((dialog) => getDialogIndex(dialog, indexKey) <= currentOffsetIndex);
           const needIndex = Math.max(0, index - loadCount);
           loadCount = index - needIndex;
           offsetIndex = getDialogIndex(storage[needIndex], indexKey) + 1;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } else {
           offsetIndex = currentOffsetIndex;
         }
@@ -1621,23 +1008,11 @@ export class AppDialogsManager {
           cachedInfoPromise.resolve(false);
         }
   
-<<<<<<< HEAD
-        const getConversationsResult = appMessagesManager.getConversations('', offsetIndex, loadCount, filterId, true);
-        if(!getConversationsResult.cached && !chatList.childElementCount) {
-          const container = chatList.parentElement;
-          container.append(this.chatsPreloader);
-        }
-  
-        const result = await getConversationsResult.promise;
-  
-        if(this.loadDialogsPromise !== promise) {
-=======
         const a = await getConversationsResult;
         const result = await a.result;
         if(this.loadDialogsRenderPromise !== renderPromise) {
           reject();
           cachedInfoPromise.reject();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           return;
         }
 
@@ -1671,31 +1046,17 @@ export class AppDialogsManager {
 
           dialogs.forEach((dialog) => {
             // :(
-<<<<<<< HEAD
-            const isBuggedDialog = !appMessagesManager.getDialogOnly(dialog.peerId);
-            if(isBuggedDialog) {
-              return;
-            }
-
-            const element = this.sortedList.add(dialog.peerId, true, cccc, false);
-=======
             // const isBuggedDialog = !this.managers.appMessagesManager.getDialogOnly(dialog.peerId);
             // if(isBuggedDialog) {
             //   return;
             // }
 
             const element = this.sortedList.add(dialog.peerId, true, /* undefined, false,  */cccc, false);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(element.loadPromises) {
               loadPromises.push(...element.loadPromises);
             }
           });
 
-<<<<<<< HEAD
-          await Promise.all(loadPromises).finally();
-
-          callbacks.forEach(callback => callback());
-=======
           loadPromises.push(fastRafPromise()); // it is needed here
           await Promise.all(loadPromises).finally();
           if(this.loadDialogsRenderPromise !== renderPromise) {
@@ -1705,18 +1066,13 @@ export class AppDialogsManager {
           }
 
           callbacks.forEach((callback) => callback());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } else {
           this.onListLengthChange();
         }
 
         const offsetDialog = result.dialogs[side === 'top' ? 0 : result.dialogs.length - 1];
         if(offsetDialog) {
-<<<<<<< HEAD
-          this.offsets[side] = offsetDialog[indexKey];
-=======
           this.offsets[side] = getDialogIndex(offsetDialog, indexKey);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
 
         this.log.debug('getDialogs ' + loadCount + ' dialogs by offset:', offsetIndex, result, chatList.childElementCount);
@@ -1728,24 +1084,13 @@ export class AppDialogsManager {
         this.log.error(err);
       }
       
-<<<<<<< HEAD
-      if(this.chatsPreloader.parentElement) {
-        this.chatsPreloader.remove();
-=======
       if(placeholder) {
         // await pause(500);
         placeholder.detach(chatList.childElementCount);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
       
       resolve();
     }).finally(() => {
-<<<<<<< HEAD
-      this.loadDialogsPromise = undefined;
-    });
-
-    return this.loadDialogsPromise = promise;
-=======
       if(this.loadDialogsRenderPromise === renderPromise) {
         this.loadDialogsRenderPromise = undefined;
         this.loadDialogsPromise = undefined;
@@ -1757,7 +1102,6 @@ export class AppDialogsManager {
       cached,
       renderPromise
     }));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private generateEmptyPlaceholder(options: {
@@ -1792,11 +1136,7 @@ export class AppDialogsManager {
 
     const chatList = this.chatList;
     const part = chatList.parentElement as HTMLElement;
-<<<<<<< HEAD
-    let placeholderContainer = (Array.from(part.children) as HTMLElement[]).find(el => el.matches('.empty-placeholder'));
-=======
     let placeholderContainer = (Array.from(part.children) as HTMLElement[]).find((el) => el.matches('.empty-placeholder'));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const needPlaceholder = this.scroll.loadedAll.bottom && !chatList.childElementCount/*  || true */;
     // chatList.style.display = 'none';
 
@@ -1846,13 +1186,6 @@ export class AppDialogsManager {
 
       placeholderContainer = placeholder.container;
 
-<<<<<<< HEAD
-      placeholderContainer.prepend(wrapLocalSticker({
-        emoji: '📂',
-        width: 128,
-        height: 128
-      }).container)
-=======
       const div = document.createElement('div');
       const emoji = '📂';
       const size = 128;
@@ -1864,20 +1197,14 @@ export class AppDialogsManager {
       });
 
       placeholderContainer.prepend(div);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       const button = Button('btn-primary btn-color-primary btn-control tgico', {
         text: 'FilterHeaderEdit',
         icon: 'settings'
       });
 
-<<<<<<< HEAD
-      attachClickEvent(button, () => {
-        new AppEditFolderTab(appSidebarLeft).open(appMessagesManager.filtersStorage.getFilter(this.filterId));
-=======
       attachClickEvent(button, async() => {
         appSidebarLeft.createTab(AppEditFolderTab).open(await this.managers.filtersStorage.getFilter(this.filterId));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       placeholderContainer.append(button);
@@ -1890,11 +1217,7 @@ export class AppDialogsManager {
 
   private updateContactsLength(updatePartClassName: boolean) {
     if(this.updateContactsLengthPromise) return this.updateContactsLengthPromise;
-<<<<<<< HEAD
-    return this.updateContactsLengthPromise = appUsersManager.getContacts().then(users => {
-=======
     return this.updateContactsLengthPromise = this.managers.appUsersManager.getContacts().then((users) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const subtitle = this.emptyDialogsPlaceholderSubtitle;
       if(subtitle) {
         let key: LangPackKey, args: FormatterArguments;
@@ -1968,11 +1291,7 @@ export class AppDialogsManager {
 
     section.container.classList.add('hide');
 
-<<<<<<< HEAD
-    appUsersManager.getContactsPeerIds(undefined, undefined, 'online').then(contacts => {
-=======
     this.managers.appUsersManager.getContactsPeerIds(undefined, undefined, 'online').then((contacts) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       let ready = false;
       const onListLengthChange = () => {
         if(ready) {
@@ -1989,12 +1308,8 @@ export class AppDialogsManager {
           new: true
         },
         autonomous: false, 
-<<<<<<< HEAD
-        onListLengthChange
-=======
         onListLengthChange,
         managers: this.managers
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       this.loadContacts = () => {
@@ -2035,13 +1350,8 @@ export class AppDialogsManager {
     bottom.append(section.container);
   };
 
-<<<<<<< HEAD
-  private verifyPeerIdForContacts = (peerId: PeerId) => {
-    return peerId.isContact() && !appMessagesManager.getDialogOnly(peerId);
-=======
   private verifyPeerIdForContacts = async(peerId: PeerId) => {
     return await this.managers.appPeersManager.isContact(peerId) && !(await this.managers.appMessagesManager.getDialogOnly(peerId));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 
   public onChatsRegularScroll = () => {
@@ -2128,11 +1438,7 @@ export class AppDialogsManager {
       sliced.push(...sliceFromStart);
       sliced.push(...sliceFromEnd);
 
-<<<<<<< HEAD
-      sliced.forEach(el => {
-=======
       sliced.forEach((el) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const peerId = el.dataset.peerId.toPeerId();
         this.deleteDialog(peerId);
       });
@@ -2156,20 +1462,6 @@ export class AppDialogsManager {
     }, 200);
   };
 
-<<<<<<< HEAD
-  private setOffsets() {
-    const chatList = this.chatList;
-    const firstDialog = this.getDialogFromElement(chatList.firstElementChild as HTMLElement);
-    const lastDialog = this.getDialogFromElement(chatList.lastElementChild as HTMLElement);
-
-    const indexKey = this.indexKey;
-    this.offsets.top = firstDialog[indexKey];
-    this.offsets.bottom = lastDialog[indexKey];
-  }
-
-  private getDialogFromElement(element: HTMLElement) {
-    return appMessagesManager.getDialogOnly(element.dataset.peerId.toPeerId());
-=======
   private async setOffsets() {
     const chatList = this.chatList;
     const firstDialog = await this.getDialogFromElement(chatList.firstElementChild as HTMLElement);
@@ -2182,7 +1474,6 @@ export class AppDialogsManager {
 
   private getDialogFromElement(element: HTMLElement) {
     return this.managers.appMessagesManager.getDialogOnly(element.dataset.peerId.toPeerId());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public onChatsScrollTop = () => {
@@ -2194,13 +1485,7 @@ export class AppDialogsManager {
       if(this.loadContacts) {
         this.loadContacts();
       }
-<<<<<<< HEAD
-
-      return Promise.resolve();
-    } else if(this.loadDialogsPromise) return this.loadDialogsPromise;
-=======
     }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.log('onChatsScroll', side);
     return this.loadDialogs(side);
@@ -2214,26 +1499,15 @@ export class AppDialogsManager {
     list.dataset.autonomous = '' + +autonomous;
     list.addEventListener('mousedown', (e) => {
       if(e.button !== 0) return;
-<<<<<<< HEAD
-      //cancelEvent(e);
-
-      this.log('dialogs click list');
-      const target = e.target as HTMLElement;
-      const elem = findUpTag(target, 'LI');
-
-=======
       
       this.log('dialogs click list');
       const target = e.target as HTMLElement;
       const elem = findUpTag(target, DIALOG_LIST_ELEMENT_TAG);
       
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!elem) {
         return;
       }
 
-<<<<<<< HEAD
-=======
       const peerId = elem.dataset.peerId.toPeerId();
 
       if(e.ctrlKey || e.metaKey) {
@@ -2242,7 +1516,6 @@ export class AppDialogsManager {
         return;
       }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(autonomous) {
         const sameElement = lastActiveListElement === elem;
         if(lastActiveListElement && !sameElement) {
@@ -2259,10 +1532,6 @@ export class AppDialogsManager {
       if(elem) {
         if(onFound) onFound();
 
-<<<<<<< HEAD
-        const peerId = elem.dataset.peerId.toPeerId();
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const lastMsgId = +elem.dataset.mid || undefined;
 
         setPeerFunc({
@@ -2270,8 +1539,6 @@ export class AppDialogsManager {
         });
       } else {
         setPeerFunc();
-<<<<<<< HEAD
-=======
       }
     }, {capture: true});
 
@@ -2280,7 +1547,6 @@ export class AppDialogsManager {
     list.addEventListener('click', (e) => {
       if(e.button === 0) {
         cancelEvent(e);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }, {capture: true});
 
@@ -2289,11 +1555,7 @@ export class AppDialogsManager {
         const li = findUpTag(e.target, DIALOG_LIST_ELEMENT_TAG);
         if(li) {
           const peerId = li.dataset.peerId.toPeerId();
-<<<<<<< HEAD
-          this.log('debug dialog:', appMessagesManager.getDialogByPeerId(peerId));
-=======
           this.log('debug dialog:', this.managers.appMessagesManager.getDialogByPeerId(peerId));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       });
     }
@@ -2308,12 +1570,8 @@ export class AppDialogsManager {
     // handheldsSize?: number,
     // size?: number,
     new?: boolean,
-<<<<<<< HEAD
-    dialogSize?: number
-=======
     dialogSize?: number,
     ignoreClick?: boolean
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   } = {}) {
     const list = document.createElement('ul');
     list.classList.add('chatlist'/* , 
@@ -2327,13 +1585,10 @@ export class AppDialogsManager {
       list.classList.add('chatlist-' + options.dialogSize);
     }
 
-<<<<<<< HEAD
-=======
     // if(options.ignoreClick) {
     //   list.classList.add('disable-hover');
     // }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /* if(options.handheldsSize) {
       list.classList.add('chatlist-handhelds-' + options.handheldsSize);
     } */
@@ -2341,18 +1596,6 @@ export class AppDialogsManager {
     return list;
   }
 
-<<<<<<< HEAD
-  public setLastMessage(
-    dialog: Dialog, 
-    lastMessage?: any, 
-    dom?: DialogDom, 
-    highlightWord?: string, 
-    loadPromises?: Promise<any>[],
-    isBatch = false,
-    setUnread = false
-  ) {
-    ///////console.log('setlastMessage:', lastMessage);
-=======
   public setLastMessageN(options: {
     dialog: Dialog, 
     lastMessage?: Message.message | Message.messageService, 
@@ -2373,7 +1616,6 @@ export class AppDialogsManager {
     isBatch = false,
     setUnread = false
   ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!dom) {
       dom = this.getDialogDom(dialog.peerId);
 
@@ -2382,26 +1624,6 @@ export class AppDialogsManager {
       }
     }
 
-<<<<<<< HEAD
-    let draftMessage: MyDraftMessage;
-    if(!lastMessage) {
-      if(dialog.draft && dialog.draft._ === 'draftMessage') {
-        draftMessage = dialog.draft;
-      }
-      
-      lastMessage = appMessagesManager.getMessageByPeer(dialog.peerId, dialog.top_message);
-    }
-
-    if(lastMessage._ === 'messageEmpty'/*  || (lastMessage._ === 'messageService' && !lastMessage.rReply) */) {
-      dom.lastMessageSpan.innerHTML = '';
-      dom.lastTimeSpan.innerHTML = '';
-      delete dom.listEl.dataset.mid;
-
-      if(setUnread) {
-        this.setUnreadMessages(dialog, dom, isBatch);
-      }
-
-=======
     const {deferred: promise, middleware} = setPromiseMiddleware(dom, 'setLastMessagePromise');
 
     let draftMessage: MyDraftMessage;
@@ -2427,19 +1649,11 @@ export class AppDialogsManager {
       delete dom.listEl.dataset.mid;
 
       promise.resolve();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
     const peerId = dialog.peerId;
-<<<<<<< HEAD
-    const isRestricted = lastMessage && appMessagesManager.isRestricted(lastMessage);
-    //let peerId = appMessagesManager.getMessagePeer(lastMessage);
-
-    //console.log('setting last message:', lastMessage);
-=======
     const isRestricted = lastMessage && isMessageRestricted(lastMessage as Message.message);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     /* if(!dom.lastMessageSpan.classList.contains('user-typing')) */ {
       let mediaContainer: HTMLElement;
@@ -2450,32 +1664,6 @@ export class AppDialogsManager {
         if(media && (media._ === 'photo' || videoTypes.has(media.type))) {
           const size = choosePhotoSize(media, 20, 20);
 
-<<<<<<< HEAD
-      let mediaContainer: HTMLElement;
-      if(!lastMessage.deleted && !draftMessage && !isRestricted) {
-        const media: MyDocument | MyPhoto = appMessagesManager.getMediaFromMessage(lastMessage);
-        const videoTypes: Set<MyDocument['type']> = new Set(['video', 'gif', 'round']);
-        if(media && (media._ === 'photo' || videoTypes.has(media.type))) {
-          const size = appPhotosManager.choosePhotoSize(media, 20, 20);
-
-          if(size._ !== 'photoSizeEmpty') {
-            mediaContainer = document.createElement('div');
-            mediaContainer.classList.add('dialog-subtitle-media');
-
-            if((media as MyDocument).type === 'round') {
-              mediaContainer.classList.add('is-round');
-            }
-            
-            wrapPhoto({
-              photo: media,
-              message: lastMessage,
-              container: mediaContainer,
-              withoutPreloader: true,
-              size,
-              loadPromises
-            });
-
-=======
           if(size._ !== 'photoSizeEmpty') {
             mediaContainer = document.createElement('div');
             mediaContainer.classList.add('dialog-subtitle-media');
@@ -2492,66 +1680,14 @@ export class AppDialogsManager {
               size
             }).then(() => mediaContainer));
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(videoTypes.has((media as MyDocument).type)) {
               const playIcon = document.createElement('span');
               playIcon.classList.add('tgico-play');
 
               mediaContainer.append(playIcon);
             }
-<<<<<<< HEAD
           }
         }
-      }
-
-      const withoutMediaType = !!mediaContainer && !!lastMessage?.message;
-
-      let fragment: DocumentFragment;
-      if(highlightWord && lastMessage.message) {
-        fragment = appMessagesManager.wrapMessageForReply(lastMessage, undefined, undefined, false, highlightWord, withoutMediaType);
-      } else if(draftMessage) {
-        fragment = appMessagesManager.wrapMessageForReply(draftMessage);
-      } else if(!lastMessage.deleted) {
-        fragment = appMessagesManager.wrapMessageForReply(lastMessage, undefined, undefined, false, undefined, withoutMediaType);
-      } else { // rare case
-        fragment = document.createDocumentFragment();
-      }
-
-      if(mediaContainer) {
-        fragment.prepend(mediaContainer);
-      }
-
-      replaceContent(dom.lastMessageSpan, fragment);
-  
-      /* if(lastMessage.from_id === auth.id) { // You:  */
-      if(draftMessage) {
-        const bold = document.createElement('b');
-        bold.classList.add('danger');
-        bold.append(i18n('Draft'), ': ');
-        dom.lastMessageSpan.prepend(bold);
-      } else if(peerId.isAnyChat() && peerId !== lastMessage.fromId && !lastMessage.action) {
-        const sender = appPeersManager.getPeer(lastMessage.fromId);
-        if(sender && sender.id) {
-          const senderBold = document.createElement('b');
-
-          if(sender.id === rootScope.myId) {
-            senderBold.append(i18n('FromYou'));
-          } else {
-            //str = sender.first_name || sender.last_name || sender.username;
-            senderBold.append(new PeerTitle({
-              peerId: lastMessage.fromId,
-              onlyFirstName: true,
-            }).element);
-          }
-
-          senderBold.append(': ');
-          //console.log(sender, senderBold.innerText);
-          dom.lastMessageSpan.prepend(senderBold);
-        } //////// else console.log('no sender', lastMessage, peerId);
-=======
-          }
-        }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       /* if(lastMessage.from_id === auth.id) { // You:  */
@@ -2604,34 +1740,18 @@ export class AppDialogsManager {
       replaceContent(dom.lastMessageSpan, fragment);
     }
 
-<<<<<<< HEAD
-    if(!lastMessage.deleted || draftMessage/*  && lastMessage._ !== 'draftMessage' */) {
-=======
     if(lastMessage || draftMessage/*  && lastMessage._ !== 'draftMessage' */) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const date = draftMessage ? Math.max(draftMessage.date, lastMessage.date || 0) : lastMessage.date;
       replaceContent(dom.lastTimeSpan, formatDateAccordingToTodayNew(new Date(date * 1000)));
     } else dom.lastTimeSpan.textContent = '';
 
-<<<<<<< HEAD
-    if(setUnread !== null) {
-      if(setUnread) {
-        this.setUnreadMessages(dialog, dom, isBatch);
-      } else { // means search
-        dom.listEl.dataset.mid = lastMessage.mid;
-      }
-=======
     if(setUnread !== null && !setUnread) { // means search
       dom.listEl.dataset.mid = '' + lastMessage.mid;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     promise.resolve();
   }
 
-<<<<<<< HEAD
-  private setUnreadMessages(dialog: Dialog, dom = this.getDialogDom(dialog.peerId), isBatch = false) {
-=======
   private setUnreadMessagesN(options: {
     dialog: Dialog,
     dom?: DialogDom,
@@ -2647,33 +1767,11 @@ export class AppDialogsManager {
     isBatch = false,
     setLastMessagePromise?: Promise<void>
   ) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!dom) {
       //this.log.error('setUnreadMessages no dom!', dialog);
       return;
     }
 
-<<<<<<< HEAD
-    if(!isBatch) {
-      const isMuted = appNotificationsManager.isPeerLocalMuted(dialog.peerId, true);
-      const wasMuted = dom.listEl.classList.contains('is-muted');
-      if(isMuted !== wasMuted) {
-        SetTransition(dom.listEl, 'is-muted', isMuted, 200);
-      }
-    }
-
-    let setStatusMessage: MyMessage;
-    if(dialog.draft?._ !== 'draftMessage') {
-      const lastMessage: MyMessage = appMessagesManager.getMessageByPeer(dialog.peerId, dialog.top_message);
-      if(!lastMessage.deleted && lastMessage.pFlags.out && lastMessage.peerId !== rootScope.myId) {
-        setStatusMessage = lastMessage;
-      }
-    }
-
-    setSendingStatus(dom.statusSpan, setStatusMessage, true);
-
-    const filter = appMessagesManager.filtersStorage.getFilter(this.filterId);
-=======
     const {deferred, middleware} = setPromiseMiddleware(dom, 'setUnreadMessagePromise');
 
     const isMuted = await middleware(this.managers.appNotificationsManager.isPeerLocalMuted(dialog.peerId, true));
@@ -2688,7 +1786,6 @@ export class AppDialogsManager {
     }
 
     const filter = await middleware(this.managers.filtersStorage.getFilter(this.filterId));
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let isPinned: boolean;
     if(filter) {
       isPinned = filter.pinnedPeerIds.indexOf(dialog.peerId) !== -1;
@@ -2696,25 +1793,6 @@ export class AppDialogsManager {
       isPinned = !!dialog.pFlags.pinned;
     }
 
-<<<<<<< HEAD
-    const isDialogUnread = appMessagesManager.isDialogUnread(dialog);
-    const hasUnreadBadge = isPinned || isDialogUnread;
-    // dom.messageEl.classList.toggle('has-badge', hasBadge);
-
-    const isUnreadBadgeMounted = isInDOM(dom.unreadBadge);
-    if(hasUnreadBadge && !isUnreadBadgeMounted) {
-      dom.subtitleEl.append(dom.unreadBadge);
-    }
-
-    const hasMentionsBadge = dialog.unread_mentions_count && (dialog.unread_mentions_count > 1 || dialog.unread_count > 1);
-    const isMentionBadgeMounted = dom.mentionsBadge && isInDOM(dom.mentionsBadge);
-    if(hasMentionsBadge) {
-      if(!dom.mentionsBadge) {
-        dom.mentionsBadge = document.createElement('div');
-        dom.mentionsBadge.className = 'dialog-subtitle-badge badge badge-24 mention mention-badge';
-        dom.mentionsBadge.innerText = '@';
-        dom.subtitleEl.insertBefore(dom.mentionsBadge, dom.lastMessageSpan.nextSibling);
-=======
     const isDialogUnread = await middleware(this.managers.appMessagesManager.isDialogUnread(dialog));
     const hasUnreadBadge = isPinned || isDialogUnread;
     // dom.messageEl.classList.toggle('has-badge', hasBadge);
@@ -2726,14 +1804,11 @@ export class AppDialogsManager {
         await middleware(setLastMessagePromise);
       } catch(err) {
         // return;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
 
     const transitionDuration = isBatch ? 0 : 200;
 
-<<<<<<< HEAD
-=======
     if(isMuted !== wasMuted) {
       SetTransition(dom.listEl, 'is-muted', isMuted, transitionDuration);
     }
@@ -2756,7 +1831,6 @@ export class AppDialogsManager {
       }
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     SetTransition(dom.unreadBadge, 'is-visible', hasUnreadBadge, transitionDuration, hasUnreadBadge ? undefined : () => {
       dom.unreadBadge.remove();
     }, !isUnreadBadgeMounted ? 2 : 0);
@@ -2769,10 +1843,7 @@ export class AppDialogsManager {
     }
 
     if(!hasUnreadBadge) {
-<<<<<<< HEAD
-=======
       deferred.resolve();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
@@ -2797,10 +1868,7 @@ export class AppDialogsManager {
 
     dom.unreadBadge.classList.toggle('unread', isUnread);
     dom.unreadBadge.classList.toggle('mention', isMention);
-<<<<<<< HEAD
-=======
     deferred.resolve();
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private getDialogDom(peerId: PeerId) {
@@ -2809,28 +1877,16 @@ export class AppDialogsManager {
     return element?.dom;
   }
 
-<<<<<<< HEAD
-  private getDialog(dialog: Dialog | PeerId): Dialog {
-    if(typeof(dialog) !== 'object') {
-      const originalDialog = appMessagesManager.getDialogOnly(dialog);
-=======
   private async getDialog(dialog: Dialog | PeerId) {
     if(typeof(dialog) !== 'object') {
       const originalDialog = await this.managers.appMessagesManager.getDialogOnly(dialog);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!originalDialog) {
         const peerId = dialog || NULL_PEER_ID;
         return {
           peerId,
-<<<<<<< HEAD
-          peer: appPeersManager.getOutputPeer(peerId),
-          pFlags: {}
-        } as any;
-=======
           peer: await this.managers.appPeersManager.getOutputPeer(peerId),
           pFlags: {}
         } as any as Dialog;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       return originalDialog;
@@ -2859,26 +1915,6 @@ export class AppDialogsManager {
   }
 
   public addListDialog(options: Parameters<AppDialogsManager['addDialogNew']>[0] & {isBatch?: boolean}) {
-<<<<<<< HEAD
-    const dialog = this.getDialog(options.dialog);
-
-    options.autonomous = false;
-
-    const ret = this.addDialogNew(options);
-
-    if(ret) {
-      const {peerId} = dialog;
-      const isMuted = appNotificationsManager.isPeerLocalMuted(peerId, true);
-      if(isMuted) {
-        ret.dom.listEl.classList.add('is-muted');
-      }
-
-      if(!peerId.isUser()) {
-        this.processDialogForCallStatus(dialog, ret.dom);
-      }
-
-      this.setLastMessage(dialog, undefined, ret.dom, undefined, options.loadPromises, options.isBatch, true);
-=======
     options.autonomous = false;
     
     const ret = this.addDialogNew(options);
@@ -2912,17 +1948,12 @@ export class AppDialogsManager {
       if(options.loadPromises) {
         options.loadPromises.push(promise);
       }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     return ret;
   }
 
-<<<<<<< HEAD
-  private processDialogForCallStatus(dialog: Dialog, dom?: DialogDom) {
-=======
   private async processDialogForCallStatus(dialog: Dialog, dom?: DialogDom) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!IS_GROUP_CALL_SUPPORTED) {
       return;
     }
@@ -2930,11 +1961,7 @@ export class AppDialogsManager {
     if(!dom) dom = this.getDialogDom(dialog.peerId);
     if(!dom) return;
     
-<<<<<<< HEAD
-    const chat: Chat.chat | Chat.channel = appChatsManager.getChat(dialog.peerId.toChatId());
-=======
     const chat: Chat.chat | Chat.channel = await this.managers.appChatsManager.getChat(dialog.peerId.toChatId());
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.setCallStatus(dom, !!(chat.pFlags.call_active && chat.pFlags.call_not_empty));
   }
 
@@ -2947,15 +1974,6 @@ export class AppDialogsManager {
     query?: string
   }) {
     const {peerId, message, query} = options;
-<<<<<<< HEAD
-    const ret = appDialogsManager.addDialogNew({
-      ...options,
-      ...appMessagesManager.getMessageSenderPeerIdOrName(message),
-      dialog: this.getDialog(peerId),
-    });
-
-    this.setLastMessage(ret.dialog, message, ret.dom, query);
-=======
     const ret = this.addDialogNew({
       ...options,
       ...getMessageSenderPeerIdOrName(message),
@@ -2963,7 +1981,6 @@ export class AppDialogsManager {
     });
 
     this.setLastMessage({_: 'dialog', peerId} as any, message, ret.dom, query);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(message.peerId !== peerId) {
       ret.dom.listEl.dataset.peerId = '' + message.peerId;
@@ -2973,33 +1990,14 @@ export class AppDialogsManager {
   }
 
   public addDialogNew(options: {
-<<<<<<< HEAD
-    dialog: Parameters<AppDialogsManager['addDialog']>[0],
-    container?: Parameters<AppDialogsManager['addDialog']>[1],
-    drawStatus?: boolean,
-=======
     peerId: Parameters<AppDialogsManager['addDialog']>[0],
     container?: Parameters<AppDialogsManager['addDialog']>[1],
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     rippleEnabled?: boolean,
     onlyFirstName?: boolean,
     meAsSaved?: boolean,
     append?: boolean,
     avatarSize?: number,
     autonomous?: boolean,
-<<<<<<< HEAD
-    lazyLoadQueue?: LazyLoadQueueIntersector,
-    loadPromises?: Promise<any>[],
-    fromName?: string
-  }) {
-    return this.addDialog(options.dialog, options.container, options.drawStatus, options.rippleEnabled, options.onlyFirstName, options.meAsSaved, options.append, options.avatarSize, options.autonomous, options.lazyLoadQueue, options.loadPromises, options.fromName);
-  }
-
-  public addDialog(
-    _dialog: Parameters<AppDialogsManager['getDialog']>[0], 
-    container?: HTMLElement | Scrollable | DocumentFragment | false, 
-    drawStatus = true, 
-=======
     lazyLoadQueue?: LazyLoadQueue,
     loadPromises?: Promise<any>[],
     fromName?: string
@@ -3010,28 +2008,17 @@ export class AppDialogsManager {
   public addDialog(
     peerId: PeerId, 
     container?: HTMLElement | Scrollable | DocumentFragment | false, 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     rippleEnabled = true, 
     onlyFirstName = false, 
     meAsSaved = true, 
     append = true, 
     avatarSize = 54, 
     autonomous = !!container, 
-<<<<<<< HEAD
-    lazyLoadQueue?: LazyLoadQueueIntersector,
-    loadPromises?: Promise<any>[],
-    fromName?: string
-  ) {
-    const dialog = this.getDialog(_dialog);
-    const peerId = dialog.peerId;
-
-=======
     lazyLoadQueue?: LazyLoadQueue,
     loadPromises?: Promise<any>[],
     fromName?: string
   ) {
     // const dialog = await this.getDialog(_dialog);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const avatarEl = new AvatarElement();
     avatarEl.classList.add('dialog-avatar', 'avatar-' + avatarSize);
     avatarEl.updateWithOptions({
@@ -3041,16 +2028,6 @@ export class AppDialogsManager {
       peerId,
       peerTitle: fromName
     });
-<<<<<<< HEAD
-
-    if(drawStatus && peerId !== rootScope.myId && peerId.isUser()) {
-      const user = appUsersManager.getUser(peerId);
-      if(user.status?._ === 'userStatusOnline') {
-        this.setOnlineStatus(avatarEl, true);
-      }
-    }
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const captionDiv = document.createElement('div');
     captionDiv.classList.add('user-caption');
@@ -3058,12 +2035,8 @@ export class AppDialogsManager {
     const titleSpanContainer = document.createElement('span');
     titleSpanContainer.classList.add('user-title');
 
-<<<<<<< HEAD
-    const peerTitle = new PeerTitle({
-=======
     const peerTitle = new PeerTitle();
     const peerTitlePromise = peerTitle.update({
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       peerId,
       fromName,
       dialog: meAsSaved,
@@ -3071,13 +2044,10 @@ export class AppDialogsManager {
       plainText: false
     });
 
-<<<<<<< HEAD
-=======
     if(loadPromises) {
       loadPromises.push(peerTitlePromise);
     }
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     titleSpanContainer.append(peerTitle.element);
     //p.classList.add('')
 
@@ -3087,9 +2057,6 @@ export class AppDialogsManager {
       // for muted icon
       titleSpanContainer.classList.add('tgico'); // * эта строка будет актуальна только для !container, но ладно
       
-<<<<<<< HEAD
-      titleSpanContainer.append(...generateTitleIcons(peerId));
-=======
       const titleIconsPromise = generateTitleIcons(peerId).then((elements) => {
         titleSpanContainer.append(...elements);
       });
@@ -3097,7 +2064,6 @@ export class AppDialogsManager {
       if(loadPromises) {
         loadPromises.push(titleIconsPromise);
       }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //}
     
     const span = document.createElement('span');
@@ -3107,14 +2073,9 @@ export class AppDialogsManager {
     //captionDiv.append(titleSpan);
     //captionDiv.append(span);
 
-<<<<<<< HEAD
-    const li = document.createElement('li');
-    li.classList.add('chatlist-chat');
-=======
     const li = document.createElement(DIALOG_LIST_ELEMENT_TAG);
     li.classList.add('chatlist-chat');
     if(!autonomous) (li as HTMLAnchorElement).href = '#' + peerId;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(rippleEnabled) {
       ripple(li);
     }
@@ -3182,22 +2143,14 @@ export class AppDialogsManager {
     return {dom};
   }
 
-<<<<<<< HEAD
-  public setTyping(dialog: Dialog) {
-=======
   public async setTyping(dialog: Dialog) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const dom = this.getDialogDom(dialog.peerId);
     if(!dom) {
       return;
     }
 
     const oldTypingElement = dom.lastMessageSpan.querySelector('.peer-typing-container') as HTMLElement;
-<<<<<<< HEAD
-    const newTypingElement = appImManager.getPeerTyping(dialog.peerId, oldTypingElement);
-=======
     const newTypingElement = await appImManager.getPeerTyping(dialog.peerId, oldTypingElement);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!oldTypingElement && newTypingElement) {
       replaceContent(dom.lastMessageSpan, newTypingElement);
       dom.lastMessageSpan.classList.add('user-typing');
@@ -3211,16 +2164,12 @@ export class AppDialogsManager {
     }
 
     dom.lastMessageSpan.classList.remove('user-typing');
-<<<<<<< HEAD
-    this.setLastMessage(dialog, null, dom, undefined, undefined, undefined, null);
-=======
     this.setLastMessageN({
       dialog, 
       lastMessage: null, 
       dom,
       setUnread: null
     });
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }
 

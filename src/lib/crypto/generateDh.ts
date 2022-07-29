@@ -11,11 +11,7 @@ import addPadding from "../../helpers/bytes/addPadding";
 import bytesFromHex from "../../helpers/bytes/bytesFromHex";
 import { MessagesDhConfig } from "../../layer";
 import CallInstance from "../calls/callInstance";
-<<<<<<< HEAD
-import cryptoWorker from "../crypto/cryptoworker";
-=======
 import cryptoWorker from "./cryptoMessagePort";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default async function generateDh(dhConfig: MessagesDhConfig.messagesDhConfig) {
   const {p, g} = dhConfig;

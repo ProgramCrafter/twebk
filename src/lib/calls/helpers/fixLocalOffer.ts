@@ -26,11 +26,7 @@ export default function fixLocalOffer(options: {
     hasMunged = addSimulcast(sdp) || hasMunged;
   }
 
-<<<<<<< HEAD
-  // const bundleLine = parsedSdp.session.lines.find(line => line.Ha?.key === 'group');
-=======
   // const bundleLine = parsedSdp.session.lines.find((line) => line.Ha?.key === 'group');
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // const bundleMids = bundleLine.value.split(' ').slice(1);
 
   forEachReverse(sdp.media, (section, idx, arr) => {
@@ -69,11 +65,7 @@ export default function fixLocalOffer(options: {
       }
     }); */
 
-<<<<<<< HEAD
-    const codecIds = payloadTypes.map(payload => '' + payload.id);
-=======
     const codecIds = payloadTypes.map((payload) => '' + payload.id);
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const correctMLine = generateMediaFirstLine(section.mediaType, undefined, codecIds);
     
     if(localMLine !== correctMLine) {

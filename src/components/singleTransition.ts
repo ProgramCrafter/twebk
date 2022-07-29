@@ -19,12 +19,9 @@ const SetTransition = (
     clearTimeout(+timeout);
   }
 
-<<<<<<< HEAD
-=======
   // useRafs = undefined;
   // duration = 0;
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   if(raf !== undefined) {
     window.cancelAnimationFrame(+raf);
     if(!useRafs) {

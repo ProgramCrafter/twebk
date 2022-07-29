@@ -9,11 +9,7 @@ import noop from "./noop";
 export interface CancellablePromise<T> extends Promise<T> {
   resolve?: (value: T) => void,
   reject?: (...args: any[]) => void,
-<<<<<<< HEAD
-  cancel?: () => void,
-=======
   cancel?: (reason?: any) => void,
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   notify?: (...args: any[]) => void,
   notifyAll?: (...args: any[]) => void,
@@ -73,11 +69,7 @@ export default function deferredPromise<T>() {
     deferred.listeners.length = 0;
 
     if(deferred.cancel) {
-<<<<<<< HEAD
-      deferred.cancel = () => {};
-=======
       deferred.cancel = noop;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   });
 

@@ -46,11 +46,7 @@ export function cancelFullScreen() {
 
 export function addFullScreenListener(element: HTMLElement, callback: (e: Event) => any, listenerSetter?: ListenerSetter) {
   const addListener = listenerSetter ? listenerSetter.add(element) : element.addEventListener.bind(element);
-<<<<<<< HEAD
-  'webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange'.split(' ').forEach(eventName => {
-=======
   'webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange'.split(' ').forEach((eventName) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     addListener(eventName, callback, false);
   });
 }

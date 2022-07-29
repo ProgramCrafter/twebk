@@ -275,11 +275,7 @@ export default class ChatBackgroundGradientRenderer {
     }
 
     const colors = el.getAttribute('data-colors').split(',').reverse();
-<<<<<<< HEAD
-    this._colors = colors.map(color => {
-=======
     this._colors = colors.map((color) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return this.hexToRgb(color);
     });
 
@@ -287,19 +283,11 @@ export default class ChatBackgroundGradientRenderer {
       this._hc = document.createElement('canvas');
       this._hc.width = this._width;
       this._hc.height = this._height;
-<<<<<<< HEAD
-      this._hctx = this._hc.getContext('2d');
-    }
-
-    this._canvas = el;
-    this._ctx = this._canvas.getContext('2d');
-=======
       this._hctx = this._hc.getContext('2d', {alpha: false});
     }
 
     this._canvas = el;
     this._ctx = this._canvas.getContext('2d', {alpha: false});
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.update();
   }
 

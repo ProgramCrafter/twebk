@@ -67,28 +67,12 @@ module.exports = merge(common, {
     //     files.forEach(file => {
     //       //console.log('to unlink 1:', file);
 
-<<<<<<< HEAD
-          if(keepAsset(file)) {
-            return;
-          }
-          // if(file.includes('.xml') 
-          //   || file.includes('.webmanifest') 
-          //   || file.includes('.wasm')
-          //   || file.includes('rlottie-wasm')
-          //   || file.includes('Worker.min.js')
-          //   || file.includes('recorder.min.js')
-          //   || file.includes('.hbs')) return;
-
-          let p = path.resolve(buildDir + file);
-          if(!newlyCreatedAssets[file] && ['.gz', '.js', '.ts', '.map', '.css', '.txt'].find(ext => file.endsWith(ext)) !== undefined) {
-=======
     //       if(keepAsset(file)) {
     //         return;
     //       }
 
     //       let p = path.resolve(buildDir + file);
     //       if(!newlyCreatedAssets[file] && ['.gz', '.js', '.ts', '.map', '.css', '.txt'].find(ext => file.endsWith(ext)) !== undefined) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     //         //console.log('to unlink 2:', file);
             

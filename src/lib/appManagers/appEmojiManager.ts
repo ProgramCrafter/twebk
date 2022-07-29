@@ -5,27 +5,14 @@
  */
 
 import App from "../../config/app";
-<<<<<<< HEAD
-import { MOUNT_CLASS_TO } from "../../config/debug";
-=======
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import indexOfAndSplice from "../../helpers/array/indexOfAndSplice";
 import isObject from "../../helpers/object/isObject";
 import validateInitObject from "../../helpers/object/validateInitObject";
 import I18n from "../langPack";
-<<<<<<< HEAD
-import apiManager from "../mtproto/mtprotoworker";
-import RichTextProcessor from "../richtextprocessor";
-import rootScope from "../rootScope";
-import SearchIndex from "../searchIndex";
-import stateStorage from "../stateStorage";
-import appStateManager from "./appStateManager";
-=======
 import fixEmoji from "../richTextProcessor/fixEmoji";
 import SearchIndex from "../searchIndex";
 import stateStorage from "../stateStorage";
 import { AppManager } from "./manager";
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 type EmojiLangPack = {
   keywords: {
@@ -43,11 +30,7 @@ const EMOJI_LANG_PACK: EmojiLangPack = {
 
 const RECENT_MAX_LENGTH = 36;
 
-<<<<<<< HEAD
-export class AppEmojiManager {
-=======
 export class AppEmojiManager extends AppManager {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private static POPULAR_EMOJI = ["😂", "😘", "❤️", "😍", "😊", "😁", "👍", "☺️", "😔", "😄", "😭", "💋", "😒", "😳", "😜", "🙈", "😉", "😃", "😢", "😝", "😱", "😡", "😏", "😞", "😅", "😚", "🙊", "😌", "😀", "😋", "😆", "👌", "😐", "😕"];
   private keywordLangPacks: {
     [langCode: string]: EmojiLangPack
@@ -62,11 +45,7 @@ export class AppEmojiManager extends AppManager {
   private getRecentEmojisPromise: Promise<AppEmojiManager['recent']>;
 
   /* public getPopularEmoji() {
-<<<<<<< HEAD
-    return stateStorage.get('emojis_popular').then(popEmojis => {
-=======
     return stateStorage.get('emojis_popular').then((popEmojis) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       var result = []
       if (popEmojis && popEmojis.length) {
         for (var i = 0, len = popEmojis.length; i < len; i++) {
@@ -76,11 +55,7 @@ export class AppEmojiManager extends AppManager {
         return
       }
 
-<<<<<<< HEAD
-      return stateStorage.get('emojis_recent').then(recentEmojis => {
-=======
       return stateStorage.get('emojis_recent').then((recentEmojis) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         recentEmojis = recentEmojis || popular || []
         var shortcut
         var code
@@ -147,11 +122,7 @@ export class AppEmojiManager extends AppManager {
       pack.langCode = langCode;
       this.keywordLangPacks[langCode] = pack;
 
-<<<<<<< HEAD
-      return apiManager.invokeApi('messages.getEmojiKeywordsDifference', {
-=======
       return this.apiManager.invokeApi('messages.getEmojiKeywordsDifference', {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         lang_code: pack.langCode,
         from_version: pack.version
       }).then((keywordsDifference) => {
@@ -191,11 +162,7 @@ export class AppEmojiManager extends AppManager {
     return Promise.all(promises);
   }
 
-<<<<<<< HEAD
-  public indexEmojis() {
-=======
   private indexEmojis() {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!this.index) {
       this.index = new SearchIndex(undefined, 2);
     }
@@ -245,43 +212,22 @@ export class AppEmojiManager extends AppManager {
 
   public getRecentEmojis() {
     if(this.getRecentEmojisPromise) return this.getRecentEmojisPromise;
-<<<<<<< HEAD
-    return this.getRecentEmojisPromise = appStateManager.getState().then(state => {
-=======
     return this.getRecentEmojisPromise = this.appStateManager.getState().then((state) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return this.recent = Array.isArray(state.recentEmoji) ? state.recentEmoji : [];
     });
   }
 
   public pushRecentEmoji(emoji: string) {
-<<<<<<< HEAD
-    emoji = RichTextProcessor.fixEmoji(emoji);
-    this.getRecentEmojis().then(recent => {
-=======
     emoji = fixEmoji(emoji);
     this.getRecentEmojis().then((recent) => {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       indexOfAndSplice(recent, emoji);
       recent.unshift(emoji);
       if(recent.length > RECENT_MAX_LENGTH) {
         recent.length = RECENT_MAX_LENGTH;
       }
 
-<<<<<<< HEAD
-      appStateManager.pushToState('recentEmoji', recent);
-      rootScope.dispatchEvent('emoji_recent', emoji);
-    });
-  }
-}
-
-const appEmojiManager = new AppEmojiManager();
-MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appEmojiManager = appEmojiManager);
-export default appEmojiManager;
-=======
       this.appStateManager.pushToState('recentEmoji', recent);
       this.rootScope.dispatchEvent('emoji_recent', emoji);
     });
   }
 }
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

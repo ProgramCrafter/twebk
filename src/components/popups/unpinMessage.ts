@@ -4,19 +4,6 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
-<<<<<<< HEAD
-import appMessagesManager from "../../lib/appManagers/appMessagesManager";
-import { addCancelButton } from ".";
-import PopupPeer, { PopupPeerButtonCallbackCheckboxes, PopupPeerOptions } from "./peer";
-import appPeersManager from "../../lib/appManagers/appPeersManager";
-import rootScope from "../../lib/rootScope";
-import { FormatterArguments, LangPackKey } from "../../lib/langPack";
-import appChatsManager from "../../lib/appManagers/appChatsManager";
-import PeerTitle from "../peerTitle";
-
-export default class PopupPinMessage {
-  constructor(peerId: PeerId, mid: number, unpin?: true, onConfirm?: () => void) {
-=======
 import PopupElement, { addCancelButton } from ".";
 import PopupPeer, { PopupPeerButtonCallbackCheckboxes, PopupPeerOptions } from "./peer";
 import rootScope from "../../lib/rootScope";
@@ -30,17 +17,13 @@ export default class PopupPinMessage {
   
   private async construct() {
     const {peerId, mid, unpin, onConfirm} = this;
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let title: LangPackKey, description: LangPackKey, descriptionArgs: FormatterArguments, 
       buttons: PopupPeerOptions['buttons'] = [], checkboxes: PopupPeerOptions['checkboxes'] = [];
 
     const managers = PopupElement.MANAGERS;
 
-<<<<<<< HEAD
-=======
     const canUnpin = await managers.appPeersManager.canPinMessage(peerId);
 
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const callback = (checked: PopupPeerButtonCallbackCheckboxes, oneSide?: boolean, silent?: boolean) => {
       setTimeout(() => { // * костыль, потому что document.elementFromPoint вернёт popup-peer пока он будет закрываться
         let promise: Promise<any>;
@@ -66,11 +49,7 @@ export default class PopupPinMessage {
         if(canUnpin) {
           title = 'Popup.Unpin.AllTitle';
           description = 'Chat.UnpinAllMessagesConfirmation';
-<<<<<<< HEAD
-          descriptionArgs = ['' + (appMessagesManager.pinnedMessages[peerId]?.count || 1)];
-=======
           descriptionArgs = ['' + ((await managers.appMessagesManager.getPinnedMessagesCount(peerId)) || 1)];
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } else {
           title = 'Popup.Unpin.HideTitle';
           description = 'Popup.Unpin.HideDescription';
@@ -96,11 +75,7 @@ export default class PopupPinMessage {
           callback: (checked) => callback(checked, false, !checked.size)
         });
 
-<<<<<<< HEAD
-        if(appChatsManager.isBroadcast(peerId.toChatId())) {
-=======
         if(await managers.appChatsManager.isBroadcast(peerId.toChatId())) {
->>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           description = 'PinMessageAlertChannel';
         } else {
           description = 'PinMessageAlert';
