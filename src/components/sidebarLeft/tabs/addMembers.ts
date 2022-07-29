@@ -6,7 +6,11 @@
 
 import { SliderSuperTab } from "../../slider";
 import AppSelectPeers from "../../appSelectPeers";
+<<<<<<< HEAD
 import { setButtonLoader } from "../../misc";
+=======
+import { setButtonLoader } from "../../putPreloader";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { LangPackKey, _i18n } from "../../../lib/langPack";
 import ButtonCorner from "../../buttonCorner";
 
@@ -24,7 +28,11 @@ export default class AppAddMembersTab extends SliderSuperTab {
     this.scrollable.container.remove();
     
     this.nextBtn.addEventListener('click', () => {
+<<<<<<< HEAD
       const peerIds = this.selector.getSelected().map(sel => sel.toPeerId());
+=======
+      const peerIds = this.selector.getSelected().map((sel) => sel.toPeerId());
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       if(this.skippable) {
         this.takeOut(peerIds);
@@ -75,7 +83,12 @@ export default class AppAddMembersTab extends SliderSuperTab {
       peerType: [isPrivacy ? 'dialogs' : 'contacts'],
       placeholder: options.placeholder,
       exceptSelf: isPrivacy,
+<<<<<<< HEAD
       filterPeerTypeBy: isPrivacy ? ['isAnyGroup', 'isUser'] : undefined
+=======
+      filterPeerTypeBy: isPrivacy ? ['isAnyGroup', 'isUser'] : undefined,
+      managers: this.managers
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     if(options.selectedPeerIds) {

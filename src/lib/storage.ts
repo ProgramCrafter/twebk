@@ -10,8 +10,15 @@
  */
 
 import { Database } from "../config/databases";
+<<<<<<< HEAD
 //import DATABASE_SESSION from "../config/databases/session";
 import deferredPromise, { CancellablePromise } from "../helpers/cancellablePromise";
+=======
+import { MOUNT_CLASS_TO } from "../config/debug";
+//import DATABASE_SESSION from "../config/databases/session";
+import deferredPromise, { CancellablePromise } from "../helpers/cancellablePromise";
+import { IS_WORKER } from "../helpers/context";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import throttle from "../helpers/schedulers/throttle";
 //import { WorkerTaskTemplate } from "../types";
 import IDBStorage from "./idb";
@@ -35,7 +42,17 @@ export interface LocalStorageProxyDeleteTask extends WorkerTaskTemplate {
   }
 }; */
 
+<<<<<<< HEAD
 export default class AppStorage<Storage extends Record<string, any>, T extends Database<any>/* Storage extends {[name: string]: any} *//* Storage extends Record<string, any> */> {
+=======
+const THROTTLE_TIME = 16;
+
+/* Storage extends {[name: string]: any} *//* Storage extends Record<string, any> */
+export default class AppStorage<
+  Storage extends Record<string, any>, 
+  T extends Database<any>
+> {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private static STORAGES: AppStorage<any, Database<any>>[] = [];
   private storage: IDBStorage<T>;//new CacheStorageController('session');
 
@@ -70,19 +87,30 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
 
     this.saveThrottled = throttle(async() => {
       const deferred = this.saveDeferred;
+<<<<<<< HEAD
       this.saveDeferred = deferredPromise<void>();
+=======
+      this.saveDeferred = deferredPromise();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       const set = this.keysToSet;
       if(set.size) {
         const keys = Array.from(set.values()) as string[];
         set.clear();
 
+<<<<<<< HEAD
+=======
+        const values = keys.map((key) => this.cache[key]);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         try {
           //console.log('setItem: will set', key/* , value */);
           //await this.cacheStorage.delete(key); // * try to prevent memory leak in Chrome leading to 'Unexpected internal error.'
           //await this.storage.save(key, new Response(value, {headers: {'Content-Type': 'application/json'}}));
 
+<<<<<<< HEAD
           const values = keys.map(key => this.cache[key]);
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           /* if(db === DATABASE_SESSION && !('localStorage' in self)) { // * support legacy Webogram's localStorage
             self.postMessage({
               type: 'localStorageProxy', 
@@ -98,7 +126,11 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
           //console.log('setItem: have set', key/* , value */);
         } catch(e) {
           //this.useCS = false;
+<<<<<<< HEAD
           console.error('[AS]: set error:', e, keys/* , value */);
+=======
+          console.error('[AS]: set error:', e, keys, values);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }
 
@@ -107,11 +139,19 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
       if(set.size) {
         this.saveThrottled();
       }
+<<<<<<< HEAD
     }, 16, false);
 
     this.deleteThrottled = throttle(async() => {
       const deferred = this.deleteDeferred;
       this.deleteDeferred = deferredPromise<void>();
+=======
+    }, THROTTLE_TIME, false);
+
+    this.deleteThrottled = throttle(async() => {
+      const deferred = this.deleteDeferred;
+      this.deleteDeferred = deferredPromise();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       const set = this.keysToDelete;
       if(set.size) {
@@ -140,13 +180,21 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
       if(set.size) {
         this.deleteThrottled();
       }
+<<<<<<< HEAD
     }, 16, false);
+=======
+    }, THROTTLE_TIME, false);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.getThrottled = throttle(async() => {
       const keys = Array.from(this.getPromises.keys());
 
       // const perf = performance.now();
+<<<<<<< HEAD
       this.storage.get(keys as string[]).then(values => {
+=======
+      this.storage.get(keys as string[]).then((values) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         for(let i = 0, length = keys.length; i < length; ++i) {
           const key = keys[i];
           const deferred = this.getPromises.get(key);
@@ -178,7 +226,11 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
           this.getThrottled();
         }
       });
+<<<<<<< HEAD
     }, 16, false);
+=======
+    }, THROTTLE_TIME, false);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public isAvailable() {
@@ -284,10 +336,21 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
     return this.storage.clear().catch(noop);
   }
 
+<<<<<<< HEAD
   public static toggleStorage(enabled: boolean) {
     return Promise.all(this.STORAGES.map(storage => {
       storage.useStorage = enabled;
       
+=======
+  public static toggleStorage(enabled: boolean, clearWrite: boolean) {
+    return Promise.all(this.STORAGES.map((storage) => {
+      storage.useStorage = enabled;
+      
+      if(!IS_WORKER || !clearWrite) {
+        return;
+      }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!enabled) {
         storage.keysToSet.clear();
         storage.keysToDelete.clear();
@@ -301,14 +364,29 @@ export default class AppStorage<Storage extends Record<string, any>, T extends D
   }
 
   public static freezeSaving<T extends Database<any>>(callback: () => any, names: T['stores'][number]['name'][]) {
+<<<<<<< HEAD
     this.STORAGES.forEach(storage => storage.savingFreezed = true);
     try {
       callback();
     } catch(err) {}
     this.STORAGES.forEach(storage => storage.savingFreezed = false);
+=======
+    this.STORAGES.forEach((storage) => storage.savingFreezed = true);
+    try {
+      callback();
+    } catch(err) {
+      console.error('freezeSaving callback error:', err);
+    }
+    this.STORAGES.forEach((storage) => storage.savingFreezed = false);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* public deleteDatabase() {
     return IDBStorage.deleteDatabase().catch(noop);
   } */
 }
+<<<<<<< HEAD
+=======
+
+MOUNT_CLASS_TO && (MOUNT_CLASS_TO.AppStorage = AppStorage);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

@@ -7,8 +7,14 @@
 import replaceContent from "../helpers/dom/replaceContent";
 import { randomLong } from "../helpers/random";
 import { InputPrivacyKey, InputPrivacyRule } from "../layer";
+<<<<<<< HEAD
 import appPrivacyManager, { PrivacyType } from "../lib/appManagers/appPrivacyManager";
 import appUsersManager from "../lib/appManagers/appUsersManager";
+=======
+import { AppManagers } from "../lib/appManagers/managers";
+import getPrivacyRulesDetails from "../lib/appManagers/utils/privacy/getPrivacyRulesDetails";
+import PrivacyType from "../lib/appManagers/utils/privacy/privacyType";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { i18n, join, LangPackKey, _i18n } from "../lib/langPack";
 import RadioField from "./radioField";
 import Row, { RadioFormFromRows } from "./row";
@@ -44,12 +50,22 @@ export default class PrivacySection {
     noExceptions?: boolean,
     onRadioChange?: (value: number) => any,
     skipTypes?: PrivacyType[],
+<<<<<<< HEAD
     exceptionTexts?: [LangPackKey, LangPackKey]
+=======
+    exceptionTexts?: [LangPackKey, LangPackKey],
+    managers: AppManagers
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }) {
     if(options.captions) {
       options.captions.reverse();
     }
 
+<<<<<<< HEAD
+=======
+    const managers = options.managers;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.radioSection = new SettingSection({name: options.title, caption: true});
 
     this.radioRows = new Map();
@@ -66,7 +82,11 @@ export default class PrivacySection {
     }];
 
     if(options.skipTypes) {
+<<<<<<< HEAD
       r = r.filter(r => !options.skipTypes.includes(r.type));
+=======
+      r = r.filter((r) => !options.skipTypes.includes(r.type));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     const random = randomLong();
@@ -120,7 +140,11 @@ export default class PrivacySection {
         exception.row.container.addEventListener('click', () => {
           promise.then(() => {
             const _peerIds = this.peerIds[exception.key];
+<<<<<<< HEAD
             new AppAddMembersTab(options.tab.slider).open({
+=======
+            options.tab.slider.createTab(AppAddMembersTab).open({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               type: 'privacy',
               skippable: true,
               title: exception.titleLangKey,
@@ -144,17 +168,30 @@ export default class PrivacySection {
       this.setRadio(PrivacyType.Contacts);
     }, 0); */
 
+<<<<<<< HEAD
     const promise = appPrivacyManager.getPrivacy(options.inputKey).then(rules => {
       const details = appPrivacyManager.getPrivacyRulesDetails(rules);
+=======
+    const promise = managers.appPrivacyManager.getPrivacy(options.inputKey).then((rules) => {
+      const details = getPrivacyRulesDetails(rules);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.setRadio(details.type);
 
       if(this.exceptions) {
         this.peerIds = {};
+<<<<<<< HEAD
         ['allow' as const, 'disallow' as const].forEach(k => {
           const arr = [];
           const from = k === 'allow' ? details.allowPeers : details.disallowPeers;
           arr.push(...from.users.map(id => id.toPeerId()));
           arr.push(...from.chats.map(id => id.toPeerId(true)));
+=======
+        ['allow' as const, 'disallow' as const].forEach((k) => {
+          const arr = [];
+          const from = k === 'allow' ? details.allowPeers : details.disallowPeers;
+          arr.push(...from.users.map((id) => id.toPeerId()));
+          arr.push(...from.chats.map((id) => id.toPeerId(true)));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.peerIds[k] = arr;
           const s = this.exceptions.get(k).row.subtitle;
           s.innerHTML = '';
@@ -162,7 +199,11 @@ export default class PrivacySection {
         });
       }
 
+<<<<<<< HEAD
       options.tab.eventListener.addEventListener('destroy', () => {
+=======
+      options.tab.eventListener.addEventListener('destroy', async() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const rules: InputPrivacyRule[] = [];
 
         switch(this.type) {
@@ -178,14 +219,23 @@ export default class PrivacySection {
         }
 
         if(this.exceptions) {
+<<<<<<< HEAD
           ([
+=======
+          const a = ([
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             ['allow',     'inputPrivacyValueAllowChatParticipants',     'inputPrivacyValueAllowUsers'],
             ['disallow',  'inputPrivacyValueDisallowChatParticipants',  'inputPrivacyValueDisallowUsers']
           ] as Array<[
             'allow' | 'disallow', 
             'inputPrivacyValueAllowChatParticipants' | 'inputPrivacyValueDisallowChatParticipants', 
             'inputPrivacyValueAllowUsers' | 'inputPrivacyValueDisallowUsers'
+<<<<<<< HEAD
           ]>).forEach(([k, chatKey, usersKey], idx) => {
+=======
+          ]>);
+          for(const [k, chatKey, usersKey] of a) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(this.exceptions.get(k).row.container.classList.contains('hide')) {
               return;
             }
@@ -198,6 +248,7 @@ export default class PrivacySection {
               }
   
               if(splitted.users.length) {
+<<<<<<< HEAD
                 rules.push({_: usersKey, users: splitted.users.map(id => appUsersManager.getUserInput(id))});
               }
             }
@@ -205,6 +256,18 @@ export default class PrivacySection {
         }
         
         appPrivacyManager.setPrivacy(options.inputKey, rules);
+=======
+                rules.push({
+                  _: usersKey, 
+                  users: await Promise.all(splitted.users.map((id) => managers.appUsersManager.getUserInput(id)))
+                });
+              }
+            }
+          }
+        }
+        
+        managers.appPrivacyManager.setPrivacy(options.inputKey, rules);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }, {once: true});
     });
   }
@@ -240,7 +303,11 @@ export default class PrivacySection {
   
   private splitPeersByType(peerIds: PeerId[]) {
     const peers = {users: [] as UserId[], chats: [] as ChatId[]};
+<<<<<<< HEAD
     peerIds.forEach(peerId => {
+=======
+    peerIds.forEach((peerId) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       peers[peerId.isAnyChat() ? 'chats' : 'users'].push(peerId.isAnyChat() ? peerId.toChatId() : peerId);
     });
 

@@ -90,6 +90,12 @@ export default class SocketProxied extends EventListenerBase<{
     notifyAll(task);
   }
 }
+<<<<<<< HEAD
 /// #endif
 
 export const socketsProxied: Map<number, SocketProxied> = new Map();
+=======
+export const socketsProxied: Map<number, SocketProxied> = new Map();
+
+/// #endif
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

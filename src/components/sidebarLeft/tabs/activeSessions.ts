@@ -4,17 +4,25 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { SliderSuperTab } from "../../slider";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { SettingSection } from "..";
 import Button from "../../button";
 import Row from "../../row";
 import { Authorization } from "../../../layer";
 import { formatDateAccordingToTodayNew } from "../../../helpers/date";
+<<<<<<< HEAD
 import { attachContextMenuListener, openBtnMenu, positionMenu } from "../../misc";
 import ButtonMenu from "../../buttonMenu";
 import apiManager from "../../../lib/mtproto/mtprotoworker";
 import { toast } from "../../toast";
 import AppPrivacyAndSecurityTab from "./privacyAndSecurity";
+=======
+import ButtonMenu from "../../buttonMenu";
+import { toast } from "../../toast";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import I18n from "../../../lib/langPack";
 import PopupPeer from "../../popups/peer";
 import findUpClassName from "../../../helpers/dom/findUpClassName";
@@ -22,6 +30,12 @@ import { attachClickEvent } from "../../../helpers/dom/clickEvent";
 import toggleDisability from "../../../helpers/dom/toggleDisability";
 import { SliderSuperTabEventable } from "../../sliderTab";
 import findAndSplice from "../../../helpers/array/findAndSplice";
+<<<<<<< HEAD
+=======
+import { attachContextMenuListener } from "../../../helpers/dom/attachContextMenuListener";
+import positionMenu from "../../../helpers/positionMenu";
+import contextMenuController from "../../../helpers/contextMenuController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppActiveSessionsTab extends SliderSuperTabEventable {
   public authorizations: Authorization.authorization[];
@@ -73,7 +87,11 @@ export default class AppActiveSessionsTab extends SliderSuperTabEventable {
               isDanger: true,
               callback: () => {
                 const toggle = toggleDisability([btnTerminate], true);
+<<<<<<< HEAD
                 apiManager.invokeApi('auth.resetAuthorizations').then(value => {
+=======
+                this.managers.apiManager.invokeApi('auth.resetAuthorizations').then((value) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                   //toggleDisability([btnTerminate], false);
                   btnTerminate.remove();
                   otherSection.container.remove();
@@ -102,7 +120,11 @@ export default class AppActiveSessionsTab extends SliderSuperTabEventable {
       caption: 'SessionsListInfo'
     });
 
+<<<<<<< HEAD
     authorizations.forEach(auth => {
+=======
+    authorizations.forEach((auth) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       otherSection.content.append(Session(auth).container);
     });
 
@@ -123,8 +145,13 @@ export default class AppActiveSessionsTab extends SliderSuperTabEventable {
           langKey: 'Terminate',
           isDanger: true,
           callback: () => {
+<<<<<<< HEAD
             apiManager.invokeApi('account.resetAuthorization', {hash})
             .then(value => {
+=======
+            this.managers.apiManager.invokeApi('account.resetAuthorization', {hash})
+            .then((value) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               if(value) {
                 target.remove();
               }
@@ -157,7 +184,11 @@ export default class AppActiveSessionsTab extends SliderSuperTabEventable {
       if(e instanceof MouseEvent) e.cancelBubble = true;
 
       positionMenu(e, element);
+<<<<<<< HEAD
       openBtnMenu(element);
+=======
+      contextMenuController.openBtnMenu(element);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     attachClickEvent(this.scrollable.container, (e) => {

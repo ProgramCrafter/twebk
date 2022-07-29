@@ -5,14 +5,43 @@
  */
 
 import tsNow from "../../helpers/tsNow";
+<<<<<<< HEAD
 import appMessagesManager from "../../lib/appManagers/appMessagesManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { LangPackKey } from "../../lib/langPack";
 import { MUTE_UNTIL } from "../../lib/mtproto/mtproto_config";
 import RadioField from "../radioField";
 import Row, { RadioFormFromRows } from "../row";
+<<<<<<< HEAD
 import { SettingSection } from "../sidebarLeft";
 import PopupPeer from "./peer";
 
+=======
+import PopupPeer from "./peer";
+
+const ONE_HOUR = 3600;
+const times: {time: number, langKey: LangPackKey}[] = [{
+  time: ONE_HOUR, 
+  langKey: 'ChatList.Mute.1Hour'
+}, {
+  time: ONE_HOUR * 4, 
+  langKey: 'ChatList.Mute.4Hours'
+}, {
+  time: ONE_HOUR * 8, 
+  langKey: 'ChatList.Mute.8Hours'
+}, {
+  time: ONE_HOUR * 24, 
+  langKey: 'ChatList.Mute.1Day'
+}, {
+  time: ONE_HOUR * 24 * 3,
+  langKey: 'ChatList.Mute.3Days'
+}, {
+  time: -1,
+  langKey: 'ChatList.Mute.Forever'
+}];
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 export default class PopupMute extends PopupPeer {
   constructor(peerId: PeerId) {
     super('popup-mute', {
@@ -21,12 +50,17 @@ export default class PopupMute extends PopupPeer {
       buttons: [{
         langKey: 'ChatList.Context.Mute',
         callback: () => {
+<<<<<<< HEAD
           appMessagesManager.mutePeer(peerId, time === -1 ? MUTE_UNTIL : tsNow(true) + time);
+=======
+          this.managers.appMessagesManager.mutePeer(peerId, time === -1 ? MUTE_UNTIL : tsNow(true) + time);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }],
       body: true
     });
 
+<<<<<<< HEAD
     const ONE_HOUR = 3600;
     const times: {time: number, langKey: LangPackKey}[] = [{
       time: ONE_HOUR, 
@@ -48,6 +82,8 @@ export default class PopupMute extends PopupPeer {
       langKey: 'ChatList.Mute.Forever'
     }];
   
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const name = 'mute-time';
     const rows = times.map((time) => {
       const row = new Row({
@@ -66,11 +102,17 @@ export default class PopupMute extends PopupPeer {
       time = +value;
     });
 
+<<<<<<< HEAD
     rows[rows.length - 1].radioField.checked = true;
 
     const section = new SettingSection({noShadow: true, noDelimiter: true});
     section.content.append(radioForm);
     this.body.append(section.container);
+=======
+    this.body.append(radioForm);
+
+    rows[rows.length - 1].radioField.checked = true;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.show();
   }

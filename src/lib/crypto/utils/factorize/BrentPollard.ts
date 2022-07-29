@@ -134,5 +134,9 @@ export default function factorizeBrentPollardPQ(pqBytes: Uint8Array | number[]):
   }
   
   const p = factors[0], q = factors[factors.length - 1];
+<<<<<<< HEAD
   return (p.lesser(q) ? [p, q] : [q, p]).map(b => bigIntToBytes(b)) as any;
+=======
+  return (p.lesser(q) ? [p, q] : [q, p]).map((b) => bigIntToBytes(b)) as any;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

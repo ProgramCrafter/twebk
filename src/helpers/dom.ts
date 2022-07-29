@@ -83,7 +83,11 @@
 
 /* export const isSelectionSingle = (input: Element = document.activeElement) => {
   const nodes = getSelectedNodes();
+<<<<<<< HEAD
   const parents = [...new Set(nodes.map(node => node.parentNode))];
+=======
+  const parents = [...new Set(nodes.map((node) => node.parentNode))];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   const differentParents = parents.length > 1;
 
   let single = true;
@@ -100,7 +104,11 @@
 }; */
 
 /* export function radiosHandleChange(inputs: HTMLInputElement[], onChange: (value: string) => void) {
+<<<<<<< HEAD
   inputs.forEach(input => {
+=======
+  inputs.forEach((input) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     input.addEventListener('change', () => {
       if(input.checked) {
         onChange(input.value);

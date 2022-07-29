@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import type { DownloadOptions } from "../mtproto/apiFileManager";
 import { CancellablePromise } from "../../helpers/cancellablePromise";
 import { getFileNameByLocation } from "../../helpers/fileName";
@@ -30,12 +31,20 @@ import isObject from "../../helpers/object/isObject";
 import safeReplaceArrayInObject from "../../helpers/object/safeReplaceArrayInObject";
 import bytesToDataURL from "../../helpers/bytes/bytesToDataURL";
 import { REPLIES_HIDDEN_CHANNEL_ID } from "../mtproto/mtproto_config";
+=======
+import { Photo, PhotoSize, PhotosPhotos } from "../../layer";
+import { ReferenceContext } from "../mtproto/referenceDatabase";
+import isObject from "../../helpers/object/isObject";
+import safeReplaceArrayInObject from "../../helpers/object/safeReplaceArrayInObject";
+import { AppManager } from "./manager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type MyPhoto = Photo.photo;
 
 // TIMES = 2 DUE TO SIDEBAR AND CHAT
 //let TEST_FILE_REFERENCE = "5440692274120994569", TEST_FILE_REFERENCE_TIMES = 2;
 
+<<<<<<< HEAD
 export class AppPhotosManager {
   private photos: {
     [id: string]: MyPhoto
@@ -47,6 +56,16 @@ export class AppPhotosManager {
   public savePhoto(photo: Photo, context?: ReferenceContext) {
     if(photo._ === 'photoEmpty') return undefined;
 
+=======
+export class AppPhotosManager extends AppManager {
+  private photos: {
+    [id: string]: MyPhoto
+  } = {};
+
+  public savePhoto(photo: Photo, context?: ReferenceContext) {
+    if(photo._ === 'photoEmpty') return undefined;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /* if(photo.id === TEST_FILE_REFERENCE) {
       console.warn('Testing FILE_REFERENCE_EXPIRED');
       const bytes = [2, 67, 175, 43, 190, 0, 0, 20, 62, 95, 111, 33, 45, 99, 220, 116, 218, 11, 167, 127, 213, 18, 127, 32, 243, 202, 117, 80, 30];
@@ -60,7 +79,7 @@ export class AppPhotosManager {
     const oldPhoto = this.photos[photo.id];
     if(photo.file_reference) { // * because we can have a new object w/o the file_reference while sending
       safeReplaceArrayInObject('file_reference', oldPhoto, photo);
-      referenceDatabase.saveContext(photo.file_reference, context);
+      this.referenceDatabase.saveContext(photo.file_reference, context);
     }
 
     if(photo.sizes?.length) {
@@ -77,6 +96,7 @@ export class AppPhotosManager {
     return this.photos[photo.id] = photo;
   }
   
+<<<<<<< HEAD
   public choosePhotoSize(photo: MyPhoto | MyDocument, boxWidth = 0, boxHeight = 0, useBytes = false, pushDocumentSize = false) {
     if(window.devicePixelRatio > 1) {
       boxWidth *= 2;
@@ -130,12 +150,21 @@ export class AppPhotosManager {
   public getUserPhotos(userId: UserId, maxId: Photo.photo['id'] = '0', limit: number = 20) {
     const inputUser = appUsersManager.getUserInput(userId);
     return apiManager.invokeApiCacheable('photos.getUserPhotos', {
+=======
+  public getUserPhotos(userId: UserId, maxId: Photo.photo['id'] = '0', limit: number = 20) {
+    const inputUser = this.appUsersManager.getUserInput(userId);
+    return this.apiManager.invokeApiCacheable('photos.getUserPhotos', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       user_id: inputUser,
       offset: 0,
       limit,
       max_id: maxId
     }, {cacheSeconds: 60}).then((photosResult) => {
+<<<<<<< HEAD
       appUsersManager.saveApiUsers(photosResult.users);
+=======
+      this.appUsersManager.saveApiUsers(photosResult.users);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const photoIds = photosResult.photos.map((photo, idx) => {
         photosResult.photos[idx] = this.savePhoto(photo, {type: 'profilePhoto', peerId: userId.toPeerId()});
         return photo.id;
@@ -156,6 +185,7 @@ export class AppPhotosManager {
     });
   }
 
+<<<<<<< HEAD
   public getPreviewURLFromBytes(bytes: Uint8Array | number[], isSticker = false) {
     let arr: Uint8Array;
     if(!isSticker) {
@@ -335,6 +365,8 @@ export class AppPhotosManager {
     };
   }
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   /* public getPhotoURL(photo: MTPhoto | MTMyDocument, photoSize: MTPhotoSize) {
     const downloadOptions = this.getPhotoDownloadOptions(photo, photoSize);
 
@@ -355,6 +387,7 @@ export class AppPhotosManager {
     return isDownloaded;
   } */
   
+<<<<<<< HEAD
   public preloadPhoto(photoId: MyPhoto | MyDocument | string, photoSize?: PhotoSize, queueId?: number, onlyCache?: boolean): CancellablePromise<Blob> {
     const photo = this.getPhoto(photoId);
 
@@ -429,9 +462,9 @@ export class AppPhotosManager {
     const downloadOptions = this.getPhotoDownloadOptions(photo, fullPhotoSize, queueId);
     downloadOptions.fileName = 'photo' + photo.id + '.jpg';
     appDownloadManager.downloadToDisc(downloadOptions, downloadOptions.fileName);
+=======
+  public getPhoto(photoId: any/* MyPhoto | string */): MyPhoto {
+    return isObject(photoId) ? photoId as MyPhoto : this.photos[photoId as any as string];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }
-
-const appPhotosManager = new AppPhotosManager();
-MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appPhotosManager = appPhotosManager);
-export default appPhotosManager;

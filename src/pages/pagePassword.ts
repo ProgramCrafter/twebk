@@ -4,16 +4,25 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { putPreloader } from '../components/misc';
 import mediaSizes from '../helpers/mediaSizes';
 import { AccountPassword } from '../layer';
 import appStateManager from '../lib/appManagers/appStateManager';
 import passwordManager from '../lib/mtproto/passwordManager';
+=======
+import { putPreloader } from '../components/putPreloader';
+import mediaSizes from '../helpers/mediaSizes';
+import { AccountPassword } from '../layer';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Page from './page';
 import Button from '../components/button';
 import PasswordInputField from '../components/passwordInputField';
 import PasswordMonkey from '../components/monkeys/password';
+<<<<<<< HEAD
 import RichTextProcessor from '../lib/richtextprocessor';
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import I18n from '../lib/langPack';
 import LoginPage from './loginPage';
 import cancelEvent from '../helpers/dom/cancelEvent';
@@ -21,6 +30,11 @@ import { attachClickEvent } from '../helpers/dom/clickEvent';
 import htmlToSpan from '../helpers/dom/htmlToSpan';
 import replaceContent from '../helpers/dom/replaceContent';
 import toggleDisability from '../helpers/dom/toggleDisability';
+<<<<<<< HEAD
+=======
+import wrapEmojiText from '../lib/richTextProcessor/wrapEmojiText';
+import rootScope from '../lib/rootScope';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const TEST = false;
 let passwordInput: HTMLInputElement;
@@ -55,11 +69,19 @@ let onFirstMount = (): Promise<any> => {
       getStateInterval = window.setInterval(getState, 10e3);
     }
 
+<<<<<<< HEAD
     return !TEST && passwordManager.getState().then(_state => {
       state = _state;
 
       if(state.hint) {
         replaceContent(passwordInputField.label, htmlToSpan(RichTextProcessor.wrapEmojiText(state.hint)));
+=======
+    return !TEST && rootScope.managers.passwordManager.getState().then((_state) => {
+      state = _state;
+
+      if(state.hint) {
+        replaceContent(passwordInputField.label, htmlToSpan(wrapEmojiText(state.hint)));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       } else {
         passwordInputField.setLabel();
       }
@@ -87,13 +109,21 @@ let onFirstMount = (): Promise<any> => {
     passwordInputField.setValueSilently('' + Math.random()); // prevent saving suggestion
     passwordInputField.setValueSilently(value); // prevent saving suggestion
 
+<<<<<<< HEAD
     passwordManager.check(value, state).then((response) => {
+=======
+    rootScope.managers.passwordManager.check(value, state).then((response) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       //console.log('passwordManager response:', response);
         
       switch(response._) {
         case 'auth.authorization':
           clearInterval(getStateInterval);
+<<<<<<< HEAD
           import('./pageIm').then(m => {
+=======
+          import('./pageIm').then((m) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             m.default.mount();
           });
           if(monkey) monkey.remove();
@@ -147,7 +177,11 @@ const page = new Page('page-password', true, onFirstMount, null, () => {
     passwordInput.focus();
   //}
 
+<<<<<<< HEAD
   appStateManager.pushToState('authState', {_: 'authStatePassword'});
+=======
+  rootScope.managers.appStateManager.pushToState('authState', {_: 'authStatePassword'});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 });
 
 export default page;

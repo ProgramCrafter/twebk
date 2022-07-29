@@ -18,7 +18,11 @@ export default class SortedList<SortedElement extends SortedElementBase> {
   protected elements: Map<SortedElementId, SortedElement>;
   protected sorted: Array<SortedElement>;
 
+<<<<<<< HEAD
   protected getIndex: (element: SortedElement) => number;
+=======
+  protected getIndex: (element: SortedElement) => PromiseLike<number> | number;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   protected onDelete: (element: SortedElement) => void;
   protected onUpdate: (element: SortedElement) => void;
   protected onSort: (element: SortedElement, idx: number) => void;
@@ -52,7 +56,11 @@ export default class SortedList<SortedElement extends SortedElementBase> {
   }
 
   protected _updateList() {
+<<<<<<< HEAD
     this.elements.forEach(element => {
+=======
+    this.elements.forEach((element) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.update(element.id, true);
     });
 
@@ -88,7 +96,16 @@ export default class SortedList<SortedElement extends SortedElementBase> {
     return this.elements;
   }
 
+<<<<<<< HEAD
   public add(id: SortedElementId, batch = false, updateElementWith?: SortedList<SortedElement>['updateElementWith'], updateBatch = batch) {
+=======
+  public add(
+    id: SortedElementId, 
+    batch = false, 
+    updateElementWith?: SortedList<SortedElement>['updateElementWith'], 
+    updateBatch = batch
+  ) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let element = this.get(id);
     if(element) {
       return element;
@@ -137,12 +154,25 @@ export default class SortedList<SortedElement extends SortedElementBase> {
     return true;
   }
 
+<<<<<<< HEAD
   public update(id: SortedElementId, batch = false, element = this.get(id), updateElementWith?: SortedList<SortedElement>['updateElementWith']) {
+=======
+  public async update(
+    id: SortedElementId, 
+    batch = false, 
+    element = this.get(id), 
+    updateElementWith?: SortedList<SortedElement>['updateElementWith']
+  ) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!element) {
       return;
     }
 
+<<<<<<< HEAD
     element.index = this.getIndex(element);
+=======
+    element.index = await this.getIndex(element);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.onUpdate && this.onUpdate(element);
 
     const idx = insertInDescendSortedArray(this.sorted, element, 'index');

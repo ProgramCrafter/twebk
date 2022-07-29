@@ -48,6 +48,40 @@ $bubble-beside-button-width: 38px;
   // }
 }
 
+<<<<<<< HEAD
+=======
+.bubbles-group {
+  position: relative;
+
+  &-avatar {
+    position: sticky !important;
+    top: 0;
+    bottom: $bubble-margin;
+    cursor: pointer;
+    pointer-events: all;
+
+    .bubbles.is-selecting & {
+      transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      transform-origin: bottom;
+    }
+
+    &-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column-reverse;
+
+      // make avatar clickable
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+}
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 .bubble {
   position: relative;
   z-index: 1;
@@ -105,8 +139,13 @@ $bubble-beside-button-width: 38px;
       left: -50%;
       /* top: 0;
       bottom: 0; */
+<<<<<<< HEAD
       top: -#{$bubble-margin / 2};
       bottom: -#{$bubble-margin / 2};
+=======
+      top: -#{math.div($bubble-margin, 2)};
+      bottom: -#{math.div($bubble-margin, 2)};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       content: " ";
       z-index: -1;
     }
@@ -114,13 +153,21 @@ $bubble-beside-button-width: 38px;
 
   /* &.is-highlighted, &.is-selected {
     &:not(.is-group-last):after {
+<<<<<<< HEAD
       height: calc(100% + #{$bubble-margin / 2}) !important;
+=======
+      height: calc(100% + #{math.div($bubble-margin, 2)}) !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     & + &:not(.is-group-last) {
       &:after {
         top: .125rem !important;
+<<<<<<< HEAD
         height: calc(100% - #{$bubble-margin / 2}) !important;
+=======
+        height: calc(100% - #{math.div($bubble-margin, 2)}) !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   } */
@@ -128,7 +175,11 @@ $bubble-beside-button-width: 38px;
   // ! if turn this on, there will be an empty space
   /* &.is-highlighted, &.is-selected {
     &.is-group-last:after {
+<<<<<<< HEAD
       bottom: #{$bubble-margin / 2} !important;
+=======
+      bottom: #{math.div($bubble-margin, 2)} !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   } */
 
@@ -164,7 +215,11 @@ $bubble-beside-button-width: 38px;
 
     &.is-highlighted, &.is-selected {
       &:after {
+<<<<<<< HEAD
         top: calc(#{$bubble-margin / 2} + 30px);
+=======
+        top: calc(#{math.div($bubble-margin, 2)} + 30px);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }
@@ -461,10 +516,14 @@ $bubble-beside-button-width: 38px;
   }
 
   .forward {
+<<<<<<< HEAD
     svg {
       width: 22px;
       height: 22px;
     }
+=======
+    font-size: 1.25rem;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* &.is-group-first {
@@ -914,9 +973,21 @@ $bubble-beside-button-width: 38px;
     &.empty-bubble-placeholder {
       position: absolute;
       top: 50%;
+<<<<<<< HEAD
       transform: translateY(-50%);
       // left: 50%;
       // transform: translate(-50%, -50%);
+=======
+      // transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      @include animation-level(2) {
+        .bubble-content-wrapper {
+          transition: var(--bubble-transition-in);
+        }
+      }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       &.has-description {
         .service-msg {
@@ -958,12 +1029,21 @@ $bubble-beside-button-width: 38px;
         margin-right: .3125rem;
       }
 
+<<<<<<< HEAD
       &:not(:first-child:last-child) {
+=======
+      .bubbles.has-groups & {
+        pointer-events: none;
+        
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         .bubble-content-wrapper {
           transform: scale3d(.8, .8, 1) translateX(0);
           //transform: scale(.8) translateX(0);
           opacity: 0;
+<<<<<<< HEAD
           pointer-events: none;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
       }
 
@@ -1225,7 +1305,11 @@ $bubble-beside-button-width: 38px;
       }
 
       &-border {
+<<<<<<< HEAD
         background: #fff;
+=======
+        background: #fff !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }
@@ -1577,7 +1661,11 @@ $bubble-beside-button-width: 38px;
 
       &:first-of-type {
         .document-selection {
+<<<<<<< HEAD
           top: -#{$bubble-margin / 2}; // * padding inner + half padding outer
+=======
+          top: -#{math.div($bubble-margin, 2)}; // * padding inner + half padding outer
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
 
         .document-wrapper {
@@ -1589,7 +1677,11 @@ $bubble-beside-button-width: 38px;
 
       &:last-of-type {
         .document-selection {
+<<<<<<< HEAD
           bottom: -#{$bubble-margin / 2};
+=======
+          bottom: -#{math.div($bubble-margin, 2)};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
 
         .document-wrapper {
@@ -2112,10 +2204,20 @@ $bubble-beside-button-width: 38px;
   code {
     cursor: pointer;
   }
+<<<<<<< HEAD
+=======
+
+  &.is-invoice {
+    .attachment {
+      background-color: inherit !important;
+    }
+  }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 // * fix scroll with only 1 bubble
 .bubbles-date-group:last-of-type {
+<<<<<<< HEAD
   .bubble:last-of-type {
     margin-bottom: $bubble-margin;
     /* &:after, .document-container:last-of-type .document-selection {
@@ -2125,10 +2227,26 @@ $bubble-beside-button-width: 38px;
 }
 
 .bubble-content-wrapper {
+=======
+  .bubbles-group:last-of-type {
+    .bubble:last-of-type {
+      margin-bottom: $bubble-margin;
+      /* &:after, .document-container:last-of-type .document-selection {
+        bottom: 0 !important;
+      } */
+    }
+  }
+}
+
+// .bubble-content-wrapper,
+// .bubbles-group-avatar,
+.can-zoom-fade {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   transform: scale(1) translateX(0);
   transform-origin: center;
   opacity: 1;
 
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   
@@ -2138,6 +2256,14 @@ $bubble-beside-button-width: 38px;
 
   .bubbles-inner.zoom-fading & {
     transition: transform var(--transition-standard-in), opacity var(--transition-standard-in);
+=======
+  @include animation-level(2) {
+    transition: var(--bubble-transition-out);
+  }
+
+  .bubbles-inner.zoom-fading & {
+    transition: var(--bubble-transition-in);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     //transition: transform 10s ease-in-out, opacity 10s ease-in-out;
   }
 
@@ -2146,6 +2272,14 @@ $bubble-beside-button-width: 38px;
     //transform: scale(.8) translateX(0);
     opacity: 0;
   }
+<<<<<<< HEAD
+=======
+}
+
+.bubble-content-wrapper {
+  display: flex;
+  flex-direction: column;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   .bubble:not(.service) & {
     @include respond-to(not-handhelds) {
@@ -2156,6 +2290,7 @@ $bubble-beside-button-width: 38px;
   @include respond-to(handhelds) {
     max-width: calc(100% - var(--message-handhelds-margin));
   }
+<<<<<<< HEAD
 
   > .user-avatar {
     position: absolute;
@@ -2183,6 +2318,8 @@ $bubble-beside-button-width: 38px;
     //   left: -45px;
     // }
   }
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 .bubble.service {
@@ -2352,6 +2489,23 @@ $bubble-beside-button-width: 38px;
   code {
     color: var(--monospace-text-color);
   }
+<<<<<<< HEAD
+=======
+
+  &:not(.just-media) .reply.is-overriding-color {
+    .reply-border {
+      background-color: rgb(var(--override-color));
+    }
+
+    .reply-title {
+      color: rgb(var(--override-color));
+    }
+
+    @include hover() {
+      background-color: rgba(var(--override-color), #{$hover-alpha});
+    }
+  }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 .bubble.is-out {
@@ -2383,12 +2537,23 @@ $bubble-beside-button-width: 38px;
           transform: scale3d(.8, .8, 1) translateX(calc((var(--chat-input-size) + #{$btn-send-margin}) * -1));
         }
 
+<<<<<<< HEAD
+=======
+        @include animation-level(2) {
+          transition: var(--bubble-transition-out);
+        }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         //@include respond-to(no-floating-left-sidebar) {
           body.is-right-column-shown & {
             transform: scale(1) translateX(0);
             
             @include animation-level(2) {
+<<<<<<< HEAD
               transition: transform var(--transition-standard-in), opacity var(--transition-standard-in);
+=======
+              transition: var(--bubble-transition-in);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
   
             &.zoom-fade {
@@ -2454,12 +2619,20 @@ $bubble-beside-button-width: 38px;
   &:not(.just-media) {
     .reply {
       &-border {
+<<<<<<< HEAD
         background-color: var(--message-out-primary-color);
+=======
+        background-color: var(--message-out-primary-color) !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       &-title,
       i {
+<<<<<<< HEAD
         color: var(--message-out-primary-color);
+=======
+        color: var(--message-out-primary-color) !important;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }
@@ -2750,6 +2923,10 @@ $bubble-beside-button-width: 38px;
     overflow: hidden;
     min-height: 2.5rem;
     display: flex;
+<<<<<<< HEAD
+=======
+    border-radius: .375rem;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     &:last-child {
       border-bottom-left-radius: $border-radius-big;
@@ -2759,7 +2936,11 @@ $bubble-beside-button-width: 38px;
 
   &-button {
     padding: .5625rem 0;
+<<<<<<< HEAD
     border-radius: 6px;
+=======
+    border-radius: inherit;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     z-index: 2;
     font-size: .875rem;
     user-select: none;
@@ -2819,8 +3000,23 @@ $bubble-beside-button-width: 38px;
       transform: rotate(-45deg);
     }
 
+<<<<<<< HEAD
+=======
+    &.is-buy:before {
+      content: $tgico-card;
+    }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     &.is-switch-inline:before {
       content: $tgico-forward_filled;
     }
   }
 }
+<<<<<<< HEAD
+=======
+
+.bubble-primary-color {
+  color: var(--message-primary-color);
+  font-weight: var(--font-weight-bold);
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

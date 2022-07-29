@@ -40,7 +40,11 @@ export default function loadFonts(types: {[type in FontType]?: string[] | 'all'}
     const font = fonts[type as FontType];
     const weights = type === 'icons' ? [500] : [400, 500];
     for(const weight of weights) {
+<<<<<<< HEAD
       const _promises = (_texts || [undefined]).map(text => {
+=======
+      const _promises = (_texts || [undefined]).map((text) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const key = [weight, '1rem', font].join(' ');
         const promise = (cache[key] ??= {})[text || ''] ??= document.fonts.load(key, text);
         return promise;

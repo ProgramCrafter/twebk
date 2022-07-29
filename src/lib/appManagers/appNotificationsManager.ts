@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { fontFamily } from "../../components/middleEllipsis";
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import deferredPromise, { CancellablePromise } from "../../helpers/cancellablePromise";
@@ -67,6 +68,20 @@ export class AppNotificationsManager {
   private vibrateSupport = IS_VIBRATE_SUPPORTED;
   private nextSoundAt: number;
   private prevSoundVolume: number;
+=======
+import tsNow from "../../helpers/tsNow";
+import { InputNotifyPeer, InputPeerNotifySettings, NotifyPeer, PeerNotifySettings, Update } from "../../layer";
+import { MUTE_UNTIL } from "../mtproto/mtproto_config";
+import throttle from "../../helpers/schedulers/throttle";
+import convertInputKeyToKey from "../../helpers/string/convertInputKeyToKey";
+import { AppManager } from "./manager";
+import getPeerId from "./utils/peers/getPeerId";
+import ctx from "../../environment/ctx";
+import assumeType from "../../helpers/assumeType";
+
+type ImSadAboutIt = Promise<PeerNotifySettings> | PeerNotifySettings;
+export class AppNotificationsManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private peerSettings = {
     notifyPeer: {} as {[peerId: PeerId]: ImSadAboutIt},
     notifyUsers: null as ImSadAboutIt,
@@ -74,6 +89,7 @@ export class AppNotificationsManager {
     notifyBroadcasts: null as ImSadAboutIt
   };
   //private exceptions: {[peerId: string]: PeerNotifySettings} = {};
+<<<<<<< HEAD
   private notifyContactsSignUp: Promise<boolean>;
   private faviconEl: HTMLLinkElement = document.head.querySelector('link[rel="icon"]');
 
@@ -92,11 +108,15 @@ export class AppNotificationsManager {
 
   private notifySoundEl: HTMLElement;
 
+=======
+  
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private getNotifyPeerTypePromise: Promise<any>;
 
   private checkMuteUntilTimeout: number;
   private checkMuteUntilThrottled: () => void;
 
+<<<<<<< HEAD
   constructor() {
     // @ts-ignore
     navigator.vibrate = navigator.vibrate || navigator.mozVibrate || navigator.webkitVibrate;
@@ -136,12 +156,23 @@ export class AppNotificationsManager {
     rootScope.addMultipleEventsListeners({
       updateNotifySettings: (update) => {
         const peerId = update.peer._ === 'notifyPeer' && appPeersManager.getPeerId(update.peer.peer);
+=======
+  private notifyContactsSignUp: Promise<boolean>;
+
+  protected after() {
+    this.checkMuteUntilThrottled = throttle(this.checkMuteUntil, 1000, false);
+
+    this.apiUpdatesManager.addMultipleEventsListeners({
+      updateNotifySettings: (update) => {
+        const peerId = update.peer._ === 'notifyPeer' && getPeerId(update.peer.peer);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const key = update.peer._ !== 'notifyPeer' ? update.peer._ : undefined;
         this.savePeerSettings({
           key,
           peerId, 
           settings: update.notify_settings
         });
+<<<<<<< HEAD
         rootScope.dispatchEvent('notify_settings', update);
       }
     });
@@ -325,6 +356,23 @@ export class AppNotificationsManager {
 
   public getLocalSettings() {
     return this.settings;
+=======
+        this.rootScope.dispatchEvent('notify_settings', update);
+      }
+    });
+
+    return this.appStateManager.getState().then((state) => {
+      if(state.notifySettings) {
+        for(const key in state.notifySettings) {
+          assumeType<Exclude<NotifyPeer['_'], 'notifyPeer'>>(key);
+          this.savePeerSettings({
+            key,
+            settings: state.notifySettings[key]
+          });
+        }
+      }
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getNotifySettings(peer: InputNotifyPeer): ImSadAboutIt {
@@ -333,7 +381,11 @@ export class AppNotificationsManager {
 
     let peerId: PeerId;
     if(peer._ === 'inputNotifyPeer') {
+<<<<<<< HEAD
       peerId = key = appPeersManager.getPeerId(peer.peer);
+=======
+      peerId = key = getPeerId(peer.peer);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       obj = obj[key];
     }
 
@@ -341,8 +393,13 @@ export class AppNotificationsManager {
       return obj;
     }
 
+<<<<<<< HEAD
     return (obj || this.peerSettings)[key] = apiManager.invokeApi('account.getNotifySettings', {peer})
     .then(settings => {
+=======
+    return (obj || this.peerSettings)[key] = this.apiManager.invokeApi('account.getNotifySettings', {peer})
+    .then((settings) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.savePeerSettings({
         key,
         peerId, 
@@ -370,12 +427,21 @@ export class AppNotificationsManager {
     /* const inputSettings: InputPeerNotifySettings = copy(settings) as any;
     inputSettings._ = 'inputPeerNotifySettings'; */
 
+<<<<<<< HEAD
     return apiManager.invokeApi('account.updateNotifySettings', {
       peer,
       settings
     }).then(value => {
       if(value) {
         apiUpdatesManager.processLocalUpdate({
+=======
+    return this.apiManager.invokeApi('account.updateNotifySettings', {
+      peer,
+      settings
+    }).then((value) => {
+      if(value) {
+        this.apiUpdatesManager.processLocalUpdate({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           _: 'updateNotifySettings', 
           peer: {
             ...peer as any,
@@ -390,6 +456,7 @@ export class AppNotificationsManager {
     });
   }
 
+<<<<<<< HEAD
   public getNotifyExceptions() {
     apiManager.invokeApi('account.getNotifyExceptions', {compare_sound: true})
     .then((updates) => {
@@ -405,10 +472,28 @@ export class AppNotificationsManager {
   public setContactSignUpNotification(silent: boolean) {
     apiManager.invokeApi('account.setContactSignUpNotification', {silent})
     .then(value => {
+=======
+  // public getNotifyExceptions() {
+  //   apiManager.invokeApi('account.getNotifyExceptions', {compare_sound: true})
+  //   .then((updates) => {
+  //     apiUpdatesManager.processUpdateMessage(updates);
+  //   });
+  // }
+
+  public getContactSignUpNotification() {
+    if(this.notifyContactsSignUp) return this.notifyContactsSignUp;
+    return this.notifyContactsSignUp = this.apiManager.invokeApi('account.getContactSignUpNotification');
+  }
+
+  public setContactSignUpNotification(silent: boolean) {
+    this.apiManager.invokeApi('account.setContactSignUpNotification', {silent})
+    .then((value) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.notifyContactsSignUp = Promise.resolve(!silent);
     });
   }
 
+<<<<<<< HEAD
   private setFavicon(href: string = 'assets/img/favicon.ico') {
     if(this.prevFavicon === href) {
       return;
@@ -422,6 +507,8 @@ export class AppNotificationsManager {
     this.prevFavicon = href;
   }
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private checkMuteUntil = () => {
     if(this.checkMuteUntilTimeout !== undefined) {
       clearTimeout(this.checkMuteUntilTimeout);
@@ -445,11 +532,19 @@ export class AppNotificationsManager {
         // ! do not delete it because peer's unique settings will be overwritten in getPeerLocalSettings with type's settings
         peerNotifySettings.mute_until = 0;
 
+<<<<<<< HEAD
         rootScope.dispatchEvent('updateNotifySettings', {
           _: 'updateNotifySettings',
           peer: {
             _: 'notifyPeer',
             peer: appPeersManager.getOutputPeer(peerId.toPeerId())
+=======
+        this.apiUpdatesManager.saveUpdate({
+          _: 'updateNotifySettings',
+          peer: {
+            _: 'notifyPeer',
+            peer: this.appPeersManager.getOutputPeer(peerId.toPeerId())
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           },
           notify_settings: peerNotifySettings
         });
@@ -459,7 +554,11 @@ export class AppNotificationsManager {
     }
 
     const timeout = Math.min(1800e3, (closestMuteUntil - timestamp) * 1000);
+<<<<<<< HEAD
     this.checkMuteUntilTimeout = window.setTimeout(this.checkMuteUntil, timeout);
+=======
+    this.checkMuteUntilTimeout = ctx.setTimeout(this.checkMuteUntil, timeout);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 
   public savePeerSettings({key, peerId, settings}: {
@@ -476,11 +575,19 @@ export class AppNotificationsManager {
     (obj || this.peerSettings)[key] = settings;
 
     if(!peerId) {
+<<<<<<< HEAD
       rootScope.dispatchEvent('notify_peer_type_settings', {key, settings});
       appStateManager.getState().then(state => {
         const notifySettings = state.notifySettings;
         notifySettings[key] = settings;
         appStateManager.pushToState('notifySettings', notifySettings);
+=======
+      this.rootScope.dispatchEvent('notify_peer_type_settings', {key, settings});
+      this.appStateManager.getState().then((state) => {
+        const notifySettings = state.notifySettings;
+        notifySettings[key] = settings;
+        this.appStateManager.pushToState('notifySettings', notifySettings);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
     } else {
       this.checkMuteUntilThrottled();
@@ -494,13 +601,22 @@ export class AppNotificationsManager {
       (peerNotifySettings.silent || (peerNotifySettings.mute_until !== undefined && (peerNotifySettings.mute_until * 1000) > tsNow()));
   }
 
+<<<<<<< HEAD
   public getPeerMuted(peerId: PeerId) {
     const ret = this.getNotifySettings({_: 'inputNotifyPeer', peer: appPeersManager.getInputPeerById(peerId)});
+=======
+  private getPeerMuted(peerId: PeerId) {
+    const ret = this.getNotifySettings({_: 'inputNotifyPeer', peer: this.appPeersManager.getInputPeerById(peerId)});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return (ret instanceof Promise ? ret : Promise.resolve(ret))
     .then((peerNotifySettings) => this.isMuted(peerNotifySettings));
   }
 
+<<<<<<< HEAD
   public getPeerLocalSettings(peerId: PeerId, respectType = true): PeerNotifySettings {
+=======
+  private getPeerLocalSettings(peerId: PeerId, respectType = true): PeerNotifySettings {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const n: PeerNotifySettings = {
       _: 'peerNotifySettings'
     };
@@ -512,7 +628,11 @@ export class AppNotificationsManager {
     }
 
     if(respectType) {
+<<<<<<< HEAD
       const inputNotify = appPeersManager.getInputNotifyPeerById(peerId, true);
+=======
+      const inputNotify = this.appPeersManager.getInputNotifyPeerById(peerId, true);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const key = convertInputKeyToKey(inputNotify._);
       const typeNotifySettings = this.peerSettings[key as NotifyPeer['_']];
       if(typeNotifySettings && !(typeNotifySettings instanceof Promise)) {
@@ -530,11 +650,16 @@ export class AppNotificationsManager {
   }
 
   public isPeerLocalMuted(peerId: PeerId, respectType = true) {
+<<<<<<< HEAD
     if(peerId === rootScope.myId) return false;
+=======
+    if(peerId === this.appPeersManager.peerId) return false;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const notifySettings = this.getPeerLocalSettings(peerId, respectType);
     return this.isMuted(notifySettings);
   }
+<<<<<<< HEAD
 
   public start() {
     this.updateLocalSettings();
@@ -823,3 +948,6 @@ export class AppNotificationsManager {
 const appNotificationsManager = new AppNotificationsManager();
 MOUNT_CLASS_TO.appNotificationsManager = appNotificationsManager;
 export default appNotificationsManager;
+=======
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

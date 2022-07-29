@@ -4,12 +4,19 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
+=======
+import contextMenuController from "../helpers/contextMenuController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import cancelEvent from "../helpers/dom/cancelEvent";
 import { AttachClickOptions, CLICK_EVENT_NAME } from "../helpers/dom/clickEvent";
 import ListenerSetter from "../helpers/listenerSetter";
 import ButtonIcon from "./buttonIcon";
 import ButtonMenu, { ButtonMenuItemOptions } from "./buttonMenu";
+<<<<<<< HEAD
 import { closeBtnMenu, openBtnMenu } from "./misc";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const ButtonMenuToggle = (
   options: Partial<{
@@ -36,7 +43,11 @@ const ButtonMenuToggle = (
 };
 
 // TODO: refactor for attachClickEvent, because if move finger after touchstart, it will start anyway
+<<<<<<< HEAD
 const ButtonMenuToggleHandler = (el: HTMLElement, onOpen?: (e: Event) => void, options?: AttachClickOptions, onClose?: () => void) => {
+=======
+const ButtonMenuToggleHandler = (el: HTMLElement, onOpen?: (e: Event) => void | Promise<any>, options?: AttachClickOptions, onClose?: () => void) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   const add = options?.listenerSetter ? options.listenerSetter.add(el) : el.addEventListener.bind(el);
 
   //console.trace('ButtonMenuToggleHandler attach', el, onOpen, options);
@@ -49,10 +60,25 @@ const ButtonMenuToggleHandler = (el: HTMLElement, onOpen?: (e: Event) => void, o
     cancelEvent(e);
 
     if(el.classList.contains('menu-open')) {
+<<<<<<< HEAD
       closeBtnMenu();
     } else {
       onOpen && onOpen(e);
       openBtnMenu(openedMenu, onClose);
+=======
+      contextMenuController.closeBtnMenu();
+    } else {
+      const result = onOpen && onOpen(e);
+      const open = () => {
+        contextMenuController.openBtnMenu(openedMenu, onClose);
+      };
+
+      if(result instanceof Promise) {
+        result.then(open);
+      } else {
+        open();
+      }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   });
 };

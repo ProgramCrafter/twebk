@@ -5,9 +5,16 @@
  */
 
 import mediaSizes from "../../helpers/mediaSizes";
+<<<<<<< HEAD
 import { MyDocument } from "../../lib/appManagers/appDocsManager";
 import { CHAT_ANIMATION_GROUP } from "../../lib/appManagers/appImManager";
 import appStickersManager from "../../lib/appManagers/appStickersManager";
+=======
+import preloadAnimatedEmojiSticker from "../../helpers/preloadAnimatedEmojiSticker";
+import { MyDocument } from "../../lib/appManagers/appDocsManager";
+import { CHAT_ANIMATION_GROUP } from "../../lib/appManagers/appImManager";
+import { AppManagers } from "../../lib/appManagers/managers";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rootScope from "../../lib/rootScope";
 import { EmoticonsDropdown } from "../emoticonsDropdown";
 import { SuperStickerRenderer } from "../emoticonsDropdown/tabs/stickers";
@@ -22,7 +29,15 @@ export default class StickersHelper extends AutocompleteHelper {
   private lazyLoadQueue: LazyLoadQueue;
   private onChangeScreen: () => void;
 
+<<<<<<< HEAD
   constructor(appendTo: HTMLElement, controller: AutocompleteHelperController) {
+=======
+  constructor(
+    appendTo: HTMLElement, 
+    controller: AutocompleteHelperController,
+    private managers: AppManagers
+  ) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super({
       appendTo, 
       controller,
@@ -60,8 +75,13 @@ export default class StickersHelper extends AutocompleteHelper {
       this.lazyLoadQueue.clear();
     }
 
+<<<<<<< HEAD
     appStickersManager.preloadAnimatedEmojiSticker(emoticon);
     appStickersManager.getStickersByEmoticon(emoticon)
+=======
+    preloadAnimatedEmojiSticker(emoticon);
+    this.managers.appStickersManager.getStickersByEmoticon(emoticon)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .then((stickers) => {
       if(!middleware()) {
         return;
@@ -80,7 +100,11 @@ export default class StickersHelper extends AutocompleteHelper {
       if(stickers.length) {
         ready = new Promise<void>((resolve) => {
           const promises: Promise<any>[] = [];
+<<<<<<< HEAD
           stickers.forEach(sticker => {
+=======
+          stickers.forEach((sticker) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             container.append(this.superStickerRenderer.renderSticker(sticker as MyDocument, undefined, promises));
           });
 
@@ -118,6 +142,10 @@ export default class StickersHelper extends AutocompleteHelper {
 
     this.scrollable = new Scrollable(this.container);
     this.lazyLoadQueue = new LazyLoadQueue();
+<<<<<<< HEAD
     this.superStickerRenderer = new SuperStickerRenderer(this.lazyLoadQueue, CHAT_ANIMATION_GROUP);
+=======
+    this.superStickerRenderer = new SuperStickerRenderer(this.lazyLoadQueue, CHAT_ANIMATION_GROUP, this.managers);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }

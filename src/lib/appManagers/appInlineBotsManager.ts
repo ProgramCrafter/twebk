@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { toast } from "../../components/toast";
 import { BotInlineResult, GeoPoint, InputGeoPoint, InputMedia, MessageEntity, MessagesBotResults, ReplyMarkup } from "../../layer";
 import appPeersManager from "./appPeersManager";
@@ -26,6 +27,21 @@ import appStateManager from "./appStateManager";
 import insertInDescendSortedArray from "../../helpers/array/insertInDescendSortedArray";
 
 export class AppInlineBotsManager {
+=======
+import type { MyDocument } from "./appDocsManager";
+import type { MyPhoto } from "./appPhotosManager";
+import type { MyTopPeer } from "./appUsersManager";
+import { BotInlineResult, GeoPoint, InputGeoPoint, InputMedia, MessageEntity, MessageMedia, MessagesBotResults, ReplyMarkup } from "../../layer";
+import insertInDescendSortedArray from "../../helpers/array/insertInDescendSortedArray";
+import { AppManager } from "./manager";
+import getPhotoMediaInput from "./utils/photos/getPhotoMediaInput";
+import getServerMessageId from "./utils/messageId/getServerMessageId";
+import generateQId from "./utils/inlineBots/generateQId";
+import getDocumentMediaInput from "./utils/docs/getDocumentMediaInput";
+import { AppMessagesManager } from "./appMessagesManager";
+
+export class AppInlineBotsManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private inlineResults: {[queryAndResultIds: string]: BotInlineResult} = {};
   private setHash: {
     [botId: UserId]: {
@@ -46,6 +62,7 @@ export class AppInlineBotsManager {
   }
 
   public getInlineResults(peerId: PeerId, botId: BotId, query = '', offset = '', geo?: GeoPoint) {
+<<<<<<< HEAD
     return apiManagerProxy.invokeApi('messages.getInlineBotResults', {
       bot: appUsersManager.getUserInput(botId),
       peer: appPeersManager.getInputPeerById(peerId),
@@ -71,12 +88,40 @@ export class AppInlineBotsManager {
         }
         
         this.inlineResults[this.generateQId(queryId, result.id)] = result;
+=======
+    return this.apiManager.invokeApi('messages.getInlineBotResults', {
+      bot: this.appUsersManager.getUserInput(botId),
+      peer: this.appPeersManager.getInputPeerById(peerId),
+      query,
+      geo_point: geo ? this.getGeoInput(geo) : undefined,
+      offset
+    }, {/* timeout: 1,  */stopTime: -1, noErrorBox: true}).then((botResults) => {
+      const queryId = botResults.query_id;
+
+      /* if(botResults.switch_pm) {
+        botResults.switch_pm.rText = wrapRichText(botResults.switch_pm.text, {noLinebreaks: true, noLinks: true});
+      } */
+      
+      botResults.results.forEach((result) => {
+        if(result._ === 'botInlineMediaResult') {
+          if(result.document) {
+            result.document = this.appDocsManager.saveDoc(result.document);
+          }
+          
+          if(result.photo) {
+            result.photo = this.appPhotosManager.savePhoto(result.photo);
+          }
+        }
+        
+        this.inlineResults[generateQId(queryId, result.id)] = result;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       return botResults;
     });
   }
 
+<<<<<<< HEAD
   public generateQId(queryId: MessagesBotResults.messagesBotResults['query_id'], resultId: string) {
     return queryId + '_' + resultId;
   }
@@ -85,6 +130,12 @@ export class AppInlineBotsManager {
     appUsersManager.getTopPeers('bots_inline').then((topPeers) => {
       const botPeerId = botId.toPeerId();
       const index = topPeers.findIndex(topPeer => topPeer.id === botPeerId);
+=======
+  private pushPopularBot(botId: BotId) {
+    this.appUsersManager.getTopPeers('bots_inline').then((topPeers) => {
+      const botPeerId = botId.toPeerId();
+      const index = topPeers.findIndex((topPeer) => topPeer.id === botPeerId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       let topPeer: MyTopPeer;
       if(index !== -1) {
         topPeer = topPeers[index];
@@ -98,7 +149,11 @@ export class AppInlineBotsManager {
       ++topPeer.rating;
       insertInDescendSortedArray(topPeers, topPeer, 'rating');
 
+<<<<<<< HEAD
       appStateManager.setKeyValueToStorage('topPeersCache');
+=======
+      this.appStateManager.setKeyValueToStorage('topPeersCache');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       
       // rootScope.$broadcast('inline_bots_popular')
     });
@@ -106,8 +161,12 @@ export class AppInlineBotsManager {
 
   public switchToPM(fromPeerId: PeerId, botId: BotId, startParam: string) {
     this.setHash[botId] = {peerId: fromPeerId, time: Date.now()};
+<<<<<<< HEAD
     rootScope.dispatchEvent('history_focus', {peerId: botId.toPeerId()});
     return appMessagesManager.startBot(botId, undefined, startParam);
+=======
+    return this.appMessagesManager.startBot(botId, undefined, startParam);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   /*
@@ -218,7 +277,11 @@ export class AppInlineBotsManager {
       } */
 
   public async checkSwitchReturn(botId: BotId) {
+<<<<<<< HEAD
     const bot = appUsersManager.getUser(botId);
+=======
+    const bot = this.appUsersManager.getUser(botId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!bot || !bot.pFlags.bot || !bot.bot_inline_placeholder) {
       return;
     }
@@ -233,6 +296,7 @@ export class AppInlineBotsManager {
   }
 
   public switchInlineQuery(peerId: PeerId, threadId: number, botId: BotId, query: string) {
+<<<<<<< HEAD
     rootScope.dispatchEvent('history_focus', {peerId, threadId});
     appDraftsManager.setDraft(peerId, threadId, '@' + appUsersManager.getUser(botId).username + ' ' + query);
   }
@@ -249,6 +313,17 @@ export class AppInlineBotsManager {
       
       //console.log('callbackButtonClick callbackAnswer:', callbackAnswer);
     });
+=======
+    this.appDraftsManager.setDraft(peerId, threadId, '@' + this.appUsersManager.getUser(botId).username + ' ' + query);
+  }
+
+  public callbackButtonClick(peerId: PeerId, mid: number, button: any) {
+    return this.apiManager.invokeApi('messages.getBotCallbackAnswer', {
+      peer: this.appPeersManager.getInputPeerById(peerId),
+      msg_id: getServerMessageId(mid),
+      data: button.data
+    }, {/* timeout: 1,  */stopTime: -1, noErrorBox: true});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
       
   /* function gameButtonClick (id) {
@@ -300,10 +375,17 @@ export class AppInlineBotsManager {
     
     if(inlineResult.send_message._ === 'botInlineMessageText') {
       options.entities = inlineResult.send_message.entities;
+<<<<<<< HEAD
       appMessagesManager.sendText(peerId, inlineResult.send_message.message, options);
     } else {
       let caption = '';
       let inputMedia: InputMedia;
+=======
+      this.appMessagesManager.sendText(peerId, inlineResult.send_message.message, options);
+    } else {
+      let caption = '';
+      let inputMedia: Parameters<AppMessagesManager['sendOther']>[1], messageMedia: MessageMedia;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const sendMessage = inlineResult.send_message;
       switch(sendMessage._) {
         case 'botInlineMessageMediaAuto': {
@@ -312,9 +394,15 @@ export class AppInlineBotsManager {
           if(inlineResult._ === 'botInlineMediaResult') {
             const {document, photo} = inlineResult;
             if(document) {
+<<<<<<< HEAD
               inputMedia = appDocsManager.getMediaInput(document as MyDocument);
             } else {
               inputMedia = appPhotosManager.getMediaInput(photo as MyPhoto);
+=======
+              inputMedia = getDocumentMediaInput(document as MyDocument);
+            } else {
+              inputMedia = getPhotoMediaInput(photo as MyPhoto);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
           }
 
@@ -359,6 +447,7 @@ export class AppInlineBotsManager {
 
           break;
         }
+<<<<<<< HEAD
       }
 
       if(!inputMedia) {
@@ -374,6 +463,55 @@ export class AppInlineBotsManager {
       }
 
       appMessagesManager.sendOther(peerId, inputMedia, options);
+=======
+
+        case 'botInlineMessageMediaInvoice': {
+          // const photo = sendMessage.photo;
+          // inputMedia = {
+          //   _: 'inputMediaInvoice',
+          //   description: sendMessage.description,
+          //   title: sendMessage.title,
+          //   photo: photo && {
+          //     _: 'inputWebDocument',
+          //     attributes: photo.attributes,
+          //     mime_type: photo.mime_type,
+          //     size: photo.size,
+          //     url: photo.url
+          //   },
+          //   invoice: undefined,
+          //   payload: undefined,
+          //   provider: undefined,
+          //   provider_data: undefined,
+          //   start_param: undefined
+          // };
+
+          messageMedia = {
+            _: 'messageMediaInvoice',
+            title: sendMessage.title,
+            description: sendMessage.description,
+            photo: sendMessage.photo,
+            currency: sendMessage.currency,
+            total_amount: sendMessage.total_amount,
+            pFlags: {
+              shipping_address_requested: sendMessage.pFlags.shipping_address_requested,
+              test: sendMessage.pFlags.test
+            },
+            start_param: undefined
+          };
+
+          break;
+        }
+      }
+
+      if(!inputMedia && messageMedia) {
+        inputMedia = {
+          _: 'messageMediaPending',
+          messageMedia
+        };
+      }
+
+      this.appMessagesManager.sendOther(peerId, inputMedia, options);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
   
@@ -399,7 +537,10 @@ export class AppInlineBotsManager {
     })
   } */
 }
+<<<<<<< HEAD
 
 const appInlineBotsManager = new AppInlineBotsManager();
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appInlineBotsManager = appInlineBotsManager);
 export default appInlineBotsManager;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

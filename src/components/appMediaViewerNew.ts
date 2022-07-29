@@ -15,8 +15,12 @@
 // import appPhotosManager from "../lib/appManagers/appPhotosManager";
 // import { logger } from "../lib/logger";
 // import VideoPlayer from "../lib/mediaPlayer";
+<<<<<<< HEAD
 // import { RichTextProcessor } from "../lib/richtextprocessor";
 // import rootScope from "../lib/rootScope";
+=======
+// // import rootScope from "../lib/rootScope";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 // import { cancelEvent, fillPropertyValue, generatePathData } from "../helpers/dom";
 // import animationIntersector from "./animationIntersector";
 // import appMediaPlaybackController from "./appMediaPlaybackController";
@@ -142,7 +146,11 @@
 //     const buttonsDiv = document.createElement('div');
 //     buttonsDiv.classList.add(MEDIA_VIEWER_CLASSNAME + '-buttons');
 
+<<<<<<< HEAD
 //     topButtons.concat(['download', 'close']).forEach(name => {
+=======
+//     topButtons.concat(['download', 'close']).forEach((name) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //       const button = ButtonIcon(name);
 //       this.buttons[name] = button;
 //       buttonsDiv.append(button);
@@ -184,7 +192,11 @@
 
 //   protected setListeners() {
 //     this.buttons.download.addEventListener('click', this.onDownloadClick);
+<<<<<<< HEAD
 //     [this.buttons.close, this.buttons["mobile-close"], this.preloaderStreamable.preloader].forEach(el => {
+=======
+//     [this.buttons.close, this.buttons["mobile-close"], this.preloaderStreamable.preloader].forEach((el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //       el.addEventListener('click', this.close.bind(this));
 //     });
 
@@ -316,7 +328,11 @@
 //     }
 
 //     let mover: HTMLElement = null;
+<<<<<<< HEAD
 //     ['media-viewer-mover', 'media-viewer-buttons', 'media-viewer-author', 'media-viewer-caption'].find(s => {
+=======
+//     ['media-viewer-mover', 'media-viewer-buttons', 'media-viewer-author', 'media-viewer-caption'].find((s) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //       try {
 //         mover = findUpClassName(target, s);
 //         if(mover) return true;
@@ -414,7 +430,11 @@
 
 //     let borderRadius: any = window.getComputedStyle(realParent).getPropertyValue('border-radius');
 //     const brSplitted = fillPropertyValue(borderRadius) as string[];
+<<<<<<< HEAD
 //     borderRadius = brSplitted.map(v => parseInt(v));
+=======
+//     borderRadius = brSplitted.map((v) => parseInt(v));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //     //let borderRadius = '0px 0px 0px 0px';
 
@@ -583,7 +603,11 @@
 //     const x = context.diffX - (context.diffX * percents);
 //     const y = context.diffY - (context.diffY * percents);
     
+<<<<<<< HEAD
 //     const borderRadius = context.borderRadius.map(v => v - v * percents);
+=======
+//     const borderRadius = context.borderRadius.map((v) => v - v * percents);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //     const [brTl, brTr, brBr, brBl] = borderRadius;
 
 //     /* ctx.clearRect(0, 0, context.width, context.height);
@@ -639,7 +663,11 @@
 //     const {width, height} = rect;
 //     delay = delay / 2;
 
+<<<<<<< HEAD
 //     const br = borderRadius.split(' ').map(v => parseInt(v));
+=======
+//     const br = borderRadius.split(' ').map((v) => parseInt(v));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //     const step = () => {
 //       const diff = Date.now() - start;
@@ -648,7 +676,11 @@
 //       if(progress > 1) progress = 1;
 //       if(upscale) progress = 1 - progress;
 
+<<<<<<< HEAD
 //       const _br: [number, number, number, number] = br.map(v => v * progress) as any;
+=======
+//       const _br: [number, number, number, number] = br.map((v) => v * progress) as any;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //       let d: string;
 //       if(isOut) d = generatePathData(0, 0, width - (9 / scaleX * progress), height, ..._br);
@@ -1037,7 +1069,11 @@
 //               if(mediaSizes.isMobile) {
 //                 const imgs = mover.querySelectorAll('img');
 //                 if(imgs && imgs.length) {
+<<<<<<< HEAD
 //                   imgs.forEach(img => {
+=======
+//                   imgs.forEach((img) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //                     img.classList.remove('thumbnail'); // может здесь это вообще не нужно
 //                   });
 //                 }
@@ -1058,7 +1094,11 @@
 //             }
   
 //             this.preloader.detach();
+<<<<<<< HEAD
 //           }).catch(err => {
+=======
+//           }).catch((err) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //             this.log.error(err);
 //           });
 
@@ -1234,7 +1274,11 @@
 //       nextRate: this.searchContext.nextRate,
 //       minDate: this.searchContext.minDate,
 //       maxDate: this.searchContext.maxDate
+<<<<<<< HEAD
 //     }).then(value => {
+=======
+//     }).then((value) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //       /* if(DEBUG) {
 //         this.log('loaded more media by maxId:', maxId, value, older, this.reverse);
 //       } */
@@ -1294,7 +1338,11 @@
 //     const caption = message.message;
 //     this.content.caption.classList.toggle('hide', !caption);
 //     if(caption) {
+<<<<<<< HEAD
 //       this.content.caption.firstElementChild.innerHTML = RichTextProcessor.wrapRichText(caption, {
+=======
+//       this.content.caption.firstElementChild.innerHTML = wrapRichText(caption, {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //         entities: message.totalEntities
 //       });
 //     } else {
@@ -1382,7 +1430,11 @@
 
 //     const maxId = this.nextTargets.length ? this.nextTargets[this.nextTargets.length - 1].photoId : this.currentPhotoId;
 
+<<<<<<< HEAD
 //     const promise = appPhotosManager.getUserPhotos(peerId, maxId, loadCount).then(value => {
+=======
+//     const promise = appPhotosManager.getUserPhotos(peerId, maxId, loadCount).then((value) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //       if(this.peerId !== peerId) {
 //         this.log.warn('peer changed');
 //         return;
@@ -1396,7 +1448,11 @@
 //         this.loadedAllMediaDown = true;
 //       }
 
+<<<<<<< HEAD
 //       value.photos.forEach(photoId => {
+=======
+//       value.photos.forEach((photoId) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //         if(this.currentPhotoId === photoId) return;
 //         this.nextTargets.push({element: null as HTMLElement, photoId: photoId});
 //       });

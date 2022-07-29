@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import appPhotosManager from "./appPhotosManager";
 import appDocsManager from "./appDocsManager";
 import { RichTextProcessor } from "../richtextprocessor";
@@ -18,12 +19,22 @@ import { WebPage } from "../../layer";
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import safeReplaceObject from "../../helpers/object/safeReplaceObject";
 import limitSymbols from "../../helpers/string/limitSymbols";
+=======
+import { ReferenceContext } from "../mtproto/referenceDatabase";
+import { WebPage } from "../../layer";
+import safeReplaceObject from "../../helpers/object/safeReplaceObject";
+import { AppManager } from "./manager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const photoTypeSet = new Set(['photo', 'video', 'gif', 'document']);
 
 type WebPageMessageKey = `${PeerId}_${number}`;
 
+<<<<<<< HEAD
 export class AppWebPagesManager {
+=======
+export class AppWebPagesManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private webpages: {
     [webPageId: string]: WebPage
   } = {};
@@ -31,8 +42,13 @@ export class AppWebPagesManager {
     [webPageId: string]: Set<WebPageMessageKey>
   } = {};
   
+<<<<<<< HEAD
   constructor() {
     rootScope.addMultipleEventsListeners({
+=======
+  protected after() {
+    this.apiUpdatesManager.addMultipleEventsListeners({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       updateWebPage: (update) => {
         this.saveWebPage(update.webpage);
       }
@@ -50,13 +66,21 @@ export class AppWebPagesManager {
 
     if(apiWebPage._ === 'webPage') {
       if(apiWebPage.photo?._ === 'photo') {
+<<<<<<< HEAD
         apiWebPage.photo = appPhotosManager.savePhoto(apiWebPage.photo, mediaContext);
+=======
+        apiWebPage.photo = this.appPhotosManager.savePhoto(apiWebPage.photo, mediaContext);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       } else {
         delete apiWebPage.photo;
       }
   
       if(apiWebPage.document?._ === 'document') {
+<<<<<<< HEAD
         apiWebPage.document = appDocsManager.saveDoc(apiWebPage.document, mediaContext);
+=======
+        apiWebPage.document = this.appDocsManager.saveDoc(apiWebPage.document, mediaContext);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       } else {
         if(apiWebPage.type === 'document') {
           delete apiWebPage.type;
@@ -103,7 +127,11 @@ export class AppWebPagesManager {
         });
       });
 
+<<<<<<< HEAD
       rootScope.dispatchEvent('webpage_updated', {
+=======
+      this.rootScope.dispatchEvent('webpage_updated', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         id,
         msgs
       });
@@ -112,6 +140,7 @@ export class AppWebPagesManager {
     return apiWebPage;
   }
 
+<<<<<<< HEAD
   public wrapTitle(webPage: WebPage.webPage) {
     let shortTitle = webPage.title || webPage.author || webPage.site_name || '';
     shortTitle = limitSymbols(shortTitle, 80, 100);
@@ -134,6 +163,8 @@ export class AppWebPagesManager {
     } */);
   }
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public getMessageKeyForPendingWebPage(peerId: PeerId, mid: number, isScheduled?: boolean): WebPageMessageKey {
     return peerId + '_' + mid + (isScheduled ? '_s' : '') as any;
   }
@@ -152,6 +183,7 @@ export class AppWebPagesManager {
     }
   }
 
+<<<<<<< HEAD
   public getWebPage(id: WebPage.webPage['id']) {
     return this.webpages[id];
   }
@@ -160,3 +192,21 @@ export class AppWebPagesManager {
 const appWebPagesManager = new AppWebPagesManager();
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appWebPagesManager = appWebPagesManager);
 export default appWebPagesManager;
+=======
+  public getCachedWebPage(id: WebPage.webPage['id']) {
+    return this.webpages[id];
+  }
+
+  public getWebPage(url: string) {
+    return this.apiManager.invokeApiHashable({
+      method: 'messages.getWebPage',
+      processResult: (webPage) => {
+        return this.saveWebPage(webPage);
+      },
+      params: {
+        url
+      },
+    });
+  }
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

@@ -11,6 +11,11 @@ import isInDOM from "../helpers/dom/isInDOM";
 import RLottiePlayer from "../lib/rlottie/rlottiePlayer";
 import indexOfAndSplice from "../helpers/array/indexOfAndSplice";
 import forEachReverse from "../helpers/array/forEachReverse";
+<<<<<<< HEAD
+=======
+import idleController from "../helpers/idleController";
+import appMediaPlaybackController from "./appMediaPlaybackController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export interface AnimationItem {
   el: HTMLElement,
@@ -42,7 +47,11 @@ export class AnimationIntersector {
             continue;
           }
 
+<<<<<<< HEAD
           const player = this.byGroups[group].find(p => p.el === target);
+=======
+          const player = this.byGroups[group].find((p) => p.el === target);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(player) {
             if(entry.isIntersecting) {
               this.visible.add(player);
@@ -75,19 +84,34 @@ export class AnimationIntersector {
 
     this.overrideIdleGroups = new Set();
 
+<<<<<<< HEAD
     rootScope.addEventListener('media_play', ({doc}) => {
+=======
+    appMediaPlaybackController.addEventListener('play', ({doc}) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(doc.type === 'round') {
         this.videosLocked = true;
         this.checkAnimations();
       }
     });
 
+<<<<<<< HEAD
     rootScope.addEventListener('media_pause', () => {
+=======
+    appMediaPlaybackController.addEventListener('pause', () => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.videosLocked) {
         this.videosLocked = false;
         this.checkAnimations();
       }
     });
+<<<<<<< HEAD
+=======
+
+    idleController.addEventListener('change', (idle) => {
+      this.checkAnimations(idle);
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setOverrideIdleGroup(group: string, override: boolean) {
@@ -185,7 +209,11 @@ export class AnimationIntersector {
       this.visible.has(player) && 
       animation.autoplay && 
       (!this.onlyOnePlayableGroup || this.onlyOnePlayableGroup === group) &&
+<<<<<<< HEAD
       (!rootScope.idle.isIDLE || this.overrideIdleGroups.has(player.group))
+=======
+      (!idleController.isIdle || this.overrideIdleGroups.has(player.group))
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     ) {
       //console.warn('play animation:', animation);
       animation.play();
@@ -208,12 +236,20 @@ export class AnimationIntersector {
   public refreshGroup(group: string) {
     const animations = this.byGroups[group];
     if(animations && animations.length) {
+<<<<<<< HEAD
       animations.forEach(animation => {
+=======
+      animations.forEach((animation) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.observer.unobserve(animation.el);
       });
 
       window.requestAnimationFrame(() => {
+<<<<<<< HEAD
         animations.forEach(animation => {
+=======
+        animations.forEach((animation) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.observer.observe(animation.el);
         });
       });

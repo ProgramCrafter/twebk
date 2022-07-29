@@ -55,6 +55,11 @@ const lang = {
   },
   "Deactivated.Title": "Too many tabs...",
   "Deactivated.Subtitle": "Telegram supports only one active tab with the app.\nClick anywhere to continue using this tab.",
+<<<<<<< HEAD
+=======
+  "Deactivated.Version.Title": "WebK has updated...",
+  "Deactivated.Version.Subtitle": "Another tab is running a newer version of Telegram.\nClick anywhere to reload this tab.",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // "Drafts": {
   //   "one_value": "%d draft",
   //   "other_value": "%d drafts",
@@ -109,7 +114,10 @@ const lang = {
   "Popup.Unpin.HideTitle": "Hide pinned messages",
   "Popup.Unpin.HideDescription": "Do you want to hide the pinned message bar? It wil stay hidden until a new message is pinned.",
   "Popup.Unpin.Hide": "Hide",
+<<<<<<< HEAD
   "TwoStepAuth.InvalidPassword": "Invalid password",
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "TwoStepAuth.EmailCodeChangeEmail": "Change Email",
   "MarkupTooltip.LinkPlaceholder": "Enter URL...",
   "MediaViewer.Context.Download": "Download",
@@ -135,6 +143,15 @@ const lang = {
 	//"PushNotification.Action.Mute1d.Success": "Notification settings were successfully saved.",
   //it is from iOS
   "VoiceChat.DiscussionGroup": "discussion group",
+<<<<<<< HEAD
+=======
+  "PaymentInfo.CVV": "CVV Code",
+  "PaymentInfo.Card.Title": "Enter your card information",
+  "PaymentInfo.Billing.Title": "Enter your billing address",
+  "PaymentInfo.Done": "PROCEED TO CHECKOUT",
+  "PaymentCard.Error.Invalid": "Invalid card number",
+  "PaymentCard.Error.Incomplete": "Incomplete card number",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   // * android
   "AccDescrEditing": "Editing",
@@ -683,8 +700,13 @@ const lang = {
   "Devices": "Devices",
   "LanguageName": "English",
   "EditCantEditPermissionsPublic": "This permission is not available in public groups.",
+<<<<<<< HEAD
   "VoipUserMicrophoneIsOff": "%s\'s microphone is off",
   "VoipUserCameraIsOff": "%s\'s camera is off",
+=======
+  "VoipUserMicrophoneIsOff": "%s's microphone is off",
+  "VoipUserCameraIsOff": "%s's camera is off",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "PrivacyPhoneInfo4": "This public link opens a chat with you:",
   "ReportChatIllegalDrugs": "Illegal Drugs",
   "ReportChatPersonalDetails": "Personal Details",
@@ -693,6 +715,61 @@ const lang = {
   "ScamMessage": "SCAM",
   "FakeMessage": "FAKE",
   "TextCopied": "Text copied to clipboard",
+<<<<<<< HEAD
+=======
+  "PaymentInvoice": "INVOICE",
+  "PaymentTestInvoice": "TEST INVOICE",
+  "PaymentReceipt": "Receipt",
+  "PaymentSuccessfullyPaid": "You successfully transferred %1$s to %2$s for %3$s",
+  "PaymentSuccessfullyPaidNoItem": "You successfully transferred %1$s to %2$s",
+  // "PaymentSuccessfullyPaidRecurrent": "You successfully transferred %1$s to %2$s for %3$s and allowed future recurring payments",
+  // "PaymentSuccessfullyPaidNoItemRecurrent": "You successfully transferred %1$s to %2$s and allowed future recurring payments",
+  "PaymentCheckout": "Checkout",
+  "PaymentTransactionTotal": "Total",
+  "PaymentTip": "Tip",
+  "PaymentTipOptional": "Tip (Optional)",
+  "PaymentCheckoutPay": "PAY %1$s",
+  "PaymentCheckoutMethod": "Payment method",
+  "PaymentCheckoutProvider": "Payment provider",
+  "PaymentCardNumber": "Card Number",
+  "PaymentCardSavePaymentInformation": "Save Payment Information",
+  "PaymentCardInfo": "Payment info",
+  "PaymentCardSavePaymentInformationInfoLine1": "You can save your payment info for future use. It will be stored directly with the payment provider. Telegram has no access to your credit card data.",
+  "Done": "Done",
+  "PaymentShippingMethod": "Shipping methods",
+  "PaymentNoShippingMethod": "Sorry, it is not possible to deliver to your address.",
+  "PaymentShippingInfo": "Shipping Information",
+  "PaymentShippingAddress": "Shipping address",
+  "PaymentShippingAddress1Placeholder": "Address 1 (Street)",
+  "PaymentShippingAddress2Placeholder": "Address 2 (Street)",
+  "PaymentShippingCityPlaceholder": "City",
+  "PaymentShippingStatePlaceholder": "State",
+  "PaymentShippingCountry": "Country",
+  "PaymentShippingZipPlaceholder": "Postcode",
+  "PaymentShippingReceiver": "Receiver",
+  "PaymentShippingName": "Full Name",
+  "PaymentShippingEmailPlaceholder": "Email",
+  "PaymentCheckoutPhoneNumber": "Phone number",
+  "PaymentCheckoutShippingMethod": "Shipping method",
+  "PaymentShippingSave": "Save Shipping Information",
+  "PaymentShippingSaveInfo": "You can save your shipping info for future use.",
+  "PaymentInfoHint": "You paid **%1$s** for **%2$s**.",
+  "PrivacyPayments": "Payments",
+  "PrivacyPaymentsClearInfo": "You can delete your shipping info and instruct all payment providers to remove your saved credit cards. Note that Telegram never stores your credit card data.",
+  "PrivacyPaymentsClear": "Clear Payment and Shipping Info",
+  "PrivacyPaymentsClearAlertTitle": "Clear payment info",
+  "PrivacyPaymentsClearAlertText": "Are you sure you want to clear your payment and shipping info?",
+  "PrivacyPaymentsPaymentInfoCleared": "Payment info cleared.",
+  "PrivacyPaymentsShippingInfoCleared": "Shipping info cleared.",
+  "PrivacyPaymentsPaymentShippingCleared": "Payment and shipping info cleared.",
+  "PrivacyClearShipping": "Shipping info",
+  "PrivacyClearPayment": "Payment info",
+  "Clear": "Clear",
+  "Save": "Save",
+  "PaymentCheckoutName": "Name",
+  "ClearRecentStickersAlertTitle": "Clear recent stickers",
+  "ClearRecentStickersAlertMessage": "Do you want to clear all your recent stickers?",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   // * macos
   "AccountSettings.Filters": "Chat Folders",
@@ -839,6 +916,15 @@ const lang = {
   "Chat.Message.ViewGroup": "VIEW GROUP",
   "Chat.Message.Sponsored.What": "What are sponsored messages?",
   "Chat.Message.Sponsored.Link": "https://promote.telegram.org",
+<<<<<<< HEAD
+=======
+  "Checkout.2FA.Text": "Saving payment details is only available with 2-Step Verification.",
+  "Checkout.NewCard.CardholderNamePlaceholder": "Cardholder Name",
+  "Checkout.PasswordEntry.Title": "Payment Confirmation",
+  "Checkout.PasswordEntry.Pay": "Pay",
+  "Checkout.PasswordEntry.Text": "Your card %@ is on file. To pay with this card, please enter your 2-Step-Verification password.",
+  "Checkout.WebConfirmation.Title": "Complete Payment",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "ChatList.Context.Mute": "Mute",
   "ChatList.Context.Unmute": "Unmute",
   "ChatList.Context.Pin": "Pin",
@@ -897,6 +983,10 @@ const lang = {
   "Emoji.Objects": "Objects",
   //"Emoji.Symbols": "Symbols",
   "Emoji.Flags": "Flags",
+<<<<<<< HEAD
+=======
+  "Error.AnError": "An error occurred. Please try again later.",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "FileSize.B": "%@ B",
   "FileSize.KB": "%@ KB",
   "FileSize.MB": "%@ MB",
@@ -911,6 +1001,10 @@ const lang = {
   "Message.Context.Pin": "Pin",
   "Message.Context.Unpin": "Unpin",
   "Message.Context.Goto": "Show Message",
+<<<<<<< HEAD
+=======
+  "Message.ReplyActionButtonShowReceipt": "Show Receipt",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "MessageContext.CopyMessageLink1": "Copy Message Link",
   "Modal.Send": "Send",
   "NewPoll.Anonymous": "Anonymous Voting",
@@ -1042,6 +1136,10 @@ const lang = {
   "GeneralSettings.EmojiPrediction": "Suggest Emoji",
   "GroupPermission.Delete": "Delete Exception",
   "Search.Confirm.ClearHistory": "Are you sure you want to clear your search history?",
+<<<<<<< HEAD
+=======
+  "SecureId.Identity.Placeholder.ExpiryDate": "Expiry Date",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   "Separator.ShowMore": "show more",
   "Separator.ShowLess": "show less",
   "ScheduleController.at": "at",

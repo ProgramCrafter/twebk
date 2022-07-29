@@ -6,7 +6,10 @@
 
 import { GroupCallParticipant } from "../../layer";
 import type { GroupCallOutputSource } from "../../lib/appManagers/appGroupCallsManager";
+<<<<<<< HEAD
 import type { AppPeersManager } from "../../lib/appManagers/appPeersManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { i18n } from "../../lib/langPack";
 import PeerTitle from "../peerTitle";
 import { getGroupCallParticipantMutedState } from ".";
@@ -14,6 +17,11 @@ import GroupCallParticipantMutedIcon from "./participantMutedIcon";
 import GroupCallParticipantStatusElement from "./participantStatus";
 import GroupCallInstance from "../../lib/calls/groupCallInstance";
 import callVideoCanvasBlur from "../call/videoCanvasBlur";
+<<<<<<< HEAD
+=======
+import getPeerId from "../../lib/appManagers/utils/peers/getPeerId";
+import { AppManagers } from "../../lib/appManagers/managers";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const className = 'group-call-participant-video';
 
@@ -29,7 +37,11 @@ export default class GroupCallParticipantVideoElement {
   private groupCallParticipantMutedIcon: GroupCallParticipantMutedIcon;
   private groupCallParticipantStatus: GroupCallParticipantStatusElement;
 
+<<<<<<< HEAD
   constructor(private appPeersManager: AppPeersManager, private instance: GroupCallInstance, public source: GroupCallOutputSource) {
+=======
+  constructor(private managers: AppManagers, private instance: GroupCallInstance, public source: GroupCallOutputSource) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.container = document.createElement('div');
     this.container.classList.add(className + '-container');
 
@@ -80,7 +92,11 @@ export default class GroupCallParticipantVideoElement {
       peerTitleElement.classList.add('peer-title');
     } else {
       this.peerTitle = new PeerTitle({
+<<<<<<< HEAD
         peerId: this.appPeersManager.getPeerId(participant.peer)
+=======
+        peerId: getPeerId(participant.peer)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       peerTitleElement = this.peerTitle.element;

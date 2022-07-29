@@ -9,16 +9,26 @@ import { attachClickEvent } from "../helpers/dom/clickEvent";
 import loadFonts from "../helpers/dom/loadFonts";
 import { Config, LangPackDifference, LangPackString } from "../layer";
 import I18n, { LangPackKey } from "../lib/langPack";
+<<<<<<< HEAD
 import apiManager from "../lib/mtproto/mtprotoworker";
 import rootScope from "../lib/rootScope";
 import Button from "./button";
 import { putPreloader } from "./misc";
+=======
+import rootScope from "../lib/rootScope";
+import Button from "./button";
+import { putPreloader } from "./putPreloader";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 let set = false;
 
 function getLang(): Promise<[Config.config, LangPackString[], LangPackDifference.langPackDifference]> {
   if(cachedPromise) return cachedPromise;
+<<<<<<< HEAD
   return cachedPromise = apiManager.getConfig().then(config => {
+=======
+  return cachedPromise = rootScope.managers.apiManager.getConfig().then((config) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(config.suggested_lang_code !== I18n.lastRequestedLangCode) {
       //I18n.loadLangPack(config.suggested_lang_code);
 
@@ -43,7 +53,11 @@ export default function getLanguageChangeButton(appendTo: HTMLElement) {
     }
 
     const backup: LangPackString[] = [];
+<<<<<<< HEAD
     strings.forEach(string => {
+=======
+    strings.forEach((string) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const backupString = I18n.strings.get(string.key as LangPackKey);
       if(!backupString) {
         return;
@@ -66,7 +80,11 @@ export default function getLanguageChangeButton(appendTo: HTMLElement) {
       btnChangeLanguage.remove();
     }, {once: true});
 
+<<<<<<< HEAD
     backup.forEach(string => {
+=======
+    backup.forEach((string) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       I18n.strings.set(string.key as LangPackKey, string);
     });
     

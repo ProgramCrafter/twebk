@@ -6,6 +6,7 @@
 
 .popup-mute {
   .popup-container {
+<<<<<<< HEAD
     width: 16rem;
   }
 
@@ -20,5 +21,8 @@
     &-content {
       margin: 0 !important;
     }
+=======
+    min-width: 16rem;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }

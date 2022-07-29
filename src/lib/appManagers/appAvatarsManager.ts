@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import { renderImageFromUrlPromise } from "../../helpers/dom/renderImageFromUrl";
 import replaceContent from "../../helpers/dom/replaceContent";
@@ -22,14 +23,40 @@ import appUsersManager from "./appUsersManager";
 type PeerPhotoSize = 'photo_small' | 'photo_big';
 
 export class AppAvatarsManager {
+=======
+import { UserProfilePhoto, ChatPhoto, InputFileLocation } from "../../layer";
+import { DownloadOptions } from "../mtproto/apiFileManager";
+import { AppManager } from "./manager";
+
+export type PeerPhotoSize = 'photo_small' | 'photo_big';
+
+export class AppAvatarsManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private savedAvatarURLs: {
     [peerId: PeerId]: {
       [size in PeerPhotoSize]?: string | Promise<string>
     }
   } = {};
+<<<<<<< HEAD
 
   public isAvatarCached(peerId: PeerId) {
     return !!this.savedAvatarURLs[peerId];
+=======
+  
+  protected after() {
+    this.rootScope.addEventListener('avatar_update', (peerId) => {
+      this.removeFromAvatarsCache(peerId);
+    });
+  }
+
+  public isAvatarCached(peerId: PeerId, size?: PeerPhotoSize) {
+    const saved = this.savedAvatarURLs[peerId];
+    if(size === undefined) {
+      return !!saved;
+    }
+
+    return !!(saved && saved[size] && !(saved[size] instanceof Promise));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   public removeFromAvatarsCache(peerId: PeerId) {
@@ -39,10 +66,13 @@ export class AppAvatarsManager {
   }
 
   public loadAvatar(peerId: PeerId, photo: UserProfilePhoto.userProfilePhoto | ChatPhoto.chatPhoto, size: PeerPhotoSize) {
+<<<<<<< HEAD
     const inputPeer = appPeersManager.getInputPeerById(peerId);
 
     let cached = false;
     let getAvatarPromise: Promise<string>;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let saved = this.savedAvatarURLs[peerId];
     if(!saved || !saved[size]) {
       if(!saved) {
@@ -53,7 +83,11 @@ export class AppAvatarsManager {
       const peerPhotoFileLocation: InputFileLocation.inputPeerPhotoFileLocation = {
         _: 'inputPeerPhotoFileLocation', 
         pFlags: {},
+<<<<<<< HEAD
         peer: inputPeer, 
+=======
+        peer: this.appPeersManager.getInputPeerById(peerId), 
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         photo_id: photo.photo_id
       };
 
@@ -69,14 +103,20 @@ export class AppAvatarsManager {
         str = `download avatar ${peerId}`;
       } */
 
+<<<<<<< HEAD
       const promise = appDownloadManager.download(downloadOptions);
       getAvatarPromise = saved[size] = promise.then(blob => {
+=======
+      const promise = this.apiFileManager.download(downloadOptions);
+      return saved[size] = promise.then((blob) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         return saved[size] = URL.createObjectURL(blob);
 
         /* if(str) {
           console.log(str, Date.now() / 1000, Date.now() - time);
         } */
       });
+<<<<<<< HEAD
     } else if(typeof(saved[size]) !== 'string') {
       getAvatarPromise = saved[size] as Promise<any>;
     } else {
@@ -225,3 +265,10 @@ export class AppAvatarsManager {
 const appAvatarsManager = new AppAvatarsManager();
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appAvatarsManager = appAvatarsManager);
 export default appAvatarsManager;
+=======
+    } else {
+      return saved[size];
+    }
+  }
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

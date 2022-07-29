@@ -8,6 +8,7 @@ import { SettingSection } from "..";
 import Row from "../../row";
 import CheckboxField from "../../checkboxField";
 import { InputNotifyPeer, Update } from "../../../layer";
+<<<<<<< HEAD
 import appNotificationsManager from "../../../lib/appManagers/appNotificationsManager";
 import { SliderSuperTabEventable } from "../../sliderTab";
 import rootScope from "../../../lib/rootScope";
@@ -15,6 +16,15 @@ import { LangPackKey } from "../../../lib/langPack";
 import appStateManager from "../../../lib/appManagers/appStateManager";
 import copy from "../../../helpers/object/copy";
 import convertKeyToInputKey from "../../../helpers/string/convertKeyToInputKey";
+=======
+import { SliderSuperTabEventable } from "../../sliderTab";
+import rootScope from "../../../lib/rootScope";
+import { LangPackKey } from "../../../lib/langPack";
+import copy from "../../../helpers/object/copy";
+import convertKeyToInputKey from "../../../helpers/string/convertKeyToInputKey";
+import { MUTE_UNTIL } from "../../../lib/mtproto/mtproto_config";
+import apiManagerProxy from "../../../lib/mtproto/mtprotoworker";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 type InputNotifyKey = Exclude<InputNotifyPeer['_'], 'inputNotifyPeer'>;
 
@@ -36,11 +46,19 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
       const enabledRow = new Row({
         checkboxField: new CheckboxField({text: options.typeText, checked: true}),
         subtitleLangKey: 'Loading',
+<<<<<<< HEAD
+=======
+        listenerSetter: this.listenerSetter
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
       
       const previewEnabledRow = new Row({
         checkboxField: new CheckboxField({text: 'MessagePreview', checked: true}),
         subtitleLangKey: 'Loading',
+<<<<<<< HEAD
+=======
+        listenerSetter: this.listenerSetter
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
 
       section.content.append(enabledRow.container, previewEnabledRow.container);
@@ -48,10 +66,17 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
       this.scrollable.append(section.container);
 
       const inputNotifyPeer = {_: options.inputKey};
+<<<<<<< HEAD
       const ret = appNotificationsManager.getNotifySettings(inputNotifyPeer);
       (ret instanceof Promise ? ret : Promise.resolve(ret)).then((notifySettings) => {
         const applySettings = () => {
           const muted = appNotificationsManager.isMuted(notifySettings);
+=======
+      const ret = this.managers.appNotificationsManager.getNotifySettings(inputNotifyPeer);
+      (ret instanceof Promise ? ret : Promise.resolve(ret)).then((notifySettings) => {
+        const applySettings = async() => {
+          const muted = await this.managers.appNotificationsManager.isMuted(notifySettings);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           enabledRow.checkboxField.checked = !muted;
           previewEnabledRow.checkboxField.checked = notifySettings.show_previews;
   
@@ -60,20 +85,35 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
         
         applySettings();
 
+<<<<<<< HEAD
         this.eventListener.addEventListener('destroy', () => {
           const mute = !enabledRow.checkboxField.checked;
           const showPreviews = previewEnabledRow.checkboxField.checked;
 
           if(mute === appNotificationsManager.isMuted(notifySettings) && showPreviews === notifySettings.show_previews) {
+=======
+        this.eventListener.addEventListener('destroy', async() => {
+          const mute = !enabledRow.checkboxField.checked;
+          const showPreviews = previewEnabledRow.checkboxField.checked;
+
+          if(mute === (await this.managers.appNotificationsManager.isMuted(notifySettings)) && showPreviews === notifySettings.show_previews) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             return;
           }
 
           const inputSettings: any = copy(notifySettings);
           inputSettings._ = 'inputPeerNotifySettings';
+<<<<<<< HEAD
           inputSettings.mute_until = mute ? 0x7FFFFFFF : 0;
           inputSettings.show_previews = showPreviews;
 
           appNotificationsManager.updateNotifySettings(inputNotifyPeer, inputSettings);
+=======
+          inputSettings.mute_until = mute ? MUTE_UNTIL : 0;
+          inputSettings.show_previews = showPreviews;
+
+          this.managers.appNotificationsManager.updateNotifySettings(inputNotifyPeer, inputSettings);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }, {once: true});
 
         this.listenerSetter.add(rootScope)('notify_settings', (update: Update.updateNotifySettings) => {
@@ -112,6 +152,7 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
       const contactsSignUpRow = new Row({
         checkboxField: new CheckboxField({text: 'ContactJoined', checked: true}),
         subtitleLangKey: 'Loading',
+<<<<<<< HEAD
       });
       
       const soundRow = new Row({
@@ -120,6 +161,18 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
       });
 
       appStateManager.getState().then(state => {
+=======
+        listenerSetter: this.listenerSetter
+      });
+      
+      const soundRow = new Row({
+        checkboxField: new CheckboxField({text: 'Notifications.Sound', checked: true, stateKey: 'settings.notifications.sound', listenerSetter: this.listenerSetter}),
+        subtitleLangKey: 'Loading',
+        listenerSetter: this.listenerSetter
+      });
+
+      apiManagerProxy.getState().then((state) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         soundRow.checkboxField.checked = state.settings.notifications.sound;
       });
 
@@ -127,13 +180,21 @@ export default class AppNotificationsTab extends SliderSuperTabEventable {
 
       this.scrollable.append(section.container);
 
+<<<<<<< HEAD
       appNotificationsManager.getContactSignUpNotification().then(enabled => {
+=======
+      this.managers.appNotificationsManager.getContactSignUpNotification().then((enabled) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         contactsSignUpRow.checkboxField.checked = enabled;
 
         this.eventListener.addEventListener('destroy', () => {
           const _enabled = contactsSignUpRow.checkboxField.checked;
           if(enabled !== _enabled) {
+<<<<<<< HEAD
             appNotificationsManager.setContactSignUpNotification(!_enabled);
+=======
+            this.managers.appNotificationsManager.setContactSignUpNotification(!_enabled);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           }
         }, {once: true});
       });

@@ -8,8 +8,12 @@ import { SliderSuperTab } from "../../slider";
 import InputSearch from "../../inputSearch";
 import animationIntersector from "../../animationIntersector";
 import appSidebarRight from "..";
+<<<<<<< HEAD
 import appUsersManager from "../../../lib/appManagers/appUsersManager";
 import appInlineBotsManager, { AppInlineBotsManager } from "../../../lib/appManagers/appInlineBotsManager";
+=======
+import { AppInlineBotsManager } from "../../../lib/appManagers/appInlineBotsManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import GifsMasonry from "../../gifsMasonry";
 import appImManager from "../../../lib/appManagers/appImManager";
 import type { MyDocument } from "../../../lib/appManagers/appDocsManager";
@@ -101,11 +105,19 @@ export default class AppGifsTab extends SliderSuperTab {
     if(this.searchPromise || this.loadedAll) return;
 
     if(!this.gifBotPeerId) {
+<<<<<<< HEAD
       this.gifBotPeerId = (await appUsersManager.resolveUsername('gif')).id.toPeerId(false);
     }
 
     try {
       this.searchPromise = appInlineBotsManager.getInlineResults(NULL_PEER_ID, this.gifBotPeerId, query, this.nextOffset);
+=======
+      this.gifBotPeerId = (await this.managers.appUsersManager.resolveUsername('gif')).id.toPeerId(false);
+    }
+
+    try {
+      this.searchPromise = this.managers.appInlineBotsManager.getInlineResults(NULL_PEER_ID, this.gifBotPeerId, query, this.nextOffset);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const { results, next_offset } = await this.searchPromise;
 
       if(this.inputSearch.value !== query) {

@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import DEBUG, { MOUNT_CLASS_TO } from "../config/debug";
 import type lang from "../lang";
 import type langSign from "../langSign";
@@ -14,10 +15,25 @@ import stateStorage from "./stateStorage";
 import App from "../config/app";
 import rootScope from "./rootScope";
 import RichTextProcessor from "./richtextprocessor";
+=======
+import type lang from "../lang";
+import type langSign from "../langSign";
+import type { State } from "../config/state";
+import DEBUG, { MOUNT_CLASS_TO } from "../config/debug";
+import { HelpCountriesList, HelpCountry, LangPackDifference, LangPackString } from "../layer";
+import stateStorage from "./stateStorage";
+import App from "../config/app";
+import rootScope from "./rootScope";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { IS_MOBILE } from "../environment/userAgent";
 import deepEqual from "../helpers/object/deepEqual";
 import safeAssign from "../helpers/object/safeAssign";
 import capitalizeFirstLetter from "../helpers/string/capitalizeFirstLetter";
+<<<<<<< HEAD
+=======
+import matchUrlProtocol from "./richTextProcessor/matchUrlProtocol";
+import wrapUrl from "./richTextProcessor/wrapUrl";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export const langPack: {[actionType: string]: LangPackKey} = {
   "messageActionChatCreate": "ActionCreateGroup",
@@ -64,7 +80,11 @@ export const langPack: {[actionType: string]: LangPackKey} = {
 	"messageActionGroupCall.ended_by": "Chat.Service.VoiceChatFinished",
 	"messageActionGroupCall.ended_byYou": "Chat.Service.VoiceChatFinishedYou",
 
+<<<<<<< HEAD
 	"messageActionBotAllowed": "Chat.Service.BotPermissionAllowed"
+=======
+	"messageActionBotAllowed": "Chat.Service.BotPermissionAllowed",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
 export type LangPackKey = /* string |  */keyof typeof lang | keyof typeof langSign;
@@ -81,9 +101,22 @@ namespace I18n {
 
 	let cacheLangPackPromise: Promise<LangPackDifference>;
 	export let lastRequestedLangCode: string;
+<<<<<<< HEAD
 	export let lastAppliedLangCode: string;
 	export let requestedServerLanguage = false;
   export let timeFormat: State['settings']['timeFormat'];
+=======
+  export let lastRequestedNormalizedLangCode: string;
+	export let lastAppliedLangCode: string;
+	export let requestedServerLanguage = false;
+  export let timeFormat: State['settings']['timeFormat'];
+
+  function setLangCode(langCode: string) {
+    lastRequestedLangCode = langCode;
+    lastRequestedNormalizedLangCode = langCode.split('-')[0];
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 	export function getCacheLangPack(): Promise<LangPackDifference> {
 		if(cacheLangPackPromise) return cacheLangPackPromise;
 		return cacheLangPackPromise = Promise.all([
@@ -99,7 +132,11 @@ namespace I18n {
 			} */
 			
 			if(!lastRequestedLangCode) {
+<<<<<<< HEAD
 				lastRequestedLangCode = langPack.lang_code;
+=======
+        setLangCode(langPack.lang_code);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 			}
 			
 			applyLangPack(langPack);
@@ -138,7 +175,11 @@ namespace I18n {
     if(haveToUpdate) {
       cachedDateTimeFormats.clear();
       const elements = Array.from(document.querySelectorAll(`.i18n`)) as HTMLElement[];
+<<<<<<< HEAD
       elements.forEach(element => {
+=======
+      elements.forEach((element) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const instance = weakMap.get(element);
 
         if(instance instanceof IntlDateElement) {
@@ -150,7 +191,11 @@ namespace I18n {
 
 	export function loadLocalLangPack() {
 		const defaultCode = App.langPackCode;
+<<<<<<< HEAD
 		lastRequestedLangCode = defaultCode;
+=======
+    setLangCode(defaultCode);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		return Promise.all([
 			import('../lang'),
 			import('../langSign'),
@@ -173,6 +218,7 @@ namespace I18n {
 		});
 	}
 
+<<<<<<< HEAD
 	export function loadLangPack(langCode: string) {
 		requestedServerLanguage = true;
 		return Promise.all([
@@ -181,12 +227,27 @@ namespace I18n {
 				lang_pack: App.langPack
 			}),
 			apiManager.invokeApiCacheable('langpack.getLangPack', {
+=======
+	export function loadLangPack(langCode: string, web?: boolean) {
+		requestedServerLanguage = true;
+    const managers = rootScope.managers;
+		return Promise.all([
+			managers.apiManager.invokeApiCacheable('langpack.getLangPack', {
+				lang_code: langCode,
+				lang_pack: web ? 'web' : App.langPack
+			}),
+			!web && managers.apiManager.invokeApiCacheable('langpack.getLangPack', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 				lang_code: langCode,
 				lang_pack: 'android'
 			}),
 			import('../lang'),
 			import('../langSign'),
+<<<<<<< HEAD
 			apiManager.invokeApiCacheable('help.getCountriesList', {
+=======
+			managers.apiManager.invokeApiCacheable('help.getCountriesList', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 				lang_code: langCode,
 				hash: 0
 			}) as Promise<HelpCountriesList.helpCountriesList>,
@@ -195,7 +256,11 @@ namespace I18n {
 	}
 
 	export function getStrings(langCode: string, strings: string[]) {
+<<<<<<< HEAD
 		return apiManager.invokeApi('langpack.getStrings', {
+=======
+		return rootScope.managers.apiManager.invokeApi('langpack.getStrings', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 			lang_pack: App.langPack,
 			lang_code: langCode,
 			keys: strings
@@ -224,6 +289,7 @@ namespace I18n {
 		return pushTo;
 	}
 
+<<<<<<< HEAD
 	export function getLangPack(langCode: string) {
 		lastRequestedLangCode = langCode;
 		return loadLangPack(langCode).then(([langPack1, langPack2, localLangPack1, localLangPack2, countries, _]) => {
@@ -238,6 +304,18 @@ namespace I18n {
 			for(const string of langPack2.strings) {
 				strings.push(string);
 			}
+=======
+	export function getLangPack(langCode: string, web?: boolean) {
+    setLangCode(langCode);
+		return loadLangPack(langCode, web).then(([langPack1, langPack2, localLangPack1, localLangPack2, countries, _]) => {
+			let strings: LangPackString[] = [];
+
+			[localLangPack1, localLangPack2].forEach((l) => {
+				formatLocalStrings(l.default as any, strings);
+			});
+
+			strings = strings.concat(...[langPack1.strings, langPack2.strings].filter(Boolean));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 			langPack1.strings = strings;
 			langPack1.countries = countries;
@@ -265,15 +343,27 @@ namespace I18n {
 	})();
 	
 	export function applyLangPack(langPack: LangPackDifference) {
+<<<<<<< HEAD
 		if(langPack.lang_code !== lastRequestedLangCode) {
+=======
+    const currentLangCode = lastRequestedLangCode;
+		if(langPack.lang_code !== currentLangCode) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 			return;
 		}
 
 		try {
+<<<<<<< HEAD
 			pluralRules = new Intl.PluralRules(langPack.lang_code);
 		} catch(err) {
 			console.error('pluralRules error', err);
 			pluralRules = new Intl.PluralRules(langPack.lang_code.split('-', 1)[0]);
+=======
+			pluralRules = new Intl.PluralRules(lastRequestedNormalizedLangCode);
+		} catch(err) {
+			console.error('pluralRules error', err);
+			pluralRules = new Intl.PluralRules(lastRequestedNormalizedLangCode.split('-', 1)[0]);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		}
 
 		strings.clear();
@@ -286,7 +376,11 @@ namespace I18n {
 			countriesList.length = 0;
 			countriesList.push(...langPack.countries.countries);
 
+<<<<<<< HEAD
 			langPack.countries.countries.forEach(country => {
+=======
+			langPack.countries.countries.forEach((country) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 				if(country.name) {
 					const langPackKey: any = country.default_name;
 					strings.set(langPackKey, {
@@ -298,15 +392,25 @@ namespace I18n {
 			});
 		}
 
+<<<<<<< HEAD
 		if(lastAppliedLangCode !== langPack.lang_code) {
 			rootScope.dispatchEvent('language_change', langPack.lang_code);
 			lastAppliedLangCode = langPack.lang_code;
+=======
+		if(lastAppliedLangCode !== currentLangCode) {
+			rootScope.dispatchEvent('language_change', currentLangCode);
+			lastAppliedLangCode = currentLangCode;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       cachedDateTimeFormats.clear();
       updateAmPm();
 		}
 
 		const elements = Array.from(document.querySelectorAll(`.i18n`)) as HTMLElement[];
+<<<<<<< HEAD
 		elements.forEach(element => {
+=======
+		elements.forEach((element) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 			const instance = weakMap.get(element);
 
 			if(instance) {
@@ -359,9 +463,15 @@ namespace I18n {
         
 				const url = p4.slice(idx + 2, p4.length - 1);
         let a: HTMLAnchorElement;
+<<<<<<< HEAD
 				if(url && RichTextProcessor.matchUrlProtocol(url)) {
           a = document.createElement('a');
           const wrappedUrl = RichTextProcessor.wrapUrl(url);
+=======
+				if(url && matchUrlProtocol(url)) {
+          a = document.createElement('a');
+          const wrappedUrl = wrapUrl(url);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           a.href = wrappedUrl.url;
           if(wrappedUrl.onclick) a.setAttribute('onclick', wrappedUrl.onclick);
           a.target = '_blank';
@@ -413,7 +523,11 @@ namespace I18n {
 
     const result = superFormatter(input, args);
     if(plain) { // * let's try a hack now... (don't want to replace []() entity)
+<<<<<<< HEAD
       return result.map(item => item instanceof Node ? item.textContent : item).join('');
+=======
+      return result.map((item) => item instanceof Node ? item.textContent : item).join('');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } else {
       return result;
     }
@@ -499,10 +613,18 @@ namespace I18n {
 
   const cachedDateTimeFormats: Map<string, Intl.DateTimeFormat> = new Map();
   function getDateTimeFormat(options: Intl.DateTimeFormatOptions = {}) {
+<<<<<<< HEAD
     let json = JSON.stringify(options);
     let dateTimeFormat = cachedDateTimeFormats.get(json);
     if(!dateTimeFormat) {
       cachedDateTimeFormats.set(json, dateTimeFormat = new Intl.DateTimeFormat(lastRequestedLangCode + '-u-hc-' + timeFormat, options));
+=======
+    const json = JSON.stringify(options);
+    let dateTimeFormat = cachedDateTimeFormats.get(json);
+    if(!dateTimeFormat) {
+      dateTimeFormat = new Intl.DateTimeFormat(lastRequestedNormalizedLangCode + '-u-hc-' + timeFormat, options);
+      cachedDateTimeFormats.set(json, dateTimeFormat);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     return dateTimeFormat;

@@ -4,7 +4,11 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
+=======
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { logger, LogTypes } from "../lib/logger";
 import fastSmoothScroll, { ScrollOptions } from "../helpers/fastSmoothScroll";
 import useHeavyAnimationCheck from "../hooks/useHeavyAnimationCheck";
@@ -21,7 +25,11 @@ console.log(height);
 */
 
 /*
+<<<<<<< HEAD
 Array.from($0.querySelectorAll('.bubble-content')).forEach(_el => {
+=======
+Array.from($0.querySelectorAll('.bubble-content')).forEach((_el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 	//_el.style.display = '';	
 	//return;
 
@@ -35,7 +43,11 @@ Array.from($0.querySelectorAll('.bubble-content')).forEach(_el => {
 */
 
 /* const scrollables: Map<HTMLElement, Scrollable> = new Map();
+<<<<<<< HEAD
 const scrollsIntersector = new IntersectionObserver(entries => {
+=======
+const scrollsIntersector = new IntersectionObserver((entries) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   for(let entry of entries) {
     const scrollable = scrollables.get(entry.target as HTMLElement);
 
@@ -81,7 +93,11 @@ export class ScrollableBase {
     this.log = logger('SCROLL' + (logPrefix ? '-' + logPrefix : ''), LogTypes.Error);
 
     if(el) {
+<<<<<<< HEAD
       Array.from(el.children).forEach(c => this.container.append(c));
+=======
+      Array.from(el.children).forEach((c) => this.container.append(c));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       el.append(this.container);
     }
@@ -143,6 +159,16 @@ export class ScrollableBase {
     this.removeHeavyAnimationListener = undefined;
   }
 
+<<<<<<< HEAD
+=======
+  public destroy() {
+    this.removeListeners();
+    this.onAdditionalScroll = undefined;
+    this.onScrolledTop = undefined;
+    this.onScrolledBottom = undefined;
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public append(element: HTMLElement) {
     this.container.append(element);
   }
@@ -160,7 +186,11 @@ export class ScrollableBase {
       //this.log('onScroll call', this.onScrollMeasure);
     //}
 
+<<<<<<< HEAD
     //return;
+=======
+    // return;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(this.isHeavyAnimationInProgress) {
       this.cancelMeasure();
@@ -172,7 +202,12 @@ export class ScrollableBase {
     if((!this.onScrolledTop && !this.onScrolledBottom) && !this.splitUp && !this.onAdditionalScroll) return;
     if(this.onScrollMeasure) return;
     // if(this.onScrollMeasure) window.cancelAnimationFrame(this.onScrollMeasure);
+<<<<<<< HEAD
     this.onScrollMeasure = window.requestAnimationFrame(() => {
+=======
+    // this.onScrollMeasure = window.requestAnimationFrame(() => {
+    this.onScrollMeasure = window.setTimeout(() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.onScrollMeasure = 0;
 
       const scrollPosition = this.container[this.scrollProperty];
@@ -187,12 +222,22 @@ export class ScrollableBase {
       if(this.checkForTriggers) {
         this.checkForTriggers();
       }
+<<<<<<< HEAD
     });
+=======
+    // });
+    }, 200);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 
   public cancelMeasure() {
     if(this.onScrollMeasure) {
+<<<<<<< HEAD
       window.cancelAnimationFrame(this.onScrollMeasure);
+=======
+      // window.cancelAnimationFrame(this.onScrollMeasure);
+      clearTimeout(this.onScrollMeasure);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.onScrollMeasure = 0;
     }
   }
@@ -212,7 +257,11 @@ export default class Scrollable extends ScrollableBase {
     /* if(withPaddingContainer) {
       this.padding = document.createElement('div');
       this.padding.classList.add('scrollable-padding');
+<<<<<<< HEAD
       Array.from(this.container.children).forEach(c => this.padding.append(c));
+=======
+      Array.from(this.container.children).forEach((c) => this.padding.append(c));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.container.append(this.padding);
     } */
 

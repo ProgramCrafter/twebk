@@ -25,7 +25,20 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+<<<<<<< HEAD
 img, video {
+=======
+button {
+  background: none;
+	outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+img, 
+video {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   -webkit-user-drag: none;
 }
 
@@ -155,6 +168,13 @@ Utility Classes
   white-space: pre-wrap !important;
 }
 
+<<<<<<< HEAD
+=======
+.no-wrap {
+  white-space: nowrap !important;
+}
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 .no-border-radius {
   border-radius: 0 !important;
 }

@@ -19,6 +19,11 @@ import ListenerSetter from "../../helpers/listenerSetter";
 import { attachClickEvent } from "../../helpers/dom/clickEvent";
 import appNavigationController, { NavigationItem } from "../appNavigationController";
 import { IS_MOBILE_SAFARI } from "../../environment/userAgent";
+<<<<<<< HEAD
+=======
+import PopupElement from "../popups";
+import { DIALOG_LIST_ELEMENT_TAG } from "../../lib/appManagers/appDialogsManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class ChatSearch {
   private element: HTMLElement;
@@ -78,7 +83,11 @@ export default class ChatSearch {
       if(!this.foundCount) {
         replaceContent(this.foundCountEl, this.inputSearch.value ? i18n('NoResult') : '');
         this.results.classList.remove('active');
+<<<<<<< HEAD
         this.chat.bubbles.bubblesContainer.classList.remove('search-results-active');
+=======
+        this.chat.bubbles.container.classList.remove('search-results-active');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.upBtn.setAttribute('disabled', 'true');
         this.downBtn.setAttribute('disabled', 'true');
       } else {
@@ -88,7 +97,11 @@ export default class ChatSearch {
     this.appSearch.beginSearch(this.chat.peerId, this.chat.threadId);
 
     //appImManager.topbar.parentElement.insertBefore(this.results, appImManager.bubblesContainer);
+<<<<<<< HEAD
     this.chat.bubbles.bubblesContainer.append(this.results);
+=======
+    this.chat.bubbles.container.append(this.results);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     // Footer
     this.footer = document.createElement('div');
@@ -154,7 +167,11 @@ export default class ChatSearch {
     this.results.remove();
     this.footer.remove();
     this.listenerSetter.removeAll();
+<<<<<<< HEAD
     this.chat.bubbles.bubblesContainer.classList.remove('search-results-active');
+=======
+    this.chat.bubbles.container.classList.remove('search-results-active');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.chat.search = undefined;
     appNavigationController.removeItem(this.navigationItem);
   }
@@ -165,7 +182,11 @@ export default class ChatSearch {
 
   private onDateClick = (e: MouseEvent) => {
     cancelEvent(e);
+<<<<<<< HEAD
     new PopupDatePicker(new Date(), this.chat.bubbles.onDatePick).show();
+=======
+    PopupElement.createPopup(PopupDatePicker, new Date(), this.chat.bubbles.onDatePick).show();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 
   private selectResult(elem: HTMLElement) {
@@ -189,7 +210,11 @@ export default class ChatSearch {
     }
 
     this.results.classList.remove('active');
+<<<<<<< HEAD
     this.chat.bubbles.bubblesContainer.classList.remove('search-results-active');
+=======
+    this.chat.bubbles.container.classList.remove('search-results-active');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const res = this.chat.setPeer(peerId, lastMsgId);
     this.setPeerPromise = ((res instanceof Promise ? res : Promise.resolve(res)) as Promise<any>).then(() => {
@@ -206,7 +231,11 @@ export default class ChatSearch {
   }
 
   private onResultsClick = (e: MouseEvent) => {
+<<<<<<< HEAD
     const target = findUpTag(e.target, 'LI');
+=======
+    const target = findUpTag(e.target, DIALOG_LIST_ELEMENT_TAG);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(target) {
       this.selectResult(target);
     }
@@ -214,7 +243,11 @@ export default class ChatSearch {
 
   private onFooterClick = (e: MouseEvent) => {
     if(this.foundCount) {
+<<<<<<< HEAD
       this.chat.bubbles.bubblesContainer.classList.toggle('search-results-active');
+=======
+      this.chat.bubbles.container.classList.toggle('search-results-active');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.results.classList.toggle('active');
     }
   };

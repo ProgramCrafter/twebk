@@ -6,10 +6,17 @@
 
 import deferredPromise from "../helpers/cancellablePromise";
 import mediaSizes from "../helpers/mediaSizes";
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
 import { IS_MOBILE_SAFARI, IS_SAFARI } from "../environment/userAgent";
 import appDocsManager, { MyDocument } from "../lib/appManagers/appDocsManager";
 import appPhotosManager, { MyPhoto } from "../lib/appManagers/appPhotosManager";
+=======
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+import { IS_MOBILE_SAFARI, IS_SAFARI } from "../environment/userAgent";
+import type { MyDocument } from "../lib/appManagers/appDocsManager";
+import type { MyPhoto } from "../lib/appManagers/appPhotosManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { logger } from "../lib/logger";
 import VideoPlayer from "../lib/mediaPlayer";
 import rootScope from "../lib/rootScope";
@@ -19,7 +26,10 @@ import AvatarElement from "./avatar";
 import ButtonIcon from "./buttonIcon";
 import { ButtonMenuItemOptions } from "./buttonMenu";
 import ButtonMenuToggle from "./buttonMenuToggle";
+<<<<<<< HEAD
 import { LazyLoadQueueBase } from "./lazyLoadQueue";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import ProgressivePreloader from "./preloader";
 import SwipeHandler from "./swipeHandler";
 import { formatFullSentTime } from "../helpers/date";
@@ -28,7 +38,10 @@ import { Message } from "../layer";
 import findUpClassName from "../helpers/dom/findUpClassName";
 import renderImageFromUrl, { renderImageFromUrlPromise } from "../helpers/dom/renderImageFromUrl";
 import getVisibleRect from "../helpers/dom/getVisibleRect";
+<<<<<<< HEAD
 import appDownloadManager from "../lib/appManagers/appDownloadManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import cancelEvent from "../helpers/dom/cancelEvent";
 import fillPropertyValue from "../helpers/fillPropertyValue";
 import generatePathData from "../helpers/generatePathData";
@@ -40,12 +53,27 @@ import windowSize from "../helpers/windowSize";
 import ListLoader from "../helpers/listLoader";
 import EventListenerBase from "../helpers/eventListenerBase";
 import { MyMessage } from "../lib/appManagers/appMessagesManager";
+<<<<<<< HEAD
 import RichTextProcessor from "../lib/richtextprocessor";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { NULL_PEER_ID } from "../lib/mtproto/mtproto_config";
 import { isFullScreen } from "../helpers/dom/fullScreen";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
 import SearchListLoader from "../helpers/searchListLoader";
 import createVideo from "../helpers/dom/createVideo";
+<<<<<<< HEAD
+=======
+import { AppManagers } from "../lib/appManagers/managers";
+import getStrippedThumbIfNeeded from "../helpers/getStrippedThumbIfNeeded";
+import setAttachmentSize from "../helpers/setAttachmentSize";
+import wrapEmojiText from "../lib/richTextProcessor/wrapEmojiText";
+import LazyLoadQueueBase from "./lazyLoadQueueBase";
+import overlayCounter from "../helpers/overlayCounter";
+import { ThumbCache } from "../lib/storages/thumbs";
+import appDownloadManager from "../lib/appManagers/appDownloadManager";
+import wrapPeerTitle from "./wrappers/peerTitle";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const ZOOM_STEP = 0.5;
 const ZOOM_INITIAL_VALUE = 1;
@@ -119,6 +147,11 @@ export default class AppMediaViewerBase<
   protected releaseSingleMedia: ReturnType<AppMediaPlaybackController['setSingleMedia']>;
   protected navigationItem: NavigationItem;
 
+<<<<<<< HEAD
+=======
+  protected managers: AppManagers;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   get target() {
     return this.listLoader.current;
   }
@@ -133,6 +166,11 @@ export default class AppMediaViewerBase<
   ) {
     super(false);
 
+<<<<<<< HEAD
+=======
+    this.managers = rootScope.managers;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.log = logger('AMV');
     this.preloader = new ProgressivePreloader();
     this.preloaderStreamable = new ProgressivePreloader({
@@ -182,7 +220,11 @@ export default class AppMediaViewerBase<
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add(MEDIA_VIEWER_CLASSNAME + '-buttons');
     
+<<<<<<< HEAD
     topButtons.concat(['download', 'zoom', 'close']).forEach(name => {
+=======
+    topButtons.concat(['download', 'zoom', 'close']).forEach((name) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const button = ButtonIcon(name, {noRipple: true});
       this.buttons[name] = button;
       buttonsDiv.append(button);
@@ -260,7 +302,11 @@ export default class AppMediaViewerBase<
 
   protected setListeners() {
     attachClickEvent(this.buttons.download, this.onDownloadClick);
+<<<<<<< HEAD
     [this.buttons.close, this.buttons['mobile-close'], this.preloaderStreamable.preloader].forEach(el => {
+=======
+    [this.buttons.close, this.buttons['mobile-close'], this.preloaderStreamable.preloader].forEach((el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       attachClickEvent(el, this.close.bind(this));
     });
 
@@ -458,7 +504,11 @@ export default class AppMediaViewerBase<
   }
 
   protected toggleOverlay(active: boolean) {
+<<<<<<< HEAD
     rootScope.isOverlayActive = active;
+=======
+    overlayCounter.isOverlayActive = active;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     animationIntersector.checkAnimations(active);
   }
 
@@ -516,7 +566,11 @@ export default class AppMediaViewerBase<
       classNames.push('media-viewer-movers');
     }
 
+<<<<<<< HEAD
     classNames.find(s => {
+=======
+    classNames.find((s) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       try {
         mover = findUpClassName(target, s);
         if(mover) return true;
@@ -530,7 +584,11 @@ export default class AppMediaViewerBase<
 
   private onKeyDown = (e: KeyboardEvent) => {
     //this.log('onKeyDown', e);
+<<<<<<< HEAD
     if(rootScope.overlaysActive > 1) {
+=======
+    if(overlayCounter.overlaysActive > 1) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
@@ -559,7 +617,11 @@ export default class AppMediaViewerBase<
   };
 
   private onKeyUp = (e: KeyboardEvent) => {
+<<<<<<< HEAD
     if(rootScope.overlaysActive > 1) {
+=======
+    if(overlayCounter.overlaysActive > 1) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
@@ -573,7 +635,11 @@ export default class AppMediaViewerBase<
   };
 
   private onWheel = (e: WheelEvent) => {
+<<<<<<< HEAD
     if(rootScope.overlaysActive > 1 || (findUpClassName(e.target, 'media-viewer-caption') && !this.ctrlKeyDown)) {
+=======
+    if(overlayCounter.overlaysActive > 1 || (findUpClassName(e.target, 'media-viewer-caption') && !this.ctrlKeyDown)) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return;
     }
 
@@ -730,7 +796,11 @@ export default class AppMediaViewerBase<
 
     let borderRadius = window.getComputedStyle(realParent).getPropertyValue('border-radius');
     const brSplitted = fillPropertyValue(borderRadius) as string[];
+<<<<<<< HEAD
     borderRadius = brSplitted.map(r => (parseInt(r) / scaleX) + 'px').join(' ');
+=======
+    borderRadius = brSplitted.map((r) => (parseInt(r) / scaleX) + 'px').join(' ');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!wasActive) {
       mover.style.borderRadius = borderRadius;
     }
@@ -845,7 +915,11 @@ export default class AppMediaViewerBase<
 
           // код ниже нужен только чтобы скрыть моргание до момента как сработает таймаут
           let d: string;
+<<<<<<< HEAD
           const br: [number, number, number, number] = borderRadius.split(' ').map(v => parseInt(v)) as any;
+=======
+          const br: [number, number, number, number] = borderRadius.split(' ').map((v) => parseInt(v)) as any;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(isOut) d = generatePathData(0, 0, width - 9 / scaleX, height, ...br);
           else d = generatePathData(9 / scaleX, 0, width - 9 / scaleX, height, ...br);
           path.setAttributeNS(null, 'd', d);
@@ -1040,7 +1114,11 @@ export default class AppMediaViewerBase<
     const {width, height} = rect;
     delay = delay / 2;
 
+<<<<<<< HEAD
     const br = borderRadius.split(' ').map(v => parseInt(v));
+=======
+    const br = borderRadius.split(' ').map((v) => parseInt(v));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const step = () => {
       const diff = Date.now() - start;
@@ -1049,7 +1127,11 @@ export default class AppMediaViewerBase<
       if(progress > 1) progress = 1;
       if(upscale) progress = 1 - progress;
 
+<<<<<<< HEAD
       const _br: [number, number, number, number] = br.map(v => v * progress) as any;
+=======
+      const _br: [number, number, number, number] = br.map((v) => v * progress) as any;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       let d: string;
       if(isOut) d = generatePathData(0, 0, width - (9 / scaleX * progress), height, ..._br);
@@ -1152,16 +1234,24 @@ export default class AppMediaViewerBase<
   }
 
   protected setAuthorInfo(fromId: PeerId | string, timestamp: number) {
+<<<<<<< HEAD
     replaceContent(this.author.date, formatFullSentTime(timestamp));
 
     const isPeerId = fromId.isPeerId();
     let title: HTMLElement;
     if(isPeerId) {
       title = new PeerTitle({
+=======
+    const isPeerId = fromId.isPeerId();
+    let wrapTitlePromise: Promise<HTMLElement> | HTMLElement;
+    if(isPeerId) {
+      wrapTitlePromise = wrapPeerTitle({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         peerId: fromId as PeerId,
         dialog: false,
         onlyFirstName: false,
         plainText: false
+<<<<<<< HEAD
       }).element;
     } else {
       title = document.createElement('span');
@@ -1180,6 +1270,34 @@ export default class AppMediaViewerBase<
     });
 
     oldAvatar.parentElement.replaceChild(this.author.avatarEl, oldAvatar);
+=======
+      })
+    } else {
+      const title = wrapTitlePromise = document.createElement('span');
+      title.append(wrapEmojiText(fromId));
+      title.classList.add('peer-title');
+    }
+
+    let oldAvatar = this.author.avatarEl;
+    const newAvatar = this.author.avatarEl = (oldAvatar.cloneNode() as AvatarElement);
+
+    return Promise.all([
+      (this.author.avatarEl as AvatarElement).updateWithOptions({
+        peerId: fromId as PeerId || NULL_PEER_ID,
+        peerTitle: isPeerId ? undefined : '' + fromId
+      }),
+
+      wrapTitlePromise
+    ]).then(([_, title]) => {
+      if(this.author.avatarEl !== newAvatar) {
+        return;
+      }
+
+      replaceContent(this.author.date, formatFullSentTime(timestamp));
+      replaceContent(this.author.nameEl, title);
+      oldAvatar.replaceWith(this.author.avatarEl);
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   protected async _openMedia(
@@ -1200,7 +1318,11 @@ export default class AppMediaViewerBase<
       this.log('openMedia:', media, fromId, prevTargets, nextTargets);
     } */
 
+<<<<<<< HEAD
     this.setAuthorInfo(fromId, timestamp);
+=======
+    const setAuthorPromise = this.setAuthorInfo(fromId, timestamp);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
     const isDocument = media._ === 'document';
     const isVideo = isDocument && media.mime_type && ((['video', 'gif'] as MyDocument['type'][]).includes(media.type) || media.mime_type.indexOf('video/') === 0);
@@ -1251,6 +1373,10 @@ export default class AppMediaViewerBase<
     } else {
       this.toggleOverlay(true);
       this.setGlobalListeners();
+<<<<<<< HEAD
+=======
+      await setAuthorPromise;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       if(!this.wholeDiv.parentElement) {
         this.pageEl.insertBefore(this.wholeDiv, document.getElementById('main-columns'));
@@ -1289,15 +1415,25 @@ export default class AppMediaViewerBase<
     }
     const maxHeight = windowH - 120 - padding;
     let thumbPromise: Promise<any> = Promise.resolve();
+<<<<<<< HEAD
     const size = appPhotosManager.setAttachmentSize(media, container, maxWidth, maxHeight, mediaSizes.isMobile ? false : true, undefined, !!(isDocument && media.w && media.h)).photoSize;
     if(useContainerAsTarget) {
       const cacheContext = appDownloadManager.getCacheContext(media, size.type);
+=======
+    const size = setAttachmentSize(media, container, maxWidth, maxHeight, mediaSizes.isMobile ? false : true, undefined, !!(isDocument && media.w && media.h)).photoSize;
+    if(useContainerAsTarget) {
+      const cacheContext = await this.managers.thumbsStorage.getCacheContext(media, size.type);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       let img: HTMLImageElement | HTMLCanvasElement;
       if(cacheContext.downloaded) {
         img = new Image();
         img.src = cacheContext.url;
       } else {
+<<<<<<< HEAD
         const gotThumb = appPhotosManager.getStrippedThumbIfNeeded(media, cacheContext, true);
+=======
+        const gotThumb = getStrippedThumbIfNeeded(media, cacheContext, true);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(gotThumb) {
           thumbPromise = gotThumb.loadPromise;
           img = gotThumb.image;
@@ -1318,6 +1454,13 @@ export default class AppMediaViewerBase<
     const supportsStreaming: boolean = !!(isDocument && media.supportsStreaming);
     const preloader = supportsStreaming ? this.preloaderStreamable : this.preloader;
 
+<<<<<<< HEAD
+=======
+    const getCacheContext = () => {
+      return this.managers.thumbsStorage.getCacheContext(media, size?.type);
+    };
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let setMoverPromise: Promise<void>;
     if(isVideo) {
       ////////this.log('will wrap video', media, size);
@@ -1353,6 +1496,7 @@ export default class AppMediaViewerBase<
           }
         });
 
+<<<<<<< HEAD
         video.addEventListener('error', () => {
           if(video.error.code !== 4) {
             this.log.error("Error " + video.error.code + "; details: " + video.error.message);
@@ -1363,6 +1507,8 @@ export default class AppMediaViewerBase<
           }
         }, {once: true});
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.addEventListener('setMoverAfter', () => {
           video.src = '';
           video.load();
@@ -1470,6 +1616,10 @@ export default class AppMediaViewerBase<
         if(supportsStreaming) {
           onAnimationEnd.then(() => {
             if(video.readyState < video.HAVE_FUTURE_DATA) {
+<<<<<<< HEAD
+=======
+              console.log('ppp 1');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               preloader.attach(mover, true);
             }
   
@@ -1480,7 +1630,11 @@ export default class AppMediaViewerBase<
   
           const attachCanPlay = () => {
             video.addEventListener('canplay', () => {
+<<<<<<< HEAD
               //this.log('video waited and progress loaded');
+=======
+              console.log('ppp 2');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               preloader.detach();
               video.parentElement.classList.remove('is-buffering');
             }, {once: true});
@@ -1494,6 +1648,10 @@ export default class AppMediaViewerBase<
             if(loading && isntEnoughData) {
               attachCanPlay();
   
+<<<<<<< HEAD
+=======
+              console.log('ppp 3');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               preloader.attach(mover, true);
   
               // поставлю класс для плеера, чтобы убрать большую иконку пока прелоадер на месте
@@ -1511,29 +1669,61 @@ export default class AppMediaViewerBase<
         }
         
         //if(!video.src || media.url !== video.src) {
+<<<<<<< HEAD
           const load = () => {
+=======
+          const load = async() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             /* if(useController) {
               appMediaPlaybackController.resolveWaitingForLoadMedia(message.peerId, message.mid, message.pFlags.is_scheduled);
             } */
 
+<<<<<<< HEAD
             const cacheContext = appDownloadManager.getCacheContext(media);
             const promise: Promise<any> = supportsStreaming ? Promise.resolve() : appDocsManager.downloadDoc(media);
             
             if(!supportsStreaming) {
               onAnimationEnd.then(() => {
                 if(!cacheContext.url) {
+=======
+            const promise: Promise<any> = supportsStreaming ? Promise.resolve() : appDownloadManager.downloadMediaURL({media});
+            
+            if(!supportsStreaming) {
+              onAnimationEnd.then(async() => {
+                if(!(await getCacheContext()).url) {
+                  console.log('ppp 4');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                   preloader.attach(mover, true, promise);
                 }
               });
             }
   
+<<<<<<< HEAD
             Promise.all([promise, onAnimationEnd]).then(() => {
+=======
+            Promise.all([promise, onAnimationEnd]).then(async() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               if(this.tempId !== tempId) {
                 this.log.warn('media viewer changed video');
                 return;
               }
 
+<<<<<<< HEAD
               const url = cacheContext.url;
+=======
+              const url = (await getCacheContext()).url;
+
+              video.addEventListener('error', () => {
+                if(video.error.code !== 4) {
+                  this.log.error("Error " + video.error.code + "; details: " + video.error.message);
+                }
+      
+                if(preloader) {
+                  preloader.detach();
+                }
+              }, {once: true});
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               if(target instanceof SVGSVGElement/*  && (video.parentElement || !isSafari) */) { // if video exists
                 //if(!video.parentElement) {
                   div.firstElementChild.lastElementChild.append(video);
@@ -1574,18 +1764,30 @@ export default class AppMediaViewerBase<
       //if(wasActive) return;
         //return;
         
+<<<<<<< HEAD
         const load = () => {
           const cacheContext = appDownloadManager.getCacheContext(media, size.type);
           const cancellablePromise = isDocument ? appDocsManager.downloadDoc(media) : appPhotosManager.preloadPhoto(media, size);
   
           onAnimationEnd.then(() => {
             if(!cacheContext.url) {
+=======
+        const load = async() => {
+          const cancellablePromise = isDocument ? appDownloadManager.downloadMediaURL({media}) : appDownloadManager.downloadMediaURL({media, thumb: size});
+  
+          onAnimationEnd.then(async() => {
+            if(!(await getCacheContext()).url) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               this.preloader.attachPromise(cancellablePromise);
               //this.preloader.attach(mover, true, cancellablePromise);
             }
           });
           
+<<<<<<< HEAD
           Promise.all([onAnimationEnd, cancellablePromise]).then(() => {
+=======
+          Promise.all([onAnimationEnd, cancellablePromise]).then(async() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(this.tempId !== tempId) {
               this.log.warn('media viewer changed photo');
               return;
@@ -1593,7 +1795,11 @@ export default class AppMediaViewerBase<
             
             ///////this.log('indochina', blob);
     
+<<<<<<< HEAD
             const url = cacheContext.url;
+=======
+            const url = (await getCacheContext()).url;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             if(target instanceof SVGSVGElement) {
               this.updateMediaSource(target, url, 'img');
               this.updateMediaSource(mover, url, 'img');
@@ -1601,7 +1807,11 @@ export default class AppMediaViewerBase<
               if(mediaSizes.isMobile) {
                 const imgs = mover.querySelectorAll('img');
                 if(imgs && imgs.length) {
+<<<<<<< HEAD
                   imgs.forEach(img => {
+=======
+                  imgs.forEach((img) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                     img.classList.remove('thumbnail'); // может здесь это вообще не нужно
                   });
                 }
@@ -1630,7 +1840,11 @@ export default class AppMediaViewerBase<
             }
     
             //this.preloader.detach();
+<<<<<<< HEAD
           }).catch(err => {
+=======
+          }).catch((err) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             this.log.error(err);
             this.preloader.attach(mover);
             this.preloader.setManual();

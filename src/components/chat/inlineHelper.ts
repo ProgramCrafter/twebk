@@ -4,17 +4,26 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import type { AppInlineBotsManager } from "../../lib/appManagers/appInlineBotsManager";
 import type { AppUsersManager } from "../../lib/appManagers/appUsersManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import type Chat from "./chat";
 import debounce from "../../helpers/schedulers/debounce";
 import { WebDocument } from "../../layer";
 import { MyDocument } from "../../lib/appManagers/appDocsManager";
+<<<<<<< HEAD
 import appDownloadManager from "../../lib/appManagers/appDownloadManager";
 import RichTextProcessor from "../../lib/richtextprocessor";
 import LazyLoadQueue from "../lazyLoadQueue";
 import Scrollable from "../scrollable";
 import { renderImageWithFadeIn, wrapPhoto } from "../wrappers";
+=======
+import LazyLoadQueue from "../lazyLoadQueue";
+import Scrollable from "../scrollable";
+import { wrapPhoto } from "../wrappers";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import AutocompleteHelper from "./autocompleteHelper";
 import AutocompleteHelperController from "./autocompleteHelperController";
 import Button from "../button";
@@ -26,6 +35,15 @@ import { SuperStickerRenderer } from "../emoticonsDropdown/tabs/stickers";
 import mediaSizes from "../../helpers/mediaSizes";
 import readBlobAsDataURL from "../../helpers/blob/readBlobAsDataURL";
 import setInnerHTML from "../../helpers/dom/setInnerHTML";
+<<<<<<< HEAD
+=======
+import renderImageWithFadeIn from "../../helpers/dom/renderImageWithFadeIn";
+import { AppManagers } from "../../lib/appManagers/managers";
+import wrapEmojiText from "../../lib/richTextProcessor/wrapEmojiText";
+import wrapRichText from "../../lib/richTextProcessor/wrapRichText";
+import generateQId from "../../lib/appManagers/utils/inlineBots/generateQId";
+import appDownloadManager from "../../lib/appManagers/appDownloadManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const ANIMATION_GROUP = 'INLINE-HELPER';
 // const GRID_ITEMS = 5;
@@ -38,11 +56,20 @@ export default class InlineHelper extends AutocompleteHelper {
   private onChangeScreen: () => void;
   public checkQuery: (peerId: PeerId, username: string, query: string) => ReturnType<InlineHelper['_checkQuery']>;
 
+<<<<<<< HEAD
   constructor(appendTo: HTMLElement, 
     controller: AutocompleteHelperController,
     private chat: Chat,
     private appUsersManager: AppUsersManager,
     private appInlineBotsManager: AppInlineBotsManager) {
+=======
+  constructor(
+    appendTo: HTMLElement, 
+    controller: AutocompleteHelperController,
+    private chat: Chat,
+    private managers: AppManagers
+  ) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super({
       appendTo, 
       controller,
@@ -52,8 +79,13 @@ export default class InlineHelper extends AutocompleteHelper {
         if(!target) return false; // can happen when there is only button
         const {peerId, botId, queryId} = this.list.dataset;
         return this.chat.input.getReadyToSend(() => {
+<<<<<<< HEAD
           const queryAndResultIds = this.appInlineBotsManager.generateQId(queryId, (target as HTMLElement).dataset.resultId);
           this.appInlineBotsManager.sendInlineResult(peerId.toPeerId(), botId, queryAndResultIds, {
+=======
+          const queryAndResultIds = generateQId(queryId, (target as HTMLElement).dataset.resultId);
+          this.managers.appInlineBotsManager.sendInlineResult(peerId.toPeerId(), botId, queryAndResultIds, {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             ...this.chat.getMessageSendingParams(),
             clearDraft: true,
           });
@@ -84,7 +116,11 @@ export default class InlineHelper extends AutocompleteHelper {
   public _checkQuery = async(peerId: PeerId, username: string, query: string) => {
     const middleware = this.controller.getMiddleware();
 
+<<<<<<< HEAD
     const peer = await this.appUsersManager.resolveUsername(username);
+=======
+    const peer = await this.managers.appUsersManager.resolveUsername(username);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!middleware()) {
       throw 'PEER_CHANGED';
     }
@@ -93,7 +129,11 @@ export default class InlineHelper extends AutocompleteHelper {
       throw 'NOT_A_BOT';
     }
 
+<<<<<<< HEAD
     const renderPromise = this.appInlineBotsManager.getInlineResults(peerId, peer.id, query).then(botResults => {
+=======
+    const renderPromise = this.managers.appInlineBotsManager.getInlineResults(peerId, peer.id, query).then((botResults) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!middleware()) {
         throw 'PEER_CHANGED';
       }
@@ -132,6 +172,7 @@ export default class InlineHelper extends AutocompleteHelper {
 
         if(!isGallery) {
           preview.classList.add('empty');
+<<<<<<< HEAD
           setInnerHTML(preview, RichTextProcessor.wrapEmojiText([...item.title.trim()][0]));
 
           const title = document.createElement('div');
@@ -141,6 +182,17 @@ export default class InlineHelper extends AutocompleteHelper {
           const description = document.createElement('div');
           description.classList.add('inline-helper-result-description');
           setInnerHTML(description, RichTextProcessor.wrapRichText(item.description, {
+=======
+          setInnerHTML(preview, wrapEmojiText([...item.title.trim()][0]));
+
+          const title = document.createElement('div');
+          title.classList.add('inline-helper-result-title');
+          setInnerHTML(title, wrapEmojiText(item.title));
+    
+          const description = document.createElement('div');
+          description.classList.add('inline-helper-result-description');
+          setInnerHTML(description, wrapRichText(item.description, {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             noCommands: true,
             noLinks: true
           }));
@@ -180,10 +232,17 @@ export default class InlineHelper extends AutocompleteHelper {
                   },
                   size: item.thumb.size,
                   mimeType: item.thumb.mime_type
+<<<<<<< HEAD
                 }).then(blob => {
                   const image = new Image();
                   image.classList.add('media-photo');
                   readBlobAsDataURL(blob).then(dataURL => {
+=======
+                }).then((blob) => {
+                  const image = new Image();
+                  image.classList.add('media-photo');
+                  readBlobAsDataURL(blob).then((dataURL) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                     renderImageWithFadeIn(mediaContainer, image, dataURL, true);
                   });
                 });
@@ -200,8 +259,13 @@ export default class InlineHelper extends AutocompleteHelper {
             } else if(media.type === 'sticker') {
               container.classList.add('super-sticker');
               this.superStickerRenderer.renderSticker(media, container, loadPromises);
+<<<<<<< HEAD
               if(media.sticker === 2) {
                 this.superStickerRenderer.observeAnimatedDiv(container);
+=======
+              if(media.animated) {
+                this.superStickerRenderer.observeAnimated(container);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               }
             }
           } else if(media) {
@@ -240,9 +304,16 @@ export default class InlineHelper extends AutocompleteHelper {
         parent.textContent = '';
         if(botResults.switch_pm) {
           const btnSwitchToPM = Button('btn-primary btn-secondary btn-primary-transparent primary');
+<<<<<<< HEAD
           setInnerHTML(btnSwitchToPM, RichTextProcessor.wrapEmojiText(botResults.switch_pm.text));
           attachClickEvent(btnSwitchToPM, (e) => {
             this.appInlineBotsManager.switchToPM(peerId, peer.id, botResults.switch_pm.start_param);
+=======
+          setInnerHTML(btnSwitchToPM, wrapEmojiText(botResults.switch_pm.text));
+          attachClickEvent(btnSwitchToPM, (e) => {
+            this.chat.appImManager.setInnerPeer({peerId});
+            this.managers.appInlineBotsManager.switchToPM(peerId, peer.id, botResults.switch_pm.start_param);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           });
           parent.append(btnSwitchToPM);
         }
@@ -284,6 +355,10 @@ export default class InlineHelper extends AutocompleteHelper {
 
     this.scrollable = new Scrollable(this.container);
     this.lazyLoadQueue = new LazyLoadQueue();
+<<<<<<< HEAD
     this.superStickerRenderer = new SuperStickerRenderer(this.lazyLoadQueue, ANIMATION_GROUP);
+=======
+    this.superStickerRenderer = new SuperStickerRenderer(this.lazyLoadQueue, ANIMATION_GROUP, this.managers);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }

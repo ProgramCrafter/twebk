@@ -13,10 +13,16 @@ import replaceContent from "../../../../helpers/dom/replaceContent";
 import setInnerHTML from "../../../../helpers/dom/setInnerHTML";
 import { AccountPassword } from "../../../../layer";
 import I18n, { i18n } from "../../../../lib/langPack";
+<<<<<<< HEAD
 import passwordManager from "../../../../lib/mtproto/passwordManager";
 import RichTextProcessor from "../../../../lib/richtextprocessor";
 import Button from "../../../button";
 import { putPreloader } from "../../../misc";
+=======
+import wrapEmojiText from "../../../../lib/richTextProcessor/wrapEmojiText";
+import Button from "../../../button";
+import { putPreloader } from "../../../putPreloader";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import PasswordMonkey from "../../../monkeys/password";
 import PasswordInputField from "../../../passwordInputField";
 import { SliderSuperTab } from "../../../slider";
@@ -43,7 +49,11 @@ export default class AppTwoStepVerificationEnterPasswordTab extends SliderSuperT
     const passwordInputField = this.passwordInputField = new PasswordInputField({
       name: 'enter-password',
       label: isNew ? 'PleaseEnterFirstPassword' : (this.state.hint ? undefined : 'LoginPassword'),
+<<<<<<< HEAD
       labelText: !isNew && this.state.hint ? RichTextProcessor.wrapEmojiText(this.state.hint) : undefined
+=======
+      labelText: !isNew && this.state.hint ? wrapEmojiText(this.state.hint) : undefined
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     const monkey = new PasswordMonkey(passwordInputField, 157);
@@ -89,11 +99,19 @@ export default class AppTwoStepVerificationEnterPasswordTab extends SliderSuperT
           getStateInterval = window.setInterval(getState, 10e3);
         }
   
+<<<<<<< HEAD
         return passwordManager.getState().then(_state => {
           this.state = _state;
   
           if(this.state.hint) {
             setInnerHTML(passwordInputField.label, RichTextProcessor.wrapEmojiText(this.state.hint));
+=======
+        return this.managers.passwordManager.getState().then((_state) => {
+          this.state = _state;
+  
+          if(this.state.hint) {
+            setInnerHTML(passwordInputField.label, wrapEmojiText(this.state.hint));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           } else {
             replaceContent(passwordInputField.label, i18n('LoginPassword'));
           }
@@ -112,13 +130,21 @@ export default class AppTwoStepVerificationEnterPasswordTab extends SliderSuperT
         const preloader = putPreloader(btnContinue);
   
         const plainPassword = passwordInputField.value;
+<<<<<<< HEAD
         passwordManager.check(passwordInputField.value, this.state).then(auth => {
+=======
+        this.managers.passwordManager.check(passwordInputField.value, this.state).then((auth) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           console.log(auth);
   
           if(auth._ === 'auth.authorization') {
             clearInterval(getStateInterval);
             if(monkey) monkey.remove();
+<<<<<<< HEAD
             const tab = new AppTwoStepVerificationTab(this.slider);
+=======
+            const tab = this.slider.createTab(AppTwoStepVerificationTab);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             tab.state = this.state;
             tab.plainPassword = plainPassword;
             tab.open();
@@ -131,7 +157,11 @@ export default class AppTwoStepVerificationEnterPasswordTab extends SliderSuperT
           switch(err.type) {
             default:
               //btnContinue.innerText = err.type;
+<<<<<<< HEAD
               textEl.key = 'TwoStepAuth.InvalidPassword';
+=======
+              textEl.key = 'PASSWORD_HASH_INVALID';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               textEl.update();
               preloader.remove();
               passwordInputField.select();
@@ -153,7 +183,11 @@ export default class AppTwoStepVerificationEnterPasswordTab extends SliderSuperT
 
         if(!verifyInput()) return;
 
+<<<<<<< HEAD
         const tab = new AppTwoStepVerificationReEnterPasswordTab(this.slider);
+=======
+        const tab = this.slider.createTab(AppTwoStepVerificationReEnterPasswordTab);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         tab.state = this.state;
         tab.newPassword = passwordInputField.value;
         tab.plainPassword = this.plainPassword;

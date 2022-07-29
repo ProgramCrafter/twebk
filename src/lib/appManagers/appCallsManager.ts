@@ -2,6 +2,7 @@
  * https://github.com/morethanwords/tweb
  * Copyright (C) 2019-2021 Eduard Kuzmenko
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
+<<<<<<< HEAD
  * 
  * Originally from:
  * https://github.com/evgeny-nadymov/telegram-react
@@ -30,11 +31,21 @@ import rootScope from "../rootScope";
 import apiUpdatesManager from "./apiUpdatesManager";
 import appProfileManager from "./appProfileManager";
 import appUsersManager from "./appUsersManager";
+=======
+ */
+
+import { getEnvironment } from "../../environment/utils";
+import safeReplaceObject from "../../helpers/object/safeReplaceObject";
+import { nextRandomUint } from "../../helpers/random";
+import { InputPhoneCall, MessagesDhConfig, PhoneCall, PhoneCallDiscardReason, PhoneCallProtocol, PhonePhoneCall } from "../../layer";
+import { AppManager } from "./manager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type CallId = PhoneCall['id'];
 
 export type MyPhoneCall = Exclude<PhoneCall, PhoneCall.phoneCallEmpty | PhoneCall.phoneCallDiscarded>;
 
+<<<<<<< HEAD
 const CALL_REQUEST_TIMEOUT = 45e3;
 
 export type CallAudioAssetName = "call_busy.mp3" | "call_connect.mp3" | "call_end.mp3" | "call_incoming.mp3" | "call_outgoing.mp3" | "voip_failed.mp3" | "voip_connecting.mp3";
@@ -169,6 +180,31 @@ export class AppCallsManager {
 
   public async computeKey(g_b: Uint8Array, a: Uint8Array, p: Uint8Array) {
     return apiManager.invokeCrypto('compute-dh-key', g_b, a, p);
+=======
+export class AppCallsManager extends AppManager {
+  private calls: Map<CallId, MyPhoneCall>;
+  
+  protected after() {
+    this.calls = new Map();
+
+    if(!getEnvironment().IS_CALL_SUPPORTED) {
+      return;
+    }
+
+    this.apiUpdatesManager.addMultipleEventsListeners({
+      updatePhoneCall: (update) => {
+        this.saveCall(update.phone_call);
+      },
+
+      updatePhoneCallSignalingData: (update) => {
+        this.rootScope.dispatchEvent('call_signaling', {callId: update.phone_call_id, data: update.data});
+      }
+    });
+  }
+
+  public computeKey(g_b: Uint8Array, a: Uint8Array, p: Uint8Array) {
+    return this.cryptoWorker.invokeCrypto('compute-dh-key', g_b, a, p);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   public saveCall(call: PhoneCall) {
@@ -188,6 +224,11 @@ export class AppCallsManager {
       this.calls.set(call.id, call as any);
     }
 
+<<<<<<< HEAD
+=======
+    this.rootScope.dispatchEvent('call_update', call);
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return call;
   }
   
@@ -203,6 +244,7 @@ export class AppCallsManager {
       access_hash: call.access_hash
     };
   }
+<<<<<<< HEAD
   
   private createCallInstance(options: {
     isOutgoing: boolean,
@@ -277,10 +319,16 @@ export class AppCallsManager {
 
   public savePhonePhoneCall(phonePhoneCall: PhonePhoneCall) {
     appUsersManager.saveApiUsers(phonePhoneCall.users);
+=======
+
+  public savePhonePhoneCall(phonePhoneCall: PhonePhoneCall) {
+    this.appUsersManager.saveApiUsers(phonePhoneCall.users);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return this.saveCall(phonePhoneCall.phone_call);
   }
 
   public generateDh() {
+<<<<<<< HEAD
     return apiManager.invokeApi('messages.getDhConfig', {
       version: 0,
       random_length: 256
@@ -343,6 +391,34 @@ export class AppCallsManager {
     return !protocol.library_versions.find(version => {
       return compareVersion(myVersion, version) > 0;
     });
+=======
+    return this.apiManager.invokeApi('messages.getDhConfig', {
+      version: 0,
+      random_length: 256
+    }).then((dhConfig) => {
+      return this.cryptoWorker.invokeCrypto('generate-dh', dhConfig as MessagesDhConfig.messagesDhConfig);
+    });
+  }
+
+  // private verifyProtocolCompatibility(protocol: PhoneCallProtocol) {
+  //   const my = getCallProtocol();
+  //   const myVersion = my.library_versions[0];
+  //   return !protocol.library_versions.find((version) => {
+  //     return compareVersion(myVersion, version) > 0;
+  //   });
+  // }
+
+  public async requestCall(userId: UserId, protocol: PhoneCallProtocol, g_a_hash: Uint8Array, video?: boolean) {
+    const phonePhoneCall = await this.apiManager.invokeApi('phone.requestCall', {
+      user_id: this.appUsersManager.getUserInput(userId),
+      protocol: protocol,
+      video: video,
+      random_id: nextRandomUint(32),
+      g_a_hash: g_a_hash
+    });
+
+    return this.savePhonePhoneCall(phonePhoneCall);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public async discardCall(callId: CallId, duration: number, reason: PhoneCallDiscardReason['_'], video?: boolean) {
@@ -350,7 +426,11 @@ export class AppCallsManager {
       return;
     }
 
+<<<<<<< HEAD
     const updates = await apiManager.invokeApi('phone.discardCall', {
+=======
+    const updates = await this.apiManager.invokeApi('phone.discardCall', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       video,
       peer: this.getCallInput(callId),
       duration,
@@ -360,6 +440,7 @@ export class AppCallsManager {
       connection_id: '0'
     });
 
+<<<<<<< HEAD
     apiUpdatesManager.processUpdateMessage(updates);
   }
 }
@@ -367,3 +448,8 @@ export class AppCallsManager {
 const appCallsManager = new AppCallsManager();
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appCallsManager = appCallsManager);
 export default appCallsManager;
+=======
+    this.apiUpdatesManager.processUpdateMessage(updates);
+  }
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

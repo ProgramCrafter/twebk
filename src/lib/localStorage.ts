@@ -10,8 +10,14 @@
  */
 
 import Modes from '../config/modes';
+<<<<<<< HEAD
 import { notifySomeone, IS_WORKER } from '../helpers/context';
 import { WorkerTaskTemplate } from '../types';
+=======
+import { IS_WORKER } from '../helpers/context';
+import { WorkerTaskTemplate } from '../types';
+import MTProtoMessagePort from './mtproto/mtprotoMessagePort';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 //import { stringify } from '../helpers/json';
 
 class LocalStorage<Storage extends Record<string, any>> {
@@ -92,7 +98,11 @@ class LocalStorage<Storage extends Record<string, any>> {
       try {
         let obj: Partial<Storage> = {};
         if(preserveKeys) {
+<<<<<<< HEAD
           preserveKeys.forEach(key => {
+=======
+          preserveKeys.forEach((key) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             const value = this.get(key);
             if(value !== undefined) {
               obj[key] = value;
@@ -112,7 +122,11 @@ class LocalStorage<Storage extends Record<string, any>> {
   } */
 
   public clear() {
+<<<<<<< HEAD
     const keys: string[] = ['dc', 'server_time_offset', 'xt_instance', 'user_auth', 'state_id'];
+=======
+    const keys: string[] = ['dc', 'server_time_offset', 'xt_instance', 'user_auth', 'state_id', 'k_build'];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     for(let i = 1; i <= 5; ++i) {
       keys.push(`dc${i}_server_salt`);
       keys.push(`dc${i}_auth_key`);
@@ -123,9 +137,19 @@ class LocalStorage<Storage extends Record<string, any>> {
     }
   }
 
+<<<<<<< HEAD
   public toggleStorage(enabled: boolean) {
     this.useStorage = enabled;
 
+=======
+  public toggleStorage(enabled: boolean, clearWrite: boolean) {
+    this.useStorage = enabled;
+
+    if(!clearWrite) {
+      return;
+    }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!enabled) {
       this.clear();
     } else {
@@ -149,8 +173,11 @@ export interface LocalStorageProxyTaskResponse extends WorkerTaskTemplate {
 
 export default class LocalStorageController<Storage extends Record<string, any>> {
   private static STORAGES: LocalStorageController<any>[] = [];
+<<<<<<< HEAD
   private taskId = 0;
   private tasks: {[taskID: number]: (result: any) => void} = {};
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   //private log = (...args: any[]) => console.log('[SW LS]', ...args);
   //private log = (...args: any[]) => {};
 
@@ -164,6 +191,7 @@ export default class LocalStorageController<Storage extends Record<string, any>>
     }
   }
 
+<<<<<<< HEAD
   public finishTask(taskId: number, result: any) {
     //this.log('finishTask:', taskID, result, Object.keys(this.tasks));
 
@@ -200,6 +228,18 @@ export default class LocalStorageController<Storage extends Record<string, any>>
         resolve(result);
       }
     });
+=======
+  private async proxy<T>(type: LocalStorageProxyTask['payload']['type'], ...args: LocalStorageProxyTask['payload']['args']): Promise<T> {
+    if(IS_WORKER) {
+      const port = MTProtoMessagePort.getInstance<false>();
+      return port.invoke('localStorageProxy', {type, args});
+    }
+    
+    args = Array.prototype.slice.call(args);
+
+    // @ts-ignore
+    return this.storage[type].apply(this.storage, args as any);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public get<T extends keyof Storage>(key: T, useCache?: boolean) {
@@ -218,7 +258,12 @@ export default class LocalStorageController<Storage extends Record<string, any>>
     return this.proxy<void>('clear'/* , preserveKeys */);
   }
 
+<<<<<<< HEAD
   public toggleStorage(enabled: boolean) {
     return this.proxy<void>('toggleStorage', enabled);
+=======
+  public toggleStorage(enabled: boolean, clearWrite: boolean) {
+    return this.proxy<void>('toggleStorage', enabled, clearWrite);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }

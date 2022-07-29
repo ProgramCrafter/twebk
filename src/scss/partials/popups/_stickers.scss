@@ -8,6 +8,7 @@
   $parent: ".popup";
   user-select: none;
 
+<<<<<<< HEAD
   h6 {
     padding: 0 2rem 0 1.5rem;
     margin: 0;
@@ -18,6 +19,9 @@
 
   .sticker-set-footer {
     border-top: 1px solid var(--border-color);
+=======
+  .sticker-set-footer {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     text-align: center;
     color: var(--primary-color);
 
@@ -48,14 +52,23 @@
     }
   
     &-header {
+<<<<<<< HEAD
       margin-bottom: 12px;
       flex: 0 0 auto;
       margin-top: 10px;
+=======
+      margin: .625rem 0;
+      flex: 0 0 auto;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
   .sticker-set {
+<<<<<<< HEAD
     margin-bottom: 8px;
+=======
+    margin: .0625rem 0;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     &-stickers {    
       padding: 0 5px;

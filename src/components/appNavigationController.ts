@@ -23,6 +23,7 @@ export type NavigationItem = {
 };
 
 export class AppNavigationController {
+<<<<<<< HEAD
   private navigations: Array<NavigationItem> = [];
   private id = Date.now();
   private manual = false;
@@ -119,6 +120,34 @@ export class AppNavigationController {
         window.addEventListener('touchend', onTouchEnd, options);
         window.addEventListener('touchmove', onTouchMove, options); */
       }, options);
+=======
+  private navigations: Array<NavigationItem>;
+  private id: number;
+  private manual: boolean;
+  private log: ReturnType<typeof logger>;
+  private debug: boolean;
+  private currentHash: string; // have to start with # if not empty
+  private overriddenHash: string; // have to start with # if not empty
+  private isPossibleSwipe: boolean;
+  public onHashChange: () => void;
+
+  constructor() {
+    this.navigations = [];
+    this.id = Date.now();
+    this.manual = false;
+    this.log = logger('NC');
+    this.debug = true;
+    this.currentHash = window.location.hash;
+    this.overriddenHash = '';
+    this.isPossibleSwipe = false;
+
+    window.addEventListener('popstate', this.onPopState);
+    window.addEventListener('keydown', this.onKeyDown, {capture: true, passive: false});
+
+    if(IS_MOBILE_SAFARI) {
+      const options = {passive: true};
+      window.addEventListener('touchstart', this.onTouchStart, options);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     history.scrollRestoration = 'manual';
@@ -126,6 +155,114 @@ export class AppNavigationController {
     this.pushState(); // * push init state
   }
 
+<<<<<<< HEAD
+=======
+  private onPopState = (e: PopStateEvent) => {
+    let hash = window.location.hash;
+    const id: number = e.state;
+    this.debug && this.log('popstate', e, this.isPossibleSwipe, hash);
+    if(hash !== this.currentHash) {
+      this.debug && this.log.warn(`hash changed, new=${hash}, current=${this.currentHash}, overridden=${this.overriddenHash}`);
+      // fix for returning to wrong hash (e.g. chat -> archive -> chat -> 3x back)
+      if(id === this.id && this.overriddenHash && this.overriddenHash !== hash) {
+        this.overrideHash(this.overriddenHash);
+      } else if(id/*  === this.id */ && !this.overriddenHash && hash) {
+        this.overrideHash();
+      } else {
+        this.currentHash = hash;
+        this.onHashChange && this.onHashChange();
+        // this.replaceState();
+        return;
+      }
+    }
+
+    if(id !== this.id/*  && !this.navigations.length */) {
+      this.pushState();
+
+      if(!this.navigations.length) {
+        return;
+      }
+    }
+
+    const item = this.navigations.pop();
+    if(!item) {
+      this.pushState();
+      return;
+    }
+
+    this.manual = !this.isPossibleSwipe;
+    this.handleItem(item);
+    //this.pushState(); // * prevent adding forward arrow
+  };
+
+  private onKeyDown = (e: KeyboardEvent) => {
+    const item = this.navigations[this.navigations.length - 1];
+    if(!item) return;
+    if(e.key === 'Escape' && (item.onEscape ? item.onEscape() : true)) {
+      cancelEvent(e);
+      this.back(item.type);
+    }
+  };
+
+  private onTouchStart = (e: TouchEvent) => {
+    if(e.touches.length > 1) return;
+    this.debug && this.log('touchstart');
+
+    if(isSwipingBackSafari(e)) {
+      this.isPossibleSwipe = true;
+
+      window.addEventListener('touchend', () => {
+        setTimeout(() => {
+          this.isPossibleSwipe = false;
+        }, 100);
+      }, {passive: true, once: true});
+    }
+
+    /* const detach = () => {
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
+
+    let moved = false;
+    const onTouchMove = (e: TouchEvent) => {
+      this.debug && this.log('touchmove');
+      if(e.touches.length > 1) {
+        detach();
+        return;
+      }
+
+      moved = true;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      this.debug && this.log('touchend');
+      if(e.touches.length > 1 || !moved) {
+        detach();
+        return;
+      }
+
+      isPossibleSwipe = true;
+      doubleRaf().then(() => {
+        isPossibleSwipe = false;
+      });
+
+      detach();
+    };
+
+    window.addEventListener('touchend', onTouchEnd, options);
+    window.addEventListener('touchmove', onTouchMove, options); */
+  };
+
+  public overrideHash(hash: string = '') {
+    if(hash && hash[0] !== '#') hash = '#' + hash;
+    else if(hash === '#') hash = '';
+
+    this.overriddenHash = this.currentHash = hash;
+    this.replaceState();
+    this.pushState();
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private handleItem(item: NavigationItem) {
     const good = item.onPop(!this.manual ? false : undefined);
     this.debug && this.log('popstate, navigation:', item, this.navigations);
@@ -169,7 +306,11 @@ export class AppNavigationController {
   }
 
   private onItemAdded(item: NavigationItem) {
+<<<<<<< HEAD
     this.debug && this.log('pushstate', item, this.navigations);
+=======
+    this.debug && this.log('onItemAdded', item, this.navigations);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(!item.noHistory) {
       this.pushState();
@@ -194,12 +335,23 @@ export class AppNavigationController {
   }
 
   private pushState() {
+<<<<<<< HEAD
+=======
+    this.debug && this.log('push');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.manual = false;
     history.pushState(this.id, '');
   }
 
   public replaceState() {
+<<<<<<< HEAD
     history.replaceState(this.id, '', location.origin + location.pathname);
+=======
+    this.debug && this.log.warn('replace');
+
+    const url = location.origin + location.pathname + location.search + this.overriddenHash;
+    history.replaceState(this.id, '', url);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public removeItem(item: NavigationItem) {

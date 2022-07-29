@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import type Chat from './chat/chat';
 import { getEmojiToneIndex } from '../vendor/emoji';
 import deferredPromise from '../helpers/cancellablePromise';
@@ -777,6 +778,35 @@ export function wrapDocument({message, withTime, fontWeight, voiceAsMusic, showS
 
   return docDiv;
 }
+=======
+import wrapAlbum from "./wrappers/album";
+import wrapDocument from "./wrappers/document";
+import wrapGroupedDocuments from "./wrappers/groupedDocuments";
+import wrapLocalSticker from "./wrappers/localSticker";
+import wrapPhoto from "./wrappers/photo";
+import wrapPoll from "./wrappers/poll";
+import wrapReply from "./wrappers/reply";
+import wrapSticker from "./wrappers/sticker";
+import wrapStickerAnimation from "./wrappers/stickerAnimation";
+import wrapStickerSetThumb from "./wrappers/stickerSetThumb";
+import wrapStickerToRow from "./wrappers/stickerToRow";
+import wrapVideo from "./wrappers/video";
+
+export {
+  wrapAlbum,
+  wrapDocument,
+  wrapGroupedDocuments,
+  wrapLocalSticker,
+  wrapPhoto,
+  wrapPoll,
+  wrapReply,
+  wrapSticker,
+  wrapStickerAnimation,
+  wrapStickerSetThumb,
+  wrapStickerToRow,
+  wrapVideo,
+};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 /* function wrapMediaWithTail(photo: MyPhoto | MyDocument, message: {mid: number, message: string}, container: HTMLElement, boxWidth: number, boxHeight: number, isOut: boolean) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -837,6 +867,7 @@ export function wrapDocument({message, withTime, fontWeight, voiceAsMusic, showS
   return img;
 } */
 
+<<<<<<< HEAD
 export function wrapPhoto({photo, message, container, boxWidth, boxHeight, withTail, isOut, lazyLoadQueue, middleware, size, withoutPreloader, loadPromises, autoDownloadSize, noBlur, noThumb, noFadeIn, blurAfter}: {
   photo: MyPhoto | MyDocument, 
   message?: any, 
@@ -1113,6 +1144,8 @@ export function renderImageWithFadeIn(
   });
 }
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 // export function renderImageWithFadeIn(container: HTMLElement, 
 //   image: HTMLImageElement, 
 //   url: string, 
@@ -1166,6 +1199,7 @@ export function renderImageWithFadeIn(
 //   });
 // }
 
+<<<<<<< HEAD
 export function wrapStickerAnimation({
   size,
   doc,
@@ -2128,3 +2162,6 @@ export function wrapPoll(message: any) {
   elem.render();
   return elem;
 }
+=======
+export {};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

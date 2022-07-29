@@ -20,7 +20,11 @@ const CHUNK_CACHED_TIME_HEADER = 'Time-Cached';
 
 const clearOldChunks = () => {
   return cacheStorage.timeoutOperation((cache) => {
+<<<<<<< HEAD
     return cache.keys().then(requests => {
+=======
+    return cache.keys().then((requests) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const filtered: Map<StreamId, Request> = new Map();
       const timestamp = Date.now() / 1000 | 0;
       for(const request of requests) {
@@ -51,7 +55,11 @@ setInterval(clearOldChunks, 1800e3);
 setInterval(() => {
   getWindowClients().then((clients) => {
     for(const [clientId, promises] of deferredPromises) {
+<<<<<<< HEAD
       if(!clients.find(client => client.id === clientId)) {
+=======
+      if(!clients.find((client) => client.id === clientId)) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         for(const taskId in promises) {
           const promise = promises[taskId];
           promise.reject();
@@ -88,7 +96,16 @@ class Stream {
   private async requestFilePartFromWorker(alignedOffset: number, limit: number, fromPreload = false) {
     const task: Omit<RequestFilePartTask, 'id'> = {
       type: 'requestFilePart',
+<<<<<<< HEAD
       payload: [this.info.dcId, this.info.location, alignedOffset, limit]
+=======
+      payload: {
+        docId: this.id,
+        dcId: this.info.dcId,
+        offset: alignedOffset,
+        limit
+      }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     };
 
     const taskId = JSON.stringify(task);
@@ -99,7 +116,11 @@ class Stream {
         return;
       }
 
+<<<<<<< HEAD
       return clients.find(client => deferredPromises.has(client.id)) || clients[0];
+=======
+      return clients.find((client) => deferredPromises.has(client.id)) || clients[0];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     if(!windowClient) {
@@ -113,14 +134,22 @@ class Stream {
     
     let deferred = promises[taskId] as CancellablePromise<UploadFile.uploadFile>;
     if(deferred) {
+<<<<<<< HEAD
       return deferred.then(uploadFile => uploadFile.bytes);
+=======
+      return deferred.then((uploadFile) => uploadFile.bytes);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     windowClient.postMessage(task);
     this.loadedOffsets.add(alignedOffset);
     
     deferred = promises[taskId] = deferredPromise<UploadFile.uploadFile>();
+<<<<<<< HEAD
     const bytesPromise = deferred.then(uploadFile => uploadFile.bytes);
+=======
+    const bytesPromise = deferred.then((uploadFile) => uploadFile.bytes);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.saveChunkToCache(bytesPromise, alignedOffset, limit);
     !fromPreload && this.preloadChunks(alignedOffset, alignedOffset + (this.limitPart * 15));
@@ -140,13 +169,21 @@ class Stream {
   }
 
   private requestFilePart(alignedOffset: number, limit: number, fromPreload?: boolean) {
+<<<<<<< HEAD
     return this.requestFilePartFromCache(alignedOffset, limit, fromPreload).then(bytes => {
+=======
+    return this.requestFilePartFromCache(alignedOffset, limit, fromPreload).then((bytes) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return bytes || this.requestFilePartFromWorker(alignedOffset, limit, fromPreload);
     });
   }
 
   private saveChunkToCache(deferred: Promise<Uint8Array>, alignedOffset: number, limit: number) {
+<<<<<<< HEAD
     return deferred.then(bytes => {
+=======
+    return deferred.then((bytes) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const key = this.getChunkKey(alignedOffset, limit);
       const response = new Response(bytes, {
         headers: {
@@ -206,7 +243,11 @@ class Stream {
       end = Math.min(offset + limit, this.info.size - 1);
     }
 
+<<<<<<< HEAD
     return this.requestFilePart(alignedOffset, limit).then(ab => {
+=======
+    return this.requestFilePart(alignedOffset, limit).then((ab) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       //log.debug('[stream] requestFilePart result:', result);
 
       // if(isSafari) {

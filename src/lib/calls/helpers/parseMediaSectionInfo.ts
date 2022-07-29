@@ -21,7 +21,11 @@ export default function parseMediaSectionInfo(sdp: SDP, channel: SDPMediaSection
   });
 
   if(!clientInfo.fingerprint) { // support Firefox
+<<<<<<< HEAD
     const line = sdp.session.lines.find(line => line.parsed?.key === 'fingerprint');
+=======
+    const line = sdp.session.lines.find((line) => line.parsed?.key === 'fingerprint');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     clientInfo.fingerprint = line.parsed.value;
   }
 

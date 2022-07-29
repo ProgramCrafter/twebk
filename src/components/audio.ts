@@ -4,16 +4,24 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import appDocsManager, {MyDocument} from "../lib/appManagers/appDocsManager";
+=======
+import type { MyDocument } from "../lib/appManagers/appDocsManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { wrapPhoto } from "./wrappers";
 import ProgressivePreloader from "./preloader";
 import appMediaPlaybackController, { MediaItem, MediaSearchContext } from "./appMediaPlaybackController";
 import { DocumentAttribute, Message } from "../layer";
 import mediaSizes from "../helpers/mediaSizes";
 import { IS_SAFARI } from "../environment/userAgent";
+<<<<<<< HEAD
 import appMessagesManager from "../lib/appManagers/appMessagesManager";
 import rootScope from "../lib/rootScope";
 import './middleEllipsis';
+=======
+import rootScope from "../lib/rootScope";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import cancelEvent from "../helpers/dom/cancelEvent";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
 import LazyLoadQueue from "./lazyLoadQueue";
@@ -23,7 +31,10 @@ import noop from "../helpers/noop";
 import findUpClassName from "../helpers/dom/findUpClassName";
 import { joinElementsWith } from "../lib/langPack";
 import { MiddleEllipsisElement } from "./middleEllipsis";
+<<<<<<< HEAD
 import htmlToSpan from "../helpers/dom/htmlToSpan";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { formatFullSentTime } from "../helpers/date";
 import throttleWithRaf from "../helpers/schedulers/throttleWithRaf";
 import { NULL_PEER_ID } from "../lib/mtproto/mtproto_config";
@@ -32,6 +43,7 @@ import { animateSingle } from "../helpers/animation";
 import clamp from "../helpers/number/clamp";
 import toHHMMSS from "../helpers/string/toHHMMSS";
 import MediaProgressLine from "./mediaProgressLine";
+<<<<<<< HEAD
 import RichTextProcessor from "../lib/richtextprocessor";
 import setInnerHTML from "../helpers/dom/setInnerHTML";
 
@@ -39,6 +51,20 @@ rootScope.addEventListener('messages_media_read', ({mids, peerId}) => {
   mids.forEach(mid => {
     const attr = `[data-mid="${mid}"][data-peer-id="${peerId}"]`;
     (Array.from(document.querySelectorAll(`audio-element.is-unread${attr}, .media-round.is-unread${attr}`)) as AudioElement[]).forEach(elem => {
+=======
+import setInnerHTML from "../helpers/dom/setInnerHTML";
+import { AppManagers } from "../lib/appManagers/managers";
+import wrapEmojiText from "../lib/richTextProcessor/wrapEmojiText";
+import wrapSenderToPeer from "./wrappers/senderToPeer";
+import wrapSentTime from "./wrappers/sentTime";
+import getMediaFromMessage from "../lib/appManagers/utils/messages/getMediaFromMessage";
+import appDownloadManager from "../lib/appManagers/appDownloadManager";
+
+rootScope.addEventListener('messages_media_read', ({mids, peerId}) => {
+  mids.forEach((mid) => {
+    const attr = `[data-mid="${mid}"][data-peer-id="${peerId}"]`;
+    (Array.from(document.querySelectorAll(`audio-element.is-unread${attr}, .media-round.is-unread${attr}`)) as AudioElement[]).forEach((elem) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       elem.classList.remove('is-unread');
     });
   });
@@ -146,17 +172,29 @@ function createWaveformBars(waveform: Uint8Array, duration: number) {
   return {svg, container, availW};
 }
 
+<<<<<<< HEAD
 function wrapVoiceMessage(audioEl: AudioElement) {
   audioEl.classList.add('is-voice');
 
   const message = audioEl.message;
   const doc = appMessagesManager.getMediaFromMessage(message) as MyDocument;
+=======
+async function wrapVoiceMessage(audioEl: AudioElement) {
+  audioEl.classList.add('is-voice');
+
+  const message = audioEl.message;
+  const doc = getMediaFromMessage(message) as MyDocument;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   if(message.pFlags.out) {
     audioEl.classList.add('is-out');
   }
 
+<<<<<<< HEAD
   let waveform = (doc.attributes.find(attribute => attribute._ === 'documentAttributeAudio') as DocumentAttribute.documentAttributeAudio).waveform || new Uint8Array([]);
+=======
+  let waveform = (doc.attributes.find((attribute) => attribute._ === 'documentAttributeAudio') as DocumentAttribute.documentAttributeAudio).waveform || new Uint8Array([]);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   waveform = decodeWaveform(waveform.slice(0, 63));
   
   const {svg, container: svgContainer, availW} = createWaveformBars(waveform, doc.duration);
@@ -257,11 +295,15 @@ function wrapVoiceMessage(audioEl: AudioElement) {
   return onLoad;
 }
 
-function wrapAudio(audioEl: AudioElement) {
+async function wrapAudio(audioEl: AudioElement) {
   const withTime = audioEl.withTime;
 
   const message = audioEl.message;
+<<<<<<< HEAD
   const doc: MyDocument = appMessagesManager.getMediaFromMessage(message);
+=======
+  const doc = getMediaFromMessage(message) as MyDocument;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   const isVoice = doc.type === 'voice' || doc.type === 'round';
   const descriptionEl = document.createElement('div');
@@ -272,7 +314,11 @@ function wrapAudio(audioEl: AudioElement) {
   if(!isVoice) {
     const parts: (Node | string)[] = [];
     if(audioAttribute?.performer) {
+<<<<<<< HEAD
       parts.push(RichTextProcessor.wrapEmojiText(audioAttribute.performer));
+=======
+      parts.push(wrapEmojiText(audioAttribute.performer));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     if(withTime) {
@@ -282,7 +328,11 @@ function wrapAudio(audioEl: AudioElement) {
     }
 
     if(audioEl.showSender) {
+<<<<<<< HEAD
       parts.push(appMessagesManager.wrapSenderToPeer(message));
+=======
+      parts.push(await wrapSenderToPeer(message));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     descriptionEl.append(...joinElementsWith(parts, ' • '));
@@ -301,15 +351,25 @@ function wrapAudio(audioEl: AudioElement) {
   middleEllipsisEl.dataset.fontWeight = audioEl.dataset.fontWeight;
   middleEllipsisEl.dataset.sizeType = audioEl.dataset.sizeType;
   if(isVoice) {
+<<<<<<< HEAD
     middleEllipsisEl.append(appMessagesManager.wrapSenderToPeer(message));
   } else {
     setInnerHTML(middleEllipsisEl, RichTextProcessor.wrapEmojiText(audioAttribute?.title ?? doc.file_name));
+=======
+    middleEllipsisEl.append(await wrapSenderToPeer(message));
+  } else {
+    setInnerHTML(middleEllipsisEl, wrapEmojiText(audioAttribute?.title ?? doc.file_name));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   titleEl.append(middleEllipsisEl);
 
   if(audioEl.showSender) {
+<<<<<<< HEAD
     titleEl.append(appMessagesManager.wrapSentTime(message));
+=======
+    titleEl.append(wrapSentTime(message));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   const subtitleDiv = audioEl.querySelector('.audio-subtitle') as HTMLDivElement;
@@ -383,7 +443,11 @@ export const findMediaTargets = (anchor: HTMLElement, anchorMid: number/* , useS
 
       if(isBubbles) {
         const prefix = '.bubble:not(.webpage) ';
+<<<<<<< HEAD
         selectors = selectors.map(s => prefix + s);
+=======
+        selectors = selectors.map((s) => prefix + s);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       const selector = selectors.join(', ');
@@ -391,7 +455,11 @@ export const findMediaTargets = (anchor: HTMLElement, anchorMid: number/* , useS
       const elements = Array.from(container.querySelectorAll(selector)) as HTMLElement[];
       const idx = elements.indexOf(anchor);
 
+<<<<<<< HEAD
       const mediaItems: MediaItem[] = elements.map(element => ({peerId: element.dataset.peerId.toPeerId(), mid: +element.dataset.mid}));
+=======
+      const mediaItems: MediaItem[] = elements.map((element) => ({peerId: element.dataset.peerId.toPeerId(), mid: +element.dataset.mid}));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       prev = mediaItems.slice(0, idx);
       next = mediaItems.slice(idx + 1);
@@ -418,23 +486,40 @@ export default class AudioElement extends HTMLElement {
   public noAutoDownload: boolean;
   public lazyLoadQueue: LazyLoadQueue;
   public loadPromises: Promise<any>[];
+<<<<<<< HEAD
+=======
+  public managers: AppManagers;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   private listenerSetter = new ListenerSetter();
   private onTypeDisconnect: () => void;
   public onLoad: (autoload?: boolean) => void;
   public readyPromise: CancellablePromise<void>;
 
+<<<<<<< HEAD
   public render() {
+=======
+  public async render() {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.classList.add('audio');
+    this.managers = rootScope.managers;
 
     this.dataset.mid = '' + this.message.mid;
     this.dataset.peerId = '' + this.message.peerId;
 
+<<<<<<< HEAD
     const doc: MyDocument = appMessagesManager.getMediaFromMessage(this.message);
     const isRealVoice = doc.type === 'voice';
     const isVoice = !this.voiceAsMusic && isRealVoice;
     const isOutgoing = this.message.pFlags.is_outgoing;
     const uploading = isOutgoing && this.preloader;
+=======
+    const doc = getMediaFromMessage(this.message) as MyDocument;
+    const isRealVoice = doc.type === 'voice';
+    const isVoice = !this.voiceAsMusic && isRealVoice;
+    const isOutgoing = this.message.pFlags.is_outgoing;
+    const uploadingFileName = this.message?.uploadingFileName;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const durationStr = toHHMMSS(doc.duration | 0);
 
@@ -456,12 +541,16 @@ export default class AudioElement extends HTMLElement {
       this.classList.add('is-unread');
     }
 
+<<<<<<< HEAD
     if(uploading) {
+=======
+    if(uploadingFileName) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.classList.add('is-outgoing');
       this.append(downloadDiv);
     }
 
-    const onTypeLoad = isVoice ? wrapVoiceMessage(this) : wrapAudio(this);
+    const onTypeLoad = await (isVoice ? wrapVoiceMessage(this) : wrapAudio(this));
     
     const audioTimeDiv = this.querySelector('.audio-time') as HTMLDivElement;
     audioTimeDiv.innerHTML = durationStr;
@@ -533,7 +622,11 @@ export default class AudioElement extends HTMLElement {
 
     if(doc.thumbs?.length) {
       const imgs: HTMLElement[] = [];
+<<<<<<< HEAD
       const wrapped = wrapPhoto({
+=======
+      const wrapped = await wrapPhoto({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         photo: doc, 
         message: null, 
         container: toggle, 
@@ -548,7 +641,11 @@ export default class AudioElement extends HTMLElement {
       if(wrapped.images.full) imgs.push(wrapped.images.full);
 
       this.classList.add('audio-with-thumb');
+<<<<<<< HEAD
       imgs.forEach(img => img.classList.add('audio-thumb'));
+=======
+      imgs.forEach((img) => img.classList.add('audio-thumb'));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     if(!isOutgoing) {
@@ -623,7 +720,11 @@ export default class AudioElement extends HTMLElement {
             const load = () => {
               onDownloadInit();
 
+<<<<<<< HEAD
               const download = appDocsManager.downloadDoc(doc);
+=======
+              const download = appDownloadManager.downloadMediaURL({media: doc});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               
               if(!shouldPlay) {
                 download.then(() => {
@@ -674,7 +775,13 @@ export default class AudioElement extends HTMLElement {
           }, {once: true, capture: true, passive: false, listenerSetter: this.listenerSetter});
         }
       }
+<<<<<<< HEAD
     } else if(uploading) {
+=======
+    } else if(uploadingFileName) {
+      this.preloader = constructDownloadPreloader(false);
+      this.preloader.attachPromise(appDownloadManager.getUpload(uploadingFileName));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.dataset.isOutgoing = '1';
       this.preloader.attach(downloadDiv, false);
       //onLoad();
@@ -686,6 +793,7 @@ export default class AudioElement extends HTMLElement {
   }
 
   disconnectedCallback() {
+<<<<<<< HEAD
     if(this.isConnected) {
       return;
     }
@@ -703,6 +811,31 @@ export default class AudioElement extends HTMLElement {
     this.listenerSetter = null;
 
     this.preloader = null;
+=======
+    setTimeout(() => {
+      if(this.isConnected) {
+        return;
+      }
+      
+      if(this.onTypeDisconnect) {
+        this.onTypeDisconnect();
+        this.onTypeDisconnect = null;
+      }
+  
+      if(this.readyPromise) {
+        this.readyPromise.reject();
+      }
+  
+      if(this.listenerSetter) {
+        this.listenerSetter.removeAll();
+        this.listenerSetter = null;
+      }
+  
+      if(this.preloader) {
+        this.preloader = null;
+      }
+    }, 100);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }
 

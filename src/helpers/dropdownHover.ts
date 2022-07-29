@@ -8,7 +8,11 @@ import { attachClickEvent } from "./dom/clickEvent";
 import findUpAsChild from "./dom/findUpAsChild";
 import EventListenerBase from "./eventListenerBase";
 import ListenerSetter from "./listenerSetter";
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
+=======
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import safeAssign from "./object/safeAssign";
 
 const KEEP_OPEN = false;
@@ -48,7 +52,14 @@ export default class DropdownHover extends EventListenerBase<{
       listenerSetter.add(button)('mouseover', (e) => {
         //console.log('onmouseover button');
         if(firstTime) {
+<<<<<<< HEAD
           listenerSetter.add(button)('mouseout', this.onMouseOut);
+=======
+          listenerSetter.add(button)('mouseout', (e) => {
+            clearTimeout(this.displayTimeout);
+            this.onMouseOut(e);
+          });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           firstTime = false;
         }
 
@@ -61,9 +72,14 @@ export default class DropdownHover extends EventListenerBase<{
   }
 
   private onMouseOut = (e: MouseEvent) => {
+<<<<<<< HEAD
     if(KEEP_OPEN) return;
     clearTimeout(this.displayTimeout);
     if(!this.isActive()) return;
+=======
+    if(KEEP_OPEN || !this.isActive()) return;
+    clearTimeout(this.displayTimeout);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const toElement = (e as any).toElement as Element;
     if(toElement && findUpAsChild(toElement, this.element)) {

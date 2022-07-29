@@ -163,7 +163,11 @@ export default class LocalConferenceDescription implements UpdateGroupCallConnec
   }
 
   public findFreeSendRecvEntry(type: WebRTCLineType, isSending: boolean) {
+<<<<<<< HEAD
     let entry = this.entries.find(entry => {
+=======
+    let entry = this.entries.find((entry) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return entry.direction === 'sendrecv' && entry.type === type && !(isSending ? entry.sendEntry : entry.recvEntry);
     });
 

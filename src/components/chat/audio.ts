@@ -21,7 +21,12 @@ import ButtonIcon from "../buttonIcon";
 import { DocumentAttribute } from "../../layer";
 import MediaProgressLine from "../mediaProgressLine";
 import VolumeSelector from "../volumeSelector";
+<<<<<<< HEAD
 import RichTextProcessor from "../../lib/richtextprocessor";
+=======
+import wrapEmojiText from "../../lib/richTextProcessor/wrapEmojiText";
+import { AppManagers } from "../../lib/appManagers/managers";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class ChatAudio extends PinnedContainer {
   private toggleEl: HTMLElement;
@@ -30,7 +35,11 @@ export default class ChatAudio extends PinnedContainer {
   private fasterEl: HTMLElement;
   private repeatEl: HTMLButtonElement;
 
+<<<<<<< HEAD
   constructor(protected topbar: ChatTopbar, protected chat: Chat, protected appMessagesManager: AppMessagesManager) {
+=======
+  constructor(protected topbar: ChatTopbar, protected chat: Chat, protected managers: AppManagers) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super({
       topbar, 
       chat, 
@@ -114,10 +123,17 @@ export default class ChatAudio extends PinnedContainer {
     progressWrapper.append(this.progressLine.container);
     this.wrapper.insertBefore(progressWrapper, this.wrapperUtils);
 
+<<<<<<< HEAD
     this.topbar.listenerSetter.add(rootScope)('media_play', this.onMediaPlay);
     this.topbar.listenerSetter.add(rootScope)('media_pause', this.onPause);
     this.topbar.listenerSetter.add(rootScope)('media_stop', this.onStop);
     this.topbar.listenerSetter.add(rootScope)('media_playback_params', this.onPlaybackParams);
+=======
+    this.topbar.listenerSetter.add(appMediaPlaybackController)('play', this.onMediaPlay);
+    this.topbar.listenerSetter.add(appMediaPlaybackController)('pause', this.onPause);
+    this.topbar.listenerSetter.add(appMediaPlaybackController)('stop', this.onStop);
+    this.topbar.listenerSetter.add(appMediaPlaybackController)('playbackParams', this.onPlaybackParams);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const playingDetails = appMediaPlaybackController.getPlayingDetails();
     if(playingDetails) {
@@ -158,8 +174,13 @@ export default class ChatAudio extends PinnedContainer {
       subtitle = formatFullSentTime(message.date);
     } else {
       const audioAttribute = doc.attributes.find((attr) => attr._ === 'documentAttributeAudio') as DocumentAttribute.documentAttributeAudio;
+<<<<<<< HEAD
       title = RichTextProcessor.wrapEmojiText(audioAttribute?.title ?? doc.file_name);
       subtitle = audioAttribute?.performer ? RichTextProcessor.wrapEmojiText(audioAttribute.performer) : i18n('AudioUnknownArtist');
+=======
+      title = wrapEmojiText(audioAttribute?.title ?? doc.file_name);
+      subtitle = audioAttribute?.performer ? wrapEmojiText(audioAttribute.performer) : i18n('AudioUnknownArtist');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.fasterEl.classList.toggle('hide', isMusic);

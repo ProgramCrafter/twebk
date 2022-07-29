@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import rootScope from "../rootScope";
 import appPeersManager from "./appPeersManager";
 import appMessagesManager from "./appMessagesManager";
@@ -42,6 +43,35 @@ export class AppDraftsManager {
         const peerID = appPeersManager.getPeerId(update.peer);
         this.saveDraft(peerID, update.threadId, update.draft, {notify: true});
       }
+=======
+import { MessageEntity, DraftMessage, MessagesSaveDraft } from "../../layer";
+import tsNow from "../../helpers/tsNow";
+import stateStorage from "../stateStorage";
+import assumeType from "../../helpers/assumeType";
+import isObject from "../../helpers/object/isObject";
+import deepEqual from "../../helpers/object/deepEqual";
+import { AppManager } from "./manager";
+import getPeerId from "./utils/peers/getPeerId";
+import generateMessageId from "./utils/messageId/generateMessageId";
+import getServerMessageId from "./utils/messageId/getServerMessageId";
+
+export type MyDraftMessage = DraftMessage.draftMessage;
+
+export class AppDraftsManager extends AppManager {
+  private drafts: {[peerIdAndThreadId: string]: MyDraftMessage} = {};
+  private getAllDraftPromise: Promise<void> = null;
+
+  protected after() {
+    this.apiUpdatesManager.addMultipleEventsListeners({
+      updateDraftMessage: (update) => {
+        const peerId = getPeerId(update.peer);
+        this.saveDraft(peerId, update.threadId, update.draft, {notify: true});
+      }
+    });
+
+    /* return  */stateStorage.get('drafts').then((drafts) => {
+      this.drafts = drafts || {};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 
@@ -61,9 +91,15 @@ export class AppDraftsManager {
         }
 
         const peerId = key.toPeerId();
+<<<<<<< HEAD
         const dialog = appMessagesManager.getDialogOnly(peerId);
         if(!dialog) {
           appMessagesManager.reloadConversation(peerId);
+=======
+        const dialog = this.appMessagesManager.getDialogOnly(peerId);
+        if(!dialog) {
+          this.appMessagesManager.reloadConversation(peerId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           /* const dialog = appMessagesManager.generateDialog(peerId);
           dialog.draft = this.drafts[key];
           appMessagesManager.saveConversation(dialog);
@@ -76,11 +112,19 @@ export class AppDraftsManager {
 
   public getAllDrafts() {
     return this.getAllDraftPromise || (
+<<<<<<< HEAD
       this.getAllDraftPromise = apiManager.invokeApi('messages.getAllDrafts')
       .then((updates) => {
         const p = apiUpdatesManager.updatesState.syncLoading || Promise.resolve();
         p.then(() => {
           apiUpdatesManager.processUpdateMessage(updates);
+=======
+      this.getAllDraftPromise = this.apiManager.invokeApi('messages.getAllDrafts')
+      .then((updates) => {
+        const p = this.apiUpdatesManager.updatesState.syncLoading || Promise.resolve();
+        p.then(() => {
+          this.apiUpdatesManager.processUpdateMessage(updates);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         });
       })
     );
@@ -105,7 +149,11 @@ export class AppDraftsManager {
 
     if(options.notify) {
       // console.warn(dT(), 'save draft', peerId, apiDraft, options)
+<<<<<<< HEAD
       rootScope.dispatchEvent('draft_updated', {
+=======
+      this.rootScope.dispatchEvent('draft_updated', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         peerId,
         threadId,
         draft,
@@ -116,7 +164,11 @@ export class AppDraftsManager {
     return draft;
   }
 
+<<<<<<< HEAD
   public draftsAreEqual(draft1: DraftMessage, draft2: DraftMessage) {
+=======
+  private draftsAreEqual(draft1: DraftMessage, draft2: DraftMessage) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(typeof(draft1) !== typeof(draft2)) {
       return false;
     }
@@ -150,7 +202,11 @@ export class AppDraftsManager {
     return true;
   }
 
+<<<<<<< HEAD
   public isEmptyDraft(draft: DraftMessage) {
+=======
+  private isEmptyDraft(draft: DraftMessage) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!draft || draft._ === 'draftMessageEmpty') {
       return true;
     }
@@ -166,11 +222,16 @@ export class AppDraftsManager {
     return false;
   }
 
+<<<<<<< HEAD
   public processApiDraft(draft: DraftMessage): MyDraftMessage {
+=======
+  private processApiDraft(draft: DraftMessage): MyDraftMessage {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!draft || draft._ !== 'draftMessage') {
       return undefined;
     }
 
+<<<<<<< HEAD
     const myEntities = RichTextProcessor.parseEntities(draft.message);
     const apiEntities = draft.entities || [];
     const totalEntities = RichTextProcessor.mergeEntities(apiEntities.slice(), myEntities); // ! only in this order, otherwise bold and emoji formatting won't work
@@ -179,6 +240,10 @@ export class AppDraftsManager {
     //draft.rReply = appMessagesManager.getRichReplyText(draft);
     if(draft.reply_to_msg_id) {
       draft.reply_to_msg_id = appMessagesIdsManager.generateMessageId(draft.reply_to_msg_id);
+=======
+    if(draft.reply_to_msg_id) {
+      draft.reply_to_msg_id = generateMessageId(draft.reply_to_msg_id);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     return draft;
@@ -194,7 +259,11 @@ export class AppDraftsManager {
 
     // console.warn(dT(), 'changed draft', localDraft, serverDraft)
     let params: MessagesSaveDraft = {
+<<<<<<< HEAD
       peer: appPeersManager.getInputPeerById(peerId),
+=======
+      peer: this.appPeersManager.getInputPeerById(peerId),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       message: ''
     };
 
@@ -207,11 +276,19 @@ export class AppDraftsManager {
       let entities: MessageEntity[] = localDraft.entities;
 
       if(localDraft.reply_to_msg_id) {
+<<<<<<< HEAD
         params.reply_to_msg_id = appMessagesIdsManager.getServerMessageId(localDraft.reply_to_msg_id);
       }
 
       if(entities?.length) {
         params.entities = appMessagesManager.getInputEntities(entities);
+=======
+        params.reply_to_msg_id = getServerMessageId(localDraft.reply_to_msg_id);
+      }
+
+      if(entities?.length) {
+        params.entities = this.appMessagesManager.getInputEntities(entities);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
 
       if(localDraft.pFlags.no_webpage) {
@@ -222,26 +299,42 @@ export class AppDraftsManager {
     }
 
     const saveLocalDraft = draftObj || localDraft;
+<<<<<<< HEAD
     saveLocalDraft.date = tsNow(true) + serverTimeManager.serverTimeOffset;
+=======
+    saveLocalDraft.date = tsNow(true) + this.timeManager.getServerTimeOffset();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.saveDraft(peerId, threadId, saveLocalDraft, {notify: true, force});
 
     if(saveOnServer && !threadId) {
+<<<<<<< HEAD
       return apiManager.invokeApi('messages.saveDraft', params);
+=======
+      return this.apiManager.invokeApi('messages.saveDraft', params);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     return true;
   }
 
   public clearAllDrafts() {
+<<<<<<< HEAD
     return apiManager.invokeApi('messages.clearAllDrafts').then(bool => {
+=======
+    return this.apiManager.invokeApi('messages.clearAllDrafts').then((bool) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!bool) {
         return;
       }
 
       for(const combined in this.drafts) {
         const [peerId, threadId] = combined.split('_');
+<<<<<<< HEAD
         rootScope.dispatchEvent('draft_updated', {
+=======
+        this.rootScope.dispatchEvent('draft_updated', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           peerId: peerId.toPeerId(),
           threadId: threadId ? +threadId : undefined,
           draft: undefined
@@ -278,7 +371,10 @@ export class AppDraftsManager {
     }
   }
 }
+<<<<<<< HEAD
 
 const appDraftsManager = new AppDraftsManager();
 MOUNT_CLASS_TO.appDraftsManager = appDraftsManager;
 export default appDraftsManager;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

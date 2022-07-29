@@ -7,6 +7,10 @@
 import DEBUG from "../config/debug";
 import { IS_FIREFOX, IS_SAFARI } from "../environment/userAgent";
 import { IS_SERVICE_WORKER, IS_WEB_WORKER } from "../helpers/context";
+<<<<<<< HEAD
+=======
+import dT from "../helpers/dT";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export enum LogTypes {
   None = 0,
@@ -17,6 +21,7 @@ export enum LogTypes {
 };
 
 export const LOG_LEVELS = [LogTypes.None, LogTypes.Error, LogTypes.Warn, LogTypes.Log, LogTypes.Debug];
+<<<<<<< HEAD
 
 const _logTimer = Date.now();
 function dT() {
@@ -53,6 +58,38 @@ function getCallerFunctionName() {
   const caller = getCallerFunctionNameFromLine(line) || '<anonymous>';
   return '[' + caller + ']';
 }
+=======
+
+const IS_WEBKIT = IS_SAFARI || IS_FIREFOX;
+
+// let getCallerFunctionNameFromLine: (line: string) => string;
+// if(IS_WEBKIT) {
+//   getCallerFunctionNameFromLine = (line) => {
+//     const splitted = line.split('@');
+//     return splitted[0];
+//   };
+// } else {
+//   getCallerFunctionNameFromLine = (line: string) => {
+//     const splitted = line.trim().split(' ');
+//     if(splitted.length === 3) {
+//       return splitted[1].slice(splitted[1].lastIndexOf('.') + 1);
+//     }
+//   };
+// }
+
+const STYLES_SUPPORTED = !IS_WEBKIT;
+// const LINE_INDEX = IS_WEBKIT ? 2 : 3;
+
+// function getCallerFunctionName() {
+//   const stack = new Error().stack;
+//   const lines = stack.split('\n');
+//   const line = lines[LINE_INDEX] || lines[lines.length - 1];
+//   // const match = line.match(/\.([^\.]+?)\s/);
+//   // line = match ? match[1] : line.trim();
+//   const caller = getCallerFunctionNameFromLine(line) || '<anonymous>';
+//   return '[' + caller + ']';
+// }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export const LOGGER_STYLES = {
   reset: "\x1b[0m",
@@ -95,18 +132,34 @@ export type Logger = {
   debug(...args: any[]): void;
   assert(...args: any[]): void;
   // log(...args: any[]): void;
+<<<<<<< HEAD
+=======
+  group(...args: any[]): void;
+  groupCollapsed(...args: any[]): void;
+  groupEnd(...args: any[]): void;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   setPrefix(newPrefix: string): void;
   setLevel(level: 0 | 1 | 2 | 3 | 4): void;
   bindPrefix(prefix: string): Logger;
 };
 
+<<<<<<< HEAD
 const methods: ['debug' | 'info' | 'warn' | 'error' | 'assert' | 'trace'/*  | 'log' */, LogTypes][] = [
+=======
+const methods: ['debug' | 'info' | 'warn' | 'error' | 'assert' | 'trace'/*  | 'log' */ | 'group' | 'groupCollapsed' | 'groupEnd', LogTypes][] = [
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   ["debug", LogTypes.Debug], 
   ["info", LogTypes.Log], 
   ["warn", LogTypes.Warn], 
   ["error", LogTypes.Error], 
   ["assert", LogTypes.Error],
   ["trace", LogTypes.Log],
+<<<<<<< HEAD
+=======
+  ["group", LogTypes.Log],
+  ["groupCollapsed", LogTypes.Log],
+  ["groupEnd", LogTypes.Log]
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // ["log", LogTypes.Log]
 ];
 
@@ -130,12 +183,20 @@ export function logger(prefix: string, type: LogTypes = LogTypes.Log | LogTypes.
   //level = LogLevels.log | LogLevels.warn | LogLevels.error | LogLevels.debug
 
   const log: Logger = function(...args: any[]) {
+<<<<<<< HEAD
     return type & LogTypes.Log && console.log(style, dT(), prefix, getCallerFunctionName(), ...args);
+=======
+    return type & LogTypes.Log && console.log(style, dT(), prefix, /* getCallerFunctionName(), */ ...args);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   } as any;
 
   methods.forEach(([method, logType]) => {
     log[method] = function(...args: any[]) {
+<<<<<<< HEAD
       return type & logType && console[method](style, dT(), prefix, getCallerFunctionName(), ...args);
+=======
+      return type & logType && console[method](style, dT(), prefix, /* getCallerFunctionName(), */ ...args);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     };
   });
 

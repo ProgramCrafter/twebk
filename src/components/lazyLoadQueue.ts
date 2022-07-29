@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { logger, LogTypes } from "../lib/logger";
 import VisibilityIntersector, { OnVisibilityChange } from "./visibilityIntersector";
 import throttle from "../helpers/schedulers/throttle";
@@ -230,19 +231,36 @@ export class LazyLoadQueueIntersector extends LazyLoadQueueBase {
 
 export default class LazyLoadQueue extends LazyLoadQueueIntersector {
   constructor(protected parallelLimit = PARALLEL_LIMIT) {
+=======
+import VisibilityIntersector, { OnVisibilityChangeItem } from "./visibilityIntersector";
+import findAndSpliceAll from "../helpers/array/findAndSpliceAll";
+import findAndSplice from "../helpers/array/findAndSplice";
+import LazyLoadQueueIntersector, { LazyLoadElement } from "./lazyLoadQueueIntersector";
+
+export default class LazyLoadQueue extends LazyLoadQueueIntersector {
+  constructor(parallelLimit?: number) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super(parallelLimit);
 
     this.intersector = new VisibilityIntersector(this.onVisibilityChange);
   }
 
+<<<<<<< HEAD
   private onVisibilityChange = (target: HTMLElement, visible: boolean) => {
+=======
+  private onVisibilityChange = ({target, visible}: OnVisibilityChangeItem) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(visible) {
       /* if(DEBUG) {
         this.log('isIntersecting', target);
       } */
 
       // need for set element first if scrolled
+<<<<<<< HEAD
       findAndSpliceAll(this.queue, (i) => i.div === target).forEach(item => {
+=======
+      findAndSpliceAll(this.queue, (i) => i.div === target).forEach((item) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         item.wasSeen = true;
         this.queue.unshift(item);
         //this.processQueue(item);
@@ -276,6 +294,7 @@ export default class LazyLoadQueue extends LazyLoadQueueIntersector {
     return true;
   }
 }
+<<<<<<< HEAD
 
 export class LazyLoadQueueRepeat extends LazyLoadQueueIntersector {
   private _queue: Map<HTMLElement, LazyLoadElement> = new Map();
@@ -338,3 +357,5 @@ export class LazyLoadQueueRepeat2 extends LazyLoadQueueIntersector {
     this.intersector.observe(el);
   }
 }
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

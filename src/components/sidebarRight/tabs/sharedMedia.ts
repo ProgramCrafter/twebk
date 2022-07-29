@@ -4,8 +4,11 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import appMessagesManager from "../../../lib/appManagers/appMessagesManager";
 import appUsersManager from "../../../lib/appManagers/appUsersManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import rootScope from "../../../lib/rootScope";
 import AppSearchSuper, { SearchSuperType } from "../../appSearchSuper.";
 import SidebarSlider, { SliderSuperTab } from "../../slider";
@@ -13,7 +16,10 @@ import { TransitionSlider } from "../../transition";
 import AppEditChatTab from "./editChat";
 import PeerTitle from "../../peerTitle";
 import AppEditContactTab from "./editContact";
+<<<<<<< HEAD
 import appChatsManager from "../../../lib/appManagers/appChatsManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Button from "../../button";
 import ButtonIcon from "../../buttonIcon";
 import { i18n, LangPackKey } from "../../../lib/langPack";
@@ -24,6 +30,16 @@ import PopupPeer, { PopupPeerButtonCallbackCheckboxes, PopupPeerCheckboxOptions 
 import ButtonCorner from "../../buttonCorner";
 import { attachClickEvent } from "../../../helpers/dom/clickEvent";
 import PeerProfile from "../../peerProfile";
+<<<<<<< HEAD
+=======
+import { Message } from "../../../layer";
+
+const historiesStorage: {
+  [peerId: PeerId]: Partial<{
+    [type in SearchSuperType]: {mid: number, peerId: PeerId}[]
+  }>
+} = {};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 // TODO: отредактированное сообщение не изменится
 export default class AppSharedMediaTab extends SliderSuperTab {
@@ -32,6 +48,7 @@ export default class AppSharedMediaTab extends SliderSuperTab {
   private peerId: PeerId;
   private threadId = 0;
 
+<<<<<<< HEAD
   private historiesStorage: {
     [peerId: PeerId]: Partial<{
       [type in SearchSuperType]: {mid: number, peerId: PeerId}[]
@@ -337,6 +354,308 @@ export default class AppSharedMediaTab extends SliderSuperTab {
         if(history) {
           history.unshift(...filtered.map(message => ({mid: message.mid, peerId: message.peerId})));
         }
+=======
+  private searchSuper: AppSearchSuper;
+
+  private profile: PeerProfile;
+  private peerChanged: boolean;
+
+  constructor(slider: SidebarSlider) {
+    super(slider, false);
+  }
+
+  public init() {
+    //const perf = performance.now();
+
+    this.container.classList.add('shared-media-container', 'profile-container');
+
+    // * header
+    const newCloseBtn = Button('btn-icon sidebar-close-button', {noRipple: true});
+    this.closeBtn.replaceWith(newCloseBtn);
+    this.closeBtn = newCloseBtn;
+
+    const animatedCloseIcon = document.createElement('div');
+    animatedCloseIcon.classList.add('animated-close-icon');
+    newCloseBtn.append(animatedCloseIcon);
+
+    const transitionContainer = document.createElement('div');
+    transitionContainer.className = 'transition slide-fade';
+    
+    const transitionFirstItem = document.createElement('div');
+    transitionFirstItem.classList.add('transition-item');
+
+    this.title.append(i18n('Profile'));
+    this.editBtn = ButtonIcon('edit');
+    //const moreBtn = ButtonIcon('more');
+
+    transitionFirstItem.append(this.title, this.editBtn/* , moreBtn */);
+
+    const transitionLastItem = document.createElement('div');
+    transitionLastItem.classList.add('transition-item');
+
+    const secondTitle: HTMLElement = this.title.cloneNode() as any;
+    secondTitle.append(i18n('PeerInfo.SharedMedia'));
+
+    transitionLastItem.append(secondTitle);
+
+    transitionContainer.append(transitionFirstItem, transitionLastItem);
+
+    this.header.append(transitionContainer);
+
+    // * body
+
+    this.profile = new PeerProfile(this.managers, this.scrollable, this.listenerSetter);
+    this.profile.init();
+    
+    this.scrollable.append(this.profile.element);
+
+    const HEADER_HEIGHT = 56;
+    this.scrollable.onAdditionalScroll = () => {
+      const rect = this.searchSuper.nav.getBoundingClientRect(); 
+      if(!rect.width) return;
+
+      const top = rect.top - 1;
+      setIsSharedMedia(top <= HEADER_HEIGHT);
+    };
+
+    const setIsSharedMedia = (isSharedMedia: boolean) => {
+      animatedCloseIcon.classList.toggle('state-back', isSharedMedia);
+      this.searchSuper.container.classList.toggle('is-full-viewport', isSharedMedia);
+      transition(+isSharedMedia);
+
+      if(!isSharedMedia) {
+        this.searchSuper.cleanScrollPositions();
+      }
+    };
+
+    const transition = TransitionSlider(transitionContainer, 'slide-fade', 400, null, false);
+
+    transition(0);
+
+    attachClickEvent(this.closeBtn, (e) => {
+      if(this.closeBtn.firstElementChild.classList.contains('state-back')) {
+        this.scrollable.scrollIntoViewNew({
+          element: this.scrollable.container.firstElementChild as HTMLElement, 
+          position: 'start'
+        });
+        transition(0);
+        animatedCloseIcon.classList.remove('state-back');
+      } else if(!this.scrollable.isHeavyAnimationInProgress) {
+        this.slider.onCloseBtnClick();
+      }
+    }, {listenerSetter: this.listenerSetter});
+
+    attachClickEvent(this.editBtn, (e) => {
+      let tab: AppEditChatTab | AppEditContactTab;
+      if(this.peerId.isAnyChat()) {
+        tab = this.slider.createTab(AppEditChatTab);
+      } else {
+        tab = this.slider.createTab(AppEditContactTab);
+      }
+
+      if(tab) {
+        if(tab instanceof AppEditChatTab) {
+          tab.chatId = this.peerId.toChatId();
+        } else {
+          tab.peerId = this.peerId;
+        }
+        
+        tab.open();
+      }
+    }, {listenerSetter: this.listenerSetter});
+
+    this.listenerSetter.add(rootScope)('contacts_update', (userId) => {
+      if(this.peerId === userId) {
+        this.toggleEditBtn();
+      }
+    });
+
+    this.listenerSetter.add(rootScope)('chat_update', (chatId) => {
+      if(this.peerId === chatId.toPeerId(true)) {
+        this.toggleEditBtn();
+      }
+    });
+
+    this.listenerSetter.add(rootScope)('history_multiappend', (message) => {
+      this.renderNewMessages(message);
+    });
+    
+    this.listenerSetter.add(rootScope)('history_delete', ({peerId, msgs}) => {
+      this.deleteDeletedMessages(peerId, Array.from(msgs));
+    });
+
+    // Calls when message successfully sent and we have an id
+    this.listenerSetter.add(rootScope)('message_sent', ({message}) => {
+      this.renderNewMessages(message);
+    });
+
+    //this.container.prepend(this.closeBtn.parentElement);
+
+    this.searchSuper = new AppSearchSuper({
+      mediaTabs: [{
+        inputFilter: 'inputMessagesFilterEmpty',
+        name: 'PeerMedia.Members',
+        type: 'members'
+      }, {
+        inputFilter: 'inputMessagesFilterPhotoVideo',
+        name: 'SharedMediaTab2',
+        type: 'media'
+      }, {
+        inputFilter: 'inputMessagesFilterDocument',
+        name: 'SharedFilesTab2',
+        type: 'files'
+      }, {
+        inputFilter: 'inputMessagesFilterUrl',
+        name: 'SharedLinksTab2',
+        type: 'links'
+      }, {
+        inputFilter: 'inputMessagesFilterMusic',
+        name: 'SharedMusicTab2',
+        type: 'music'
+      }, {
+        inputFilter: 'inputMessagesFilterRoundVoice',
+        name: 'SharedVoiceTab2',
+        type: 'voice'
+      }], 
+      scrollable: this.scrollable,
+      onChangeTab: (mediaTab) => {
+        let timeout = mediaTab.type === 'members' && rootScope.settings.animationsEnabled ? 250 : 0;
+        setTimeout(() => {
+          btnAddMembers.classList.toggle('is-hidden', mediaTab.type !== 'members');
+        }, timeout);
+      },
+      managers: this.managers
+    });
+
+    this.searchSuper.scrollStartCallback = () => {
+      setIsSharedMedia(true);
+    };
+
+    this.profile.element.append(this.searchSuper.container);
+
+    const btnAddMembers = ButtonCorner({icon: 'addmember_filled'});
+    this.content.append(btnAddMembers);
+
+    attachClickEvent(btnAddMembers, async() => {
+      const peerId = this.peerId;
+      const id = this.peerId.toChatId();
+      const isChannel = await this.managers.appChatsManager.isChannel(id);
+
+      const showConfirmation = (peerIds: PeerId[], callback: (checked: PopupPeerButtonCallbackCheckboxes) => void) => {
+        let titleLangKey: LangPackKey, titleLangArgs: any[],
+          descriptionLangKey: LangPackKey, descriptionLangArgs: any[],
+          checkboxes: PopupPeerCheckboxOptions[];
+
+        if(peerIds.length > 1) {
+          titleLangKey = 'AddMembersAlertTitle';
+          titleLangArgs = [i18n('Members', [peerIds.length])];
+          descriptionLangKey = 'AddMembersAlertCountText';
+          descriptionLangArgs = peerIds.map((peerId) => {
+            const b = document.createElement('b');
+            b.append(new PeerTitle({peerId}).element);
+            return b;
+          });
+
+          if(!isChannel) {
+            checkboxes = [{
+              text: 'AddMembersForwardMessages',
+              checked: true
+            }];
+          }
+        } else {
+          titleLangKey = 'AddOneMemberAlertTitle';
+          descriptionLangKey = 'AddMembersAlertNamesText';
+          const b = document.createElement('b');
+          b.append(new PeerTitle({
+            peerId: peerIds[0]
+          }).element);
+          descriptionLangArgs = [b];
+
+          if(!isChannel) {
+            checkboxes = [{
+              text: 'AddOneMemberForwardMessages',
+              textArgs: [new PeerTitle({peerId: peerIds[0]}).element],
+              checked: true
+            }];
+          }
+        }
+
+        descriptionLangArgs.push(new PeerTitle({
+          peerId
+        }).element);
+
+        new PopupPeer('popup-add-members', {
+          peerId,
+          titleLangKey,
+          descriptionLangKey,
+          descriptionLangArgs,
+          buttons: [{
+            langKey: 'Add',
+            callback
+          }],
+          checkboxes
+        }).show();
+      };
+
+      const onError = (err: any) => {
+        if(err.type === 'USER_PRIVACY_RESTRICTED') {
+          toastNew({langPackKey: 'InviteToGroupError'});
+        }
+      };
+      
+      if(isChannel) {
+        const tab = this.slider.createTab(AppAddMembersTab);
+        tab.open({
+          type: 'channel',
+          skippable: false,
+          takeOut: (peerIds) => {
+            showConfirmation(peerIds, () => {
+              const promise = this.managers.appChatsManager.inviteToChannel(id, peerIds);
+              promise.catch(onError);
+              tab.attachToPromise(promise);
+            });
+
+            return false;
+          },
+          title: 'GroupAddMembers',
+          placeholder: 'SendMessageTo'
+        });
+      } else {
+        new PopupPickUser({
+          peerTypes: ['contacts'],
+          placeholder: 'Search',
+          onSelect: (peerId) => {
+            setTimeout(() => {
+              showConfirmation([peerId], (checked) => {
+                this.managers.appChatsManager.addChatUser(id, peerId, checked.size ? undefined : 0)
+                .catch(onError);
+              });
+            }, 0);
+          },
+        });
+      }
+    }, {listenerSetter: this.listenerSetter});
+
+    //console.log('construct shared media time:', performance.now() - perf);
+  }
+
+  public async renderNewMessages(message: Message.message | Message.messageService) {
+    if(this.init) return; // * not inited yet
+
+    const {peerId} = message;
+    if(!historiesStorage[peerId]) return;
+
+    for(const mediaTab of this.searchSuper.mediaTabs) {
+      const inputFilter = mediaTab.inputFilter;
+      const history = historiesStorage[peerId][inputFilter];
+      if(!history) {
+        continue;
+      }
+
+      const filtered = this.searchSuper.filterMessagesByType([message], inputFilter).filter((message) => !history.find((m) => m.mid === message.mid && m.peerId === message.peerId));
+      if(filtered.length) {
+        history.unshift(...filtered.map((message) => ({mid: message.mid, peerId: message.peerId})));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         if(this.peerId === peerId && this.searchSuper.usedFromHistory[inputFilter] !== -1) {
           this.searchSuper.usedFromHistory[inputFilter] += filtered.length;
@@ -349,12 +668,13 @@ export default class AppSharedMediaTab extends SliderSuperTab {
   public deleteDeletedMessages(peerId: PeerId, mids: number[]) {
     if(this.init) return; // * not inited yet
 
-    if(!this.historiesStorage[peerId]) return;
+    if(!historiesStorage[peerId]) return;
 
     for(const mid of mids) {
       for(const type of this.searchSuper.mediaTabs) {
         const inputFilter = type.inputFilter;
 
+<<<<<<< HEAD
         const history = this.historiesStorage[peerId][inputFilter];
         if(!history) continue;
 
@@ -375,18 +695,48 @@ export default class AppSharedMediaTab extends SliderSuperTab {
   
             if(this.searchSuper.usedFromHistory[inputFilter] >= (idx + 1)) {
               this.searchSuper.usedFromHistory[inputFilter]--;
+=======
+        const history = historiesStorage[peerId][inputFilter];
+        if(!history) continue;
+
+        const idx = history.findIndex((m) => m.mid === mid);
+        if(idx === -1) {
+          continue;
+        }
+
+        history.splice(idx, 1);
+
+        if(this.peerId === peerId) {
+          const container = this.searchSuper.tabs[inputFilter];
+          const div = container.querySelector(`[data-mid="${mid}"][data-peer-id="${peerId}"]`) as HTMLElement;
+          if(div) {
+            if(this.searchSuper.selection.isSelecting) {
+              this.searchSuper.selection.toggleByElement(div);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             }
+
+            div.remove();
           }
 
+<<<<<<< HEAD
           // can have element in different tabs somehow
           // break;
+=======
+          if(this.searchSuper.usedFromHistory[inputFilter] >= (idx + 1)) {
+            --this.searchSuper.usedFromHistory[inputFilter];
+          }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         }
+
+        // can have element in different tabs somehow
+        // break;
       }
     }
 
     this.scrollable.onScroll();
   }
 
+<<<<<<< HEAD
   public cleanupHTML() {
     // const perf = performance.now();
     this.profile.cleanupHTML();
@@ -397,6 +747,14 @@ export default class AppSharedMediaTab extends SliderSuperTab {
 
     this.container.classList.toggle('can-add-members', this.searchSuper.canViewMembers() && appChatsManager.hasRights(this.peerId.toChatId(), 'invite_users'));
 
+=======
+  public async cleanupHTML() {
+    // const perf = performance.now();
+    this.profile.cleanupHTML();
+    this.editBtn.classList.add('hide');
+    this.searchSuper.cleanupHTML(true);
+    this.container.classList.toggle('can-add-members', await this.searchSuper.canViewMembers() && await this.managers.appChatsManager.hasRights(this.peerId.toChatId(), 'invite_users'));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     // console.log('cleanupHTML shared media time:', performance.now() - perf);
   }
 
@@ -419,8 +777,9 @@ export default class AppSharedMediaTab extends SliderSuperTab {
     this.searchSuper.setQuery({
       peerId, 
       //threadId, 
-      historyStorage: this.historiesStorage[peerId] ?? (this.historiesStorage[peerId] = {})
+      historyStorage: historiesStorage[peerId] ??= {}
     });
+<<<<<<< HEAD
 
     this.profile.setPeer(peerId, threadId);
     
@@ -428,11 +787,21 @@ export default class AppSharedMediaTab extends SliderSuperTab {
   }
 
   public fillProfileElements() {
+=======
+
+    this.profile.setPeer(peerId, threadId);
+    
+    return true;
+  }
+
+  public async fillProfileElements() {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(!this.peerChanged) {
       return;
     }
 
     this.peerChanged = false;
+<<<<<<< HEAD
 
     this.cleanupHTML();
 
@@ -447,18 +816,46 @@ export default class AppSharedMediaTab extends SliderSuperTab {
       show = this.peerId !== rootScope.myId && appUsersManager.isContact(this.peerId.toUserId());
     } else {
       show = appChatsManager.hasRights(this.peerId.toChatId(), 'change_info');
+=======
+    await this.cleanupHTML();
+    await this.toggleEditBtn();
+    await this.profile.fillProfileElements();
+  }
+
+  private async toggleEditBtn() {
+    let show: boolean;
+    if(this.peerId.isUser()) {
+      show = this.peerId !== rootScope.myId && await this.managers.appUsersManager.isContact(this.peerId.toUserId());
+    } else {
+      show = await this.managers.appChatsManager.hasRights(this.peerId.toChatId(), 'change_info');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.editBtn.classList.toggle('hide', !show);
   }
 
+<<<<<<< HEAD
   public loadSidebarMedia(single: boolean, justLoad = false) {
+=======
+  public loadSidebarMedia(single: boolean, justLoad?: boolean) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.searchSuper.load(single, justLoad);
   }
 
   onOpenAfterTimeout() {
     this.scrollable.onScroll();
   }
+<<<<<<< HEAD
 }
 
 // MOUNT_CLASS_TO && (MOUNT_CLASS_TO.AppSharedMediaTab = AppSharedMediaTab);
+=======
+
+  public destroy() {
+    this.destroyable = true;
+    this.onCloseAfterTimeout();
+    this.profile.destroy();
+    this.searchSuper.destroy();
+  }
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

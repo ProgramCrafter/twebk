@@ -5,9 +5,15 @@
  */
 
 import cancelEvent from "../helpers/dom/cancelEvent";
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
 import rootScope from "../lib/rootScope";
 import safeAssign from "../helpers/object/safeAssign";
+=======
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+import safeAssign from "../helpers/object/safeAssign";
+import contextMenuController from "../helpers/contextMenuController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const getEvent = (e: TouchEvent | MouseEvent) => {
   return (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : e as MouseEvent;
@@ -16,7 +22,11 @@ const getEvent = (e: TouchEvent | MouseEvent) => {
 const attachGlobalListenerTo = window;
 
 let RESET_GLOBAL = false;
+<<<<<<< HEAD
 rootScope.addEventListener('context_menu_toggle', (visible) => {
+=======
+contextMenuController.addEventListener('toggle', (visible) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   RESET_GLOBAL = visible;
 });
 
@@ -34,7 +44,11 @@ export type SwipeHandlerOptions = {
 export default class SwipeHandler {
   private element: HTMLElement;
   private onSwipe: (xDiff: number, yDiff: number, e: TouchEvent | MouseEvent) => boolean | void;
+<<<<<<< HEAD
   private verifyTouchTarget: (evt: TouchEvent | MouseEvent) => boolean;
+=======
+  private verifyTouchTarget: (evt: TouchEvent | MouseEvent) => boolean | Promise<boolean>;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private onFirstSwipe: () => void;
   private onReset: () => void;
   private cursor: 'grabbing' | 'move' | 'row-resize' | 'col-resize' | 'nesw-resize' | 'nwse-resize' | 'ne-resize' | 'se-resize' | 'sw-resize' | 'nw-resize' | 'n-resize' | 'e-resize' | 's-resize' | 'w-resize' | '' = 'grabbing';
@@ -102,9 +116,15 @@ export default class SwipeHandler {
     this.hadMove = false;
   };
 
+<<<<<<< HEAD
   handleStart = (_e: TouchEvent | MouseEvent) => {
     const e = getEvent(_e);
     if(this.verifyTouchTarget && !this.verifyTouchTarget(_e)) {
+=======
+  handleStart = async(_e: TouchEvent | MouseEvent) => {
+    const e = getEvent(_e);
+    if(this.verifyTouchTarget && !(await this.verifyTouchTarget(_e))) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return this.reset();
     }
 

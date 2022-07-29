@@ -5,22 +5,37 @@
  */
 
 type TargetType = HTMLElement;
+<<<<<<< HEAD
 export type OnVisibilityChange = (target: TargetType, visible: boolean) => void;
+=======
+export type OnVisibilityChangeItem = {target: TargetType, visible: boolean, entry: IntersectionObserverEntry};
+export type OnVisibilityChange = (item: OnVisibilityChangeItem) => void;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class VisibilityIntersector {
   private observer: IntersectionObserver;
   private items: Map<TargetType, boolean> = new Map();
   private locked = false;
 
+<<<<<<< HEAD
   constructor(onVisibilityChange: OnVisibilityChange) {
+=======
+  constructor(onVisibilityChange: OnVisibilityChange, options?: IntersectionObserverInit) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.observer = new IntersectionObserver((entries) => {
       if(this.locked) {
         return;
       }
 
+<<<<<<< HEAD
       const changed: {target: TargetType, visible: boolean}[] = [];
 
       entries.forEach(entry => {
+=======
+      const changed: OnVisibilityChangeItem[] = [];
+
+      entries.forEach((entry) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const target = entry.target as TargetType;
 
         if(this.items.get(target) === entry.isIntersecting) {
@@ -37,15 +52,30 @@ export default class VisibilityIntersector {
           return;
         } */
 
+<<<<<<< HEAD
         changed[entry.isIntersecting ? 'unshift' : 'push']({target, visible: entry.isIntersecting});
+=======
+        const change: typeof changed[0] = {target, visible: entry.isIntersecting, entry};
+
+        // ! order will be incorrect so can't use it
+        // changed[entry.isIntersecting ? 'unshift' : 'push'](change);
+        changed.push(change);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         //onVisibilityChange(target, entry.isIntersecting);
       });
 
+<<<<<<< HEAD
       changed.forEach(smth => {
         onVisibilityChange(smth.target, smth.visible);
       });
     });
+=======
+      changed.forEach((item) => {
+        onVisibilityChange(item);
+      });
+    }, options);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getVisible() {

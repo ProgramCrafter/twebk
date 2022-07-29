@@ -6,7 +6,11 @@
 
 import Modes from "./modes";
 
+<<<<<<< HEAD
 export const DEBUG = process.env.NODE_ENV !== 'production' || Modes.debug;
+=======
+export const DEBUG = (process.env.NODE_ENV !== 'production' || Modes.debug)/*  && false */;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 const ctx: any = typeof(window) !== 'undefined' ? window : self;
 export const MOUNT_CLASS_TO: any = DEBUG || true/*  && false */ ? ctx : {};
 export default DEBUG;
@@ -35,8 +39,13 @@ export default DEBUG;
 
   beforeStr = beforeStr.trim();
   afterStr = afterStr.trim();
+<<<<<<< HEAD
   //var beforeStr = d.map(r => r.before.hex).join('\n');
   //var afterStr = d.map(r => r.after.hex).join('\n');
+=======
+  //var beforeStr = d.map((r) => r.before.hex).join('\n');
+  //var afterStr = d.map((r) => r.after.hex).join('\n');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   var dada = (name: string, str: string) => {
     var a = document.createElement('a');

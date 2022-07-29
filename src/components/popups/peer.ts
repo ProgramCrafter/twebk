@@ -15,6 +15,7 @@ export type PopupPeerButtonCallbackCheckboxes = Set<LangPackKey>;
 export type PopupPeerButtonCallback = (checkboxes?: PopupPeerButtonCallbackCheckboxes) => void;
 export type PopupPeerCheckboxOptions = CheckboxFieldOptions & {checkboxField?: CheckboxField};
 
+<<<<<<< HEAD
 export type PopupPeerOptions = PopupOptions & Partial<{
   peerId: PeerId,
   title: string | HTMLElement,
@@ -25,13 +26,34 @@ export type PopupPeerOptions = PopupOptions & Partial<{
   descriptionLangKey?: LangPackKey,
   descriptionLangArgs?: any[],
   buttons?: Array<PopupPeerButton>,
+=======
+export type PopupPeerOptions = Omit<PopupOptions, 'buttons' | 'title'> & Partial<{
+  peerId: PeerId,
+  title: string | HTMLElement,
+  titleLangKey: LangPackKey,
+  titleLangArgs: any[],
+  noTitle: boolean,
+  description: string | DocumentFragment,
+  descriptionLangKey: LangPackKey,
+  descriptionLangArgs: any[],
+  buttons: Array<PopupPeerButton>,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   checkboxes: Array<PopupPeerCheckboxOptions>
 }>;
 export default class PopupPeer extends PopupElement {
   protected description: HTMLParagraphElement;
 
   constructor(private className: string, options: PopupPeerOptions = {}) {
+<<<<<<< HEAD
     super('popup-peer' + (className ? ' ' + className : ''), options.buttons && addCancelButton(options.buttons), {overlayClosable: true, ...options});
+=======
+    super('popup-peer' + (className ? ' ' + className : ''), {
+      overlayClosable: true, 
+      ...options,
+      title: true,
+      buttons: options.buttons && addCancelButton(options.buttons),
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(options.peerId) {
       const avatarEl = new AvatarElement();
@@ -64,19 +86,32 @@ export default class PopupPeer extends PopupElement {
     if(options.checkboxes) {
       this.container.classList.add('have-checkbox');
       
+<<<<<<< HEAD
       options.checkboxes.forEach(o => {
         o.withRipple = false;
+=======
+      options.checkboxes.forEach((o) => {
+        o.withRipple = true;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const checkboxField = new CheckboxField(o);
         o.checkboxField = checkboxField;
         fragment.append(checkboxField.label);
       });
 
+<<<<<<< HEAD
       options.buttons.forEach(button => {
+=======
+      options.buttons.forEach((button) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(button.callback) {
           const original = button.callback;
           button.callback = () => {
             const c: Set<LangPackKey> = new Set();
+<<<<<<< HEAD
             options.checkboxes.forEach(o => {
+=======
+            options.checkboxes.forEach((o) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               if(o.checkboxField.checked) {
                 c.add(o.text);
               }

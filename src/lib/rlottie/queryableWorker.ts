@@ -47,8 +47,8 @@ export default class QueryableWorker extends EventListenerBase<{
         queryMethodArguments: args
       });
     } else {
-      const transfer: (ArrayBuffer | OffscreenCanvas)[] = [];
-      args.forEach(arg => {
+      const transfer: Transferable[] = [];
+      args.forEach((arg) => {
         if(arg instanceof ArrayBuffer) {
           transfer.push(arg);
         }
@@ -62,7 +62,7 @@ export default class QueryableWorker extends EventListenerBase<{
       this.worker.postMessage({
         queryMethod: queryMethod,
         queryMethodArguments: args
-      }, transfer as Transferable[]);
+      }, transfer);
     }
   }
 }

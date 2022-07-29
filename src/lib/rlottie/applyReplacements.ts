@@ -63,7 +63,11 @@ export default function applyReplacements(object: {
     const k = smth.c.k;
     const color = convert(k[2]) | (convert(k[1]) << 8) | (convert(k[0]) << 16);
 
+<<<<<<< HEAD
     const foundReplacement = replacements.find(p => p[0] === color);
+=======
+    const foundReplacement = replacements.find((p) => p[0] === color);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(foundReplacement) {
       k[0] = ((foundReplacement[1] >> 16) & 255) / 255;
       k[1] = ((foundReplacement[1] >> 8) & 255) / 255;

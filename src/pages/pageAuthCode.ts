@@ -6,8 +6,11 @@
 
 import mediaSizes from '../helpers/mediaSizes';
 import { AuthSentCode, AuthSentCodeType, AuthSignIn } from '../layer';
+<<<<<<< HEAD
 import appStateManager from '../lib/appManagers/appStateManager';
 import apiManager from '../lib/mtproto/mtprotoworker';
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import Page from './page';
 import pageSignIn from './pageSignIn';
 import TrackingMonkey from '../components/monkeys/tracking';
@@ -15,6 +18,10 @@ import CodeInputField from '../components/codeInputField';
 import { i18n, LangPackKey } from '../lib/langPack';
 import { randomLong } from '../helpers/random';
 import replaceContent from '../helpers/dom/replaceContent';
+<<<<<<< HEAD
+=======
+import rootScope from '../lib/rootScope';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 let authCode: AuthSentCode.authSentCode = null;
 
@@ -61,15 +68,25 @@ let onFirstMount = (): Promise<any> => {
 
     //console.log('invoking auth.signIn with params:', params);
 
+<<<<<<< HEAD
     apiManager.invokeApi('auth.signIn', params, {ignoreErrors: true})
+=======
+    rootScope.managers.apiManager.invokeApi('auth.signIn', params, {ignoreErrors: true})
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     .then((response) => {
       //console.log('auth.signIn response:', response);
       
       switch(response._) {
         case 'auth.authorization':
+<<<<<<< HEAD
           apiManager.setUser(response.user);
 
           import('./pageIm').then(m => {
+=======
+          rootScope.managers.apiManager.setUser(response.user);
+
+          import('./pageIm').then((m) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             m.default.mount();
           });
           cleanup();
@@ -77,7 +94,11 @@ let onFirstMount = (): Promise<any> => {
         case 'auth.authorizationSignUpRequired':
           //console.log('Registration needed!');
 
+<<<<<<< HEAD
           import('./pageSignUp').then(m => {
+=======
+          import('./pageSignUp').then((m) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             m.default.mount({
               'phone_number': authCode.phone_number,
               'phone_code_hash': authCode.phone_code_hash
@@ -165,7 +186,11 @@ const page = new Page('page-authCode', true, onFirstMount, (_authCode: typeof au
 
   replaceContent(sentTypeElement, i18n(key, args));
 
+<<<<<<< HEAD
   appStateManager.pushToState('authState', {_: 'authStateAuthCode', sentCode: _authCode});
+=======
+  rootScope.managers.appStateManager.pushToState('authState', {_: 'authStateAuthCode', sentCode: _authCode});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }, () => {
   codeInput.focus();
 });

@@ -5,7 +5,11 @@
  */
 
 import type ListenerSetter from "../listenerSetter";
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../../environment/touchSupport";
+=======
+import IS_TOUCH_SUPPORTED from "../../environment/touchSupport";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import simulateEvent from "./dispatchEvent";
 
 export const CLICK_EVENT_NAME: 'mousedown' /* | 'touchend' */ | 'click' = (IS_TOUCH_SUPPORTED ? 'mousedown' : 'click') as any;

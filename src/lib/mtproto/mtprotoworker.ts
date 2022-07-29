@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import type { LocalStorageProxyTask, LocalStorageProxyTaskResponse } from '../localStorage';
 //import type { LocalStorageProxyDeleteTask, LocalStorageProxySetTask } from '../storage';
 import type { Awaited, InvokeApiOptions, WorkerTaskVoidTemplate } from '../../types';
@@ -34,22 +35,55 @@ import type { ApiError } from './apiManager';
 import { MTAppConfig } from './appConfig';
 import { ignoreRestrictionReasons } from '../../helpers/restrictions';
 import isObject from '../../helpers/object/isObject';
+=======
+import type { RequestFilePartTask, RequestFilePartTaskResponse, ServiceWorkerTask } from '../serviceWorker/index.service';
+import type { Awaited, WorkerTaskVoidTemplate } from '../../types';
+import type { CacheStorageDbName } from '../cacheStorage';
+import type { State } from '../../config/state';
+import type { Message, MessagePeerReaction, PeerNotifySettings } from '../../layer';
+import { CryptoMethods } from '../crypto/crypto_methods';
+import rootScope from '../rootScope';
+import webpWorkerController from '../webp/webpWorkerController';
+import { MOUNT_CLASS_TO } from '../../config/debug';
+import sessionStorage from '../sessionStorage';
+import webPushApiManager from './webPushApiManager';
+import appRuntimeManager from '../appManagers/appRuntimeManager';
+import telegramMeWebManager from './telegramMeWebManager';
+import pause from '../../helpers/schedulers/pause';
+import isObject from '../../helpers/object/isObject';
+import ENVIRONMENT from '../../environment';
+import loadState from '../appManagers/utils/state/loadState';
+import opusDecodeController from '../opusDecodeController';
+import MTProtoMessagePort from './mtprotoMessagePort';
+import cryptoMessagePort from '../crypto/cryptoMessagePort';
+import SuperMessagePort from './superMessagePort';
+import IS_SHARED_WORKER_SUPPORTED from '../../environment/sharedWorkerSupport';
+import toggleStorages from '../../helpers/toggleStorages';
+import idleController from '../../helpers/idleController';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
-type Task = {
-  taskId: number,
-  task: string,
-  args: any[]
+export interface ToggleStorageTask extends WorkerTaskVoidTemplate {
+  type: 'toggleStorages',
+  payload: {enabled: boolean, clearWrite: boolean}
 };
 
+<<<<<<< HEAD
 type HashResult = {
   hash: number,
   result: any
+=======
+export type Mirrors = {
+  state: State
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 };
 
-type HashOptions = {
-  [queryJSON: string]: HashResult
+export type MirrorTaskPayload<T extends keyof Mirrors = keyof Mirrors, K extends keyof Mirrors[T] = keyof Mirrors[T], J extends Mirrors[T][K] = Mirrors[T][K]> = {
+  name: T, 
+  key?: K, 
+  value: any
 };
 
+<<<<<<< HEAD
 export interface ToggleStorageTask extends WorkerTaskVoidTemplate {
   type: 'toggleStorage',
   payload: boolean
@@ -58,22 +92,35 @@ export interface ToggleStorageTask extends WorkerTaskVoidTemplate {
 export class ApiManagerProxy extends CryptoWorkerMethods {
   public worker: /* Window */Worker;
   private afterMessageIdTemp = 0;
+=======
+export type NotificationBuildTaskPayload = {
+  message: Message.message | Message.messageService,
+  fwdCount?: number,
+  peerReaction?: MessagePeerReaction,
+  peerTypeNotifySettings?: PeerNotifySettings
+};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
-  private taskId = 0;
-  private awaiting: {
-    [id: number]: {
-      resolve: any,
-      reject: any,
-      taskName: string
-    }
-  } = {} as any;
-  private pending: Array<Task> = [];
+export type TabState = {
+  chatPeerIds: PeerId[],
+  idleStartTime: number,
+};
 
+<<<<<<< HEAD
   public updatesProcessor: (obj: any) => void = null;
+=======
+class ApiManagerProxy extends MTProtoMessagePort {
+  private worker: /* Window */Worker;
+  private isSWRegistered: boolean;
+  // private sockets: Map<number, Socket> = new Map();
+  private taskListenersSW: {[taskType: string]: (task: any) => void};
+  private mirrors: Mirrors;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
-  private log = logger('API-PROXY');
+  public newVersion: string;
+  public oldVersion: string;
 
-  private hashes: {[method: string]: HashOptions} = {};
+  private tabState: TabState;
 
   private apiPromisesSingleProcess: {
     [q: string]: Map<any, Promise<any>>
@@ -111,8 +158,18 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
 
   constructor() {
     super();
+
+    this.isSWRegistered = true;
+    this.taskListenersSW = {};
+    this.mirrors = {} as any;
+    this.tabState = {
+      chatPeerIds: [],
+      idleStartTime: 0
+    };
+
     this.log('constructor');
 
+<<<<<<< HEAD
     singleInstance.start();
 
     this.registerServiceWorker();
@@ -217,10 +274,13 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
       this.forceReconnectTimeout();
     });
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /// #if !MTPROTO_SW
     this.registerWorker();
     /// #endif
 
+<<<<<<< HEAD
     setTimeout(() => {
       this.getConfig();
     }, 5000);
@@ -228,13 +288,138 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
 
   public isServiceWorkerOnline() {
     return this.isSWRegistered;
+=======
+    this.registerServiceWorker();
+    this.registerCryptoWorker();
+
+    this.addMultipleEventsListeners({
+      convertWebp: ({fileName, bytes}) => {
+        return webpWorkerController.convert(fileName, bytes);
+      },
+
+      convertOpus: ({fileName, bytes}) => {
+        return opusDecodeController.pushDecodeTask(bytes, false).then((result) => result.bytes);
+      },
+
+      event: ({name, args}) => {
+        // @ts-ignore
+        rootScope.dispatchEventSingle(name, ...args);
+      },
+
+      localStorageProxy: (payload) => {
+        const storageTask = payload;
+        return (sessionStorage[storageTask.type] as any)(...storageTask.args);
+      },
+      
+      mirror: this.onMirrorTask
+    });
+
+    // this.addTaskListener('socketProxy', (task) => {
+    //   const socketTask = task.payload;
+    //   const id = socketTask.id;
+    //   //console.log('socketProxy', socketTask, id);
+
+    //   if(socketTask.type === 'send') {
+    //     const socket = this.sockets.get(id);
+    //     socket.send(socketTask.payload);
+    //   } else if(socketTask.type === 'close') { // will remove from map in onClose
+    //     const socket = this.sockets.get(id);
+    //     socket.close();
+    //   } else if(socketTask.type === 'setup') {
+    //     const socket = new Socket(socketTask.payload.dcId, socketTask.payload.url, socketTask.payload.logSuffix);
+        
+    //     const onOpen = () => {
+    //       //console.log('socketProxy onOpen');
+    //       this.postMessage({
+    //         type: 'socketProxy', 
+    //         payload: {
+    //           type: 'open',
+    //           id
+    //         }
+    //       });
+    //     };
+    //     const onClose = () => {
+    //       this.postMessage({
+    //         type: 'socketProxy', 
+    //         payload: {
+    //           type: 'close',
+    //           id
+    //         }
+    //       });
+
+    //       socket.removeEventListener('open', onOpen);
+    //       socket.removeEventListener('close', onClose);
+    //       socket.removeEventListener('message', onMessage);
+    //       this.sockets.delete(id);
+    //     };
+    //     const onMessage = (buffer: ArrayBuffer) => {
+    //       this.postMessage({
+    //         type: 'socketProxy', 
+    //         payload: {
+    //           type: 'message',
+    //           id,
+    //           payload: buffer
+    //         }
+    //       });
+    //     };
+
+    //     socket.addEventListener('open', onOpen);
+    //     socket.addEventListener('close', onClose);
+    //     socket.addEventListener('message', onMessage);
+    //     this.sockets.set(id, socket);
+    //   }
+    // });
+
+    rootScope.addEventListener('language_change', (language) => {
+      rootScope.managers.networkerFactory.setLanguage(language);
+    });
+
+    window.addEventListener('online', () => {
+      rootScope.managers.networkerFactory.forceReconnectTimeout();
+    });
+
+    rootScope.addEventListener('logging_out', () => {
+      const toClear: CacheStorageDbName[] = ['cachedFiles', 'cachedStreamChunks'];
+      Promise.all([
+        toggleStorages(false, true), 
+        sessionStorage.clear(),
+        Promise.race([
+          telegramMeWebManager.setAuthorized(false),
+          pause(3000)
+        ]),
+        webPushApiManager.forceUnsubscribe(),
+        Promise.all(toClear.map((cacheName) => caches.delete(cacheName)))
+      ]).finally(() => {
+        appRuntimeManager.reload();
+      });
+    });
+
+    idleController.addEventListener('change', (idle) => {
+      this.updateTabStateIdle(idle);
+    });
+    this.updateTabStateIdle(idleController.isIdle);
+
+    this.log('Passing environment:', ENVIRONMENT);
+    this.invoke('environment', ENVIRONMENT);
+    // this.sendState();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private registerServiceWorker() {
     if(!('serviceWorker' in navigator)) return;
     
+<<<<<<< HEAD
     const worker = navigator.serviceWorker;
     worker.register('./sw.js', {scope: './'}).then(registration => {
+=======
+    // ! I hate webpack - it won't load it by using worker.register, only navigator.serviceWork will do it.
+    const worker = navigator.serviceWorker;
+    navigator.serviceWorker.register(
+      /* webpackChunkName: "sw" */
+      new URL('../serviceWorker/index.service', import.meta.url), 
+      {scope: './'}
+    ).then((registration) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.log('SW registered', registration);
       this.isSWRegistered = true;
 
@@ -252,15 +437,21 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
     }, (err) => {
       this.isSWRegistered = false;
       this.log.error('SW registration failed!', err);
+<<<<<<< HEAD
 
       if(this.onServiceWorkerFail) {
         this.onServiceWorkerFail();
       }
     });
 
+=======
+
+      this.invokeVoid('serviceWorkerOnline', false);
+    });
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     worker.addEventListener('controllerchange', () => {
       this.log.warn('controllerchange');
-      this.releasePending();
 
       worker.controller.addEventListener('error', (e) => {
         this.log.error('controller error:', e);
@@ -268,7 +459,12 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
     });
 
     /// #if MTPROTO_SW
+<<<<<<< HEAD
     worker.addEventListener('message', this.onWorkerMessage);
+=======
+    this.attachListenPort(worker);
+    // this.s();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /// #else
     worker.addEventListener('message', (e) => {
       const task: ServiceWorkerTask = e.data;
@@ -287,8 +483,14 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
         type: task.type,
         id: task.id
       };
+<<<<<<< HEAD
       
       this.performTaskWorker<Awaited<ReturnType<ApiFileManager['requestFilePart']>>>('requestFilePart', ...task.payload)
+=======
+
+      const {docId, dcId, offset, limit} = task.payload;
+      rootScope.managers.appDocsManager.requestDocPart(docId, dcId, offset, limit)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       .then((uploadFile) => {
         responseTask.payload = uploadFile;
         this.postSWMessage(responseTask);
@@ -298,7 +500,10 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
         this.postSWMessage(responseTask);
       });
     });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /// #endif
 
     worker.addEventListener('messageerror', (e) => {
@@ -306,6 +511,7 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
     });
   }
 
+<<<<<<< HEAD
   public postMessage(...args: any[]) {
     this.postMessagesWaiting.push(args);
   }
@@ -368,10 +574,35 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
       this.finalizeTask(task.taskId, task.result, task.error);
     }
   };
+=======
+  private registerCryptoWorker() {
+    let worker: SharedWorker | Worker;
+    if(IS_SHARED_WORKER_SUPPORTED) {
+      worker = new SharedWorker(
+        /* webpackChunkName: "crypto.worker" */
+        new URL('../crypto/crypto.worker.ts', import.meta.url), 
+        {type: 'module'}
+      );
+    } else {
+      worker = new Worker(
+        /* webpackChunkName: "crypto.worker" */
+        new URL('../crypto/crypto.worker.ts', import.meta.url), 
+        {type: 'module'}
+      );
+    }
+
+    cryptoMessagePort.addEventListener('port', (payload, source, event) => {
+      this.invokeVoid('cryptoPort', undefined, undefined, [event.ports[0]]);
+    });
+
+    this.attachWorkerToPort(worker, cryptoMessagePort, 'crypto');
+  }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   /// #if !MTPROTO_SW
   private registerWorker() {
     // return;
+<<<<<<< HEAD
 
     const worker = new MTProtoWorker();
     // const worker = new Worker(new URL('./mtproto.worker.ts', import.meta.url));
@@ -381,10 +612,39 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
 
     worker.addEventListener('error', (err) => {
       this.log.error('WORKER ERROR', err);
+=======
+
+    let worker: SharedWorker | Worker;
+    if(IS_SHARED_WORKER_SUPPORTED) {
+      worker = new SharedWorker(
+        /* webpackChunkName: "mtproto.worker" */
+        new URL('./mtproto.worker.ts', import.meta.url), 
+        {type: 'module'}
+      );
+    } else {
+      worker = new Worker(
+        /* webpackChunkName: "mtproto.worker" */
+        new URL('./mtproto.worker.ts', import.meta.url), 
+        {type: 'module'}
+      );
+    }
+
+    this.onWorkerFirstMessage(worker);
+  }
+  /// #endif
+
+  private attachWorkerToPort(worker: SharedWorker | Worker, messagePort: SuperMessagePort<any, any, any>, type: string) {
+    const port: MessagePort = (worker as SharedWorker).port || worker as any;
+    messagePort.attachPort(port);
+
+    worker.addEventListener('error', (err) => {
+      this.log.error(type, 'worker error', err);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
   /// #endif
 
+<<<<<<< HEAD
   private finalizeTask(taskId: number, result: any, error: any) {
     const deferred = this.awaiting[taskId];
     if(deferred !== undefined) {
@@ -624,15 +884,68 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
     //return smth.reduce((hash, v) => (((hash * 0x4F25) & 0x7FFFFFFF) + v.id) & 0x7FFFFFFF, 0);
     return smth.reduce((hash, v) => ((hash * 20261) + 0x80000000 + v.id) % 0x80000000, 0);
   } */
-
-  public setBaseDcId(dcId: number) {
-    return this.performTaskWorker('setBaseDcId', dcId);
+=======
+  public postSWMessage(message: any) {
+    if(navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage(message);
+    }
   }
 
-  public setQueueId(queueId: number) {
-    return this.performTaskWorker('setQueueId', queueId);
+  private onWorkerFirstMessage(worker: any) {
+    this.log('set webWorker');
+    
+    this.worker = worker;
+    /// #if MTPROTO_SW
+    this.attachSendPort(worker);
+    /// #else
+    this.attachWorkerToPort(worker, this, 'mtproto');
+    /// #endif
   }
 
+  public addServiceWorkerTaskListener(name: keyof ApiManagerProxy['taskListenersSW'], callback: ApiManagerProxy['taskListenersSW'][typeof name]) {
+    this.taskListenersSW[name] = callback;
+  }
+
+  private loadState() {
+    return Promise.all([
+      loadState().then((stateResult) => {
+        this.newVersion = stateResult.newVersion;
+        this.oldVersion = stateResult.oldVersion;
+        this.mirrors['state'] = stateResult.state;
+        return stateResult;
+      }),
+      // loadStorages(createStorages()),
+    ]);
+  }
+
+  public sendState() {
+    return this.loadState().then((result) => {
+      const [stateResult] = result;
+      this.invoke('state', {...stateResult, userId: rootScope.myId.toUserId()});
+      return result;
+    });
+  }
+
+  /// #if MTPROTO_WORKER
+  public invokeCrypto<Method extends keyof CryptoMethods>(method: Method, ...args: Parameters<CryptoMethods[typeof method]>): Promise<Awaited<ReturnType<CryptoMethods[typeof method]>>> {
+    return cryptoMessagePort.invokeCrypto(method, ...args);
+  }
+  /// #endif
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
+
+  public async toggleStorages(enabled: boolean, clearWrite: boolean) {
+    await toggleStorages(enabled, clearWrite);
+    this.invoke('toggleStorages', {enabled, clearWrite});
+    const task: ToggleStorageTask = {type: 'toggleStorages', payload: {enabled, clearWrite}};
+    this.postSWMessage(task);
+  }
+
+  public async getMirror<T extends keyof Mirrors>(name: T) {
+    const mirror = this.mirrors[name];
+    return mirror;
+  }
+
+<<<<<<< HEAD
   public setUserAuth(userAuth: UserAuth | UserId) {
     if(typeof(userAuth) === 'string' || typeof(userAuth) === 'number') {
       userAuth = {dcID: 0, date: Date.now() / 1000 | 0, id: userAuth.toPeerId(false)};
@@ -713,7 +1026,38 @@ export class ApiManagerProxy extends CryptoWorkerMethods {
 
     return promise;
   }
+=======
+  public getState() {
+    return this.getMirror('state');
+  }
+
+  public updateTabState<T extends keyof TabState>(key: T, value: TabState[T]) {
+    this.tabState[key] = value;
+    this.invokeVoid('tabState', this.tabState);
+  }
+
+  public updateTabStateIdle(idle: boolean) {
+    this.updateTabState('idleStartTime', idle ? Date.now() : 0);
+  }
+
+  private onMirrorTask = (payload: MirrorTaskPayload) => {
+    const {name, key, value} = payload;
+    if(!payload.hasOwnProperty('key')) {
+      this.mirrors[name] = value;
+      return;
+    }
+    
+    const mirror = this.mirrors[name] ??= {} as any;
+    if(value === undefined) {
+      delete mirror[key];
+    } else {
+      mirror[key] = value;
+    }
+  };
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
+
+interface ApiManagerProxy extends MTProtoMessagePort<true> {}
 
 const apiManagerProxy = new ApiManagerProxy();
 MOUNT_CLASS_TO.apiManagerProxy = apiManagerProxy;

@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import copy from "../../helpers/object/copy";
 import { InputMedia, Message, MessageEntity, MessageMedia, Poll, PollResults } from "../../layer";
@@ -18,14 +19,29 @@ import appPeersManager from './appPeersManager';
 import appUsersManager from "./appUsersManager";
 
 export class AppPollsManager {
+=======
+import copy from "../../helpers/object/copy";
+import { InputMedia, Message, MessageEntity, MessageMedia, Poll, PollResults } from "../../layer";
+import { logger, LogTypes } from "../logger";
+import parseMarkdown from "../richTextProcessor/parseMarkdown";
+import { AppManager } from "./manager";
+import getServerMessageId from "./utils/messageId/getServerMessageId";
+
+export class AppPollsManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public polls: {[id: string]: Poll} = {};
   public results: {[id: string]: PollResults} = {};
   public pollToMessages: {[id: string]: Set<string>} = {};
 
   private log = logger('POLLS', LogTypes.Error);
 
+<<<<<<< HEAD
   constructor() {
     rootScope.addMultipleEventsListeners({
+=======
+  protected after() {
+    this.apiUpdatesManager.addMultipleEventsListeners({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       updateMessagePoll: (update) => {
         this.log('updateMessagePoll:', update);
 
@@ -39,7 +55,11 @@ export class AppPollsManager {
         poll = ret.poll;
         results = ret.results;
         
+<<<<<<< HEAD
         rootScope.dispatchEvent('poll_update', {poll, results: results as any});
+=======
+        this.rootScope.dispatchEvent('poll_update', {poll, results: results as any});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     });
   }
@@ -97,7 +117,11 @@ export class AppPollsManager {
         solutionEntities = [];
       }
 
+<<<<<<< HEAD
       solution = RichTextProcessor.parseMarkdown(solution, solutionEntities);
+=======
+      solution = parseMarkdown(solution, solutionEntities);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } else {
       solution = undefined; // can be string here
     }
@@ -137,21 +161,33 @@ export class AppPollsManager {
   public sendVote(message: any, optionIds: number[]): Promise<void> {
     const poll: Poll = message.media.poll;
 
+<<<<<<< HEAD
     const options: Uint8Array[] = optionIds.map(index => {
+=======
+    const options: Uint8Array[] = optionIds.map((index) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return poll.answers[index].option;
     });
     
     const messageId = message.mid;
     const peerId = message.peerId;
+<<<<<<< HEAD
     const inputPeer = appPeersManager.getInputPeerById(peerId);
 
     if(message.pFlags.is_outgoing) {
       return appMessagesManager.invokeAfterMessageIsSent(messageId, 'sendVote', (message) => {
+=======
+    const inputPeer = this.appPeersManager.getInputPeerById(peerId);
+
+    if(message.pFlags.is_outgoing) {
+      return this.appMessagesManager.invokeAfterMessageIsSent(messageId, 'sendVote', (message) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.log('invoke sendVote callback');
         return this.sendVote(message, optionIds);
       });
     }
 
+<<<<<<< HEAD
     return apiManager.invokeApi('messages.sendVote', {
       peer: inputPeer,
       msg_id: appMessagesIdsManager.getServerMessageId(message.mid),
@@ -159,10 +195,20 @@ export class AppPollsManager {
     }).then(updates => {
       this.log('sendVote updates:', updates);
       apiUpdatesManager.processUpdateMessage(updates);
+=======
+    return this.apiManager.invokeApi('messages.sendVote', {
+      peer: inputPeer,
+      msg_id: getServerMessageId(message.mid),
+      options
+    }).then((updates) => {
+      this.log('sendVote updates:', updates);
+      this.apiUpdatesManager.processUpdateMessage(updates);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 
   public getResults(message: any) {
+<<<<<<< HEAD
     const inputPeer = appPeersManager.getInputPeerById(message.peerId);
 
     return apiManager.invokeApi('messages.getPollResults', {
@@ -170,21 +216,40 @@ export class AppPollsManager {
       msg_id: appMessagesIdsManager.getServerMessageId(message.mid)
     }).then(updates => {
       apiUpdatesManager.processUpdateMessage(updates);
+=======
+    const inputPeer = this.appPeersManager.getInputPeerById(message.peerId);
+
+    return this.apiManager.invokeApi('messages.getPollResults', {
+      peer: inputPeer,
+      msg_id: getServerMessageId(message.mid)
+    }).then((updates) => {
+      this.apiUpdatesManager.processUpdateMessage(updates);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.log('getResults updates:', updates);
     });
   }
 
   public getVotes(message: any, option?: Uint8Array, offset?: string, limit = 20) {
+<<<<<<< HEAD
     return apiManager.invokeApi('messages.getPollVotes', {
       peer: appPeersManager.getInputPeerById(message.peerId),
       id: appMessagesIdsManager.getServerMessageId(message.mid),
+=======
+    return this.apiManager.invokeApi('messages.getPollVotes', {
+      peer: this.appPeersManager.getInputPeerById(message.peerId),
+      id: getServerMessageId(message.mid),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       option,
       offset,
       limit
     }).then((votesList) => {
       this.log('getPollVotes messages:', votesList);
 
+<<<<<<< HEAD
       appUsersManager.saveApiUsers(votesList.users);
+=======
+      this.appUsersManager.saveApiUsers(votesList.users);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       return votesList;
     });
@@ -197,7 +262,11 @@ export class AppPollsManager {
 
     const newPoll = copy(poll);
     newPoll.pFlags.closed = true;
+<<<<<<< HEAD
     return appMessagesManager.editMessage(message, undefined, {
+=======
+    return this.appMessagesManager.editMessage(message, undefined, {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       newMedia: this.getInputMediaPoll(newPoll)
     }).then(() => {
       //console.log('stopped poll');
@@ -206,7 +275,10 @@ export class AppPollsManager {
     });
   }
 }
+<<<<<<< HEAD
 
 const appPollsManager = new AppPollsManager();
 MOUNT_CLASS_TO.appPollsManager = appPollsManager;
 export default appPollsManager;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

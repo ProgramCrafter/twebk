@@ -5,8 +5,17 @@
  */
 
 import { MOUNT_CLASS_TO } from "../config/debug";
+<<<<<<< HEAD
 import { IS_SAFARI } from "../environment/userAgent";
 import { logger, LogTypes } from "./logger";
+=======
+import IS_OPUS_SUPPORTED from "../environment/opusSupport";
+import { IS_SAFARI } from "../environment/userAgent";
+import { Modify } from "../types";
+import { logger, LogTypes } from "./logger";
+import apiManagerProxy from "./mtproto/mtprotoworker";
+import type { ConvertWebPTask } from "./webp/webpWorkerController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 type Result = {
   bytes: Uint8Array, 
@@ -21,6 +30,7 @@ type Task = {
   timeout: number
 };
 
+<<<<<<< HEAD
 export class OpusDecodeController {
   private worker: Worker;
   private wavWorker : Worker;
@@ -35,6 +45,22 @@ export class OpusDecodeController {
 
     const audio = document.createElement('audio');
     return this.isPlaySupportedResult = !!(audio.canPlayType && audio.canPlayType('audio/ogg;').replace(/no/, ''))/*  && false */;
+=======
+export interface ConvertOpusTask extends Modify<ConvertWebPTask, {type: 'convertOpus'}> {
+  type: 'convertOpus'
+}
+
+export class OpusDecodeController {
+  private worker: Worker;
+  private wavWorker: Worker;
+  private sampleRate = 48000;
+  private tasks: Array<Task> = [];
+  private keepAlive = false;
+  private log = logger('OPUS', LogTypes.Error);
+
+  public isPlaySupported() {
+    return IS_OPUS_SUPPORTED;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public loadWavWorker() {
@@ -171,13 +197,23 @@ export class OpusDecodeController {
   }
 
   public async decode(typedArray: Uint8Array, withWaveform = false) {
+<<<<<<< HEAD
     return this.pushDecodeTask(typedArray, withWaveform).then(result => {
       const dataBlob = new Blob([result.bytes], {type: "audio/wav"});
       return {url: URL.createObjectURL(dataBlob), waveform: result.waveform};
+=======
+    return this.pushDecodeTask(typedArray, withWaveform).then(async(result) => {
+      const dataBlob = new Blob([result.bytes], {type: "audio/wav"});
+      return {url: await apiManagerProxy.invoke('createObjectURL', dataBlob), waveform: result.waveform};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 }
 
 const opusDecodeController = new OpusDecodeController();
 MOUNT_CLASS_TO.opusDecodeController = opusDecodeController;
+<<<<<<< HEAD
 export default opusDecodeController;
+=======
+export default opusDecodeController;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

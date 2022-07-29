@@ -6,13 +6,21 @@
 
 import appSidebarLeft, { SettingSection } from "..";
 import { InputFile } from "../../../layer";
+<<<<<<< HEAD
 import appChatsManager from "../../../lib/appManagers/appChatsManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import InputField from "../../inputField";
 import { SliderSuperTab } from "../../slider";
 import AvatarEdit from "../../avatarEdit";
 import AppAddMembersTab from "./addMembers";
 import { _i18n } from "../../../lib/langPack";
 import ButtonCorner from "../../buttonCorner";
+<<<<<<< HEAD
+=======
+import appImManager from "../../../lib/appManagers/appImManager";
+import { attachClickEvent } from "../../../helpers/dom/clickEvent";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppNewChannelTab extends SliderSuperTab {
   private uploadAvatar: () => Promise<InputFile> = null;
@@ -60,34 +68,61 @@ export default class AppNewChannelTab extends SliderSuperTab {
 
     this.nextBtn = ButtonCorner({icon: 'arrow_next'});
 
+<<<<<<< HEAD
     this.nextBtn.addEventListener('click', () => {
+=======
+    attachClickEvent(this.nextBtn, () => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const title = this.channelNameInputField.value;
       const about = this.channelDescriptionInputField.value;
 
       this.nextBtn.disabled = true;
+<<<<<<< HEAD
       appChatsManager.createChannel({
+=======
+      this.managers.appChatsManager.createChannel({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         title, 
         about,
         broadcast: true
       }).then((channelId) => {
         if(this.uploadAvatar) {
           this.uploadAvatar().then((inputFile) => {
+<<<<<<< HEAD
             appChatsManager.editPhoto(channelId, inputFile);
           });
         }
         
         appSidebarLeft.removeTabFromHistory(this);
         new AppAddMembersTab(this.slider).open({
+=======
+            this.managers.appChatsManager.editPhoto(channelId, inputFile);
+          });
+        }
+
+        appImManager.setInnerPeer({peerId: channelId.toPeerId(true)});
+        
+        appSidebarLeft.removeTabFromHistory(this);
+        this.slider.createTab(AppAddMembersTab).open({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           type: 'channel',
           skippable: true,
           title: 'GroupAddMembers',
           placeholder: 'SendMessageTo',
           takeOut: (peerIds) => {
+<<<<<<< HEAD
             return appChatsManager.inviteToChannel(channelId, peerIds);
           }
         });
       });
     });
+=======
+            return this.managers.appChatsManager.inviteToChannel(channelId, peerIds);
+          }
+        });
+      });
+    }, {listenerSetter: this.listenerSetter});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.content.append(this.nextBtn);
     section.content.append(this.avatarEdit.container, inputWrapper);

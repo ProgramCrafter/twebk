@@ -6,10 +6,16 @@
 
 import { SettingSection } from "../..";
 import { attachClickEvent } from "../../../../helpers/dom/clickEvent";
+<<<<<<< HEAD
 import appStickersManager from "../../../../lib/appManagers/appStickersManager";
 import Button from "../../../button";
 import { SliderSuperTab } from "../../../slider";
 import { wrapSticker } from "../../../wrappers";
+=======
+import Button from "../../../button";
+import { SliderSuperTab } from "../../../slider";
+import wrapStickerEmoji from "../../../wrappers/stickerEmoji";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import AppSettingsTab from "../settings";
 
 export default class AppTwoStepVerificationSetTab extends SliderSuperTab {
@@ -18,11 +24,16 @@ export default class AppTwoStepVerificationSetTab extends SliderSuperTab {
     this.setTitle('TwoStepVerificationPasswordSet');
 
     const section = new SettingSection({
+<<<<<<< HEAD
       caption: 'TwoStepVerificationPasswordSetInfo',
+=======
+      captionOld: 'TwoStepVerificationPasswordSetInfo',
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       noDelimiter: true
     });
 
     const emoji = '🥳';
+<<<<<<< HEAD
     const doc = appStickersManager.getAnimatedEmojiSticker(emoji);
     const stickerContainer = document.createElement('div');
 
@@ -40,6 +51,16 @@ export default class AppTwoStepVerificationSetTab extends SliderSuperTab {
     } else {
       stickerContainer.classList.add('media-sticker-wrapper');
     }
+=======
+    const stickerContainer = document.createElement('div');
+
+    wrapStickerEmoji({
+      emoji,
+      div: stickerContainer,
+      width: 160,
+      height: 160
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     section.content.append(stickerContainer);
 

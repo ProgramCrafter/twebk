@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "Telegram WebK",
     "short_name": "Telegram WebK",
+=======
+    "name": "Telegram Web",
+    "short_name": "Telegram Web",
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     "start_url": "./",
     "description": "Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.",
     "icons": [

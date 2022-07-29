@@ -31,7 +31,11 @@ export default class ProgressivePreloader {
   private tryAgainOnFail = true;
   private attachMethod: 'append' | 'prepend' = 'append';
 
+<<<<<<< HEAD
   public loadFunc: (e?: Event) => {download: CancellablePromise<any>};
+=======
+  public loadFunc: (e?: Event) => any;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   public totalLength: number;
 
@@ -45,6 +49,13 @@ export default class ProgressivePreloader {
     if(options) {
       safeAssign(this, options);
     }
+<<<<<<< HEAD
+=======
+
+    if(this.isUpload) {
+      this.tryAgainOnFail = false;
+    }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public constructContainer(options: Partial<{

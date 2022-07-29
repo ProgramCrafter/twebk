@@ -5,7 +5,10 @@
  */
 
 import I18n, { i18n } from "../../lib/langPack";
+<<<<<<< HEAD
 import Scrollable from "../scrollable";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import PopupPeer from "./peer";
 
 export default class PopupSponsored extends PopupPeer {
@@ -23,6 +26,7 @@ export default class PopupSponsored extends PopupPeer {
           window.open(I18n.format('Chat.Message.Sponsored.Link', true));
         },
         isCancel: true
+<<<<<<< HEAD
       }]
     });
 
@@ -36,6 +40,13 @@ export default class PopupSponsored extends PopupPeer {
 
     scrollable.container.append(this.description);
     scrollable.container.classList.add('scrolled-top');
+=======
+      }],
+      scrollable: true
+    });
+
+    this.scrollable.append(this.description);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.show();
   }

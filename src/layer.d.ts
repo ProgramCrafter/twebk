@@ -885,7 +885,12 @@ export namespace Message {
 		reply_to_mid?: number,
 		savedFrom?: string,
 		sponsoredMessage?: SponsoredMessage.sponsoredMessage,
+<<<<<<< HEAD
 		promise?: CancellablePromise<void>
+=======
+		promise?: CancellablePromise<void>,
+		uploadingFileName?: string
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 	};
 
 	export type messageService = {
@@ -1295,8 +1300,12 @@ export namespace Dialog {
 		notify_settings: PeerNotifySettings,
 		pts?: number,
 		draft?: DraftMessage,
+<<<<<<< HEAD
 		folder_id?: number,
 		index?: number,
+=======
+		folder_id?: 0 | 1,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		index_0?: number,
 		index_1?: number,
 		index_2?: number,
@@ -1308,6 +1317,20 @@ export namespace Dialog {
 		index_8?: number,
 		index_9?: number,
 		index_10?: number,
+<<<<<<< HEAD
+=======
+		index_11?: number,
+		index_12?: number,
+		index_13?: number,
+		index_14?: number,
+		index_15?: number,
+		index_16?: number,
+		index_17?: number,
+		index_18?: number,
+		index_19?: number,
+		index_20?: number,
+		index_21?: number,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		peerId?: PeerId,
 		topMessage?: any,
 		migratedTo?: PeerId
@@ -3267,7 +3290,10 @@ export namespace Document {
 		file_reference: Uint8Array | number[],
 		date: number,
 		mime_type: string,
+<<<<<<< HEAD
 		size: number,
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		video_thumbs?: Array<VideoSize>,
 		dc_id: number,
 		attributes: Array<DocumentAttribute>,
@@ -3284,9 +3310,9 @@ export namespace Document {
 		pFlags?: Partial<{
 			stickerThumbConverted?: true,
 		}>,
-		stickerCachedThumbs?: {[toneIndex: number]: {url: string, w: number, h: number}},
 		animated?: boolean,
-		supportsStreaming?: boolean
+		supportsStreaming?: boolean,
+		size?: number
 	};
 }
 
@@ -5873,7 +5899,9 @@ export namespace WebDocument {
 		access_hash: string | number,
 		size: number,
 		mime_type: string,
-		attributes: Array<DocumentAttribute>
+		attributes: Array<DocumentAttribute>,
+		h?: number,
+		w?: number
 	};
 
 	export type webDocumentNoProxy = {
@@ -5881,7 +5909,9 @@ export namespace WebDocument {
 		url: string,
 		size: number,
 		mime_type: string,
-		attributes: Array<DocumentAttribute>
+		attributes: Array<DocumentAttribute>,
+		h?: number,
+		w?: number
 	};
 }
 
@@ -7836,9 +7866,9 @@ export namespace AutoDownloadSettings {
 			phonecalls_less_data?: true,
 		}>,
 		photo_size_max: number,
-		video_size_max: number,
-		file_size_max: number,
-		video_upload_maxbitrate: number
+		video_upload_maxbitrate: number,
+		file_size_max?: number,
+		video_size_max?: number
 	};
 }
 
@@ -8343,7 +8373,11 @@ export namespace DialogFilter {
 		pinned_peers: Array<InputPeer>,
 		include_peers: Array<InputPeer>,
 		exclude_peers: Array<InputPeer>,
+<<<<<<< HEAD
 		orderIndex?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10,
+=======
+		orderIndex?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 		peerId?: PeerId,
 		folder_id?: number
 	};

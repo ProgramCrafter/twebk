@@ -8,10 +8,18 @@ import { formatTime, getFullDate } from "../../helpers/date";
 import setInnerHTML from "../../helpers/dom/setInnerHTML";
 import formatNumber from "../../helpers/number/formatNumber";
 import { Message } from "../../layer";
+<<<<<<< HEAD
 import appMessagesManager from "../../lib/appManagers/appMessagesManager";
 import { i18n, _i18n } from "../../lib/langPack";
 import RichTextProcessor from "../../lib/richtextprocessor";
 import { LazyLoadQueueIntersector } from "../lazyLoadQueue";
+=======
+import getPeerId from "../../lib/appManagers/utils/peers/getPeerId";
+import { i18n, _i18n } from "../../lib/langPack";
+import wrapEmojiText from "../../lib/richTextProcessor/wrapEmojiText";
+import rootScope from "../../lib/rootScope";
+import type LazyLoadQueue from "../lazyLoadQueue";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import PeerTitle from "../peerTitle";
 import { wrapReply } from "../wrappers";
 import Chat, { ChatType } from "./chat";
@@ -37,6 +45,10 @@ export namespace MessageRender {
   export const setTime = (options: {
     chatType: ChatType, 
     message: Message.message | Message.messageService,
+<<<<<<< HEAD
+=======
+    reactionsMessage?: Message.message
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }) => {
     const {chatType, message} = options;
     const date = new Date(message.date * 1000);
@@ -63,7 +75,11 @@ export namespace MessageRender {
         args.push(postViewsSpan, channelViews);
         if(postAuthor) {
           const span = document.createElement('span');
+<<<<<<< HEAD
           setInnerHTML(span, RichTextProcessor.wrapEmojiText(postAuthor));
+=======
+          setInnerHTML(span, wrapEmojiText(postAuthor));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           span.insertAdjacentHTML('beforeend', ',' + NBSP)
           args.push(span);
         }
@@ -82,8 +98,12 @@ export namespace MessageRender {
       if(message.peer_id._ === 'peerUser'/*  && message.reactions?.results?.length */) {
         hasReactions = true;
 
+<<<<<<< HEAD
         reactionsMessage = appMessagesManager.getGroupsFirstMessage(message);
 
+=======
+        reactionsMessage = options.reactionsMessage;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         reactionsElement = new ReactionsElement();
         reactionsElement.init(reactionsMessage, 'inline', true);
         reactionsElement.render();
@@ -124,7 +144,11 @@ export namespace MessageRender {
       _reactionsElement.init(reactionsMessage, 'inline');
       _reactionsElement.render();
     }
+<<<<<<< HEAD
     clonedArgs = clonedArgs.map(a => a instanceof HTMLElement && !a.classList.contains('i18n') && !a.classList.contains('reactions') ? a.cloneNode(true) as HTMLElement : a);
+=======
+    clonedArgs = clonedArgs.map((a) => a instanceof HTMLElement && !a.classList.contains('i18n') && !a.classList.contains('reactions') ? a.cloneNode(true) as HTMLElement : a);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(time) {
       clonedArgs[clonedArgs.length - 1] = formatTime(date); // clone time
     }
@@ -141,7 +165,11 @@ export namespace MessageRender {
     message: Message.message,
     messageDiv: HTMLElement,
     loadPromises?: Promise<any>[],
+<<<<<<< HEAD
     lazyLoadQueue?: LazyLoadQueueIntersector
+=======
+    lazyLoadQueue?: LazyLoadQueue
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }) => {
     const isFooter = !bubble.classList.contains('sticker') && !bubble.classList.contains('emoji-big') && !bubble.classList.contains('round');
     const repliesFooter = new RepliesElement();
@@ -154,7 +182,11 @@ export namespace MessageRender {
     return isFooter;
   };
 
+<<<<<<< HEAD
   export const setReply = ({chat, bubble, bubbleContainer, message}: {
+=======
+  export const setReply = async({chat, bubble, bubbleContainer, message}: {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     chat: Chat,
     bubble: HTMLElement,
     bubbleContainer?: HTMLElement,
@@ -176,34 +208,64 @@ export namespace MessageRender {
     }
 
 
+<<<<<<< HEAD
     const replyToPeerId = message.reply_to.reply_to_peer_id ? chat.appPeersManager.getPeerId(message.reply_to.reply_to_peer_id) : chat.peerId;
 
     let originalMessage = chat.appMessagesManager.getMessageByPeer(replyToPeerId, message.reply_to_mid);
+=======
+    const replyToPeerId = message.reply_to.reply_to_peer_id ? getPeerId(message.reply_to.reply_to_peer_id) : chat.peerId;
+
+    let originalMessage = await rootScope.managers.appMessagesManager.getMessageByPeer(replyToPeerId, message.reply_to_mid);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let originalPeerTitle: string | HTMLElement;
     
     /////////this.log('message to render reply', originalMessage, originalPeerTitle, bubble, message);
     
+<<<<<<< HEAD
     // need to download separately
     if(originalMessage._ === 'messageEmpty') {
       //////////this.log('message to render reply empty, need download', message, message.reply_to_mid);
       chat.appMessagesManager.wrapSingleMessage(replyToPeerId, message.reply_to_mid);
+=======
+    let titlePeerId: PeerId;
+    // need to download separately
+    if(!originalMessage) {
+      //////////this.log('message to render reply empty, need download', message, message.reply_to_mid);
+      rootScope.managers.appMessagesManager.fetchMessageReplyTo(message);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       chat.bubbles.needUpdate.push({replyToPeerId, replyMid: message.reply_to_mid, mid: message.mid});
       
       originalPeerTitle = i18n('Loading');
     } else {
+<<<<<<< HEAD
       originalPeerTitle = new PeerTitle({
         peerId: originalMessage.fromId || originalMessage.fwdFromId,
+=======
+      const originalMessageFwdFromId = (originalMessage as Message.message).fwdFromId;
+      titlePeerId = message.fwdFromId && message.fwdFromId === originalMessageFwdFromId ? message.fwdFromId : originalMessage.fromId || originalMessageFwdFromId;
+      originalPeerTitle = new PeerTitle({
+        peerId: titlePeerId,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         dialog: false,
         onlyFirstName: false,
         plainText: false
       }).element;
     }
 
+<<<<<<< HEAD
     const wrapped = wrapReply(originalPeerTitle, undefined, originalMessage);
     if(currentReplyDiv) {
       currentReplyDiv.replaceWith(wrapped);
     } else {
       bubbleContainer.append(wrapped);
+=======
+    const {container, fillPromise} = wrapReply(originalPeerTitle, undefined, originalMessage, chat.isAnyGroup ? titlePeerId : undefined);
+    await fillPromise;
+    if(currentReplyDiv) {
+      currentReplyDiv.replaceWith(container);
+    } else {
+      bubbleContainer.append(container);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     //bubbleContainer.insertBefore(, nameContainer);
     bubble.classList.add('is-reply');

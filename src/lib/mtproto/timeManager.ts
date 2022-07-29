@@ -8,6 +8,7 @@
  * Copyright (C) 2014 Igor Zhukov <igor.beatle@gmail.com>
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
+<<<<<<< HEAD
 
 import sessionStorage from '../sessionStorage';
 import { nextRandomUint } from '../../helpers/random';
@@ -33,11 +34,69 @@ export class TimeManager {
   private timeOffset: number = 0;
 
   constructor() {
+=======
+
+import sessionStorage from '../sessionStorage';
+import { nextRandomUint } from '../../helpers/random';
+import { WorkerTaskVoidTemplate } from '../../types';
+import ulongFromInts from '../../helpers/long/ulongFromInts';
+import { AppManager } from '../appManagers/manager';
+
+/*
+let lol: any = {};
+for(var i = 0; i < 100; i++) {
+    timeManager.generateId();
+}
+*/
+
+export interface ApplyServerTimeOffsetTask extends WorkerTaskVoidTemplate {
+  type: 'applyServerTimeOffset',
+  payload: TimeManager['timeOffset']
+};
+
+export class TimeManager extends AppManager {
+  private lastMessageId: [number, number];
+  private timeOffset: number;
+
+  /* private midnightNoOffset: number;
+  private midnightOffseted: Date;
+
+  private midnightOffset: number; */
+
+  /* private timeParams: {
+    midnightOffset: number,
+    serverTimeOffset: number
+  }; */
+
+  protected after() {
+    this.lastMessageId = [0, 0];
+    this.timeOffset = 0;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     sessionStorage.get('server_time_offset').then((to) => {
       if(to) {
         this.timeOffset = to;
       }
     });
+
+
+
+    // * migrated from ServerTimeManager
+    /* const timestampNow = tsNow(true);
+    this.midnightNoOffset = timestampNow - (timestampNow % 86400);
+    this.midnightOffseted = new Date();
+    this.midnightOffseted.setHours(0, 0, 0, 0);
+    
+    this.midnightOffset = this.midnightNoOffset - (Math.floor(+this.midnightOffseted / 1000)); */
+
+    /* this.timeParams = {
+      midnightOffset: this.midnightOffset,
+      serverTimeOffset: this.serverTimeOffset
+    }; */
+  }
+
+  public getServerTimeOffset() {
+    return this.timeOffset;
   }
 
   public generateId(): string {
@@ -54,7 +113,7 @@ export class TimeManager {
 
     this.lastMessageId = messageId;
 
-    const ret = longFromInts(messageId[0], messageId[1]);
+    const ret = ulongFromInts(messageId[0], messageId[1]).toString(10);
 
     // if(lol[ret]) {
     //   console.error('[TimeManager]: Generated SAME msg id', messageId, this.timeOffset, ret);
@@ -78,6 +137,7 @@ export class TimeManager {
       });
 
       this.timeOffset = newTimeOffset;
+<<<<<<< HEAD
 
       /// #if MTPROTO_WORKER
       const task: ApplyServerTimeOffsetTask = {
@@ -86,6 +146,8 @@ export class TimeManager {
       };
       notifySomeone(task);
       /// #endif
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     //console.log('[TimeManager]: Apply server time', serverTime, localTime, newTimeOffset, changed);
@@ -93,7 +155,10 @@ export class TimeManager {
     return changed;
   }
 }
+<<<<<<< HEAD
 
 const timeManager = new TimeManager();
 MOUNT_CLASS_TO.timeManager = timeManager;
 export default timeManager;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

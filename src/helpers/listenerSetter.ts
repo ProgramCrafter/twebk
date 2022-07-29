@@ -102,7 +102,11 @@ export default class ListenerSetter {
   }
 
   public removeAll() {
+<<<<<<< HEAD
     this.listeners.forEach(listener => {
+=======
+    this.listeners.forEach((listener) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.remove(listener);
     });
   }

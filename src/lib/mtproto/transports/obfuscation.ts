@@ -5,6 +5,7 @@
  */
 
 //import aesjs from 'aes-js';
+<<<<<<< HEAD
 import AES from "@cryptography/aes";
 import randomize from "../../../helpers/array/randomize";
 import bytesFromWordss from "../../../helpers/bytes/bytesFromWordss";
@@ -59,6 +60,12 @@ class CTR {
   }
 }
 
+=======
+import randomize from "../../../helpers/array/randomize";
+import cryptoMessagePort from "../../crypto/cryptoMessagePort";
+import { Codec } from "./codec";
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 /* 
 @cryptography/aes не работает с массивами которые не кратны 4, поэтому использую intermediate а не abridged
 */
@@ -66,12 +73,33 @@ export default class Obfuscation {
   /* private enc: aesjs.ModeOfOperation.ModeOfOperationCTR;
   private dec: aesjs.ModeOfOperation.ModeOfOperationCTR; */
 
+<<<<<<< HEAD
   private encNew: CTR;
   private decNew: CTR;
   // private cryptoEncKey: CryptoKey;
   // encIv: Uint8Array;
 
   public /* async */ init(codec: Codec) {
+=======
+  private id: number;
+  private idPromise: Promise<Obfuscation['id']>;
+  private process: (data: Uint8Array, operation: 'encrypt' | 'decrypt') => ReturnType<Obfuscation['_process']>;
+
+  // private cryptoEncKey: CryptoKey;
+  // private cryptoDecKey: CryptoKey;
+  // private cryptoKey: CryptoKey;
+
+  // private encIv: Uint8Array;
+  // private decIv: Uint8Array;
+
+  // private decIvCounter: Counter;
+
+  public async init(codec: Codec) {
+    if(this.idPromise !== undefined) {
+      this.release();
+    }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const initPayload = new Uint8Array(64);
     randomize(initPayload);
     
@@ -101,6 +129,7 @@ export default class Obfuscation {
     const encKey = initPayload.slice(8, 40);
     const encIv = /* this.encIv =  */initPayload.slice(40, 56);
     const decKey = reversedPayload.slice(8, 40);
+<<<<<<< HEAD
     const decIv = reversedPayload.slice(40, 56);
 
     /* this.enc = new aesjs.ModeOfOperation.ctr(encKey, new aesjs.Counter(encIv as any));
@@ -112,6 +141,33 @@ export default class Obfuscation {
     this.encNew = new CTR(encKey, encIv);
     this.decNew = new CTR(decKey, decIv);
 
+=======
+    const decIv = /* this.decIv =  */reversedPayload.slice(40, 56);
+
+    /* this.enc = new aesjs.ModeOfOperation.ctr(encKey, new aesjs.Counter(encIv as any));
+    this.dec = new aesjs.ModeOfOperation.ctr(decKey, new aesjs.Counter(decIv as any)); */
+    
+    // console.log('encKey', encKey.hex, encIv.hex);
+    // console.log('decKey', decKey.hex, decIv.hex);
+
+    const idPromise = this.idPromise = cryptoMessagePort.invokeCrypto('aes-ctr-prepare', {
+      encKey,
+      encIv,
+      decKey,
+      decIv
+    });
+
+    this.process = async(data, operation) => {
+      await idPromise;
+      return this._process(data, operation);
+    };
+
+    this.id = await idPromise;
+    
+    this.process = this._process;
+    
+    // this.decIvCounter = new Counter(this.decIv);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     /* const key = this.cryptoEncKey = await subtle.importKey(
       'raw',
       encKey,
@@ -120,8 +176,29 @@ export default class Obfuscation {
       ['encrypt']
     ); */
 
+<<<<<<< HEAD
     initPayload.set(codec.obfuscateTag, 56);
     const encrypted = /* await */ this.encode(initPayload);
+=======
+    // this.cryptoDecKey = await subtle.importKey(
+    //   'raw',
+    //   decKey,
+    //   {name: 'AES-CTR'},
+    //   false,
+    //   ['encrypt']
+    // );
+
+    // this.cryptoKey = await subtle.importKey(
+    //   'raw',
+    //   encKey,
+    //   {name: 'AES-CTR'},
+    //   false,
+    //   ['encrypt', 'decrypt']
+    // );
+
+    initPayload.set(codec.obfuscateTag, 56);
+    const encrypted = await this.encode(initPayload.slice());
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     //console.log('encrypted', encrypted);
 
@@ -163,6 +240,17 @@ export default class Obfuscation {
     
     return res;
   } */
+<<<<<<< HEAD
+=======
+
+  private _process = (data: Uint8Array, operation: 'encrypt' | 'decrypt') => {
+    return cryptoMessagePort.invoke('invoke', {
+      method: 'aes-ctr-process',
+      args: [{id: this.id, data, operation}],
+    }, undefined, undefined, [data.buffer]) as Promise<Uint8Array>;
+  };
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public encode(payload: Uint8Array) {
     /* return subtle.encrypt({
         name: 'AES-CTR',
@@ -172,6 +260,7 @@ export default class Obfuscation {
       this.cryptoEncKey,
       payload
     ); */
+<<<<<<< HEAD
     return this.encNew.update(payload);
   }
 
@@ -191,4 +280,56 @@ export default class Obfuscation {
     
     return bytes;
   } */
+=======
+    return this.process(payload, 'encrypt');
+  }
+
+  public decode(payload: Uint8Array) {
+    return this.process(payload, 'decrypt');
+  }
+
+  public async release() {
+    const idPromise = this.idPromise;
+    if(idPromise === undefined) {
+      return;
+    }
+
+    this.id = undefined;
+    this.idPromise = undefined;
+
+    const id = await idPromise;
+    cryptoMessagePort.invokeCrypto('aes-ctr-destroy', id);
+  }
+
+  public destroy() {
+    this.release();
+  }
+
+  // public encode(payload: Uint8Array) {
+  //   let res = this.encNew.encrypt(payload);
+  //   let bytes = new Uint8Array(bytesFromWordss(res));
+    
+  //   return bytes;
+  // }
+
+  // public async decode(payload: Uint8Array) {
+  //   const counter = this.decIvCounter.counter.slice();
+  //   this.decIvCounter.increment();
+
+  //   const n: ArrayBuffer = await subtle.encrypt({
+  //       name: 'AES-CTR',
+  //       counter: counter,
+  //       length: 64
+  //     },
+  //     this.cryptoDecKey,
+  //     payload
+  //   );
+
+  //   const decoded = this.decNew.update(payload);
+    
+  //   console.log('decode', bytesToHex(decoded), 'new', n, bytesToHex(new Uint8Array(n)));
+
+  //   return decoded;
+  // }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

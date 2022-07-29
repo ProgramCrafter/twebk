@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { MOUNT_CLASS_TO } from "../../config/debug";
 
 export class AppMessagesIdsManager {
@@ -56,3 +57,16 @@ export class AppMessagesIdsManager {
 const appMessagesIdsManager = new AppMessagesIdsManager();
 MOUNT_CLASS_TO && (MOUNT_CLASS_TO.appMessagesIdsManager = appMessagesIdsManager);
 export default appMessagesIdsManager;
+=======
+import { MESSAGE_ID_INCREMENT } from "./utils/messageId";
+import generateMessageId from "./utils/messageId/generateMessageId";
+
+export class AppMessagesIdsManager {
+  private tempNum = 0;
+
+  public generateTempMessageId(messageId: number) {
+    const num = ++this.tempNum;
+    return generateMessageId(messageId) + (num & (MESSAGE_ID_INCREMENT - 1));
+  }
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

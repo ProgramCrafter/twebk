@@ -6,17 +6,30 @@
 
 import blurActiveElement from "../helpers/dom/blurActiveElement";
 import loadFonts from "../helpers/dom/loadFonts";
+<<<<<<< HEAD
 import appStateManager from "../lib/appManagers/appStateManager";
 import I18n from "../lib/langPack";
 import Page from "./page";
 
 let onFirstMount = () => {
   appStateManager.pushToState('authState', {_: 'authStateSignedIn'});
+=======
+import I18n from "../lib/langPack";
+import rootScope from "../lib/rootScope";
+import Page from "./page";
+
+let onFirstMount = () => {
+  rootScope.managers.appStateManager.pushToState('authState', {_: 'authStateSignedIn'});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // ! TOO SLOW
   /* appStateManager.saveState(); */
 
   if(!I18n.requestedServerLanguage) {
+<<<<<<< HEAD
     I18n.getCacheLangPack().then(langPack => {
+=======
+    I18n.getCacheLangPack().then((langPack) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(langPack.local) {
         I18n.getLangPack(langPack.lang_code);
       }
@@ -36,7 +49,11 @@ let onFirstMount = () => {
   alert('navigator.mediaDevices.getUserMedia:' + typeof(navigator.mediaDevices?.getUserMedia));
   alert('global.WebAssembly:' + typeof(WebAssembly)); */
 
+<<<<<<< HEAD
   //(Array.from(document.getElementsByClassName('rp')) as HTMLElement[]).forEach(el => ripple(el));
+=======
+  //(Array.from(document.getElementsByClassName('rp')) as HTMLElement[]).forEach((el) => ripple(el));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   blurActiveElement();
 

@@ -9,6 +9,7 @@
  * https://github.com/zhukov/webogram/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 //import apiManager from '../mtproto/apiManager';
 import DEBUG, { MOUNT_CLASS_TO } from '../../config/debug';
 import { Message, MessageEntity, MessageFwdHeader, Peer, Update, Updates } from '../../layer';
@@ -25,6 +26,20 @@ import assumeType from '../../helpers/assumeType';
 import RichTextProcessor from '../richtextprocessor';
 import App from '../../config/app';
 import filterUnique from '../../helpers/array/filterUnique';
+=======
+import DEBUG from '../../config/debug';
+import { ConstructorDeclMap, Message, MessageEntity, MessageFwdHeader, Peer, Update, Updates } from '../../layer';
+import { logger, LogTypes } from '../logger';
+import assumeType from '../../helpers/assumeType';
+import App from '../../config/app';
+import filterUnique from '../../helpers/array/filterUnique';
+import { AppManager } from './manager';
+import parseMarkdown from '../richTextProcessor/parseMarkdown';
+import getPeerId from './utils/peers/getPeerId';
+import ctx from '../../environment/ctx';
+import EventListenerBase from '../../helpers/eventListenerBase';
+import applyMixins from '../../helpers/applyMixins';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 type UpdatesState = {
   pendingPtsUpdates: (Update & {pts: number, pts_count: number})[],
@@ -44,7 +59,7 @@ type UpdatesState = {
 
 const SYNC_DELAY = 6;
 
-export class ApiUpdatesManager {
+class ApiUpdatesManager {
   public updatesState: UpdatesState = {
     pendingPtsUpdates: [],
     pendingSeqUpdates: {},
@@ -58,6 +73,13 @@ export class ApiUpdatesManager {
   private log = logger('UPDATES', LogTypes.Error | LogTypes.Warn | LogTypes.Log/*  | LogTypes.Debug */);
   private debug = DEBUG;
 
+<<<<<<< HEAD
+=======
+  constructor() {
+    this._constructor(false);
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private setProxy() {
     const self = this;
     this.updatesState = new Proxy(this.updatesState, {
@@ -72,7 +94,11 @@ export class ApiUpdatesManager {
 
   public saveUpdatesState() {
     const us = this.updatesState;
+<<<<<<< HEAD
     appStateManager.pushToState('updates', {
+=======
+    this.appStateManager.pushToState('updates', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       seq: us.seq,
       pts: us.pts,
       date: us.date
@@ -204,10 +230,17 @@ export class ApiUpdatesManager {
         assumeType<Updates.updateShortChatMessage | Updates.updateShortMessage>(updateMessage);
         this.debug && this.log.debug('updateShortMessage | updateShortChatMessage', {...updateMessage});
         const isOut = updateMessage.pFlags.out;
+<<<<<<< HEAD
         const fromId = (updateMessage as Updates.updateShortChatMessage).from_id || (isOut ? rootScope.myId : (updateMessage as Updates.updateShortMessage).user_id);
         const toId = (updateMessage as Updates.updateShortChatMessage).chat_id
           ? (updateMessage as Updates.updateShortChatMessage).chat_id.toPeerId(true)
           : ((updateMessage as Updates.updateShortMessage).user_id.toPeerId(false) || rootScope.myId);
+=======
+        const fromId = (updateMessage as Updates.updateShortChatMessage).from_id || (isOut ? this.appPeersManager.peerId : (updateMessage as Updates.updateShortMessage).user_id);
+        const toId = (updateMessage as Updates.updateShortChatMessage).chat_id
+          ? (updateMessage as Updates.updateShortChatMessage).chat_id.toPeerId(true)
+          : ((updateMessage as Updates.updateShortMessage).user_id.toPeerId(false) || this.appPeersManager.peerId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
         this.processUpdate({
           _: 'updateNewMessage',
@@ -215,8 +248,13 @@ export class ApiUpdatesManager {
             _: 'message',
             pFlags: updateMessage.pFlags,
             id: updateMessage.id,
+<<<<<<< HEAD
             from_id: appPeersManager.getOutputPeer(fromId.toPeerId()),
             peer_id: appPeersManager.getOutputPeer(toId),
+=======
+            from_id: this.appPeersManager.getOutputPeer(fromId.toPeerId()),
+            peer_id: this.appPeersManager.getOutputPeer(toId),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             date: updateMessage.date,
             message: updateMessage.message,
             fwd_from: updateMessage.fwd_from,
@@ -231,8 +269,13 @@ export class ApiUpdatesManager {
   
       case 'updatesCombined':
       case 'updates':
+<<<<<<< HEAD
         appUsersManager.saveApiUsers(updateMessage.users, options.override);
         appChatsManager.saveApiChats(updateMessage.chats, options.override);
+=======
+        this.appUsersManager.saveApiUsers(updateMessage.users, options.override);
+        this.appChatsManager.saveApiChats(updateMessage.chats, options.override);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
         updateMessage.updates.forEach((update: Update) => {
           this.processUpdate(update, processOpts);
@@ -258,7 +301,11 @@ export class ApiUpdatesManager {
       updatesState.syncPending = null;
     }
 
+<<<<<<< HEAD
     const promise = apiManager.invokeApi('updates.getDifference', {
+=======
+    const promise = this.apiManager.invokeApi('updates.getDifference', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       pts: updatesState.pts, 
       pts_total_limit: first /* && false  */? /* 50 */1200 : undefined,
       date: updatesState.date, 
@@ -277,12 +324,21 @@ export class ApiUpdatesManager {
 
       // ! SORRY I'M SORRY I'M SORRY
       if(first) {
+<<<<<<< HEAD
         rootScope.dispatchEvent('state_synchronizing');
       }
 
       if(differenceResult._ !== 'updates.differenceTooLong') {
         appUsersManager.saveApiUsers(differenceResult.users);
         appChatsManager.saveApiChats(differenceResult.chats);
+=======
+        this.rootScope.dispatchEvent('state_synchronizing');
+      }
+
+      if(differenceResult._ !== 'updates.differenceTooLong') {
+        this.appUsersManager.saveApiUsers(differenceResult.users);
+        this.appChatsManager.saveApiChats(differenceResult.chats);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         // Should be first because of updateMessageID
         // this.log('applying', differenceResult.other_updates.length, 'other updates')
@@ -315,13 +371,21 @@ export class ApiUpdatesManager {
         updatesState.date = nextState.date;
       } else {
         updatesState.pts = differenceResult.pts;
+<<<<<<< HEAD
         updatesState.date = (Date.now() / 1000 | 0) + serverTimeManager.serverTimeOffset;
+=======
+        updatesState.date = (Date.now() / 1000 | 0) + this.timeManager.getServerTimeOffset();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         delete updatesState.seq;
         
         this.channelStates = {};
         
         this.log.warn('getDifference:', differenceResult._);
+<<<<<<< HEAD
         rootScope.dispatchEvent('state_cleared');
+=======
+        this.onDifferenceTooLong();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
   
       // this.log('apply diff', updatesState.seq, updatesState.pts)
@@ -353,8 +417,13 @@ export class ApiUpdatesManager {
     }
 
     //this.log.trace('Get channel diff', appChatsManager.getChat(channelId), channelState.pts);
+<<<<<<< HEAD
     const promise = apiManager.invokeApi('updates.getChannelDifference', {
       channel: appChatsManager.getChannelInput(channelId),
+=======
+    const promise = this.apiManager.invokeApi('updates.getChannelDifference', {
+      channel: this.appChatsManager.getChannelInput(channelId),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       filter: {_: 'channelMessagesFilterEmpty'},
       pts: channelState.pts,
       limit: 30
@@ -375,8 +444,8 @@ export class ApiUpdatesManager {
         return;
       }
   
-      appUsersManager.saveApiUsers(differenceResult.users);
-      appChatsManager.saveApiChats(differenceResult.chats);
+      this.appUsersManager.saveApiUsers(differenceResult.users);
+      this.appChatsManager.saveApiChats(differenceResult.chats);
   
       // Should be first because of updateMessageID
       this.debug && this.log.debug('applying', differenceResult.other_updates.length, 'channel other updates');
@@ -411,6 +480,7 @@ export class ApiUpdatesManager {
     return promise;
   }
 
+<<<<<<< HEAD
   private justAName(state: UpdatesState, promise: UpdatesState['syncLoading'], channelId?: ChatId) {
     state.syncLoading = promise;
     rootScope.dispatchEvent('state_synchronizing', channelId);
@@ -418,6 +488,23 @@ export class ApiUpdatesManager {
     promise.then(() => {
       state.syncLoading = null;
       rootScope.dispatchEvent('state_synchronized', channelId);
+=======
+  private onDifferenceTooLong() {
+    this.appUsersManager.clear();
+    this.appChatsManager.clear();
+    this.appMessagesManager.clear();
+
+    this.rootScope.dispatchEvent('state_cleared');
+  }
+
+  private justAName(state: UpdatesState, promise: UpdatesState['syncLoading'], channelId?: ChatId) {
+    state.syncLoading = promise;
+    this.rootScope.dispatchEvent('state_synchronizing', channelId);
+
+    promise.then(() => {
+      state.syncLoading = null;
+      this.rootScope.dispatchEvent('state_synchronized', channelId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, () => {
       state.syncLoading = null;
     });
@@ -460,7 +547,11 @@ export class ApiUpdatesManager {
     switch(update._) {
       case 'updateNewChannelMessage':
       case 'updateEditChannelMessage':
+<<<<<<< HEAD
         channelId = appPeersManager.getPeerId(update.message.peer_id).toChatId();
+=======
+        channelId = getPeerId(update.message.peer_id).toChatId();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         break;
       /* case 'updateDeleteChannelMessages':
         channelId = update.channel_id;
@@ -501,6 +592,7 @@ export class ApiUpdatesManager {
         update._ === 'updateNewChannelMessage' ||
         update._ === 'updateEditChannelMessage') {
       const message = update.message as Message.message;
+<<<<<<< HEAD
       const toPeerId = appPeersManager.getPeerId(message.peer_id);
       const fwdHeader: MessageFwdHeader.messageFwdHeader = message.fwd_from || {} as any;
       let reason: string;
@@ -511,13 +603,25 @@ export class ApiUpdatesManager {
           toPeerId.isAnyChat() && !appChatsManager.hasChat(toPeerId.toChatId()) && (reason = 'toPeer Chat')) {
         this.log.warn('Not enough data for message update', toPeerId, reason, message);
         if(channelId && appChatsManager.hasChat(channelId)) {
+=======
+      const toPeerId = getPeerId(message.peer_id);
+      const fwdHeader: MessageFwdHeader.messageFwdHeader = message.fwd_from || {} as any;
+      let reason: string;
+      if(message.from_id && !this.appUsersManager.hasUser(getPeerId(message.from_id), message.pFlags.post/* || channelId*/) && (reason = 'author') ||
+          fwdHeader.from_id && !this.appUsersManager.hasUser(getPeerId(fwdHeader.from_id), !!(fwdHeader.from_id as Peer.peerChannel).channel_id) && (reason = 'fwdAuthor') ||
+          (fwdHeader.from_id as Peer.peerChannel)?.channel_id && !this.appChatsManager.hasChat((fwdHeader.from_id as Peer.peerChannel).channel_id, true) && (reason = 'fwdChannel') ||
+          toPeerId.isUser() && !this.appUsersManager.hasUser(toPeerId) && (reason = 'toPeer User') ||
+          toPeerId.isAnyChat() && !this.appChatsManager.hasChat(toPeerId.toChatId()) && (reason = 'toPeer Chat')) {
+        this.log.warn('Not enough data for message update', toPeerId, reason, message);
+        if(channelId && this.appChatsManager.hasChat(channelId)) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.getChannelDifference(channelId);
         } else {
           this.forceGetDifference();
         }
         return false;
       }
-    } else if(channelId && !appChatsManager.hasChat(channelId)) {
+    } else if(channelId && !this.appChatsManager.hasChat(channelId)) {
       // this.log.log('skip update, missing channel', channelId, update)
       return false;
     }
@@ -528,11 +632,19 @@ export class ApiUpdatesManager {
     if(pts) {
       const newPts = curState.pts + (pts_count || 0);
       if(newPts < pts) {
+<<<<<<< HEAD
         this.debug && this.log.warn('Pts hole', curState, update, channelId && appChatsManager.getChat(channelId));
         curState.pendingPtsUpdates.push(update as Update.updateNewMessage);
         if(!curState.syncPending && !curState.syncLoading) {
           curState.syncPending = {
             timeout: window.setTimeout(() => {
+=======
+        this.debug && this.log.warn('Pts hole', curState, update, channelId && this.appChatsManager.getChat(channelId));
+        curState.pendingPtsUpdates.push(update as Update.updateNewMessage);
+        if(!curState.syncPending && !curState.syncLoading) {
+          curState.syncPending = {
+            timeout: ctx.setTimeout(() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               curState.syncPending = null;
 
               if(curState.syncLoading) {
@@ -580,7 +692,11 @@ export class ApiUpdatesManager {
   
           if(!curState.syncPending) {
             curState.syncPending = {
+<<<<<<< HEAD
               timeout: window.setTimeout(() => {
+=======
+              timeout: ctx.setTimeout(() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                 curState.syncPending = null;
 
                 if(curState.syncLoading) {
@@ -621,7 +737,11 @@ export class ApiUpdatesManager {
 
   public saveUpdate(update: Update) {
     //this.debug && this.log('saveUpdate', update);
+<<<<<<< HEAD
     rootScope.dispatchEvent(update._, update as any);
+=======
+    this.dispatchEvent(update._, update as any);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   public attach(langCode?: string) {
@@ -633,15 +753,24 @@ export class ApiUpdatesManager {
     
     this.attached = true;
 
+<<<<<<< HEAD
     appStateManager.getState().then(({updates: state}) => {
       const newVersion = appStateManager.newVersion/*  || '0.8.6' */;
+=======
+    this.appStateManager.getState().then(({updates: state}) => {
+      const newVersion = this.appStateManager.newVersion/*  || '0.8.6' */;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       //rootScope.broadcast('state_synchronizing');
       if(!state || !state.pts || !state.date/*  || !state.seq */) { // seq can be undefined because of updates.differenceTooLong
         this.log('will get new state');
 
         this.updatesState.syncLoading = new Promise((resolve) => {
+<<<<<<< HEAD
           apiManager.invokeApi('updates.getState', {}, {noErrorBox: true}).then((stateResult) => {
+=======
+          this.apiManager.invokeApi('updates.getState', {}, {noErrorBox: true}).then((stateResult) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             this.updatesState.seq = stateResult.seq;
             this.updatesState.pts = stateResult.pts;
             this.updatesState.date = stateResult.date;
@@ -681,7 +810,11 @@ export class ApiUpdatesManager {
         }) */;
       }
 
+<<<<<<< HEAD
       apiManager.setUpdatesProcessor(this.processUpdateMessage);
+=======
+      this.apiManager.setUpdatesProcessor(this.processUpdateMessage);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       // this.updatesState.syncLoading.then(() => {
         this.setProxy();
@@ -696,15 +829,24 @@ export class ApiUpdatesManager {
 
           const getChangelog = (lang: string) => {
             fetch(`changelogs/${lang}_${newVersion.split(' ')[0]}.md`)
+<<<<<<< HEAD
             .then(res => (res.status === 200 && res.ok && res.text()) || Promise.reject())
             .then(text => {
+=======
+            .then((res) => (res.status === 200 && res.ok && res.text()) || Promise.reject())
+            .then((text) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
               const langStr = strs[lang] || strs.en;
               const pre = `**Telegram Web${App.suffix} ${langStr} ${newVersion}**\n\n`;
   
               text = pre + text;
   
               const entities: MessageEntity[] = [];
+<<<<<<< HEAD
               const message = RichTextProcessor.parseMarkdown(text, entities);
+=======
+              const message = parseMarkdown(text, entities);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
               const update: Update.updateServiceNotification = {
                 _: 'updateServiceNotification',
@@ -735,6 +877,15 @@ export class ApiUpdatesManager {
   }
 }
 
+<<<<<<< HEAD
 const apiUpdatesManager = new ApiUpdatesManager();
 MOUNT_CLASS_TO.apiUpdatesManager = apiUpdatesManager;
 export default apiUpdatesManager
+=======
+interface ApiUpdatesManager extends EventListenerBase<{
+  [name in Update['_']]: (update: ConstructorDeclMap[name]) => void
+}>, AppManager {}
+applyMixins(ApiUpdatesManager, [EventListenerBase, AppManager]);
+
+export { ApiUpdatesManager };
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

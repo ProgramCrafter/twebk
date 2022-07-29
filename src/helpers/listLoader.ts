@@ -25,7 +25,11 @@ export default class ListLoader<T extends {}, P extends {}> {
   public reverse = false; // reverse means next = higher msgid
 
   protected loadMore: (anchor: T, older: boolean, loadCount: number) => Promise<ListLoaderResult<T>>;
+<<<<<<< HEAD
   protected processItem: (item: P) => T;
+=======
+  protected processItem: (item: P) => T | Promise<T>;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   protected loadCount = 50;
   protected loadWhenLeft = 20;
   
@@ -158,7 +162,11 @@ export default class ListLoader<T extends {}, P extends {}> {
     }
 
     anchor ??= this.current;
+<<<<<<< HEAD
     promise = this.loadMore(anchor, older, this.loadCount).then(result => {
+=======
+    promise = this.loadMore(anchor, older, this.loadCount).then(async(result) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if((older ? this.loadPromiseDown : this.loadPromiseUp) !== promise) {
         return;
       }
@@ -171,11 +179,16 @@ export default class ListLoader<T extends {}, P extends {}> {
         this.count = result.count || result.items.length;
       }
 
+<<<<<<< HEAD
+=======
+      const processedArr: (Promise<any> | any)[] = [];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const method = older ? result.items.forEach.bind(result.items) : forEachReverse.bind(null, result.items);
       method((item: any) => {
         const processed = this.processItem ? this.processItem(item) : item;
 
         if(!processed) return;
+<<<<<<< HEAD
 
         if(older) {
           if(this.reverse) this.previous.unshift(processed);
@@ -186,6 +199,20 @@ export default class ListLoader<T extends {}, P extends {}> {
         }
       });
 
+=======
+        processedArr.push(processed);
+      });
+
+      const results = await Promise.all(processedArr);
+      if(older) {
+        if(this.reverse) this.previous.unshift(...results);
+        else this.next.push(...results);
+      } else {
+        if(this.reverse) this.next.push(...results);
+        else this.previous.unshift(...results);
+      }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.onLoadedMore && this.onLoadedMore();
     }, () => {}).then(() => {
       if(older) this.loadPromiseDown = null;

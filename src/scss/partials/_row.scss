@@ -4,10 +4,19 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 .row {
   min-height: 3.5rem;
   position: relative;
   padding: .6875rem 1rem;
+=======
+$row-border-radius: $border-radius-medium;
+
+.row {
+  min-height: 3.5rem;
+  position: relative;
+  padding: .4375rem 1rem;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,6 +49,15 @@
     }
   }
 
+<<<<<<< HEAD
+=======
+  // &-title,
+  // &-title-row,
+  // &-subtitle {
+  //   pointer-events: none;
+  // }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   &-title {
     color: var(--primary-text-color);
     line-height: var(--line-height);
@@ -74,7 +92,11 @@
       margin-top: -.125rem;
     }
 
+<<<<<<< HEAD
     .row-subtitle:not(:empty) + .row-title.tgico:before {
+=======
+    .row-subtitle:not(:empty):not(.hide) + .row-title.tgico:before {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       margin-top: .25rem;
     }
   }
@@ -84,7 +106,11 @@
     overflow: hidden;
     
     @include respond-to(not-handhelds) {
+<<<<<<< HEAD
       border-radius: $border-radius-medium;
+=======
+      border-radius: $row-border-radius;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
@@ -94,6 +120,25 @@
     margin-left: -3.375rem;
   }
 
+<<<<<<< HEAD
+=======
+  .radio-field,
+  .radio-field-main,
+  .checkbox-field {
+    position: unset;
+  }
+
+  .radio-field,
+  .checkbox-field {
+    --offset-left: 1rem;
+  }
+
+  .radio-field {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   .checkbox-field {
     margin-right: 0;
     height: auto;
@@ -128,6 +173,12 @@
     position: absolute !important;
     margin: 0 !important;
     left: .5rem;
+<<<<<<< HEAD
+=======
+    display: flex;
+    align-items: center;
+    justify-content: center;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     &-small {
       width: 2rem !important;

@@ -14,7 +14,11 @@ const ITERATIONS = 2;
 let requireBlurPromise: Promise<any>;
 let fastBlurFunc: typeof fastBlur;
 if(!IS_CANVAS_FILTER_SUPPORTED) {
+<<<<<<< HEAD
   requireBlurPromise = import('../vendor/fastBlur').then(m => {
+=======
+  requireBlurPromise = import('../vendor/fastBlur').then((m) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     fastBlurFunc = m.default;
   });
 } else {

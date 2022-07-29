@@ -12,7 +12,11 @@ export default function copy<T>(obj: T): T {
   //handle Array
   if(Array.isArray(obj)) {
     // @ts-ignore
+<<<<<<< HEAD
     const clonedArr: T = obj.map(el => copy(el)) as any as T;
+=======
+    const clonedArr: T = obj.map((el) => copy(el)) as any as T;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return clonedArr;
   }
  

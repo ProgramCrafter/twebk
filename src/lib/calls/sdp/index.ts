@@ -33,14 +33,23 @@ export default class SDP {
   }
 
   public get bundle() {
+<<<<<<< HEAD
     const bundleLine = this.session.lines.find(line => line.parsed?.key === 'group');
+=======
+    const bundleLine = this.session.lines.find((line) => line.parsed?.key === 'group');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     return bundleLine.value.split(' ').slice(1);
   }
 
   toString() {
     return this.session.lines
+<<<<<<< HEAD
     .concat(...this.media.map(section => section.lines))
     .map(line => line.toString()).join('\r\n') + '\r\n';
+=======
+    .concat(...this.media.map((section) => section.lines))
+    .map((line) => line.toString()).join('\r\n') + '\r\n';
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   /* get buggedMedia() {

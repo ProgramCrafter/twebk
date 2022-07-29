@@ -7,13 +7,17 @@
 import { SliderSuperTab } from "../../slider";
 import AppSelectPeers from "../../appSelectPeers";
 import appDialogsManager from "../../../lib/appManagers/appDialogsManager";
+<<<<<<< HEAD
 import appUsersManager from "../../../lib/appManagers/appUsersManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { MyDialogFilter as DialogFilter } from "../../../lib/storages/filters";
 import ButtonIcon from "../../buttonIcon";
 import CheckboxField from "../../checkboxField";
 import Button from "../../button";
 import AppEditFolderTab from "./editFolder";
 import I18n, { i18n, LangPackKey, _i18n, join } from "../../../lib/langPack";
+<<<<<<< HEAD
 import appMessagesManager from "../../../lib/appManagers/appMessagesManager";
 import RichTextProcessor from "../../../lib/richtextprocessor";
 import { SettingSection } from "..";
@@ -22,6 +26,15 @@ import appPeersManager from "../../../lib/appManagers/appPeersManager";
 import copy from "../../../helpers/object/copy";
 import forEachReverse from "../../../helpers/array/forEachReverse";
 import setInnerHTML from "../../../helpers/dom/setInnerHTML";
+=======
+import { SettingSection } from "..";
+import { toast } from "../../toast";
+import copy from "../../../helpers/object/copy";
+import forEachReverse from "../../../helpers/array/forEachReverse";
+import setInnerHTML from "../../../helpers/dom/setInnerHTML";
+import wrapEmojiText from "../../../lib/richTextProcessor/wrapEmojiText";
+import { attachClickEvent, simulateClickEvent } from "../../../helpers/dom/clickEvent";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppIncludedChatsTab extends SliderSuperTab {
   private editFolderTab: AppEditFolderTab;
@@ -42,7 +55,11 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
 
     this.header.append(this.confirmBtn);
 
+<<<<<<< HEAD
     this.confirmBtn.addEventListener('click', () => {
+=======
+    attachClickEvent(this.confirmBtn, async() => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const selected = this.selector.getSelected();
 
       //this.filter.pFlags = {};
@@ -101,6 +118,7 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
       });
       
       this.filter[this.type === 'included' ? 'includePeerIds' : 'excludePeerIds'] = peerIds;
+<<<<<<< HEAD
       this.filter[this.type === 'included' ? 'include_peers' : 'exclude_peers'] = peerIds.map(peerId => appPeersManager.getInputPeerById(peerId));
       //this.filter.pinned_peers = this.filter.pinned_peers.filter(peerId => this.filter.include_peers.includes(peerId));
 
@@ -113,6 +131,22 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
       for(const filter of filters) {
         this.dialogsByFilters.set(filter, new Set(appMessagesManager.dialogsStorage.getFolderDialogs(filter.id).map(d => d.peerId)));
       }
+=======
+      this.filter[this.type === 'included' ? 'include_peers' : 'exclude_peers'] = await Promise.all(peerIds.map((peerId) => this.managers.appPeersManager.getInputPeerById(peerId)));
+      //this.filter.pinned_peers = this.filter.pinned_peers.filter((peerId) => this.filter.include_peers.includes(peerId));
+
+      this.editFolderTab.setFilter(this.filter, false);
+      this.close();
+    }, {listenerSetter: this.listenerSetter});
+
+    this.dialogsByFilters = new Map();
+    return this.managers.filtersStorage.getDialogFilters().then(async(filters) => {
+      await Promise.all(filters.map(async(filter) => {
+        const dialogs = await this.managers.dialogsStorage.getFolderDialogs(filter.id);
+        const peerIds = dialogs.map((d) => d.peerId);
+        this.dialogsByFilters.set(filter, new Set(peerIds));
+      }));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 
@@ -130,6 +164,7 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
   renderResults = async(peerIds: PeerId[]) => {
     //const other = this.type === 'included' ? this.filter.exclude_peers : this.filter.include_peers;
 
+<<<<<<< HEAD
     await appUsersManager.getContacts();
     peerIds.forEach(peerId => {
       //if(other.includes(peerId)) return;
@@ -138,6 +173,15 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
         dialog: peerId,
         container: this.selector.scrollable,
         drawStatus: false,
+=======
+    await this.managers.appUsersManager.getContacts();
+    peerIds.forEach((peerId) => {
+      //if(other.includes(peerId)) return;
+
+      const {dom} = appDialogsManager.addDialogNew({
+        peerId: peerId,
+        container: this.selector.scrollable,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         rippleEnabled: true,
         avatarSize: 46
       });
@@ -150,13 +194,21 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
       this.dialogsByFilters.forEach((dialogs, filter) => {
         if(dialogs.has(peerId)) {
           const span = document.createElement('span');
+<<<<<<< HEAD
           setInnerHTML(span, RichTextProcessor.wrapEmojiText(filter.title));
+=======
+          setInnerHTML(span, wrapEmojiText(filter.title));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           foundInFilters.push(span);
         }
       });
 
       const joined = join(foundInFilters, false);
+<<<<<<< HEAD
       joined.forEach(el => {
+=======
+      joined.forEach((el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         dom.lastMessageSpan.append(el);
       });
     });
@@ -216,7 +268,12 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
       peerType: ['dialogs'], 
       renderResultsFunc: this.renderResults,
       placeholder: 'Search',
+<<<<<<< HEAD
       sectionNameLangPackKey: 'FilterChats'
+=======
+      sectionNameLangPackKey: 'FilterChats',
+      managers: this.managers
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
     this.selector.selected = new Set(selectedPeers);
 
@@ -251,7 +308,11 @@ export default class AppIncludedChatsTab extends SliderSuperTab {
     for(const flag in filter.pFlags) {
       // @ts-ignore
       if(details.hasOwnProperty(flag) && !!filter.pFlags[flag]) {
+<<<<<<< HEAD
         (categoriesSection.content.querySelector(`[data-peer-id="${flag}"]`) as HTMLElement).click();
+=======
+        simulateClickEvent(categoriesSection.content.querySelector(`[data-peer-id="${flag}"]`) as HTMLElement);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }

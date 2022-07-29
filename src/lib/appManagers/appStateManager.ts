@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import type { Dialog } from './appMessagesManager';
 import type { MyTopPeer, TopPeerType, User } from './appUsersManager';
 import type { AuthState } from '../../types';
@@ -607,10 +608,30 @@ export class AppStateManager extends EventListenerBase<{
 
   public getState() {
     return this.state === undefined ? this.loadSavedState() : Promise.resolve(this.state);
+=======
+import type { State } from '../../config/state';
+import rootScope from '../rootScope';
+import stateStorage from '../stateStorage';
+import setDeepProperty from '../../helpers/object/setDeepProperty';
+import MTProtoMessagePort from '../mtproto/mtprotoMessagePort';
+
+export class AppStateManager {
+  private state: State = {} as any;
+  private storage = stateStorage;
+
+  // ! for mtproto worker use only
+  public newVersion: string;
+  public oldVersion: string;
+  public userId: UserId;
+
+  public getState() {
+    return Promise.resolve(this.state);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public setByKey(key: string, value: any) {
     setDeepProperty(this.state, key, value);
+<<<<<<< HEAD
     rootScope.dispatchEvent('settings_updated', {key, value});
 
     const first = key.split('.')[0];
@@ -619,10 +640,23 @@ export class AppStateManager extends EventListenerBase<{
   }
 
   public pushToState<T extends keyof State>(key: T, value: State[T], direct = true) {
+=======
+    
+    const first = key.split('.')[0] as keyof State;
+    if(first === 'settings') {
+      rootScope.dispatchEvent('settings_updated', {key, value, settings: this.state.settings});
+    }
+    
+    this.pushToState(first, this.state[first]);
+  }
+
+  public pushToState<T extends keyof State>(key: T, value: State[T], direct = true, onlyLocal?: boolean) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(direct) {
       this.state[key] = value;
     }
 
+<<<<<<< HEAD
     this.setKeyValueToStorage(key, value);
   }
 
@@ -683,6 +717,19 @@ export class AppStateManager extends EventListenerBase<{
     }
   }
 
+=======
+    this.setKeyValueToStorage(key, value, onlyLocal);
+  }
+
+  public setKeyValueToStorage<T extends keyof State>(key: T, value: State[T] = this.state[key], onlyLocal?: boolean) {
+    MTProtoMessagePort.getInstance<false>().invokeVoid('mirror', {name: 'state', key, value});
+    
+    this.storage.set({
+      [key]: value
+    }, onlyLocal);
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   /* public resetState() {
     for(let i in this.state) {
       // @ts-ignore
@@ -694,8 +741,9 @@ export class AppStateManager extends EventListenerBase<{
   } */
 }
 
-//console.trace('appStateManager include');
-
 const appStateManager = new AppStateManager();
+<<<<<<< HEAD
 MOUNT_CLASS_TO.appStateManager = appStateManager;
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 export default appStateManager;

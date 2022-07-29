@@ -6,16 +6,25 @@
 
 import { SettingSection } from "../..";
 import { AccountPassword } from "../../../../layer";
+<<<<<<< HEAD
 import appStickersManager from "../../../../lib/appManagers/appStickersManager";
 import Button from "../../../button";
 import { SliderSuperTab } from "../../../slider";
 import { wrapSticker } from "../../../wrappers";
+=======
+import Button from "../../../button";
+import { SliderSuperTab } from "../../../slider";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import InputField from "../../../inputField";
 import AppTwoStepVerificationEmailTab from "./email";
 import { toast } from "../../../toast";
 import I18n from "../../../../lib/langPack";
 import cancelEvent from "../../../../helpers/dom/cancelEvent";
 import { attachClickEvent } from "../../../../helpers/dom/clickEvent";
+<<<<<<< HEAD
+=======
+import wrapStickerEmoji from "../../../wrappers/stickerEmoji";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export default class AppTwoStepVerificationHintTab extends SliderSuperTab {
   public inputField: InputField;
@@ -32,6 +41,7 @@ export default class AppTwoStepVerificationHintTab extends SliderSuperTab {
     });
 
     const emoji = '💡';
+<<<<<<< HEAD
     const doc = appStickersManager.getAnimatedEmojiSticker(emoji);
     const stickerContainer = document.createElement('div');
 
@@ -50,6 +60,15 @@ export default class AppTwoStepVerificationHintTab extends SliderSuperTab {
     } else {
       stickerContainer.classList.add('media-sticker-wrapper');
     }
+=======
+    const stickerContainer = document.createElement('div');
+    wrapStickerEmoji({
+      div: stickerContainer,
+      width: 160,
+      height: 160,
+      emoji
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     section.content.append(stickerContainer);
 
@@ -79,7 +98,11 @@ export default class AppTwoStepVerificationHintTab extends SliderSuperTab {
         return;
       }
 
+<<<<<<< HEAD
       const tab = new AppTwoStepVerificationEmailTab(this.slider);
+=======
+      const tab = this.slider.createTab(AppTwoStepVerificationEmailTab);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       tab.state = this.state;
       tab.plainPassword = this.plainPassword;
       tab.newPassword = this.newPassword;

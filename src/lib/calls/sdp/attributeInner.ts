@@ -60,7 +60,11 @@ export default class SDPAttributeInner {
     }
 
     const map: Map<string, Array<string>> = new Map();
+<<<<<<< HEAD
     attribute.lines.forEach(str => {
+=======
+    attribute.lines.forEach((str) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const [key, rest] = splitStringByLimitWithRest(str, attribute.#prefix, 1);
       const values = map.get(key) || [];
       map.set(key, [...values, rest || '']);

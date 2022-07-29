@@ -11,6 +11,10 @@ import SliderSuperTab, { SliderSuperTabConstructable, SliderTab } from "./slider
 import { attachClickEvent } from "../helpers/dom/clickEvent";
 import indexOfAndSplice from "../helpers/array/indexOfAndSplice";
 import safeAssign from "../helpers/object/safeAssign";
+<<<<<<< HEAD
+=======
+import { AppManagers } from "../lib/appManagers/managers";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 const TRANSITION_TIME = 250;
 
@@ -24,7 +28,12 @@ export default class SidebarSlider {
   public sidebarEl: HTMLElement;
   public tabs: Map<any, SliderTab>; // * key is any, since right sidebar is ugly now
   private canHideFirst = false;
+<<<<<<< HEAD
   private navigationType: NavigationItem['type']
+=======
+  private navigationType: NavigationItem['type'];
+  protected managers: AppManagers;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
   constructor(options: {
     sidebarEl: SidebarSlider['sidebarEl'],
@@ -44,7 +53,11 @@ export default class SidebarSlider {
       this._selectTab(0);
     }
 
+<<<<<<< HEAD
     Array.from(this.sidebarEl.querySelectorAll('.sidebar-close-button') as any as HTMLElement[]).forEach(el => {
+=======
+    Array.from(this.sidebarEl.querySelectorAll('.sidebar-close-button') as any as HTMLElement[]).forEach((el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       attachClickEvent(el, this.onCloseBtnClick);
     });
   }
@@ -128,8 +141,13 @@ export default class SidebarSlider {
     }
   }
 
+<<<<<<< HEAD
   public getTab(tabConstructor: SliderSuperTabConstructable) {
     return this.historyTabIds.find(t => t instanceof tabConstructor) as SliderSuperTab;
+=======
+  public getTab<T extends SliderSuperTab>(tabConstructor: SliderSuperTabConstructable<T>) {
+    return this.historyTabIds.find((t) => t instanceof tabConstructor) as T;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public isTabExists(tabConstructor: SliderSuperTabConstructable) {
@@ -150,7 +168,11 @@ export default class SidebarSlider {
       if(tab.onCloseAfterTimeout) {
         setTimeout(() => {
           tab.onCloseAfterTimeout();
+<<<<<<< HEAD
         }, TRANSITION_TIME);
+=======
+        }, TRANSITION_TIME + 30);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }
@@ -164,4 +186,13 @@ export default class SidebarSlider {
       }
     }
   }
+<<<<<<< HEAD
+=======
+
+  public createTab<T extends SliderSuperTab>(ctor: SliderSuperTabConstructable<T>, doNotAppend?: boolean) {
+    const tab = new ctor(doNotAppend ? undefined : this, true);
+    tab.managers = this.managers;
+    return tab;
+  }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

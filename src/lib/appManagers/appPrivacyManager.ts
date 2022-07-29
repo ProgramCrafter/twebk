@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import { MOUNT_CLASS_TO } from "../../config/debug";
 import { InputPrivacyKey, InputPrivacyRule, PrivacyRule, Update, PrivacyKey } from "../../layer";
 import apiManager from "../mtproto/mtprotoworker";
@@ -20,36 +21,68 @@ export enum PrivacyType {
 }
 
 export class AppPrivacyManager {
+=======
+import { InputPrivacyKey, InputPrivacyRule, PrivacyRule, PrivacyKey } from "../../layer";
+import convertInputKeyToKey from "../../helpers/string/convertInputKeyToKey";
+import { AppManager } from "./manager";
+
+export class AppPrivacyManager extends AppManager {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private privacy: Partial<{
     [key in PrivacyKey['_']]: PrivacyRule[] | Promise<PrivacyRule[]>
   }> = {};
 
+<<<<<<< HEAD
   constructor() {
     rootScope.addMultipleEventsListeners({
       updatePrivacy: (update) => {
         const key = update.key._;
         this.privacy[key] = update.rules;
         rootScope.dispatchEvent('privacy_update', update);
+=======
+  protected after() {
+    this.apiUpdatesManager.addMultipleEventsListeners({
+      updatePrivacy: (update) => {
+        const key = update.key._;
+        this.privacy[key] = update.rules;
+        this.rootScope.dispatchEvent('privacy_update', update);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     });
   }
 
   public setPrivacy(inputKey: InputPrivacyKey['_'], rules: InputPrivacyRule[]) {
+<<<<<<< HEAD
     return apiManager.invokeApi('account.setPrivacy', {
+=======
+    return this.apiManager.invokeApi('account.setPrivacy', {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       key: {
         _: inputKey
       },
       rules
+<<<<<<< HEAD
     }).then(privacyRules => {
       appUsersManager.saveApiUsers(privacyRules.users);
       appChatsManager.saveApiChats(privacyRules.chats);
 
       apiUpdatesManager.processLocalUpdate({
+=======
+    }).then((privacyRules) => {
+      this.appUsersManager.saveApiUsers(privacyRules.users);
+      this.appChatsManager.saveApiChats(privacyRules.chats);
+
+      this.apiUpdatesManager.processLocalUpdate({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         _: 'updatePrivacy',
         key: {
           _: convertInputKeyToKey(inputKey)
         },
+<<<<<<< HEAD
         rules: rules.map(inputRule => {
+=======
+        rules: rules.map((inputRule) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           const rule: PrivacyRule = {} as any;
           Object.assign(rule, inputRule);
           rule._ = convertInputKeyToKey(rule._) as any;
@@ -70,6 +103,7 @@ export class AppPrivacyManager {
       return Promise.resolve(rules);
     }
     
+<<<<<<< HEAD
     return this.privacy[privacyKey] = apiManager.invokeApi('account.getPrivacy', {
       key: {
         _: inputKey
@@ -77,12 +111,22 @@ export class AppPrivacyManager {
     }).then(privacyRules => {
       appUsersManager.saveApiUsers(privacyRules.users);
       appChatsManager.saveApiChats(privacyRules.chats);
+=======
+    return this.privacy[privacyKey] = this.apiManager.invokeApi('account.getPrivacy', {
+      key: {
+        _: inputKey
+      }
+    }).then((privacyRules) => {
+      this.appUsersManager.saveApiUsers(privacyRules.users);
+      this.appChatsManager.saveApiChats(privacyRules.chats);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
       //console.log('privacy rules', inputKey, privacyRules, privacyRules.rules);
 
       return this.privacy[privacyKey] = privacyRules.rules;
     });
   }
+<<<<<<< HEAD
 
   public getPrivacyRulesDetails(rules: PrivacyRule[]) {
     const types: PrivacyType[] = [];
@@ -125,3 +169,6 @@ export class AppPrivacyManager {
 const appPrivacyManager = new AppPrivacyManager();
 MOUNT_CLASS_TO.appPrivacyManager = appPrivacyManager;
 export default appPrivacyManager;
+=======
+}
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f

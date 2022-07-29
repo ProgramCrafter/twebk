@@ -7,15 +7,21 @@
 import cancelEvent from "../helpers/dom/cancelEvent";
 import { attachClickEvent } from "../helpers/dom/clickEvent";
 import ListenerSetter from "../helpers/listenerSetter";
+<<<<<<< HEAD
 import type { AppGroupCallsManager } from "../lib/appManagers/appGroupCallsManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import GROUP_CALL_STATE from "../lib/calls/groupCallState";
 import rootScope from "../lib/rootScope";
 import ButtonIcon from "./buttonIcon";
 import TopbarWeave from "./topbarWeave";
 import SetTransition from "./singleTransition";
 import PopupGroupCall from "./groupCall";
+<<<<<<< HEAD
 import type { AppPeersManager } from "../lib/appManagers/appPeersManager";
 import type { AppChatsManager } from "../lib/appManagers/appChatsManager";
+=======
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import GroupCallDescriptionElement from "./groupCall/description";
 import GroupCallTitleElement from "./groupCall/title";
 import PopupElement from "./popups";
@@ -26,10 +32,19 @@ import replaceContent from "../helpers/dom/replaceContent";
 import PeerTitle from "./peerTitle";
 import CallDescriptionElement from "./call/description";
 import PopupCall from "./call";
+<<<<<<< HEAD
 import type { AppAvatarsManager } from "../lib/appManagers/appAvatarsManager";
 import GroupCallMicrophoneIconMini from "./groupCall/microphoneIconMini";
 import CallInstance from "../lib/calls/callInstance";
 import type { AppCallsManager } from "../lib/appManagers/appCallsManager";
+=======
+import GroupCallMicrophoneIconMini from "./groupCall/microphoneIconMini";
+import CallInstance from "../lib/calls/callInstance";
+import { AppManagers } from "../lib/appManagers/managers";
+import groupCallsController from "../lib/calls/groupCallsController";
+import StreamManager from "../lib/calls/streamManager";
+import callsController from "../lib/calls/callsController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 function convertCallStateToGroupState(state: CALL_STATE, isMuted: boolean) {
   switch(state) {
@@ -61,6 +76,7 @@ export default class TopbarCall {
   private instanceListenerSetter: ListenerSetter;
   
   constructor(
+<<<<<<< HEAD
     private appGroupCallsManager: AppGroupCallsManager,
     private appPeersManager: AppPeersManager,
     private appChatsManager: AppChatsManager,
@@ -70,29 +86,52 @@ export default class TopbarCall {
     const listenerSetter = this.listenerSetter = new ListenerSetter();
 
     listenerSetter.add(rootScope)('call_instance', ({instance}) => {
+=======
+    private managers: AppManagers
+  ) {
+    const listenerSetter = this.listenerSetter = new ListenerSetter();
+
+    listenerSetter.add(callsController)('instance', ({instance}) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!this.instance) {
         this.updateInstance(instance);
       }
     });
 
+<<<<<<< HEAD
     listenerSetter.add(rootScope)('call_accepting', (instance) => {
+=======
+    listenerSetter.add(callsController)('accepting', (instance) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(this.instance !== instance) {
         this.updateInstance(instance);
       }
     });
 
+<<<<<<< HEAD
     listenerSetter.add(rootScope)('group_call_instance', (instance) => {
+=======
+    listenerSetter.add(groupCallsController)('instance', (instance) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.updateInstance(instance);
     });
     
     listenerSetter.add(rootScope)('group_call_update', (groupCall) => {
+<<<<<<< HEAD
       const instance = this.appGroupCallsManager.groupCall;
+=======
+      const instance = groupCallsController.groupCall;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(instance?.id === groupCall.id) {
         this.updateInstance(instance);
       }
     });
 
+<<<<<<< HEAD
     listenerSetter.add(rootScope)('group_call_amplitude', ({amplitudes, type}) => {
+=======
+    listenerSetter.add(StreamManager.ANALYSER_LISTENER)('amplitude', ({amplitudes, type}) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const {weave} = this;
       if(!amplitudes.length || !weave/*  || type !== 'input' */) return;
 
@@ -262,6 +301,7 @@ export default class TopbarCall {
           return;
         }
         
+<<<<<<< HEAD
         new PopupGroupCall({
           appGroupCallsManager: this.appGroupCallsManager,
           appPeersManager: this.appPeersManager,
@@ -279,6 +319,16 @@ export default class TopbarCall {
           appPeersManager: this.appPeersManager,
           instance: this.instance
         }).show();
+=======
+        new PopupGroupCall().show();
+      } else if(this.instance instanceof CallInstance) {
+        const popups = PopupElement.getPopups(PopupCall);
+        if(popups.find((popup) => popup.getCallInstance() === this.instance)) {
+          return;
+        }
+
+        new PopupCall(this.instance).show();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }, {listenerSetter});
     

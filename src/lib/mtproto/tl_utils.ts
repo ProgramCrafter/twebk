@@ -16,6 +16,7 @@ import bytesToHex from '../../helpers/bytes/bytesToHex';
 import isObject from '../../helpers/object/isObject';
 import gzipUncompress from '../../helpers/gzipUncompress';
 import bigInt from 'big-integer';
+<<<<<<< HEAD
 import longFromInts from '../../helpers/long/longFromInts';
 
 // @ts-ignore
@@ -35,6 +36,16 @@ const vector = +Schema.API.constructors.find(c => c.predicate === 'vector').id;
 const gzipPacked = +Schema.MTProto.constructors.find(c => c.predicate === 'gzip_packed').id;
 
 //console.log('boolFalse', boolFalse === 0xbc799737);
+=======
+import ulongFromInts from '../../helpers/long/ulongFromInts';
+import { safeBigInt } from '../../helpers/bigInt/bigIntConstants';
+import { bigIntToSigned, bigIntToUnsigned } from '../../helpers/bigInt/bigIntConversion';
+
+const boolFalse = +Schema.API.constructors.find((c) => c.predicate === 'boolFalse').id;
+const boolTrue = +Schema.API.constructors.find((c) => c.predicate === 'boolTrue').id;
+const vector = +Schema.API.constructors.find((c) => c.predicate === 'vector').id;
+const gzipPacked = +Schema.MTProto.constructors.find((c) => c.predicate === 'gzip_packed').id;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 class TLSerialization {
   private maxLength = 2048; // 2Kb
@@ -159,12 +170,18 @@ class TLSerialization {
         return this.storeIntBytes(sLong, 64, field);
       }
     }
+<<<<<<< HEAD
   
     if(typeof sLong !== 'string') {
       sLong = sLong ? sLong.toString() : '0';
     }
 
     const {quotient, remainder} = bigInt(sLong).divmod(0x100000000);
+=======
+
+    const _bigInt = bigIntToUnsigned(bigInt(sLong as string));
+    const {quotient, remainder} = _bigInt.divmod(0x100000000);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const high = quotient.toJSNumber();
     const low = remainder.toJSNumber();
 
@@ -277,7 +294,11 @@ class TLSerialization {
   
   public storeMethod(methodName: string, params: any) {
     const schema = this.mtproto ? Schema.MTProto : Schema.API;
+<<<<<<< HEAD
     const methodData = schema.methods.find(m => m.method === methodName);
+=======
+    const methodData = schema.methods.find((m) => m.method === methodName);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     if(!methodData) {
       throw new Error('No method ' + methodName + ' found');
@@ -376,7 +397,11 @@ class TLSerialization {
     const schema = this.mtproto ? Schema.MTProto : Schema.API;
     const predicate = obj['_'];
     let isBare = false;
+<<<<<<< HEAD
     const constructorData: MTProtoConstructor = schema.constructors.find(c => c.predicate === predicate);
+=======
+    const constructorData: MTProtoConstructor = schema.constructors.find((c) => c.predicate === predicate);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
     if(isBare = (type.charAt(0) === '%')) {
       type = type.substr(1);
@@ -506,6 +531,7 @@ class TLDeserialization<FetchLongAs extends Long> {
     return doubleView[0];
   }
   
+<<<<<<< HEAD
   public fetchLong(field?: string): FetchLongAs {
     const iLow = this.readInt((field || '') + ':long[low]');
     const iHigh = this.readInt((field || '') + ':long[high]');
@@ -523,6 +549,27 @@ class TLDeserialization<FetchLongAs extends Long> {
   
     // @ts-ignore
     return longDec;
+=======
+  // ! it should've been signed
+  public fetchLong(field?: string): FetchLongAs {
+    const iLow = this.readInt((field || '') + ':long[low]');
+    const iHigh = this.readInt((field || '') + ':long[high]');
+
+    let ulong = ulongFromInts(iHigh, iLow);
+    if(/* !unsigned &&  */!this.mtproto) { // make it signed
+      ulong = bigIntToSigned(ulong);
+    }
+
+    if(!this.mtproto) {
+      if(safeBigInt.greaterOrEquals(ulong.abs())) {
+        // @ts-ignore
+        return ulong.toJSNumber();
+      }
+    }
+  
+    // @ts-ignore
+    return ulong.toString(10);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
   
   public fetchBool(field?: string): boolean {
@@ -691,12 +738,20 @@ class TLDeserialization<FetchLongAs extends Long> {
   
     if(type.charAt(0) === '%') {
       const checkType = type.substr(1);
+<<<<<<< HEAD
       constructorData = schema.constructors.find(c => c.type === checkType);
+=======
+      constructorData = schema.constructors.find((c) => c.type === checkType);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!constructorData) {
         throw new Error('Constructor not found for type: ' + type);
       }
     }/*  else if(type.charAt(0) >= 97 && type.charAt(0) <= 122) {
+<<<<<<< HEAD
       constructorData = schema.constructors.find(c => c.predicate === type);
+=======
+      constructorData = schema.constructors.find((c) => c.predicate === type);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(!constructorData) {
         throw new Error('Constructor not found for predicate: ' + type);
       }

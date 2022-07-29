@@ -34,6 +34,17 @@ export class FileManager {
           throw false;
         }
         
+<<<<<<< HEAD
+=======
+        // sometimes file size can be bigger than the prov
+        const endOffset = offset + part.byteLength;
+        if(endOffset > bytes.byteLength) {
+          const newBytes = new Uint8Array(endOffset);
+          newBytes.set(bytes, 0);
+          bytes = newBytes;
+        }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         bytes.set(part, offset);
       },
       truncate: () => {

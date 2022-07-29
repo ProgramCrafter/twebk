@@ -21,7 +21,12 @@ export default class AppPrivacyCallsTab extends SliderSuperTabEventable {
       inputKey: 'inputPrivacyKeyPhoneCall',
       captions: [caption, caption, caption],
       exceptionTexts: ['PrivacySettingsController.NeverAllow', 'PrivacySettingsController.AlwaysAllow'],
+<<<<<<< HEAD
       appendTo: this.scrollable
+=======
+      appendTo: this.scrollable,
+      managers: this.managers
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
 
     {
@@ -32,7 +37,12 @@ export default class AppPrivacyCallsTab extends SliderSuperTabEventable {
         inputKey: 'inputPrivacyKeyPhoneP2P',
         captions: [caption, caption, caption],
         exceptionTexts: ['PrivacySettingsController.NeverAllow', 'PrivacySettingsController.AlwaysAllow'],
+<<<<<<< HEAD
         appendTo: this.scrollable
+=======
+        appendTo: this.scrollable,
+        managers: this.managers
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       });
     }
   }

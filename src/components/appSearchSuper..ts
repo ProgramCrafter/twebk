@@ -4,6 +4,7 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import appChatsManager from "../lib/appManagers/appChatsManager";
 import appDialogsManager from "../lib/appManagers/appDialogsManager";
 import appMessagesManager, { MyInputMessagesFilter, MyMessage } from "../lib/appManagers/appMessagesManager";
@@ -11,13 +12,20 @@ import appPeersManager from "../lib/appManagers/appPeersManager";
 import appPhotosManager from "../lib/appManagers/appPhotosManager";
 import appStateManager from "../lib/appManagers/appStateManager";
 import appUsersManager from "../lib/appManagers/appUsersManager";
+=======
+import appDialogsManager, { DIALOG_LIST_ELEMENT_TAG } from "../lib/appManagers/appDialogsManager";
+import type { MyInputMessagesFilter, MyMessage } from "../lib/appManagers/appMessagesManager";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import { logger } from "../lib/logger";
-import RichTextProcessor from "../lib/richtextprocessor";
 import rootScope from "../lib/rootScope";
 import { SearchGroup, SearchGroupType } from "./appSearch";
 import { horizontalMenu } from "./horizontalMenu";
 import LazyLoadQueue from "./lazyLoadQueue";
+<<<<<<< HEAD
 import { attachContextMenuListener, openBtnMenu, positionMenu, putPreloader } from "./misc";
+=======
+import { putPreloader } from "./putPreloader";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import ripple from "./ripple";
 import Scrollable, { ScrollableX } from "./scrollable";
 import { wrapDocument, wrapPhoto, wrapVideo } from "./wrappers";
@@ -25,8 +33,12 @@ import useHeavyAnimationCheck, { getHeavyAnimationPromise } from "../hooks/useHe
 import I18n, { LangPackKey, i18n } from "../lib/langPack";
 import findUpClassName from "../helpers/dom/findUpClassName";
 import { getMiddleware } from "../helpers/middleware";
+<<<<<<< HEAD
 import appProfileManager from "../lib/appManagers/appProfileManager";
 import { ChannelParticipant, ChatFull, ChatParticipant, ChatParticipants, Message, MessageMedia, Photo, WebPage } from "../layer";
+=======
+import { ChannelParticipant, ChatFull, ChatParticipant, ChatParticipants, Document, Message, MessageMedia, Photo, WebPage } from "../layer";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import SortedUserList from "./sortedUserList";
 import findUpTag from "../helpers/dom/findUpTag";
 import appSidebarRight from "./sidebarRight";
@@ -34,7 +46,11 @@ import mediaSizes from "../helpers/mediaSizes";
 import appImManager from "../lib/appManagers/appImManager";
 import positionElementByIndex from "../helpers/dom/positionElementByIndex";
 import cleanSearchText from "../helpers/cleanSearchText";
+<<<<<<< HEAD
 import { IS_TOUCH_SUPPORTED } from "../environment/touchSupport";
+=======
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import handleTabSwipe from "../helpers/dom/handleTabSwipe";
 import windowSize from "../helpers/windowSize";
 import { formatPhoneNumber } from "../helpers/formatPhoneNumber";
@@ -53,11 +69,39 @@ import copy from "../helpers/object/copy";
 import getObjectKeysAndSort from "../helpers/object/getObjectKeysAndSort";
 import safeAssign from "../helpers/object/safeAssign";
 import escapeRegExp from "../helpers/string/escapeRegExp";
+<<<<<<< HEAD
 import limitSymbols from "../helpers/string/limitSymbols";
 import findAndSplice from "../helpers/array/findAndSplice";
 import { ScrollStartCallbackDimensions } from "../helpers/fastSmoothScroll";
 import setInnerHTML from "../helpers/dom/setInnerHTML";
 import appWebPagesManager from "../lib/appManagers/appWebPagesManager";
+=======
+import findAndSplice from "../helpers/array/findAndSplice";
+import { ScrollStartCallbackDimensions } from "../helpers/fastSmoothScroll";
+import setInnerHTML from "../helpers/dom/setInnerHTML";
+import { AppManagers } from "../lib/appManagers/managers";
+import choosePhotoSize from "../lib/appManagers/utils/photos/choosePhotoSize";
+import wrapWebPageDescription from "./wrappers/webPageDescription";
+import wrapWebPageTitle from "./wrappers/webPageTitle";
+import getAbbreviation from "../lib/richTextProcessor/getAbbreviation";
+import matchUrl from "../lib/richTextProcessor/matchUrl";
+import wrapPlainText from "../lib/richTextProcessor/wrapPlainText";
+import wrapRichText from "../lib/richTextProcessor/wrapRichText";
+import wrapSenderToPeer from "./wrappers/senderToPeer";
+import wrapSentTime from "./wrappers/sentTime";
+import getMediaFromMessage from "../lib/appManagers/utils/messages/getMediaFromMessage";
+import filterMessagesByInputFilter from "../lib/appManagers/utils/messages/filterMessagesByInputFilter";
+import getChatMembersString from "./wrappers/getChatMembersString";
+import getUserStatusString from "./wrappers/getUserStatusString";
+import getParticipantPeerId from "../lib/appManagers/utils/chats/getParticipantPeerId";
+import { Awaited } from "../types";
+import { attachContextMenuListener } from "../helpers/dom/attachContextMenuListener";
+import contextMenuController from "../helpers/contextMenuController";
+import positionMenu from "../helpers/positionMenu";
+import apiManagerProxy from "../lib/mtproto/mtprotoworker";
+import ListenerSetter from "../helpers/listenerSetter";
+import SwipeHandler from "./swipeHandler";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 //const testScroll = false;
 
@@ -86,17 +130,33 @@ export type SearchSuperMediaTab = {
 };
 
 class SearchContextMenu {
+<<<<<<< HEAD
   private buttons: (ButtonMenuItemOptions & {verify?: () => boolean, withSelection?: true})[];
+=======
+  private buttons: (ButtonMenuItemOptions & {verify?: () => boolean | Promise<boolean>, withSelection?: true})[];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private element: HTMLElement;
   private target: HTMLElement;
   private peerId: PeerId;
   private mid: number;
   private isSelected: boolean;
+<<<<<<< HEAD
 
   constructor(
     private attachTo: HTMLElement,
     private searchSuper: AppSearchSuper
   ) {
+=======
+  private managers: AppManagers;
+
+  constructor(
+    private attachTo: HTMLElement,
+    private searchSuper: AppSearchSuper,
+    private listenerSetter: ListenerSetter
+  ) {
+    this.managers = searchSuper.managers;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const onContextMenu = (e: MouseEvent) => {
       if(this.init) {
         this.init();
@@ -116,6 +176,7 @@ class SearchContextMenu {
       }
       if(e instanceof MouseEvent) e.cancelBubble = true;
 
+<<<<<<< HEAD
       this.target = item;
       this.peerId = item.dataset.peerId.toPeerId();
       this.mid = +item.dataset.mid;
@@ -139,12 +200,45 @@ class SearchContextMenu {
       openBtnMenu(this.element, () => {
         item.classList.remove('menu-open');
       });
+=======
+      const r = async() => {
+        this.target = item;
+        this.peerId = item.dataset.peerId.toPeerId();
+        this.mid = +item.dataset.mid;
+        this.isSelected = searchSuper.selection.isMidSelected(this.peerId, this.mid);
+  
+        await Promise.all(this.buttons.map(async(button) => {
+          let good: boolean;
+  
+          if(this.isSelected && !button.withSelection) {
+            good = false;
+          } else {
+            good = button.verify ? await button.verify() : true;
+          }
+  
+          button.element.classList.toggle('hide', !good);
+        }));
+  
+        item.classList.add('menu-open');
+  
+        positionMenu(e, this.element);
+        contextMenuController.openBtnMenu(this.element, () => {
+          item.classList.remove('menu-open');
+        });
+      };
+
+      r();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     };
 
     if(IS_TOUCH_SUPPORTED) {
 
     } else {
+<<<<<<< HEAD
       attachContextMenuListener(attachTo, onContextMenu as any);
+=======
+      attachContextMenuListener(attachTo, onContextMenu as any, listenerSetter);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
@@ -153,7 +247,11 @@ class SearchContextMenu {
       icon: 'forward',
       text: 'Forward',
       onClick: this.onForwardClick,
+<<<<<<< HEAD
       verify: () => appMessagesManager.canForward(appMessagesManager.getMessageByPeer(this.peerId, this.mid))
+=======
+      verify: async() => this.managers.appMessagesManager.canForward(await this.managers.appMessagesManager.getMessageByPeer(this.peerId, this.mid))
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, {
       icon: 'forward',
       text: 'Message.Context.Selection.Forward',
@@ -180,7 +278,11 @@ class SearchContextMenu {
       icon: 'delete danger',
       text: 'Delete',
       onClick: this.onDeleteClick,
+<<<<<<< HEAD
       verify: () => appMessagesManager.canDeleteMessage(appMessagesManager.getMessageByPeer(this.peerId, this.mid))
+=======
+      verify: async() => this.managers.appMessagesManager.canDeleteMessage(await this.managers.appMessagesManager.getMessageByPeer(this.peerId, this.mid))
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, {
       icon: 'delete danger',
       text: 'Message.Context.Selection.Delete',
@@ -195,9 +297,15 @@ class SearchContextMenu {
   }
 
   private onGotoClick = () => {
+<<<<<<< HEAD
     rootScope.dispatchEvent('history_focus', {
       peerId: this.peerId,
       mid: this.mid,
+=======
+    appImManager.setInnerPeer({
+      peerId: this.peerId,
+      lastMsgId: this.mid,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       threadId: this.searchSuper.searchContext.threadId
     });
   };
@@ -302,14 +410,30 @@ export default class AppSearchSuper {
 
   public scrollStartCallback: (dimensions: ScrollStartCallbackDimensions) => void;
 
+<<<<<<< HEAD
   constructor(options: Pick<AppSearchSuper, 'mediaTabs' | 'scrollable' | 'searchGroups' | 'asChatList' | 'groupByMonth' | 'hideEmptyTabs' | 'onChangeTab' | 'showSender'>) {
+=======
+  public managers: AppManagers;
+  private loadFirstTimePromise: Promise<void>;
+
+  private listenerSetter: ListenerSetter;
+  private swipeHandler: SwipeHandler;
+
+  constructor(options: Pick<AppSearchSuper, 'mediaTabs' | 'scrollable' | 'searchGroups' | 'asChatList' | 'groupByMonth' | 'hideEmptyTabs' | 'onChangeTab' | 'showSender' | 'managers'>) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     safeAssign(this, options);
 
     this.container = document.createElement('div');
     this.container.classList.add('search-super');
 
+<<<<<<< HEAD
     this.searchContextMenu = new SearchContextMenu(this.container, this);
     this.selection = new SearchSelection(this, appMessagesManager);
+=======
+    this.listenerSetter = new ListenerSetter();
+    this.searchContextMenu = new SearchContextMenu(this.container, this, this.listenerSetter);
+    this.selection = new SearchSelection(this, this.managers, this.listenerSetter);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const navScrollableContainer = this.navScrollableContainer = document.createElement('div');
     navScrollableContainer.classList.add('search-super-tabs-scrollable', 'menu-horizontal-scrollable', 'sticky');
@@ -348,7 +472,11 @@ export default class AppSearchSuper {
 
     let unlockScroll: ReturnType<typeof lockTouchScroll>;
     if(IS_TOUCH_SUPPORTED) {
+<<<<<<< HEAD
       handleTabSwipe({
+=======
+      this.swipeHandler = handleTabSwipe({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         element: this.tabsContainer, 
         onSwipe: (xDiff, yDiff, e) => {
           const prevId = this.selectTab.prevId();
@@ -401,7 +529,11 @@ export default class AppSearchSuper {
     this.searchGroupMedia = new SearchGroup(false, 'messages', true);
 
     this.scrollable.onScrolledBottom = () => {
+<<<<<<< HEAD
       if(this.mediaTab.contentTab && !this.loaded[this.mediaTab.inputFilter]/* && false */) {
+=======
+      if(this.mediaTab.contentTab && this.canLoadMediaTab(this.mediaTab)/* && false */) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         //this.log('onScrolledBottom will load media');
         this.load(true);
       }
@@ -493,6 +625,7 @@ export default class AppSearchSuper {
         this.mediaTab.contentTab.style.transform = '';
         this.scrollable.scrollTop = this.mediaTab.scroll.scrollTop;
       }
+<<<<<<< HEAD
 
       if(unlockScroll) {
         unlockScroll();
@@ -502,14 +635,31 @@ export default class AppSearchSuper {
       this.onTransitionEnd();
     }, undefined, navScrollable);
 
+=======
+
+      if(unlockScroll) {
+        unlockScroll();
+        unlockScroll = undefined;
+      }
+
+      this.onTransitionEnd();
+    }, undefined, navScrollable, this.listenerSetter);
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     attachClickEvent(this.tabsContainer, (e) => {
       if(this.selection.isSelecting) {
         cancelEvent(e);
         this.selection.toggleByElement(findUpClassName(e.target, 'search-super-item'));
       }
+<<<<<<< HEAD
     }, {capture: true, passive: false});
     
     const onMediaClick = (className: string, targetClassName: string, inputFilter: MyInputMessagesFilter, e: MouseEvent) => {
+=======
+    }, {capture: true, passive: false, listenerSetter: this.listenerSetter});
+    
+    const onMediaClick = async(className: string, targetClassName: string, inputFilter: MyInputMessagesFilter, e: MouseEvent) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const target = findUpClassName(e.target as HTMLDivElement, className);
       if(!target) return;
       
@@ -521,7 +671,11 @@ export default class AppSearchSuper {
 
       const peerId = target.dataset.peerId.toPeerId();
 
+<<<<<<< HEAD
       const targets = (Array.from(this.tabs[inputFilter].querySelectorAll('.' + targetClassName)) as HTMLElement[]).map(el => {
+=======
+      const targets = (Array.from(this.tabs[inputFilter].querySelectorAll('.' + targetClassName)) as HTMLElement[]).map((el) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const containerEl = findUpClassName(el, className);
         return {
           element: el, 
@@ -530,17 +684,22 @@ export default class AppSearchSuper {
         };
       });
 
-      //const ids = Object.keys(this.mediaDivsByIds).map(k => +k).sort((a, b) => a - b);
-      const idx = targets.findIndex(item => item.mid === mid && item.peerId === peerId);
+      //const ids = Object.keys(this.mediaDivsByIds).map((k) => +k).sort((a, b) => a - b);
+      const idx = targets.findIndex((item) => item.mid === mid && item.peerId === peerId);
       
-      const message = appMessagesManager.getMessageByPeer(peerId, mid);
+      const message = await this.managers.appMessagesManager.getMessageByPeer(peerId, mid);
       new AppMediaViewer()
       .setSearchContext(this.copySearchContext(inputFilter))
       .openMedia(message, targets[idx].element, 0, false, targets.slice(0, idx), targets.slice(idx + 1));
     };
 
+<<<<<<< HEAD
     attachClickEvent(this.tabs.inputMessagesFilterPhotoVideo, onMediaClick.bind(null, 'grid-item', 'grid-item', 'inputMessagesFilterPhotoVideo'));
     attachClickEvent(this.tabs.inputMessagesFilterDocument, onMediaClick.bind(null, 'document-with-thumb', 'media-container', 'inputMessagesFilterDocument'));
+=======
+    attachClickEvent(this.tabs.inputMessagesFilterPhotoVideo, onMediaClick.bind(null, 'grid-item', 'grid-item', 'inputMessagesFilterPhotoVideo'), {listenerSetter: this.listenerSetter});
+    attachClickEvent(this.tabs.inputMessagesFilterDocument, onMediaClick.bind(null, 'document-with-thumb', 'media-container', 'inputMessagesFilterDocument'), {listenerSetter: this.listenerSetter});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     /* attachClickEvent(this.tabs.inputMessagesFilterUrl, (e) => {
       const target = e.target as HTMLElement;
@@ -560,7 +719,11 @@ export default class AppSearchSuper {
       this.lazyLoadQueue.lock();
     }, () => {
       this.lazyLoadQueue.unlockAndRefresh(); // ! maybe not so efficient
+<<<<<<< HEAD
     });
+=======
+    }, this.listenerSetter);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   private onTransitionStart = () => {
@@ -572,6 +735,7 @@ export default class AppSearchSuper {
   };
 
   public filterMessagesByType(messages: any[], type: SearchSuperType): MyMessage[] {
+<<<<<<< HEAD
     return appMessagesManager.filterMessagesByInputFilter(type, messages, messages.length);
   }
 
@@ -588,15 +752,52 @@ export default class AppSearchSuper {
 
   private processPhotoVideoFilter({message, promises, middleware, elemsToAppend}: ProcessSearchSuperResult) {
     const media = appMessagesManager.getMediaFromMessage(message);
+=======
+    return filterMessagesByInputFilter(type, messages, messages.length);
+  }
+
+  private processEmptyFilter({message, searchGroup}: ProcessSearchSuperResult) {
+    const loadPromises: Promise<any>[] = [];
+    const {dom} = appDialogsManager.addDialogNew({
+      peerId: message.peerId, 
+      container: searchGroup.list, 
+      avatarSize: 54,
+      loadPromises
+    });
+
+    const setLastMessagePromise = appDialogsManager.setLastMessageN({
+      dialog: {
+        _: 'dialog',
+        peerId: message.peerId
+      } as any,  
+      lastMessage: message, 
+      dom, 
+      highlightWord: this.searchContext.query
+    });
+
+    loadPromises.push(setLastMessagePromise);
+    return Promise.all(loadPromises);
+  }
+
+  private async processPhotoVideoFilter({message, promises, middleware}: ProcessSearchSuperResult) {
+    const media = getMediaFromMessage(message);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     const div = document.createElement('div');
     div.classList.add('grid-item');
     //this.log(message, photo);
 
+<<<<<<< HEAD
     let wrapped: ReturnType<typeof wrapPhoto>;
     const size = appPhotosManager.choosePhotoSize(media, 200, 200);
     if(media._ !== 'photo') {
       wrapped = wrapVideo({
+=======
+    let wrapped: Awaited<ReturnType<typeof wrapPhoto>>;
+    const size = choosePhotoSize(media, 200, 200);
+    if(media._ !== 'photo') {
+      wrapped = await (await wrapVideo({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         doc: media,
         message,
         container: div,
@@ -608,9 +809,15 @@ export default class AppSearchSuper {
         withoutPreloader: true,
         noPlayButton: true,
         size
+<<<<<<< HEAD
       }).thumb;
     } else {
       wrapped = wrapPhoto({
+=======
+      })).thumb;
+    } else {
+      wrapped = await wrapPhoto({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         photo: media,
         message,
         container: div,
@@ -624,12 +831,17 @@ export default class AppSearchSuper {
       });
     }
 
+<<<<<<< HEAD
     [wrapped.images.thumb, wrapped.images.full].filter(Boolean).forEach(image => {
+=======
+    [wrapped.images.thumb, wrapped.images.full].filter(Boolean).forEach((image) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       image.classList.add('grid-item-media');
     });
 
     promises.push(wrapped.loadPromises.thumb);
 
+<<<<<<< HEAD
     elemsToAppend.push({element: div, message});
   }
 
@@ -637,6 +849,16 @@ export default class AppSearchSuper {
     const document = appMessagesManager.getMediaFromMessage(message);
     const showSender = this.showSender || (['voice', 'round'] as MyDocument['type'][]).includes(document.type);
     const div = wrapDocument({
+=======
+    return {element: div, message};
+  }
+
+  private async processDocumentFilter({message, inputFilter}: ProcessSearchSuperResult) {
+    const document = getMediaFromMessage(message) as Document.document;
+    const showSender = this.showSender || (['voice', 'round'] as MyDocument['type'][]).includes(document.type);
+
+    const div = await wrapDocument({
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       message,
       withTime: !showSender,
       fontWeight: 400,
@@ -651,10 +873,17 @@ export default class AppSearchSuper {
       div.classList.add('audio-48');
     }
 
+<<<<<<< HEAD
     elemsToAppend.push({element: div, message});
   }
 
   private processUrlFilter({message, promises, middleware, elemsToAppend}: ProcessSearchSuperResult) {
+=======
+    return {message, element: div};
+  }
+
+  private async processUrlFilter({message, promises, middleware}: ProcessSearchSuperResult) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let webpage = (message.media as MessageMedia.messageMediaWebPage)?.webpage as WebPage.webPage;
 
     if(!webpage) {
@@ -663,7 +892,11 @@ export default class AppSearchSuper {
 
       if(!entity) {
         //this.log.error('NO ENTITY:', message);
+<<<<<<< HEAD
         const match = RichTextProcessor.matchUrl(message.message);
+=======
+        const match = matchUrl(message.message);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(!match) {
           //this.log.error('NO ENTITY AND NO MATCH:', message);
           return;
@@ -719,12 +952,17 @@ export default class AppSearchSuper {
         withoutPreloader: true,
         lazyLoadQueue: this.lazyLoadQueue,
         middleware,
+<<<<<<< HEAD
         size: appPhotosManager.choosePhotoSize(webpage.photo as Photo.photo, 60, 60, false),
+=======
+        size: choosePhotoSize(webpage.photo as Photo.photo, 60, 60, false),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         loadPromises: promises,
         noBlur: true
       });
     } else {
       previewDiv.classList.add('empty');
+<<<<<<< HEAD
       setInnerHTML(previewDiv, RichTextProcessor.getAbbreviation(webpage.title || webpage.display_url || webpage.description || webpage.url, true));
     }
     
@@ -732,6 +970,15 @@ export default class AppSearchSuper {
 
     const subtitleFragment = appWebPagesManager.wrapDescription(webpage);
     const aFragment = htmlToDocumentFragment(RichTextProcessor.wrapRichText(webpage.url || ''));
+=======
+      setInnerHTML(previewDiv, getAbbreviation(webpage.title || webpage.display_url || webpage.description || webpage.url, true));
+    }
+    
+    let title = wrapWebPageTitle(webpage);
+
+    const subtitleFragment = wrapWebPageDescription(webpage);
+    const aFragment = htmlToDocumentFragment(wrapRichText(webpage.url || ''));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const a = aFragment.firstElementChild;
     if(a instanceof HTMLAnchorElement) {
       try { // can have 'URIError: URI malformed'
@@ -748,17 +995,29 @@ export default class AppSearchSuper {
     subtitleFragment.append(a);
 
     if(this.showSender) {
+<<<<<<< HEAD
       subtitleFragment.append('\n', appMessagesManager.wrapSenderToPeer(message));
+=======
+      subtitleFragment.append('\n', await wrapSenderToPeer(message));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     if(!title.textContent) {
       //title = new URL(webpage.url).hostname;
+<<<<<<< HEAD
       title.append(RichTextProcessor.wrapPlainText(webpage.display_url.split('/', 1)[0]));
+=======
+      title.append(wrapPlainText(webpage.display_url.split('/', 1)[0]));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     const row = new Row({
       title,
+<<<<<<< HEAD
       titleRight: appMessagesManager.wrapSentTime(message),
+=======
+      titleRight: wrapSentTime(message),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       subtitle: subtitleFragment,
       havePadding: true,
       clickable: true,
@@ -780,7 +1039,11 @@ export default class AppSearchSuper {
     `); */
     
     if(row.container.innerText.trim().length) {
+<<<<<<< HEAD
       elemsToAppend.push({element: row.container, message});
+=======
+      return {message, element: row.container};
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
   
@@ -846,6 +1109,7 @@ export default class AppSearchSuper {
     if(processCallback) {
       processCallback = processCallback.bind(this);
 
+<<<<<<< HEAD
       for(const message of messages) {
         try {
           options.message = message;
@@ -854,6 +1118,20 @@ export default class AppSearchSuper {
           this.log.error('error rendering filter', inputFilter, options, message, err);
         }
       }
+=======
+      type K = {element: HTMLElement, message: Message.message | Message.messageService};
+      const results: (Promise<K> | K)[] = messages.map(async(message) => {
+        try {
+          options.message = message;
+          return await processCallback(options);
+        } catch(err) {
+          this.log.error('error rendering filter', inputFilter, options, message, err);
+        }
+      });
+
+      const awaited = (await Promise.all(results)).filter(Boolean);
+      elemsToAppend.push(...awaited.filter(Boolean));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
     
     if(searchGroup && searchGroup.list.childElementCount) {
@@ -874,7 +1152,7 @@ export default class AppSearchSuper {
     
     if(elemsToAppend.length) {
       const method = append ? 'append' : 'prepend';
-      elemsToAppend.forEach(details => {
+      elemsToAppend.forEach((details) => {
         const {element, message} = details;
         const monthContainer = this.getMonthContainerByTimestamp(this.groupByMonth ? message.date : 0, inputFilter);
         element.classList.add('search-super-item');
@@ -882,7 +1160,11 @@ export default class AppSearchSuper {
         element.dataset.peerId = '' + message.peerId;
         monthContainer.items[method](element);
 
+<<<<<<< HEAD
         if(this.selection.isSelecting) {
+=======
+        if(this.selection?.isSelecting) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.selection.toggleElementCheckbox(element, true);
         }
       });
@@ -896,7 +1178,11 @@ export default class AppSearchSuper {
   private afterPerforming(length: number, contentTab: HTMLElement) {
     if(contentTab) {
       const parent = contentTab.parentElement;
+<<<<<<< HEAD
       Array.from(parent.children).slice(1).forEach(child => {
+=======
+      Array.from(parent.children).slice(1).forEach((child) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         child.remove();
       });
 
@@ -925,35 +1211,41 @@ export default class AppSearchSuper {
     const query = this.searchContext.query;
     if(query) {
       const setResults = (results: PeerId[], group: SearchGroup, showMembersCount = false) => {
+<<<<<<< HEAD
         results.forEach((peerId) => {
+=======
+        results.map((peerId) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(renderedPeerIds.has(peerId)) {
             return;
           }
   
           renderedPeerIds.add(peerId);
   
-          const peer = appPeersManager.getPeer(peerId);
-  
-          //////////this.log('contacts peer', peer);
-  
           const {dom} = appDialogsManager.addDialogNew({
-            dialog: peerId, 
+            peerId: peerId, 
             container: group.list, 
-            drawStatus: false,
             avatarSize: 48,
             autonomous: group.autonomous
           });
-  
+
+          return {dom, peerId};
+        }).forEach(async({dom, peerId}) => {
+          const peer = await this.managers.appPeersManager.getPeer(peerId);
           if(showMembersCount && (peer.participants_count || peer.participants)) {
             const regExp = new RegExp(`(${escapeRegExp(query)}|${escapeRegExp(cleanSearchText(query))})`, 'gi');
             dom.titleSpan.innerHTML = dom.titleSpan.innerHTML.replace(regExp, '<i>$1</i>');
+<<<<<<< HEAD
             dom.lastMessageSpan.append(appProfileManager.getChatMembersString(peerId.toChatId()));
+=======
+            dom.lastMessageSpan.append(await getChatMembersString(peerId.toChatId()));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           } else if(peerId === rootScope.myId) {
             dom.lastMessageSpan.append(i18n('Presence.YourChat'));
           } else {
-            let username = appPeersManager.getPeerUsername(peerId);
+            let username = await this.managers.appPeersManager.getPeerUsername(peerId);
             if(!username) {
-              const user = appUsersManager.getUser(peerId);
+              const user = await this.managers.appUsersManager.getUser(peerId);
               if(user && user.phone) {
                 username = '+' + formatPhoneNumber(user.phone).formatted;
               }
@@ -979,7 +1271,11 @@ export default class AppSearchSuper {
       };
   
       return Promise.all([
+<<<<<<< HEAD
         appUsersManager.getContactsPeerIds(query, true)
+=======
+        this.managers.appUsersManager.getContactsPeerIds(query, true)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         .then(onLoad)
         .then((contacts) => {
           if(contacts) {
@@ -987,7 +1283,7 @@ export default class AppSearchSuper {
           }
         }),
   
-        appUsersManager.searchContacts(query, 20)
+        this.managers.appUsersManager.searchContacts(query, 20)
         .then(onLoad)
         .then((contacts) => {
           if(contacts) {
@@ -1017,34 +1313,43 @@ export default class AppSearchSuper {
           }
         }),
   
+<<<<<<< HEAD
         appMessagesManager.getConversations(query, 0, 20, 0).promise
+=======
+        this.managers.appMessagesManager.getConversations(query, 0, 20, 0)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         .then(onLoad)
-        .then(value => {
+        .then((value) => {
           if(value) {
-            setResults(value.dialogs.map(d => d.peerId), this.searchGroups.contacts, true);
+            setResults(value.dialogs.map((d) => d.peerId), this.searchGroups.contacts, true);
           }
         })
       ]);
     } else if(!this.searchContext.peerId && !this.searchContext.minDate) {
       const renderRecentSearch = (setActive = true) => {
-        return appStateManager.getState().then(state => {
+        return apiManagerProxy.getState().then((state) => {
           if(!middleware()) {
             return;
           }
     
           this.searchGroups.recent.list.innerHTML = '';
     
-          state.recentSearch.slice(0, 20).forEach(peerId => {
-            let {dialog, dom} = appDialogsManager.addDialogNew({
-              dialog: peerId,
+          state.recentSearch.slice(0, 20).forEach(async(peerId) => {
+            let {dom} = appDialogsManager.addDialogNew({
+              peerId: peerId,
               container: this.searchGroups.recent.list,
-              drawStatus: false,
               meAsSaved: true,
               avatarSize: 48,
               autonomous: true
             });
     
+<<<<<<< HEAD
             dom.lastMessageSpan.append(peerId.isUser() ? appUsersManager.getUserStatusString(peerId) : appProfileManager.getChatMembersString(peerId.toChatId()));
+=======
+            dom.lastMessageSpan.append(await (peerId.isUser() ? 
+              getUserStatusString(await this.managers.appUsersManager.getUser(peerId.toUserId())) : 
+              getChatMembersString(peerId.toChatId())));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           });
     
           if(!state.recentSearch.length) {
@@ -1056,10 +1361,17 @@ export default class AppSearchSuper {
       };
 
       return Promise.all([
+<<<<<<< HEAD
         appUsersManager.getTopPeers('correspondents').then(peers => {
           if(!middleware()) return;
 
           const idx = peers.findIndex(peer => peer.id === rootScope.myId);
+=======
+        this.managers.appUsersManager.getTopPeers('correspondents').then((peers) => {
+          if(!middleware()) return;
+
+          const idx = peers.findIndex((peer) => peer.id === rootScope.myId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(idx !== -1) {
             peers = peers.slice();
             peers.splice(idx, 1);
@@ -1068,9 +1380,12 @@ export default class AppSearchSuper {
           if(peers.length) {
             peers.forEach((peer) => {
               appDialogsManager.addDialogNew({
+<<<<<<< HEAD
                 dialog: peer.id, 
+=======
+                peerId: peer.id, 
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
                 container: this.searchGroups.people.list, 
-                drawStatus: false,
                 onlyFirstName: true,
                 avatarSize: 54,
                 autonomous: false
@@ -1086,7 +1401,11 @@ export default class AppSearchSuper {
     } else return Promise.resolve();
   }
 
+<<<<<<< HEAD
   private loadMembers(mediaTab: SearchSuperMediaTab) {
+=======
+  private async loadMembers(mediaTab: SearchSuperMediaTab) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const id = this.searchContext.peerId.toChatId();
     const middleware = this.middleware.get();
     let promise: Promise<void>;
@@ -1101,9 +1420,19 @@ export default class AppSearchSuper {
       }
       
       if(!this.membersList) {
+<<<<<<< HEAD
         this.membersList = new SortedUserList({lazyLoadQueue: this.lazyLoadQueue, rippleEnabled: false});
         attachClickEvent(this.membersList.list, (e) => {
           const li = findUpTag(e.target, 'LI');
+=======
+        this.membersList = new SortedUserList({
+          lazyLoadQueue: this.lazyLoadQueue, 
+          rippleEnabled: false,
+          managers: this.managers
+        });
+        attachClickEvent(this.membersList.list, (e) => {
+          const li = findUpTag(e.target, DIALOG_LIST_ELEMENT_TAG);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(!li) {
             return;
           }
@@ -1122,6 +1451,7 @@ export default class AppSearchSuper {
         this.afterPerforming(1, mediaTab.contentTab);
       }
 
+<<<<<<< HEAD
       participants.forEach(participant => {
         const peerId = appChatsManager.getParticipantPeerId(participant);
         if(peerId.isAnyChat()) {
@@ -1382,6 +1712,279 @@ export default class AppSearchSuper {
 
     if(peerId.isUser()) {
       findAndSplice(toLoad, mediaTab => mediaTab.type === 'members');
+=======
+      for(const participant of participants) {
+        const peerId = getParticipantPeerId(participant);
+        if(peerId.isAnyChat()) {
+          continue;
+        }
+
+        const user = await this.managers.appUsersManager.getUser(peerId);
+        if(user.pFlags.deleted) {
+          continue;
+        }
+
+        this.membersList.add(peerId);
+      }
+    };
+
+    if(await this.managers.appChatsManager.isChannel(id)) {
+      const LOAD_COUNT = !this.membersList ? 50 : 200;
+      promise = this.managers.appProfileManager.getChannelParticipants(id, undefined, LOAD_COUNT, this.nextRates[mediaTab.inputFilter]).then((participants) => {
+        if(!middleware()) {
+          return;
+        }
+
+        let list = mediaTab.contentTab.firstElementChild as HTMLUListElement;
+        this.nextRates[mediaTab.inputFilter] = (list ? list.childElementCount : 0) + participants.participants.length;
+
+        if(participants.participants.length < LOAD_COUNT) {
+          this.loaded[mediaTab.inputFilter] = true;
+        }
+
+        return renderParticipants(participants.participants);
+      });
+    } else {
+      promise = this.managers.appProfileManager.getChatFull(id).then((chatFull) => {
+        if(!middleware()) {
+          return;
+        }
+
+        //console.log('anymore', chatFull);
+        this.loaded[mediaTab.inputFilter] = true;
+        const participants = (chatFull as ChatFull.chatFull).participants;
+        if(participants._ === 'chatParticipantsForbidden') {
+          return;
+        }
+        
+        return renderParticipants(participants.participants);
+      });
+    }
+
+    return this.loadPromises[mediaTab.inputFilter] = promise.finally(() => { 
+      if(!middleware()) {
+        return;
+      }
+
+      this.loadPromises[mediaTab.inputFilter] = null;
+    });
+  }
+
+  private loadType(mediaTab: SearchSuperMediaTab, justLoad: boolean, loadCount: number, middleware: () => boolean) {
+    const type = mediaTab.inputFilter;
+
+    if(this.loadPromises[type]) {
+      return this.loadPromises[type];
+    }
+
+    if(mediaTab.type === 'members') {
+      return this.loadMembers(mediaTab);
+    }
+
+    const history = this.historyStorage[type] ?? (this.historyStorage[type] = []);
+
+    if(type === 'inputMessagesFilterEmpty' && !history.length) {
+      if(!this.loadedChats) {
+        this.loadChats();
+        this.loadedChats = true;
+      }
+
+      if(!this.searchContext.query.trim() && !this.searchContext.peerId && !this.searchContext.minDate) {
+        this.loaded[type] = true;
+        return Promise.resolve();
+      }
+    }
+
+    const promise = this.loadPromises[type] = Promise.resolve().then(async() => {
+      // render from cache
+      if(history.length && this.usedFromHistory[type] < history.length && !justLoad) {
+        let messages: any[] = [];
+        let used = Math.max(0, this.usedFromHistory[type]);
+        let slicedLength = 0;
+
+        do {
+          let ids = history.slice(used, used + loadCount);
+          used += ids.length;
+          slicedLength += ids.length;
+
+          const notFilteredMessages = await Promise.all(ids.map((m) => this.managers.appMessagesManager.getMessageByPeer(m.peerId, m.mid)));
+
+          messages.push(...this.filterMessagesByType(notFilteredMessages, type));
+        } while(slicedLength < loadCount && used < history.length);
+        
+        // если перебор
+        /* if(slicedLength > loadCount) {
+          let diff = messages.length - loadCount;
+          messages = messages.slice(0, messages.length - diff);
+          used -= diff;
+        } */
+
+        this.usedFromHistory[type] = used;
+        //if(messages.length) {
+          return this.performSearchResult(messages, mediaTab).finally(() => {
+            setTimeout(() => {
+              this.scrollable.checkForTriggers();
+            }, 0);
+          });
+        //}
+      }
+      
+      let maxId = history.length ? history[history.length - 1].mid : 0;
+
+      const value = await this.managers.appMessagesManager.getSearch({
+        ...this.searchContext,
+        inputFilter: {_: type},
+        maxId, 
+        limit: loadCount,
+        nextRate: this.nextRates[type] ??= 0
+      });
+
+      history.push(...value.history.map((m) => ({mid: m.mid, peerId: m.peerId})));
+
+      if(!middleware()) {
+        //this.log.warn('peer changed');
+        return;
+      }
+
+      // ! Фикс случая, когда не загружаются документы при открытой панели разработчиков (происходит из-за того, что не совпадают критерии отбора документов в getSearch)
+      if(value.history.length < loadCount || (this.searchContext.folderId !== undefined && !value.next_rate) || value.history.length === value.count) {
+      //if((value.count || history.length === value.count) && history.length >= value.count) {
+        //this.log(logStr + 'loaded all media', value, loadCount);
+        this.loaded[type] = true;
+      }
+
+      this.nextRates[type] = value.next_rate;
+
+      if(justLoad) {
+        return;
+      }
+
+      this.usedFromHistory[type] = history.length;
+
+      if(!this.loaded[type]) {
+        promise.then(() => {
+          setTimeout(() => {
+            if(!middleware()) return;
+            //this.log('will preload more');
+            if(this.mediaTab === mediaTab) {
+              const promise = this.load(true, true);
+              if(promise) {
+                promise.then(() => {
+                  if(!middleware()) return;
+                  //this.log('preloaded more');
+                  setTimeout(() => {
+                    this.scrollable.checkForTriggers();
+                  }, 0);
+                });
+              }
+            }
+          }, 0);
+        });
+      }
+
+      //if(value.history.length) {
+        return this.performSearchResult(this.filterMessagesByType(value.history, type), mediaTab);
+      //}
+    }).catch((err) => {
+      this.log.error('load error:', err);
+    }).finally(() => {
+      this.loadPromises[type] = null;
+    });
+
+    return promise;
+  }
+
+  private canLoadMediaTab(mediaTab: SearchSuperMediaTab) {
+    const inputFilter = mediaTab.inputFilter;
+    return !this.loaded[inputFilter] || (this.historyStorage[inputFilter] && this.usedFromHistory[inputFilter] < this.historyStorage[inputFilter].length);
+  }
+
+  private async loadFirstTime() {
+    const middleware = this.middleware.get();
+    const peerId = this.searchContext.peerId;
+    if(!this.hideEmptyTabs) {
+      return;
+    }
+
+    const mediaTabs = this.mediaTabs.filter((mediaTab) => mediaTab.inputFilter !== 'inputMessagesFilterEmpty');
+    const filters = mediaTabs.map((mediaTab) => ({_: mediaTab.inputFilter}));
+
+    const [counters, canViewMembers] = await Promise.all([
+      this.managers.appMessagesManager.getSearchCounters(peerId, filters),
+      this.canViewMembers()
+    ]);
+
+    if(!middleware()) {
+      return;
+    }
+
+    if(this.loadMutex) {
+      await this.loadMutex;
+
+      if(!middleware()) {
+        return;
+      }
+    }
+
+    let firstMediaTab: SearchSuperMediaTab;
+    let count = 0;
+    mediaTabs.forEach((mediaTab) => {
+      const counter = counters.find((c) => c.filter._ === mediaTab.inputFilter);
+
+      mediaTab.menuTab.classList.toggle('hide', !counter.count);
+      mediaTab.menuTab.classList.remove('active');
+      //mediaTab.contentTab.classList.toggle('hide', !counter.count);
+
+      if(counter.count) {
+        if(firstMediaTab === undefined) {
+          firstMediaTab = mediaTab;
+        }
+
+        ++count;
+      }
+    });
+
+    const membersTab = this.mediaTabsMap.get('members');
+    membersTab.menuTab.classList.toggle('hide', !canViewMembers);
+
+    if(canViewMembers) {
+      firstMediaTab = membersTab;
+    }
+
+    this.container.classList.toggle('hide', !firstMediaTab);
+    this.container.parentElement.classList.toggle('search-empty', !firstMediaTab);
+    if(firstMediaTab) {
+      this.skipScroll = true;
+      this.selectTab(this.mediaTabs.indexOf(firstMediaTab), false);
+      // firstMediaTab.menuTab.classList.add('active');
+
+      this.navScrollableContainer.classList.toggle('hide', count <= 1);
+    }
+  }
+  
+  public async load(single = false, justLoad = false) {
+    const peerId = this.searchContext.peerId;
+    this.log('load', single, peerId, this.loadPromises);
+    const middleware = this.middleware.get();
+
+    if(this.firstLoad) {
+      await (this.loadFirstTimePromise ??= this.loadFirstTime());
+      if(!middleware()) {
+        return;
+      }
+
+      this.loadFirstTimePromise = undefined;
+      this.firstLoad = false;
+    }
+    
+    let toLoad = single ? [this.mediaTab] : this.mediaTabs.filter((t) => t !== this.mediaTab);
+    toLoad = toLoad.filter((mediaTab) => {
+      return this.canLoadMediaTab(mediaTab);
+    });
+
+    if(peerId.isUser()) {
+      findAndSplice(toLoad, (mediaTab) => mediaTab.type === 'members');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     if(!toLoad.length) {
@@ -1390,11 +1993,19 @@ export default class AppSearchSuper {
 
     const loadCount = justLoad ? 50 : Math.round((windowSize.height / 130 | 0) * 3 * 1.25); // that's good for all types
 
+<<<<<<< HEAD
     const promises: Promise<any>[] = toLoad.map(mediaTab => {
       return this.loadType(mediaTab, justLoad, loadCount, middleware)
     });
 
     return Promise.all(promises).catch(err => {
+=======
+    const promises: Promise<any>[] = toLoad.map((mediaTab) => {
+      return this.loadType(mediaTab, justLoad, loadCount, middleware);
+    });
+
+    return Promise.all(promises).catch((err) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.log.error('Load error all promises:', err);
     });
   }
@@ -1450,7 +2061,17 @@ export default class AppSearchSuper {
   }
 
   public canViewMembers() {
+<<<<<<< HEAD
     return this.searchContext.peerId.isAnyChat() && !appChatsManager.isBroadcast(this.searchContext.peerId.toChatId()) && appChatsManager.hasRights(this.searchContext.peerId.toChatId(), 'view_participants');
+=======
+    return Promise.all([
+      this.searchContext.peerId.isAnyChat(),
+      this.managers.appChatsManager.isBroadcast(this.searchContext.peerId.toChatId()),
+      this.managers.appChatsManager.hasRights(this.searchContext.peerId.toChatId(), 'view_participants')
+    ]).then(([isAnyChat, isBroadcast, hasRights]) => {
+      return isAnyChat && !isBroadcast && hasRights;
+    });
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public cleanup() {
@@ -1459,6 +2080,7 @@ export default class AppSearchSuper {
     this.loadedChats = false;
     this.nextRates = {};
     this.firstLoad = true;
+<<<<<<< HEAD
 
     this.lazyLoadQueue.clear();
 
@@ -1467,6 +2089,17 @@ export default class AppSearchSuper {
     });
 
     if(this.selection.isSelecting) {
+=======
+    this.prevTabId = -1;
+
+    this.lazyLoadQueue.clear();
+
+    this.mediaTabs.forEach((mediaTab) => {
+      this.usedFromHistory[mediaTab.inputFilter] = -1;
+    });
+
+    if(this.selection?.isSelecting) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.selection.cancelSelection();
     }
 
@@ -1478,19 +2111,27 @@ export default class AppSearchSuper {
     } */
 
     this.middleware.clean();
+<<<<<<< HEAD
+=======
+    this.loadFirstTimePromise = undefined;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.cleanScrollPositions();
     this.membersList = undefined;
   }
 
   public cleanScrollPositions() {
+<<<<<<< HEAD
     this.mediaTabs.forEach(mediaTab => {
+=======
+    this.mediaTabs.forEach((mediaTab) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       mediaTab.scroll = undefined;
     });
   }
 
   public cleanupHTML(goFirst = false) {
     if(this.urlsToRevoke.length) {
-      this.urlsToRevoke.forEach(url => {
+      this.urlsToRevoke.forEach((url) => {
         URL.revokeObjectURL(url);
       });
       this.urlsToRevoke.length = 0;
@@ -1582,4 +2223,21 @@ export default class AppSearchSuper {
 
     this.cleanup();
   }
+<<<<<<< HEAD
+=======
+
+  public destroy() {
+    this.listenerSetter.removeAll();
+    this.scrollable.destroy();
+    this.swipeHandler?.removeListeners();
+    this.selection?.cleanup();
+    
+    this.scrollStartCallback = undefined;
+    this.onChangeTab = undefined;
+    this.selectTab = undefined;
+    this.searchContextMenu = undefined;
+    this.swipeHandler = undefined;
+    this.selection = undefined;
+  }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }

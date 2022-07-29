@@ -138,7 +138,11 @@ export function hexaToHsla(hexa: string) {
 }
 
 export function rgbaToHexa(rgba: ColorRgba | ColorRgb) {
+<<<<<<< HEAD
   return '#' + rgba.map(v => ('0' + v.toString(16)).slice(-2)).join('');
+=======
+  return '#' + rgba.map((v) => ('0' + v.toString(16)).slice(-2)).join('');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 export function hslaStringToHexa(hsla: string) {

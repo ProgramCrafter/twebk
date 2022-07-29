@@ -10,6 +10,7 @@ import safeAssign from "../../helpers/object/safeAssign";
 import debounce from "../../helpers/schedulers/debounce";
 import { GroupCallParticipantVideoSourceGroup, PhoneCall, PhoneCallDiscardReason, PhoneCallProtocol, Update } from "../../layer";
 import { emojiFromCodePoints } from "../../vendor/emoji";
+<<<<<<< HEAD
 import type { ApiUpdatesManager } from "../appManagers/apiUpdatesManager";
 import type { AppCallsManager, CallId } from "../appManagers/appCallsManager";
 import { logger } from "../logger";
@@ -17,6 +18,15 @@ import type { ApiManagerProxy } from "../mtproto/mtprotoworker";
 import rootScope from "../rootScope";
 import CallConnectionInstance from "./callConnectionInstance";
 import CallInstanceBase from "./callInstanceBase";
+=======
+import type { CallId } from "../appManagers/appCallsManager";
+import type { AppManagers } from "../appManagers/managers";
+import { logger } from "../logger";
+import apiManagerProxy from "../mtproto/mtprotoworker";
+import CallConnectionInstance from "./callConnectionInstance";
+import CallInstanceBase from "./callInstanceBase";
+import callsController from "./callsController";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import CALL_STATE from "./callState";
 import { GROUP_CALL_AMPLITUDE_ANALYSE_INTERVAL_MS } from "./constants";
 import parseSignalingData from "./helpers/parseSignalingData";
@@ -61,9 +71,13 @@ export default class CallInstance extends CallInstanceBase<{
   public connectedAt: number;
   public discardReason: string;
 
+<<<<<<< HEAD
   private appCallsManager: AppCallsManager;
   private apiManager: ApiManagerProxy;
   private apiUpdatesManager: ApiUpdatesManager;
+=======
+  private managers: AppManagers;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   
   private hangUpTimeout: number;
 
@@ -88,9 +102,13 @@ export default class CallInstance extends CallInstanceBase<{
   constructor(options: {
     isOutgoing: boolean,
     interlocutorUserId: UserId,
+<<<<<<< HEAD
     appCallsManager: CallInstance['appCallsManager'],
     apiManager: CallInstance['apiManager'],
     apiUpdatesManager: CallInstance['apiUpdatesManager'],
+=======
+    managers: CallInstance['managers'],
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     protocol?: PhoneCallProtocol
   }) {
     super();
@@ -274,7 +292,11 @@ export default class CallInstance extends CallInstanceBase<{
       return hasVideoTrack && !!((this.wasStartingScreen && type === 'screencast') || (this.wasStartingVideo && type === 'video'));
 
       // ! it will be used before the track appears
+<<<<<<< HEAD
       // return !!this.description.entries.find(entry => entry.type === type && entry.transceiver.sender.track.enabled);
+=======
+      // return !!this.description.entries.find((entry) => entry.type === type && entry.transceiver.sender.track.enabled);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     } catch(err) {
       return false;
     }
@@ -341,7 +363,11 @@ export default class CallInstance extends CallInstanceBase<{
     this.requestInputSource(true, !!call.pFlags.video, false);
 
     const g_a_hash = call.g_a_hash;
+<<<<<<< HEAD
     this.appCallsManager.generateDh().then(dh => {
+=======
+    this.managers.appCallsManager.generateDh().then(async(dh) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.dh = { // ! it is correct
         g_a_hash,
         b: dh.a,
@@ -350,6 +376,7 @@ export default class CallInstance extends CallInstanceBase<{
         p: dh.p,
       };
 
+<<<<<<< HEAD
       return this.apiManager.invokeApi('phone.acceptCall', {
         peer: this.appCallsManager.getCallInput(this.id),
         protocol: this.protocol,
@@ -358,6 +385,16 @@ export default class CallInstance extends CallInstanceBase<{
     }).then(phonePhoneCall => {
       this.appCallsManager.savePhonePhoneCall(phonePhoneCall);
     }).catch(err => {
+=======
+      return this.managers.apiManager.invokeApi('phone.acceptCall', {
+        peer: await this.managers.appCallsManager.getCallInput(this.id),
+        protocol: this.protocol,
+        g_b: this.dh.g_b
+      });
+    }).then(async(phonePhoneCall) => {
+      await this.managers.appCallsManager.savePhonePhoneCall(phonePhoneCall);
+    }).catch((err) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.log.error('accept call error', err);
       // if(err.type === 'CALL_PROTOCOL_COMPAT_LAYER_INVALID') {
 
@@ -487,8 +524,13 @@ export default class CallInstance extends CallInstanceBase<{
     const {bytes} = await this.encryptor.encryptRawPacket(arr);
     
     this.log('sendCallSignalingData', this.id, json);
+<<<<<<< HEAD
     await this.apiManager.invokeApi('phone.sendSignalingData', {
       peer: this.appCallsManager.getCallInput(this.id),
+=======
+    await this.managers.apiManager.invokeApi('phone.sendSignalingData', {
+      peer: await this.managers.appCallsManager.getCallInput(this.id),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       data: bytes
     });
   }
@@ -513,31 +555,52 @@ export default class CallInstance extends CallInstanceBase<{
   }
 
   public async confirmCall() {
+<<<<<<< HEAD
     const {appCallsManager, apiManager, protocol, id, call} = this;
+=======
+    const {protocol, id, call} = this;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const dh = this.dh as DiffieHellmanInfo.a;
 
     // this.clearHangUpTimeout();
     this.overrideConnectionState(CALL_STATE.EXCHANGING_KEYS);
+<<<<<<< HEAD
     const {key, key_fingerprint} = await appCallsManager.computeKey((call as PhoneCall.phoneCallAccepted).g_b, dh.a, dh.p);
     
     const phonePhoneCall = await apiManager.invokeApi('phone.confirmCall', {
       peer: appCallsManager.getCallInput(id),
+=======
+    const {key, key_fingerprint} = await this.managers.appCallsManager.computeKey((call as PhoneCall.phoneCallAccepted).g_b, dh.a, dh.p);
+    
+    const phonePhoneCall = await this.managers.apiManager.invokeApi('phone.confirmCall', {
+      peer: await this.managers.appCallsManager.getCallInput(id),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       protocol: protocol,
       g_a: dh.g_a,
       key_fingerprint: key_fingerprint
     });
     
     this.encryptionKey = key;
+<<<<<<< HEAD
     appCallsManager.savePhonePhoneCall(phonePhoneCall);
+=======
+    await this.managers.appCallsManager.savePhonePhoneCall(phonePhoneCall);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.joinCall();
   }
 
   public getEmojisFingerprint() {
     if(this.emojisFingerprint) return this.emojisFingerprint;
     if(this.getEmojisFingerprintPromise) return this.getEmojisFingerprintPromise;
+<<<<<<< HEAD
     return this.getEmojisFingerprintPromise = this.apiManager.invokeCrypto('get-emojis-fingerprint', this.encryptionKey, this.dh.g_a).then(codePoints => {
       this.getEmojisFingerprintPromise = undefined;
       return this.emojisFingerprint = codePoints.map(codePoints => emojiFromCodePoints(codePoints)) as [string, string, string, string];
+=======
+    return this.getEmojisFingerprintPromise = apiManagerProxy.invokeCrypto('get-emojis-fingerprint', this.encryptionKey, this.dh.g_a).then((codePoints) => {
+      this.getEmojisFingerprintPromise = undefined;
+      return this.emojisFingerprint = codePoints.map((codePoints) => emojiFromCodePoints(codePoints)) as [string, string, string, string];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     });
   }
 
@@ -556,7 +619,11 @@ export default class CallInstance extends CallInstanceBase<{
     this.log('[sdp] local', answer.type, answer.sdp);
     await connection.setLocalDescription(answer);
 
+<<<<<<< HEAD
     connection.getTransceivers().filter(transceiver => transceiver.direction === 'recvonly').forEach(transceiver => {
+=======
+    connection.getTransceivers().filter((transceiver) => transceiver.direction === 'recvonly').forEach((transceiver) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const entry = this.connectionInstance.description.getEntryByMid(transceiver.mid);
       entry.transceiver = entry.recvEntry.transceiver = transceiver;
       transceiver.direction = 'sendrecv';
@@ -565,12 +632,20 @@ export default class CallInstance extends CallInstanceBase<{
     const isAnswer = false;
 
     const description = this.description;
+<<<<<<< HEAD
     let bundle = description.entries.map(entry => entry.mid);
+=======
+    let bundle = description.entries.map((entry) => entry.mid);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const sdpDescription: RTCSessionDescriptionInit = {
       type: isAnswer ? 'answer' : 'offer',
       sdp: description.generateSdp({
         bundle,
+<<<<<<< HEAD
         entries: description.entries.filter(entry => bundle.includes(entry.mid)),
+=======
+        entries: description.entries.filter((entry) => bundle.includes(entry.mid)),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         // isAnswer: isAnswer
         isAnswer: !isAnswer
       })
@@ -661,12 +736,20 @@ export default class CallInstance extends CallInstanceBase<{
         hasVideo = mediaState.videoState === 'active' || mediaState.screencastState === 'active' || hasVideo;
       }
 
+<<<<<<< HEAD
       await this.appCallsManager.discardCall(this.id, this.duration, discardReason, hasVideo);
+=======
+      await this.managers.appCallsManager.discardCall(this.id, this.duration, discardReason, hasVideo);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
   }
 
   private performCodec(_codec: P2PAudioCodec | P2PVideoCodec) {
+<<<<<<< HEAD
     const payloadTypes: AudioCodec['payload-types'] = _codec.payloadTypes.map(payloadType => {
+=======
+    const payloadTypes: AudioCodec['payload-types'] = _codec.payloadTypes.map((payloadType) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       return {
         ...payloadType,
         'rtcp-fbs': payloadType.feedbackTypes
@@ -697,11 +780,19 @@ export default class CallInstance extends CallInstanceBase<{
 
   private filterNotVP8(initialSetup: CallSignalingData.initialSetup) {
     if(!this.isOutgoing) { // only VP8 works now
+<<<<<<< HEAD
       [initialSetup.video, initialSetup.screencast].filter(Boolean).forEach(codec => {
         const payloadTypes = codec.payloadTypes;
         const idx = payloadTypes.findIndex(payloadType => payloadType.name === 'VP8');
         const vp8PayloadType = payloadTypes[idx];
         const rtxIdx = payloadTypes.findIndex(payloadType => +payloadType.parameters?.apt === vp8PayloadType.id);
+=======
+      [initialSetup.video, initialSetup.screencast].filter(Boolean).forEach((codec) => {
+        const payloadTypes = codec.payloadTypes;
+        const idx = payloadTypes.findIndex((payloadType) => payloadType.name === 'VP8');
+        const vp8PayloadType = payloadTypes[idx];
+        const rtxIdx = payloadTypes.findIndex((payloadType) => +payloadType.parameters?.apt === vp8PayloadType.id);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         codec.payloadTypes = [payloadTypes[idx], payloadTypes[rtxIdx]];
       });
     }
@@ -720,11 +811,19 @@ export default class CallInstance extends CallInstanceBase<{
         this.setDataToDescription(data);
 
         const performSsrcGroups = (ssrcGroups: P2PVideoCodec['ssrcGroups']): GroupCallParticipantVideoSourceGroup[] => {
+<<<<<<< HEAD
           return ssrcGroups.map(ssrcGroup => {
             return {
               _: 'groupCallParticipantVideoSourceGroup',
               semantics: ssrcGroup.semantics,
               sources: ssrcGroup.ssrcs.map(source => +source)
+=======
+          return ssrcGroups.map((ssrcGroup) => {
+            return {
+              _: 'groupCallParticipantVideoSourceGroup',
+              semantics: ssrcGroup.semantics,
+              sources: ssrcGroup.ssrcs.map((source) => +source)
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             };
           });
         };
@@ -735,7 +834,11 @@ export default class CallInstance extends CallInstanceBase<{
           data.screencast ? generateSsrc('screencast', performSsrcGroups(data.screencast.ssrcGroups)) : undefined
         ].filter(Boolean);
 
+<<<<<<< HEAD
         ssrcs.forEach(ssrc => {
+=======
+        ssrcs.forEach((ssrc) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           let entry = description.getEntryBySource(ssrc.source);
           if(entry) {
             return;
@@ -754,12 +857,20 @@ export default class CallInstance extends CallInstanceBase<{
         const isAnswer = this.offerSent;
         this.offerSent = false;
 
+<<<<<<< HEAD
         let bundle = description.entries.map(entry => entry.mid);
+=======
+        let bundle = description.entries.map((entry) => entry.mid);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const sdpDescription: RTCSessionDescriptionInit = {
           type: isAnswer ? 'answer' : 'offer',
           sdp: description.generateSdp({
             bundle,
+<<<<<<< HEAD
             entries: description.entries.filter(entry => bundle.includes(entry.mid)),
+=======
+            entries: description.entries.filter((entry) => bundle.includes(entry.mid)),
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
             // isAnswer: isAnswer
             isAnswer: !isAnswer
           })
@@ -804,7 +915,11 @@ export default class CallInstance extends CallInstanceBase<{
 
     const {connection} = connectionInstance;
     if(connection.remoteDescription) {
+<<<<<<< HEAD
       const promises: Promise<void>[] = this.candidates.map(candidate => this.addIceCandidate(connection, candidate));
+=======
+      const promises: Promise<void>[] = this.candidates.map((candidate) => this.addIceCandidate(connection, candidate));
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       this.candidates.length = 0;
 
       await Promise.all(promises);
@@ -855,13 +970,22 @@ export default class CallInstance extends CallInstanceBase<{
       } catch(err) {
         this.log.error('wrong signaling data', str);
         this.hangUp('phoneCallDiscardReasonDisconnect');
+<<<<<<< HEAD
         rootScope.dispatchEvent('call_incompatible', this.interlocutorUserId);
+=======
+        callsController.dispatchEvent('incompatible', this.interlocutorUserId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }
   }
 
+<<<<<<< HEAD
   public onUpdatePhoneCallSignalingData(update: Update.updatePhoneCallSignalingData) {
     this.decryptQueue.push(update.data);
+=======
+  public onUpdatePhoneCallSignalingData(data: Uint8Array) {
+    this.decryptQueue.push(data);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.processDecryptQueue();
   }
 }

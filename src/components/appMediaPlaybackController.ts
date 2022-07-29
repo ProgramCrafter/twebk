@@ -5,6 +5,7 @@
  */
 
 import rootScope from "../lib/rootScope";
+<<<<<<< HEAD
 import appMessagesManager from "../lib/appManagers/appMessagesManager";
 import appDocsManager, {MyDocument} from "../lib/appManagers/appDocsManager";
 import deferredPromise, { CancellablePromise } from "../helpers/cancellablePromise";
@@ -24,6 +25,27 @@ import { onMediaLoad } from "../helpers/files";
 import copy from "../helpers/object/copy";
 import deepEqual from "../helpers/object/deepEqual";
 import ListenerSetter from "../helpers/listenerSetter";
+=======
+import { MyDocument } from "../lib/appManagers/appDocsManager";
+import deferredPromise, { CancellablePromise } from "../helpers/cancellablePromise";
+import { IS_APPLE, IS_SAFARI } from "../environment/userAgent";
+import { MOUNT_CLASS_TO } from "../config/debug";
+import simulateEvent from "../helpers/dom/dispatchEvent";
+import type { SearchSuperContext } from "./appSearchSuper.";
+import { Document, DocumentAttribute, Message, PhotoSize } from "../layer";
+import IS_TOUCH_SUPPORTED from "../environment/touchSupport";
+import I18n from "../lib/langPack";
+import SearchListLoader from "../helpers/searchListLoader";
+import copy from "../helpers/object/copy";
+import deepEqual from "../helpers/object/deepEqual";
+import ListenerSetter from "../helpers/listenerSetter";
+import { AppManagers } from "../lib/appManagers/managers";
+import getMediaFromMessage from "../lib/appManagers/utils/messages/getMediaFromMessage";
+import getPeerTitle from "./wrappers/getPeerTitle";
+import appDownloadManager from "../lib/appManagers/appDownloadManager";
+import onMediaLoad from "../helpers/onMediaLoad";
+import EventListenerBase from "../helpers/eventListenerBase";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 // TODO: Safari: проверить стрим, включить его и сразу попробовать включить видео или другую песню
 // TODO: Safari: попробовать замаскировать подгрузку последнего чанка
@@ -52,6 +74,11 @@ type MediaDetails = {
   peerId: PeerId, 
   mid: number, 
   docId: DocId, 
+<<<<<<< HEAD
+=======
+  doc: MyDocument,
+  message: Message.message,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   clean?: boolean,
   isScheduled?: boolean, 
   isSingle?: boolean
@@ -59,7 +86,16 @@ type MediaDetails = {
 
 export type PlaybackMediaType = 'voice' | 'video' | 'audio';
 
+<<<<<<< HEAD
 export class AppMediaPlaybackController {
+=======
+export class AppMediaPlaybackController extends EventListenerBase<{
+  play: (details: ReturnType<AppMediaPlaybackController['getPlayingDetails']>) => void,
+  pause: () => void,
+  playbackParams: (params: ReturnType<AppMediaPlaybackController['getPlaybackParams']>) => void,
+  stop: () => void,
+}> {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   private container: HTMLElement;
   private media: Map<PeerId, Map<number, HTMLMediaElement>> = new Map();
   private scheduled: AppMediaPlaybackController['media'] = new Map();
@@ -94,8 +130,16 @@ export class AppMediaPlaybackController {
   };
 
   private pip: HTMLVideoElement;
+<<<<<<< HEAD
 
   constructor() {
+=======
+  private managers: AppManagers;
+  private skipMediaPlayEvent: boolean;
+
+  construct(managers: AppManagers) {
+    this.managers = managers;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     this.container = document.createElement('div');
     //this.container.style.cssText = 'position: absolute; top: -10000px; left: -10000px;';
     this.container.style.cssText = 'display: none;';
@@ -122,8 +166,13 @@ export class AppMediaPlaybackController {
       }
     }
 
+<<<<<<< HEAD
     rootScope.addEventListener('document_downloaded', (doc) => {
       const set = this.waitingDocumentsForLoad[doc.id];
+=======
+    rootScope.addEventListener('document_downloaded', (docId) => {
+      const set = this.waitingDocumentsForLoad[docId];
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       if(set) {
         for(const media of set) {
           this.onMediaDocumentLoad(media);
@@ -131,6 +180,20 @@ export class AppMediaPlaybackController {
       }
     });
 
+<<<<<<< HEAD
+=======
+    rootScope.addEventListener('media_play', () => {
+      if(this.skipMediaPlayEvent) {
+        this.skipMediaPlayEvent = false;
+        return;
+      }
+
+      if(!this.pause() && this.pip) {
+        this.pip.pause();
+      }
+    });
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     const properties: {[key: PropertyKey]: PropertyDescriptor} = {};
     const keys = [
       'volume' as const, 
@@ -139,7 +202,11 @@ export class AppMediaPlaybackController {
       'loop' as const,
       'round' as const
     ];
+<<<<<<< HEAD
     keys.forEach(key => {
+=======
+    keys.forEach((key) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const _key = ('_' + key) as `_${typeof key}`;
       properties[key] = {
         get: () => this[_key],
@@ -167,7 +234,11 @@ export class AppMediaPlaybackController {
   }
 
   private dispatchPlaybackParams() {
+<<<<<<< HEAD
     rootScope.dispatchEvent('media_playback_params', this.getPlaybackParams());
+=======
+    this.dispatchEvent('playbackParams', this.getPlaybackParams());
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getPlaybackParams() {
@@ -224,7 +295,11 @@ export class AppMediaPlaybackController {
       return media;
     }
 
+<<<<<<< HEAD
     const doc: MyDocument = appMessagesManager.getMediaFromMessage(message);
+=======
+    const doc = getMediaFromMessage(message) as Document.document;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     storage.set(mid, media = document.createElement(doc.type === 'round' || doc.type === 'video' ? 'video' : 'audio'));
     //const source = document.createElement('source');
     //source.type = doc.type === 'voice' && !opusDecodeController.isPlaySupported() ? 'audio/wav' : doc.mime_type;
@@ -238,6 +313,11 @@ export class AppMediaPlaybackController {
       peerId,
       mid,
       docId: doc.id,
+<<<<<<< HEAD
+=======
+      doc,
+      message,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       clean,
       isScheduled: message.pFlags.is_scheduled
     };
@@ -256,7 +336,11 @@ export class AppMediaPlaybackController {
 
     if(doc.type !== 'audio' && message?.pFlags.media_unread && message.fromId !== rootScope.myId) {
       media.addEventListener('timeupdate', () => {
+<<<<<<< HEAD
         appMessagesManager.readMessages(peerId, [mid]);
+=======
+        this.managers.appMessagesManager.readMessages(peerId, [mid]);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }, {once: true});
     }
     
@@ -287,12 +371,20 @@ export class AppMediaPlaybackController {
       waitingStorage.set(mid, deferred);
     }
 
+<<<<<<< HEAD
     deferred.then(() => {
       //media.autoplay = true;
       //console.log('will set media url:', media, doc, doc.type, doc.url);
 
       const cacheContext = appDownloadManager.getCacheContext(doc);
       if(doc.supportsStreaming || cacheContext.url) {
+=======
+    deferred.then(async() => {
+      //media.autoplay = true;
+      //console.log('will set media url:', media, doc, doc.type, doc.url);
+
+      if(doc.supportsStreaming || (await this.managers.thumbsStorage.getCacheContext(doc)).url) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         this.onMediaDocumentLoad(media);
       } else {
         let set = this.waitingDocumentsForLoad[doc.id];
@@ -301,7 +393,11 @@ export class AppMediaPlaybackController {
         }
 
         set.add(media);
+<<<<<<< HEAD
         appDocsManager.downloadDoc(doc);
+=======
+        appDownloadManager.downloadMediaURL({media: doc});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       }
     }/* , onError */);
     
@@ -313,15 +409,25 @@ export class AppMediaPlaybackController {
     return s?.get(mid);
   }
 
+<<<<<<< HEAD
   private onMediaDocumentLoad = (media: HTMLMediaElement) => {
     const details = this.mediaDetails.get(media);
     const doc = appDocsManager.getDoc(details.docId);
+=======
+  private onMediaDocumentLoad = async(media: HTMLMediaElement) => {
+    const details = this.mediaDetails.get(media);
+    const doc = await this.managers.appDocsManager.getDoc(details.docId);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     if(doc.type === 'audio' && doc.supportsStreaming && SHOULD_USE_SAFARI_FIX) {
       this.handleSafariStreamable(media);
     }
 
     // setTimeout(() => {
+<<<<<<< HEAD
     const cacheContext = appDownloadManager.getCacheContext(doc);
+=======
+    const cacheContext = await this.managers.thumbsStorage.getCacheContext(doc);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     media.src = cacheContext.url;
 
     if(this.playingMedia === media) {
@@ -409,7 +515,11 @@ export class AppMediaPlaybackController {
 
     await onMediaLoad(playingMedia, undefined, false); // have to wait for load, otherwise on macOS won't set
 
+<<<<<<< HEAD
     const doc = appMessagesManager.getMediaFromMessage(message) as MyDocument;
+=======
+    const doc = getMediaFromMessage(message) as MyDocument;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     
     const artwork: MediaImage[] = [];
 
@@ -419,7 +529,11 @@ export class AppMediaPlaybackController {
     if(doc.thumbs?.length) {
       const size = doc.thumbs[doc.thumbs.length - 1];
       if(!(size as PhotoSize.photoStrippedSize).bytes) {
+<<<<<<< HEAD
         const cacheContext = appDownloadManager.getCacheContext(doc, size.type);
+=======
+        const cacheContext = await this.managers.thumbsStorage.getCacheContext(doc, size.type);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
         if(cacheContext.url) {
           artwork.push({
@@ -428,7 +542,11 @@ export class AppMediaPlaybackController {
             type: 'image/jpeg'
           });
         } else {
+<<<<<<< HEAD
           const download = appPhotosManager.preloadPhoto(doc, size);
+=======
+          const download = appDownloadManager.downloadMediaURL({media: doc, thumb: size});
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           download.then(() => {
             if(this.playingMedia !== playingMedia || !cacheContext.url) {
               return;
@@ -440,6 +558,7 @@ export class AppMediaPlaybackController {
       }
     } else if(isVoice) {
       const peerId = message.fromId || message.peerId;
+<<<<<<< HEAD
       const peerPhoto = appPeersManager.getPeerPhoto(peerId);
       if(peerPhoto) {
         const result = appAvatarsManager.loadAvatar(peerId, peerPhoto, 'photo_small');
@@ -462,11 +581,39 @@ export class AppMediaPlaybackController {
       }
 
       title = appPeersManager.getPeerTitle(peerId, true, false);
+=======
+      const peerPhoto = await this.managers.appPeersManager.getPeerPhoto(peerId);
+      if(peerPhoto) {
+        // const result = this.managers.appAvatarsManager.loadAvatar(peerId, peerPhoto, 'photo_small');
+        // if(result.cached) {
+        //   const url = await result.loadPromise;
+        //   artwork.push({
+        //     src: url,
+        //     sizes: '160x160',
+        //     type: 'image/jpeg'
+        //   });
+        // } else {
+        //   result.loadPromise.then((url) => {
+        //     if(this.playingMedia !== playingMedia || !url) {
+        //       return;
+        //     }
+  
+        //     this.setNewMediadata(message);
+        //   });
+        // }
+      }
+
+      title = await getPeerTitle(peerId, true, false);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       artist = I18n.format(doc.type === 'voice' ? 'AttachAudio' : 'AttachRound', true);
     }
 
     if(!isVoice) {
+<<<<<<< HEAD
       const attribute = doc.attributes.find(attribute => attribute._ === 'documentAttributeAudio') as DocumentAttribute.documentAttributeAudio;
+=======
+      const attribute = doc.attributes.find((attribute) => attribute._ === 'documentAttributeAudio') as DocumentAttribute.documentAttributeAudio;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       title = attribute?.title ?? doc.file_name;
       artist = attribute?.performer;
     }
@@ -487,7 +634,11 @@ export class AppMediaPlaybackController {
           });
         }
       } else {
+<<<<<<< HEAD
         [72, 96, 144, 192, 256, 384, 512].forEach(size => {
+=======
+        [72, 96, 144, 192, 256, 384, 512].forEach((size) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           const sizes = `${size}x${size}`;
           artwork.push({
             src: `assets/img/android-chrome-${sizes}.png`,
@@ -516,9 +667,18 @@ export class AppMediaPlaybackController {
 
   private getMessageByMedia(media: HTMLMediaElement): Message.message {
     const details = this.mediaDetails.get(media);
+<<<<<<< HEAD
     const {peerId, mid} = details;
     const message = details.isScheduled ? appMessagesManager.getScheduledMessageByPeer(peerId, mid) : appMessagesManager.getMessageByPeer(peerId, mid);
     return message;
+=======
+    return details.message;
+    // const {peerId, mid} = details;
+    // const message = details.isScheduled ? 
+    //   this.managers.appMessagesManager.getScheduledMessageByPeer(peerId, mid) : 
+    //   this.managers.appMessagesManager.getMessageByPeer(peerId, mid);
+    // return message;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public getPlayingDetails() {
@@ -529,7 +689,11 @@ export class AppMediaPlaybackController {
 
     const message = this.getMessageByMedia(playingMedia);
     return {
+<<<<<<< HEAD
       doc: appMessagesManager.getMediaFromMessage(message) as MyDocument,
+=======
+      doc: getMediaFromMessage(message) as MyDocument,
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       message,
       media: playingMedia,
       playbackParams: this.getPlaybackParams()
@@ -559,6 +723,7 @@ export class AppMediaPlaybackController {
       const listLoader = this.listLoader;
       const current = listLoader.getCurrent();
       if(!current || !verify(current)) {
+<<<<<<< HEAD
         const previous = listLoader.getPrevious();
 
         let idx = previous.findIndex(verify);
@@ -576,6 +741,31 @@ export class AppMediaPlaybackController {
           if(jumpLength) {
             this.go(jumpLength, false);
           }
+=======
+        let jumpLength: number;
+
+        for(const withOtherSide of [false, true]) {
+          const previous = listLoader.getPrevious(withOtherSide);
+
+          let idx = previous.findIndex(verify);
+          if(idx !== -1) {
+            jumpLength = -(previous.length - idx);
+          } else {
+            const next = listLoader.getNext(withOtherSide);
+            idx = next.findIndex(verify);
+            if(idx !== -1) {
+              jumpLength = idx + 1;
+            }
+          }
+
+          if(jumpLength !== undefined) {
+            break;
+          }
+        }
+  
+        if(jumpLength) {
+          this.go(jumpLength, false);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         } else {
           this.setTargets({peerId, mid});
         }
@@ -588,7 +778,12 @@ export class AppMediaPlaybackController {
         return;
       }
 
+<<<<<<< HEAD
       rootScope.dispatchEvent('media_play', this.getPlayingDetails());
+=======
+      this.dispatchEvent('play', this.getPlayingDetails());
+      this.pauseMediaInOtherTabs();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }, 0);
   };
 
@@ -604,7 +799,11 @@ export class AppMediaPlaybackController {
     //   this.pip.play();
     // }
 
+<<<<<<< HEAD
     rootScope.dispatchEvent('media_pause');
+=======
+    this.dispatchEvent('pause');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   };
 
   private onEnded = (e?: Event) => {
@@ -619,6 +818,7 @@ export class AppMediaPlaybackController {
     const listLoader = this.listLoader;
     if(this.lockedSwitchers || 
       (!this.round && listLoader.current && !listLoader.next.length) || 
+<<<<<<< HEAD
       !listLoader.getNext().length || 
       !this.next()) {
       this.stop();
@@ -626,6 +826,20 @@ export class AppMediaPlaybackController {
     }
   };
 
+=======
+      !listLoader.getNext(true).length || 
+      !this.next()) {
+      this.stop();
+      this.dispatchEvent('stop');
+    }
+  };
+
+  public pauseMediaInOtherTabs() {
+    this.skipMediaPlayEvent = true;
+    rootScope.dispatchEvent('media_play');
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   // public get pip() {
   //   return document.pictureInPictureElement as HTMLVideoElement;
   // }
@@ -798,7 +1012,11 @@ export class AppMediaPlaybackController {
           this.playItem(item);
         },
         onEmptied: () => {
+<<<<<<< HEAD
           rootScope.dispatchEvent('media_stop');
+=======
+          this.dispatchEvent('stop');
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           this.stop();
         }
       });
@@ -821,7 +1039,11 @@ export class AppMediaPlaybackController {
   }
 
   private getPlaybackMediaTypeFromMessage(message: Message.message) {
+<<<<<<< HEAD
     const doc = appMessagesManager.getMediaFromMessage(message) as MyDocument;
+=======
+    const doc = getMediaFromMessage(message) as MyDocument;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     let mediaType: PlaybackMediaType = 'audio';
     if(doc?.type) {
       if(doc.type === 'voice' || doc.type === 'round') {
@@ -866,6 +1088,11 @@ export class AppMediaPlaybackController {
         if(pip) {
           pip.pause();
         }
+<<<<<<< HEAD
+=======
+
+        this.pauseMediaInOtherTabs();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       };
   
       if(!media.paused) {
@@ -873,6 +1100,11 @@ export class AppMediaPlaybackController {
       }
   
       media.addEventListener('play', onPlay);
+<<<<<<< HEAD
+=======
+    } else { // maybe it's voice recording
+      this.pauseMediaInOtherTabs();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     this.willBePlayed(undefined);
@@ -939,6 +1171,11 @@ export class AppMediaPlaybackController {
       if(this.playingMedia !== video) {
         this.pause();
       }
+<<<<<<< HEAD
+=======
+
+      this.pauseMediaInOtherTabs();
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       // if(this.pause()) {
       //   listenerSetter.add(video)('pause', () => {
       //     this.play();

@@ -4,11 +4,18 @@
  * https://github.com/morethanwords/tweb/blob/master/LICENSE
  */
 
+<<<<<<< HEAD
 import rootScope from "../../lib/rootScope";
 import ripple from "../ripple";
 import animationIntersector from "../animationIntersector";
 import appNavigationController, { NavigationItem } from "../appNavigationController";
 import { i18n, LangPackKey } from "../../lib/langPack";
+=======
+import ripple from "../ripple";
+import animationIntersector from "../animationIntersector";
+import appNavigationController, { NavigationItem } from "../appNavigationController";
+import { i18n, LangPackKey, _i18n } from "../../lib/langPack";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 import findUpClassName from "../../helpers/dom/findUpClassName";
 import blurActiveElement from "../../helpers/dom/blurActiveElement";
 import ListenerSetter from "../../helpers/listenerSetter";
@@ -18,6 +25,12 @@ import cancelEvent from "../../helpers/dom/cancelEvent";
 import EventListenerBase, { EventListenerListeners } from "../../helpers/eventListenerBase";
 import { addFullScreenListener, getFullScreenElement } from "../../helpers/dom/fullScreen";
 import indexOfAndSplice from "../../helpers/array/indexOfAndSplice";
+<<<<<<< HEAD
+=======
+import { AppManagers } from "../../lib/appManagers/managers";
+import overlayCounter from "../../helpers/overlayCounter";
+import Scrollable from "../scrollable";
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
 export type PopupButton = {
   text?: string,
@@ -30,6 +43,7 @@ export type PopupButton = {
 };
 
 export type PopupOptions = Partial<{
+<<<<<<< HEAD
   closable: true, 
   overlayClosable: true, 
   withConfirm: LangPackKey | true, 
@@ -40,6 +54,21 @@ export type PopupOptions = Partial<{
 
 export interface PopupElementConstructable {
   new(...args: any[]): PopupElement;
+=======
+  closable: boolean, 
+  overlayClosable: boolean, 
+  withConfirm: LangPackKey | boolean, 
+  body: boolean,
+  confirmShortcutIsSendShortcut: boolean,
+  withoutOverlay: boolean,
+  scrollable: boolean,
+  buttons: Array<PopupButton>,
+  title: boolean | LangPackKey
+}>;
+
+export interface PopupElementConstructable<T extends PopupElement = any> {
+  new(...args: any[]): T;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 }
 
 const DEFAULT_APPEND_TO = document.body;
@@ -59,6 +88,11 @@ type PopupListeners = {
 
 export default class PopupElement<T extends EventListenerListeners = {}> extends EventListenerBase<PopupListeners & T> {
   private static POPUPS: PopupElement<any>[] = [];
+<<<<<<< HEAD
+=======
+  public static MANAGERS: AppManagers;
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   protected element = document.createElement('div');
   protected container = document.createElement('div');
   protected header = document.createElement('div');
@@ -75,22 +109,51 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
   protected listenerSetter: ListenerSetter;
 
   protected confirmShortcutIsSendShortcut: boolean;
+<<<<<<< HEAD
   protected btnConfirmOnEnter: HTMLButtonElement;
 
   protected withoutOverlay: boolean;
 
   constructor(className: string, protected buttons?: Array<PopupButton>, options: PopupOptions = {}) {
+=======
+  protected btnConfirmOnEnter: HTMLElement;
+
+  protected withoutOverlay: boolean;
+
+  protected managers: AppManagers;
+
+  protected scrollable: Scrollable;
+  
+  protected buttons: Array<PopupButton>;
+
+  constructor(className: string, options: PopupOptions = {}) {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     super(false);
     this.element.classList.add('popup');
     this.element.className = 'popup' + (className ? ' ' + className : '');
     this.container.classList.add('popup-container', 'z-depth-1');
 
     this.header.classList.add('popup-header');
+<<<<<<< HEAD
     this.title.classList.add('popup-title');
 
     this.header.append(this.title);
 
     this.listenerSetter = new ListenerSetter();
+=======
+
+    if(options.title) {
+      this.title.classList.add('popup-title');
+      if(typeof(options.title) === 'string') {
+        _i18n(this.title, options.title);
+      }
+      
+      this.header.append(this.title);
+    }
+
+    this.listenerSetter = new ListenerSetter();
+    this.managers = PopupElement.MANAGERS;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
 
     this.confirmShortcutIsSendShortcut = options.confirmShortcutIsSendShortcut;
 
@@ -133,6 +196,7 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
       this.container.append(this.body);
     }
 
+<<<<<<< HEAD
     let btnConfirmOnEnter = this.btnConfirm;
     if(buttons?.length) {
       const buttonsDiv = this.buttonsEl = document.createElement('div');
@@ -143,6 +207,29 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
       }
       
       const buttonsElements = buttons.map(b => {
+=======
+    if(options.scrollable) {
+      const scrollable = this.scrollable = new Scrollable(this.body);
+      scrollable.onAdditionalScroll = () => {
+        scrollable.container.classList.toggle('scrolled-top', !scrollable.scrollTop);
+        scrollable.container.classList.toggle('scrolled-bottom', scrollable.isScrolledDown);
+      };
+
+      scrollable.container.classList.add('scrolled-top', 'scrolled-bottom', 'scrollable-y-bordered');
+
+      if(!this.body) {
+        this.container.insertBefore(scrollable.container, this.header.nextSibling);
+      }
+    }
+
+    let btnConfirmOnEnter = this.btnConfirm;
+    const buttons = this.buttons = options.buttons;
+    if(buttons?.length) {
+      const buttonsDiv = this.buttonsEl = document.createElement('div');
+      buttonsDiv.classList.add('popup-buttons');
+      
+      const buttonsElements = buttons.map((b) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         const button = document.createElement('button');
         button.className = 'btn' + (b.isDanger ? ' danger' : ' primary');
         
@@ -163,7 +250,11 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
       });
       
       if(!btnConfirmOnEnter && buttons.length === 2) {
+<<<<<<< HEAD
         const button = buttons.find(button => !button.isCancel);
+=======
+        const button = buttons.find((button) => !button.isCancel);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
         if(button) {
           btnConfirmOnEnter = button.element;
         }
@@ -180,6 +271,15 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
     PopupElement.POPUPS.push(this);
   }
 
+<<<<<<< HEAD
+=======
+  protected onContentUpdate() {
+    if(this.scrollable) {
+      this.scrollable.onAdditionalScroll();
+    }
+  }
+
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   public show() {
     this.navigationItem = {
       type: 'popup',
@@ -194,22 +294,47 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
     void this.element.offsetWidth; // reflow
     this.element.classList.add('active');
 
+<<<<<<< HEAD
     if(!this.withoutOverlay) {
       rootScope.isOverlayActive = true;
+=======
+    this.onContentUpdate();
+
+    if(!this.withoutOverlay) {
+      overlayCounter.isOverlayActive = true;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       animationIntersector.checkAnimations(true);
     }
 
     // cannot add event instantly because keydown propagation will fire it
+<<<<<<< HEAD
     if(this.btnConfirmOnEnter) {
       setTimeout(() => {
         this.listenerSetter.add(document.body)('keydown', (e) => {
+=======
+    // if(this.btnConfirmOnEnter) {
+      setTimeout(() => {
+        if(!this.element.classList.contains('active')) {
+          return;
+        }
+
+        this.listenerSetter.add(document.body)('keydown', (e) => {
+          if(PopupElement.POPUPS[PopupElement.POPUPS.length - 1] !== this) {
+            return;
+          }
+          
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
           if(this.confirmShortcutIsSendShortcut ? isSendShortcutPressed(e) : e.key === 'Enter') {
             simulateClickEvent(this.btnConfirmOnEnter);
             cancelEvent(e);
           }
         });
       }, 0);
+<<<<<<< HEAD
     }
+=======
+    // }
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 
   public hide = () => {
@@ -223,7 +348,11 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
     this.listenerSetter.removeAll();
 
     if(!this.withoutOverlay) {
+<<<<<<< HEAD
       rootScope.isOverlayActive = false;
+=======
+      overlayCounter.isOverlayActive = false;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
     }
 
     appNavigationController.removeItem(this.navigationItem);
@@ -246,7 +375,11 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
   }
 
   public static reAppend() {
+<<<<<<< HEAD
     this.POPUPS.forEach(popup => {
+=======
+    this.POPUPS.forEach((popup) => {
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
       const {element, container} = popup;
       const parentElement = element.parentElement;
       if(parentElement && parentElement !== appendPopupTo && appendPopupTo !== container) {
@@ -255,13 +388,27 @@ export default class PopupElement<T extends EventListenerListeners = {}> extends
     });
   }
 
+<<<<<<< HEAD
   public static getPopups(popupConstructor: PopupElementConstructable) {
     return this.POPUPS.filter(element => element instanceof popupConstructor);
+=======
+  public static getPopups<T extends PopupElement>(popupConstructor: PopupElementConstructable<T>) {
+    return this.POPUPS.filter((element) => element instanceof popupConstructor) as T[];
+  }
+
+  public static createPopup<T extends PopupElement, A extends Array<any>>(ctor: {new(...args: A): T}, ...args: A) {
+    const popup = new ctor(...args);
+    return popup;
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   }
 }
 
 export const addCancelButton = (buttons: PopupButton[]) => {
+<<<<<<< HEAD
   const button = buttons.find(b => b.isCancel);
+=======
+  const button = buttons.find((b) => b.isCancel);
+>>>>>>> 16a38d3b1c538c950864e5fe4334ca4f8867450f
   if(!button) {
     buttons.push({
       langKey: 'Cancel',
