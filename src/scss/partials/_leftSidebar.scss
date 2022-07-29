@@ -980,14 +980,19 @@
 .chats-group {
   width: calc(50% - 8px);
   margin: 0 4px;
-  vertical-align: top;
   flex: none;
+  display: block;
+}
+
+.chats-group i {
+  bottom: 2px !important;
 }
 
 .chats-group>ul>li:last-child:not(.chatlist-chat) {
   text-align: center;
   font-size: 30px;
   margin-top: -25px;
+  font-weight: bold;
 }
 
 .chats-group avatar-element {
@@ -1024,13 +1029,17 @@
 }
 
 .chats-group>span .text-super {
-  padding-left: 6px !important;
-  border-bottom: 1px solid #8888;
   border-radius: 0px !important;
+  border-bottom: 1px solid #8888;
+  line-height: 1;
+  height: 17px;
+  padding: 10px 0;
+  min-width: 160px;
 }
 
 .chats-group>ul {
   margin: 0 5px;
+  font-weight: normal;
 }
 
 .chats-group .dialog-subtitle-media {
@@ -1043,6 +1052,20 @@
   margin-right: .375rem;
   display: inline-block;
   vertical-align: middle;
+}
+
+.chats-group .chatlist-chat {
+  padding: .5625rem 0;
+}
+
+.chats-group .chatlist-chat .dialog-title-details {
+  overflow: unset;
+  padding-left: 5px;
+}
+
+.chats-group .chatlist-chat .peer-title {
+  display: inline-block;
+  width: 100%;
 }
 
 .chats-group .dialog-subtitle i {

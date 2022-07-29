@@ -109,20 +109,20 @@ interface SortedDialog extends SortedElementBase {
 }
 
 function setPromiseMiddleware<T extends {[smth in K as K]?: CancellablePromise<void>}, K extends keyof T>(obj: T, key: K) {
-  const oldPromise = obj[key];
+  const oldPromise = (obj[key] as unknown as CancellablePromise<void>);
   if(oldPromise) {
     oldPromise.reject();
   }
 
   // @ts-ignore
-  const deferred = obj[key] = deferredPromise<void>();
+  const deferred = (obj[key] = deferredPromise<void>());
   deferred.catch(() => {}).finally(() => {
-    if(obj[key] === deferred) {
+    if(obj[key] as unknown as CancellablePromise<void> === deferred) {
       delete obj[key];
     }
   });
 
-  const middleware = middlewarePromise(() => obj[key] === deferred);
+  const middleware = middlewarePromise(() => (obj[key] as unknown as CancellablePromise<void>) === deferred);
   return {deferred, middleware};
 }
 
