@@ -973,6 +973,7 @@
 
 .chats-group avatar-element {
   min-width: var(--size);
+  margin-top: 6px;
 }
 
 .chats-group .user-title {
@@ -980,7 +981,7 @@
 }
 
 .chats-group .user-caption {
-  padding-left: 6px;
+  padding-left: 9px;
   width: calc(100% - 32px);
 }
 
